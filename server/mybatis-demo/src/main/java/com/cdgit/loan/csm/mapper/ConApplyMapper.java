@@ -23,6 +23,9 @@ public interface ConApplyMapper {
 	//使用requestParam方式请求
 	List<ApproveConsVo> getApproveCons(Map map);
 	
+	//
+	List<ApproveConsVo> getPrintCons(Map map);
+	
 	//使用了实体类的方式请求
 	List<ApproveConsVo> getApproveCons1(Map map);
 	

@@ -14,9 +14,10 @@ export function getApproveCons(queryParams) {
   return myGet('/mybatis-service/conApply/getApproveCons', queryParams)
 }
 
-
-
-
+export function getPrintCons(queryParams) {
+  console.log(queryParams)
+  return myGet('/mybatis-service/conApply/getPrintCons', queryParams)
+}
 
 export function getContractList(queryParams) { // 这是联调后端的时候才使用的，现在使用的是mock的假数据，url不走这里
   return request({

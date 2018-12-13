@@ -131,7 +131,7 @@
         console.log('del ....')
       }
     },
-    mounted() {				// 骑马的，安装好的
+    mounted() {				
       this.doPageQuery() // 这个方法是调用上面的方法从后台获取数据，会发送异步请求
   }
 
