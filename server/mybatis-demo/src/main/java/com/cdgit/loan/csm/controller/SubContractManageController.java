@@ -7,12 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.cdgit.loan.csm.bean.ApproveConsVo;
 import com.cdgit.loan.csm.bean.SubContractListVo;
 import com.cdgit.loan.csm.message.PageBean;
 import com.cdgit.loan.csm.service.SubContractManageServiceImpl;
@@ -25,7 +24,7 @@ import com.github.pagehelper.PageInfo;
  * com.cdgit.loan.csm.controller
  * SubContractManageController.java
  */
-@Controller
+@RestController
 @RequestMapping("subContractManage")
 public class SubContractManageController {
 	
@@ -35,21 +34,24 @@ public class SubContractManageController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/findSubContractList")
-	public PageBean getPrintCons(
+	public PageBean findSubContractList(
 			@RequestParam(value="pageNum",required=true) int pageNum, 
 			@RequestParam(value="pageSize",required=true) int pageSize,
 			
-			@RequestParam(value="subContractType",required=false)String subContractType,
-			@RequestParam(value="subContractNum",required=false)String subContractNum,
+			@RequestParam(value="subcontractTypeName",required=false)String subcontractTypeName,
+			@RequestParam(value="subcontractNum",required=false)String subcontractNum,
 			@RequestParam(value="partyId",required=false)String partyId,
+			@RequestParam(value="partyName",required=false)String partyName,
 			@RequestParam(value="subcontractId",required=false)String subcontractId){
 		
 		Map map=new HashMap<String,Object>();
 		map.put("pageNum", pageNum);
 		map.put("pageSize", pageSize);
-		map.put("subContractType", subContractType);
-		map.put("subContractNum", subContractNum);
+		
+		map.put("subcontractTypeName", subcontractTypeName);
+		map.put("subcontractNum", subcontractNum);
 		map.put("partyId", partyId);
+		map.put("partyName", partyName);
 		map.put("subcontractId", subcontractId);
 	
 		PageInfo<SubContractListVo> SubContractListVo = subContractManageServiceImpl.findSubContractList(map);

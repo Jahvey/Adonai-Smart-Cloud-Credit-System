@@ -15,7 +15,7 @@
 
 <script>
   import CscSingleTable from '@/components/CscSingleTable/CscSingleTable'
-  import { getApproveCons } from '@/api/contract'// 正常往后台发送异步请求的类
+  import { findSubContractList } from '@/api/contract'// 正常往后台发送异步请求的类
 
 
   // 合同模块也是需要引入用户的，以后需要根据用户查询对应的合同（高级查询）
@@ -73,7 +73,7 @@
       doPageQuery(listQuery) {
 
         //console.log('listQuery ....' + listQuery)
-        getApproveCons(listQuery).then(response => {
+        findSubContractList(listQuery).then(response => {
           this.entity = response.data
           this.$store.dispatch('setListLoading', false)
 

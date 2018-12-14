@@ -6,6 +6,8 @@ package com.cdgit.loan.csm.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.cdgit.loan.csm.bean.SubContractListVo;
 
 /**
@@ -15,6 +17,7 @@ import com.cdgit.loan.csm.bean.SubContractListVo;
  * com.cdgit.loan.csm.mapper
  * SubContractManageMapper.java
  */
+@Mapper
 public interface SubContractManageMapper {
 	
 	

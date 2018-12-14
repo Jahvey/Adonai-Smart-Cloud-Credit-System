@@ -19,6 +19,11 @@ export function getPrintCons(queryParams) {
   return myGet('/mybatis-service/conApply/getPrintCons', queryParams)
 }
 
+export function findSubContractList(queryParams) {
+  console.log(queryParams)
+  return myGet('/mybatis-service/subContractManage/findSubContractList', queryParams)
+}
+
 export function getContractList(queryParams) { // 这是联调后端的时候才使用的，现在使用的是mock的假数据，url不走这里
   return request({
     url: '/mybatis-service/contract/paginQueryContractByOrgid',

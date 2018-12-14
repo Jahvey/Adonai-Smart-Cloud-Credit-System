@@ -17,7 +17,7 @@ import com.github.pagehelper.PageInfo;
 public class SubContractManageServiceImpl {
 	
 	@Autowired
-	private SubContractManageMapper subContractManageMapper;
+	SubContractManageMapper subContractManageMapper;
 	
 	//查询所有担保合同列表
 	@SuppressWarnings({ "rawtypes", "unchecked" })

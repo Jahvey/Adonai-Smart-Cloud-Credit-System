@@ -56,20 +56,46 @@
       
      	 <include refid="query_SubContractListVo"></include>
          )r where 1=1 
+         
+          <include refid="query_SubContractListVo_byPartyName"></include>
   </select>
   
   
 
   
+  	<sql id="query_SubContractListVo_byPartyName">
+  	
+  		<if test="partyName !=null and partyName !='' ">
+
+			 and r.party_name like '%'||#{partyName}||'%'
+		</if>
+  	
+  	</sql>
 	<sql id="query_SubContractListVo">
 
-		<if test="subcontractType !=null and subcontractType !='' ">
-			and ta.subcontract_type =#{subContractType} 
+<!-- 原本的查询条件是根据subcontractType 来查询，现在该为subcontractTypeName   -->
+		<if test="subcontractTypeName !=null and subcontractTypeName !='' ">
+		<!-- and ta.subcontract_type =#{subcontractType} -->
 		
+			<if test="subcontractTypeName == '抵押'">   
+				and ta.subcontract_type ='01'
+			</if> 
+			<if test="subcontractTypeName == '质押'">   
+				and ta.subcontract_type ='02' 
+			</if> 
+			<if test="subcontractTypeName == '保证金'">   
+				and ta.subcontract_type ='03'
+			</if> 
+			
+			<if test="subcontractTypeName == '保证'">   
+				and ta.subcontract_type ='04' 
+			</if> 
+			
 		</if>
 
-		<if test="subContractNum !=null and subContractNum !='' "><!-- 合同编号 -->
-			and ta.subcontract_Num like '%'||#{subContractNum}||'%'
+
+		<if test="subcontractNum !=null and subcontractNum !='' "><!-- 合同编号 -->
+			and ta.subcontract_Num like '%'||#{subcontractNum}||'%'
 		</if>
 		
 		
@@ -86,7 +112,6 @@
 		
 			 and ta.con_party_id = #{partyId}
 		</if>
-		
-		
+
 	</sql>
 </mapper>
