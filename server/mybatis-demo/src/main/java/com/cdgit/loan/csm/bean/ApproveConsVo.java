@@ -3,9 +3,6 @@
  */
 package com.cdgit.loan.csm.bean;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 /**
  * @author cwalk
  * @createTime 2018年12月11日

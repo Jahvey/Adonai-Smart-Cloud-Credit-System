@@ -193,6 +193,43 @@ SELECT * FROM (
 		         <include refid="query_ApproveConsVo" />
 
   </select>
+  
+  
+  
+  <select id="getApproveAndSxxy" parameterType="java.util.HashMap" resultMap="ApproveConsVo">
+	SELECT
+	tb.biz_num,
+	te.party_name,
+	tb.biz_type,
+	tb.biz_type_flag,
+	tb.biz_happen_nature,
+	tb.biz_happen_type,
+	td.detail_amt,
+	td.currency_cd,
+	td.credit_term,
+	td.cycle_unit,
+	tb.valid_date,
+	td.end_date,
+	td.amount_detail_id,
+	tb.approve_id,
+	tb.apply_id,
+	td.product_type,
+	te.party_id,
+	td.credit_mode,
+	td.bo_use 
+FROM
+	tb_biz_approve tb,
+	TB_BIZ_AMOUNT_DETAIL_APPROVE td,
+	tb_csm_party te 
+WHERE
+	tb.APPROVE_ID = td.APPROVE_ID 
+	AND tb.party_id = te.party_id 
+	AND td.bo_use>0
+AND tb.PARTY_ID = #{partyId}
+
+
+  </select>
+  
 
 
 

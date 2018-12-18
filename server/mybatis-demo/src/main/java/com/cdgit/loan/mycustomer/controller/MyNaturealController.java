@@ -52,6 +52,35 @@ public class MyNaturealController {
 		pageBean.setData(pageInfo.getList());
 		return pageBean;
 	}
+	/**
+	 * map传参数实例  多个参数可以直接使用 不用定义多个requestParam
+	2018-12-13
+	 * <p>Title: queryNaturalForDesk3</p>  
+	
+	 * <p>Description: </p>  
+	
+	 * @param map
+	 * @return
+	 */
+	@GetMapping("/queryNaturalForDesk3")
+	public PageBean queryNaturalForDesk3(@RequestParam Map<String,Object> map){
+		PageInfo<NaturealInfo> pageInfo=myNaturealServiceImpl.queryNaturalForDesk3(map);
+		
+		PageBean pageBean=new PageBean();
+		pageBean.setTotal(pageInfo.getTotal());
+		pageBean.setData(pageInfo.getList());
+		return pageBean;
+	}
+	
+	@GetMapping("/queryNaturalForDesk4")
+	public PageBean queryNaturalForDesk4(@RequestParam Map<String,Object> map){
+		PageInfo<NaturealInfo> pageInfo=myNaturealServiceImpl.queryNaturalForDesk(map);
+		
+		PageBean pageBean=new PageBean();
+		pageBean.setTotal(pageInfo.getTotal());
+		pageBean.setData(pageInfo.getList());
+		return pageBean;
+	}
 	
 	/**
 	 * 2018-11-29 待测试分页查询

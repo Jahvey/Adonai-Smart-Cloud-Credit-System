@@ -55,6 +55,28 @@ public class MyNaturealServiceImpl {
     	return pageInfo;
 	}
 	
+	public PageInfo<NaturealInfo> queryNaturalForDesk3(Map map){
+		PageHelper.startPage(Integer.valueOf((String)map.get("pageNum")),Integer.valueOf((String)map.get("pageSize")));
+//		Map queryMap=new HashMap<String,Object>();
+//		queryMap.put("curUserNum", naturealCriteria.getCurUserNum());
+//		queryMap.put("orgcode", naturealCriteria.getOrgcode());
+//    	List<NaturealInfo> userList=myCustomerMapper.queryNaturalForDesk(queryMap);
+		List<NaturealInfo> userList=myCustomerMapper.queryNaturalForDesk(map);
+        PageInfo pageInfo=new PageInfo(userList,Integer.valueOf((String)map.get("pageSize")));
+    	return pageInfo;
+	}
+	
+	public PageInfo<NaturealInfo> queryNaturalForDesk4(Map map){
+		PageHelper.startPage((Integer)map.get("pageNum"),(Integer)map.get("pageSize"));
+//		Map queryMap=new HashMap<String,Object>();
+//		queryMap.put("curUserNum", naturealCriteria.getCurUserNum());
+//		queryMap.put("orgcode", naturealCriteria.getOrgcode());
+//    	List<NaturealInfo> userList=myCustomerMapper.queryNaturalForDesk(queryMap);
+		List<NaturealInfo> userList=myCustomerMapper.queryNaturalForDesk(map);
+        PageInfo pageInfo=new PageInfo(userList,(Integer)map.get("pageSize"));
+    	return pageInfo;
+	}
+	
 	/**
 	 * 2018-11-19 修改
 	
