@@ -2,8 +2,7 @@
   <csc-single-table 
   :pageDef="pageDef" 
   :entity="entity"
-  @view="view"     
-  @create="create" 
+  @view="view"      
   @disab="disab" 
   @update="update" 
 @pageQuery="doPageQuery" 
@@ -16,7 +15,7 @@
 
 <script>
   import CscSingleTable from '@/components/CscSingleTable/CscSingleTable'
-  import { getApproveCons } from '@/api/contract'// 正常往后台发送异步请求的类
+  import { findSubContractList } from '@/api/contract'// 正常往后台发送异步请求的类
 
 
   // 合同模块也是需要引入用户的，以后需要根据用户查询对应的合同（高级查询）
@@ -25,15 +24,17 @@
     data() {
       return {
         listLoading: false,
-        entity: {// 这个就相当于一个form表单，在这里定义之后可以直接在上面去使用 entity.属性名
+        entity: {
 
         },
         pageDef: {
           // 查询条件定义
           queryDef: {
-            columnNum: 2, // 一行几列
+            columnNum: 3, // 一行几列
             queryCols: [
-              { label: '主合同编号', inputType: 'input', modelName: 'contractNum' },
+              { label: '担保人名称', inputType: 'input', modelName: 'partyName' },
+              { label: '担保合同编号', inputType: 'input', modelName: 'subcontractNum' },
+              { label: '担保合同类型', inputType: 'input', modelName: 'subcontractTypeName' },
 
             ]
           },
@@ -43,23 +44,23 @@
             // 表格字段定义
             tabCols: [
 
-              { label: '合同性质', prop: 'creditMode', isSort: true,isParam: true },
-              { label: '合同编号', prop: 'contractNum', isSort: true, isLink: true,url: '/crt/con_apply/con_apply_print' },
-              { label: '合同品种', prop: 'productType', isSort: true ,isParam: true},
-              { label: '币种', prop: 'currencyCd', isSort: true },
-              { label: '合同金额', prop: 'contractAmt', isSort: true,isParam: true },
-              { label: '可用金额(元)', prop: 'conBalance', isSort: true },
-              { label: '合同起期', prop: 'beginDate', isSort: true },
-              { label: '合同止期', prop: 'endDate', isSort: true }
-
+              { label: '担保合同编号', prop: 'subcontractNum', isSort: true },
+              { label: '担保人名称', prop: 'partyName', isSort: true },
+              { label: '币种', prop: 'currencyCdn', isSort: true },
+              { label: '担保合同金额', prop: 'subcontractAmt', isSort: true },
+              { label: '担保合同类型', prop: 'subcontractTypeName', isSort: true },
+              { label: '是否最高额', prop: 'ifTopSubcon', isSort: true },
+              { label: '担保合同起期', prop: 'beginDate', isSort: true },
+              { label: '担保合同止期', prop: 'endDate', isSort: true },
+              { label: '经办人', prop: 'userNum', isSort: true },
+              { label: '经办机构', prop: 'orgNum', isSort: true }
 
             ]
           },
           buttons: [
             { label: '查看', funcName: 'view' },
-            { label: '合同创建', funcName: 'create' },
             { label: '调整', funcName: 'update' },
-            { label: '合同失效', funcName: 'disab' },
+            { label: '失效', funcName: 'disab' },
             ]
         }
       }
@@ -72,11 +73,10 @@
       doPageQuery(listQuery) {
 
         //console.log('listQuery ....' + listQuery)
-        getApproveCons(listQuery).then(response => {
+        findSubContractList(listQuery).then(response => {
           this.entity = response.data
           this.$store.dispatch('setListLoading', false)
-          // console.log('response.data.entity...')
-          //  console.log( response.data.entity)
+
      
         }).catch((error) => {
     
@@ -91,9 +91,6 @@
       view() {
         console.log('view 合同...')
         // this.$router.push({path: '/contract/contractAdd'})
-      },
-      create() { 
-       console.log('create合同...')
       },
       update() { 
        console.log('update合同...')
@@ -112,8 +109,8 @@
         console.log('del ....')
       }
     },
-    mounted() {				
-      this.doPageQuery() // 这个方法是调用上面的方法从后台获取数据，会发送异步请求
+    mounted() {			
+      this.doPageQuery() 
   }
 
   }

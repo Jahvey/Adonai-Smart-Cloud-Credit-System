@@ -211,9 +211,63 @@ export const constantRouterMap = [
       },
       {
         path: 'corporation/ews_warn_main',
-        name: '预警客户信息',
+        name: '预警信息',
         component: _import('csm/corporation/ews_warn_main'), 
-        meta: { title: '预警客户信息', icon: 'manage' }
+        meta: { title: '预警信息', icon: 'manage' }
+      },
+      {
+        path: 'natural/natural_additive_list',
+        name: '附加信息',
+        component: _import('csm/natural/natural_additive_list'), 
+        meta: { title: '附加信息', icon: 'manage' }
+      },
+      {
+        path: 'myBank/financing_list',
+        name: '本行融资情况批复信息',
+        component: _import('csm/myBank/financing_list'), 
+        meta: { title: '本行融资情况批复信息', icon: 'manage' }
+      },
+      {
+        path: 'myBank/financing_list_yewu',
+        name: '本行融资情况业务信息',
+        component: _import('csm/myBank/financing_list_yewu'), 
+        meta: { title: '本行融资情况业务信息', icon: 'manage' }
+      },
+      {
+        path: 'myBank/guarantee_tab',
+        name: '为我行客户担保情况',
+        component: _import('csm/myBank/guarantee_tab'), 
+        meta: { title: '为我行客户担保情况', icon: 'manage' }
+      },
+      {
+        path: 'myBank/guarantee_list_diya',
+        name: '为我行客户质押情况',
+        component: _import('csm/myBank/guarantee_list_diya'), 
+        meta: { title: '为我行客户质押情况', icon: 'manage' }
+      },
+      {
+        path: 'corporation/csm_illegal_list',
+        name: '违法记录',
+        component: _import('csm/corporation/csm_illegal_list'), 
+        meta: { title: '违法记录', icon: 'manage' }
+      },
+      {
+        path: 'myBank/refuse_list',
+        name: '拒贷信息',
+        component: _import('csm/myBank/refuse_list'), 
+        meta: { title: '拒贷信息', icon: 'manage' }
+      },
+      {
+        path: 'corporation/csm_manage_team_list',
+        name: '我行管理团队',
+        component: _import('csm/corporation/csm_manage_team_list'), 
+        meta: { title: '我行管理团队', icon: 'manage' }
+      },
+      {
+        path: 'biz_info/pro_biz_upload',
+        name: '相关文档',
+        component: _import('csm/biz_info/pro_biz_upload'), 
+        meta: { title: '相关文档', icon: 'manage' }
       }
     ]
   },
@@ -243,6 +297,24 @@ export const constantRouterMap = [
         name: '合同打印', 
         component: _import('crt/con_apply/con_apply_print'), 
         meta: { title: '合同打印', icon: 'manage' }
+      },
+      {
+        path: 'subContractManage/subContarct_dyzy_view',
+        name: '抵质押合同基本信息', 
+        component: _import('grt/subContractManage/subContarct_dyzy_view'), 
+        meta: { title: '抵质押合同基本信息', icon: 'manage' }
+      },
+      {
+        path: 'subContractManage/subContarct_OldDbList_view',
+        name: '抵质押品关联信息', 
+        component: _import('grt/subContractManage/subContarct_OldDbList_view'), 
+        meta: { title: '抵质押品关联信息', icon: 'manage' }
+      },
+      {
+        path: 'subContractManage/subContarct_OldContractList_view',
+        name: '主合同关联信息', 
+        component: _import('grt/subContractManage/subContarct_OldContractList_view'), 
+        meta: { title: '主合同关联信息', icon: 'manage' }
       }
     ]
   },

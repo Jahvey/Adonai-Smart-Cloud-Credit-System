@@ -2,85 +2,87 @@
   <csc-single-table 
   :pageDef="pageDef" 
   :entity="entity"
+  @view="view"      
 
-@pageQuery="doPageQuery"
-@view="view" 
+@pageQuery="doPageQuery" 
 @doEdit="doEdit"
 @doDelete="doDelete"
   :disableQueryForm="disableQueryForm" 
   :disableRowButtons="disableRowButtons"  
-
-   >
+  >
   </csc-single-table>
 </template>
 
 <script>
-  // 账户信息
-  import CscSingleTable from '@/components/CscSingleTable/CscSingleTable' // 引入的这个是子组件，需要把父组件的值传递给子组件修改子组件
-  import { getEntrustAccountsByPartyId } from '@/api/csm'
- 
+  import CscSingleTable from '@/components/CscSingleTable/CscSingleTable'
+  import { findOldDbList } from '@/api/csm'
+
 
   export default {
-    name: 'csm_entrust_account_list',
-    data: function() {
+    data() {
       return {
         disableQueryForm: true, // 父组件给的新的值，隐藏form表单按钮
         disableRowButtons: true, // 隐藏tab表单按钮
         listLoading: false,
-        entity: {// 这个就相当于一个form表单，在这里定义之后可以直接在上面去使用 entity.属性名
+        entity: {
 
         },
-        // disableQueryForm: true,
         pageDef: {
           // 查询条件定义
-          queryDef: {},
-
+          queryDef: {
+            columnNum: 3, // 一行几列
+            queryCols: []
+          },
           tabDef: {
             isSelect: false, // 是否可以多选
             isIndex: true, // 是否有序号
             // 表格字段定义
             tabCols: [
-              { label: '账户名称', prop: 'accName', isSort: true },
-              { label: '委托项目名称', prop: 'entrustProjectName', isSort: true },
-              { label: '委托存款账号', prop: 'entrustAcc', isSort: true }, // currency：货币
-              { label: '委托贷款基金账号', prop: 'entrustLoanAcc', isSort: true },
-              { label: '委托贷款收息账号', prop: 'entrustReturnAcc', isSort: true },
-              { label: '委托人收本账号', prop: 'entrustReturnPrincipalAcc', isSort: true },
-              { label: '委托人收息账号', prop: 'entrustReturnInterestAcc', isSort: true }
+
+              { label: '抵质押类型', prop: 'subconractType', isSort: true },
+              { label: '抵质押人名称', prop: 'partyName', isSort: true },
+              { label: '抵质押物编号', prop: 'suretyNo', isSort: true },
+              { label: '抵质押物类型', prop: 'sortType', isSort: true },
+              { label: '币种', prop: 'currencyCdn', isSort: true },
+              { label: '评估价值（元）', prop: 'assessValue', isSort: true },
+              { label: '权利价值（元）', prop: 'mortgageValue', isSort: true },
+              { label: '已担保金额（元）', prop: 'usedAmt', isSort: true },
+              { label: '本次担保金额（元）', prop: 'suretyAmt', isSort: true }
+
             ]
           },
           buttons: [
-            { label: '查看', funcName: 'findOne' }
-          ]
+            { label: '查看', funcName: 'view' }
+
+            ]
         }
       }
     },
 
-    components: { CscSingleTable }, // 引入的子组件
+    components: { CscSingleTable }, // 这个没有问题
 
     methods: {
 
       doPageQuery(listQuery) {
 
-  
-        getEntrustAccountsByPartyId(listQuery).then(response => {
+   
+        findOldDbList(listQuery).then(response => {
           this.entity = response.data
           this.$store.dispatch('setListLoading', false)
 
-     
         }).catch((error) => {
     
           console.log(error)
         })
       },
-
-      view(){
-        console.log("view.....")
-      },
       // 行事件
       doEdit(row) {
         console.log('row ....')
       //  this.$router.push({path: '/contract/add/edit/' + row.contractId})
+      },
+      view() {
+        console.log('view 合同...')
+        // this.$router.push({path: '/contract/contractAdd'})
       },
 
       doDelete() {
@@ -94,7 +96,7 @@
         console.log('del ....')
       }
     },
-    mounted() {     
+    mounted() {			
       this.doPageQuery() 
   }
 

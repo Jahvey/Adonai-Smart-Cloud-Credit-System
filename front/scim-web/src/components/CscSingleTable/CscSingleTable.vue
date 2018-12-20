@@ -128,6 +128,42 @@
                            :width="135" header-align="center" align="center">
           </el-table-column>
         </template>
+
+        
+        <template v-else-if="tabCol.isLink">
+          <el-table-column :label="tabCol.label" :prop="tabCol.prop" :sortable="tabCol.isSort" :width="135"
+                           show-overflow-tooltip header-align="center" align="center" >
+            <template slot-scope="scope">
+         
+             <!-- 
+               <router-link to="/crt/con_apply/con_apply_print">{{scope.row[tabCol.prop]}}</router-link>
+              -->
+               <!--
+              <router-link :to="{path:'/crt/con_apply/con_apply_print',query:{queryParam:scope.row[tabCol.prop]}}">{{scope.row[tabCol.prop]}}</router-link>
+                 -->
+             <!--  <router-link  :to="{path:tabCol.url,query:{id:scope.row[tabCol.prop],key:requestUrlParam}}"   @click.native="getRequestUrlParams2('12345')">{{scope.row[tabCol.prop]}}</router-link> -->
+            {{appendRequestUrlParam(tabCol.prop,scope.row[tabCol.prop],tabCol.url)}}
+
+            <router-link  :to="{path:tabCol.url,query:{[tabCol.prop]:scope.row[tabCol.prop]}}">{{scope.row[tabCol.prop]}}</router-link>
+            <!-- <router-link  :to="{path:tabCol.url,query:{id:scope.row[tabCol.prop],key:requestUrlParam}}"   @click.native="getRequestUrlParams2(requestUrlParam)">{{scope.row[tabCol.prop]}}</router-link> -->
+            </template>
+          </el-table-column>
+      </template>
+
+      <template v-else-if="tabCol.isParam">
+          <el-table-column :label="tabCol.label" :prop="tabCol.prop" :sortable="tabCol.isSort" :width="135"
+                           show-overflow-tooltip header-align="center" align="center" >
+                           
+            <template slot-scope="scope">
+                <!-- invoke function  param  scope.row[tabCol.prop]  return val-->
+              <!-- {{tabCol.prop}}-{{scope.row}} -->
+              {{scope.row[tabCol.prop]}}
+              {{appendRequestParam(tabCol.prop,scope.row[tabCol.prop])}}
+            </template>
+          </el-table-column>
+      </template>
+
+
         <template v-else-if="tabCol.isCustom">
           <el-table-column :label="tabCol.label" :prop="tabCol.prop" :sortable="tabCol.isSort" :formatter="customFormat"
                            :width="tabCol.width" header-align="center" align="center" :show-overflow-tooltip="tabCol.isOverflow">
@@ -187,9 +223,11 @@ import { extend } from '@/utils/validate';
 import commonUtil from '@/utils/commonUtil';
 import CscTableColumn from '@/components/CscTableColumn/CscTableColumn';
 
+
 export default {
   name: 'CscSingleTable',
   props: {
+    
     pageDef: {
       type: Object,
       required: true
@@ -212,6 +250,9 @@ export default {
   },
   data() {
     return {
+      //全局使用处理传递多参数
+      requestUrlParam: this.CommonUtils.requestUrlParam,
+   
       selection: [],
       currentRow: undefined, // 当前行
       // 分页查询参数
@@ -233,6 +274,8 @@ export default {
     console.log("子组件beforeCreate:"+new Date());
   },
   created() {
+    //console.log("create requestUrlParam"+requestUrlParam)
+    
     console.log("子组件created:"+new Date());
     // if(this.disableQueryForm)
     //   this.disableQueryForm=true;
@@ -287,6 +330,36 @@ export default {
     }
   },
   methods: {
+
+         appendRequestUrlParam(key, value, url) {
+        // console.log("url参数:" + key + "..." + value);
+
+        let target = "targetUrl";
+
+        let urlData = {
+          "targetUrl": url
+        };
+        // var str=eval('('+ '{"'+ key +'": "'+ value +'"  "," + "targetUrl:" + "'+url+'" }' +')');
+        // console.log("拼接字符串:"+'('+ '{"'+ key +'": "'+ value +'"  "," + "targetUrl:" + "'+url+'" }' +')' );
+        var str = eval('(' + '{"' + key + '"  : "' + value + '","' + target + '" : "' + url + '"  }' + ')');
+        // console.log("拼接字符串:" + '(' + '{"' + key + '"  : "' + value + '","' + target + '" : "' + url + '"  }' + ')');
+        let targetUrl = this.$store.state.urlParam.targetUrl;
+        // console.log("打开url:" + targetUrl);
+        if (!targetUrl) {
+          this.$store.commit("getUrlParam", str);
+        }
+
+
+      },
+
+      appendRequestParam(key, value) {
+        // console.log(key+"appendRequestParam"+value);
+        var str1 = eval('(' + '{"' + key + '"  : "' + value + '"}' + ')');
+        // console.log("拼接字符串:" + '(' + '{"' + key + '"  : "' + value + '"}' + ')');
+        this.$store.commit("getParam", str1);
+      },
+
+
     matchIdChange(val) {},
     // 模糊查询方法
     queryallRef(val) {
