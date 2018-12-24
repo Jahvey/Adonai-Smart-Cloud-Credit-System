@@ -1,5 +1,6 @@
 package com.cdgit.loan.sysManage.position.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cdgit.loan.common.util.uid.DateUtil;
 import com.cdgit.loan.sysManage.position.bean.OmPosition;
 import com.cdgit.loan.sysManage.position.mapper.OmPositionMapper;
 import com.github.pagehelper.PageHelper;
@@ -36,7 +38,7 @@ public class OmPositionServiceImpl {
             PageInfo pageInfo = new PageInfo(posList,pageSize);
           	map.put("code", "200");
             map.put("msg", "查询成功!");
-            map.put("data", posList);
+            map.put("data", pageInfo);
 		} catch (Exception e) {
 			// TODO: handle exception
 			map.put("code", "201");
@@ -50,6 +52,10 @@ public class OmPositionServiceImpl {
     
     public Map<String, String> addPosition(OmPosition pos) {
 	
+
+    	pos.setCreatetime(DateUtil.formatDateTime(new Date()));
+    	pos.setLastupdate(pos.getCreatetime());
+		
       	Map<String, String> map = new HashMap<>();
     	try {
     		int back = omPositionMapper.insertSelective(pos);
@@ -73,6 +79,7 @@ public class OmPositionServiceImpl {
     
     public Map<String, String> editPosition(OmPosition pos) {
 	
+    	pos.setLastupdate(DateUtil.formatDateTime(new Date()));
     	Map<String, String> map = new HashMap<>();
 		
 		try {
@@ -88,7 +95,7 @@ public class OmPositionServiceImpl {
 		} catch (Exception e) {
 			// TODO: handle exception
 			map.put("code", "201");
-            map.put("msg", "修改失败!");
+            map.put("msg", e.getStackTrace().toString());
             e.printStackTrace();
 		} finally {
 			return map;

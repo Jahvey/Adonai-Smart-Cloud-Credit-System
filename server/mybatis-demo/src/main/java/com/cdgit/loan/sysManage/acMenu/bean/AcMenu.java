@@ -21,13 +21,13 @@ public class AcMenu {
 
     private String uientry;
 
-    private Short menulevel;
+    private String menulevel;
 
     private String rootid;
 
     private String parentsid;
 
-    private Short displayorder;
+    private String displayorder;
 
     private String imagepath;
 
@@ -42,6 +42,10 @@ public class AcMenu {
     private Long appid;
 
     private String funccode;
+    
+    private String parentname;
+    
+    private String type;
     
     private List<AcMenu> children = Lists.newArrayList();
 
@@ -117,11 +121,11 @@ public class AcMenu {
         this.uientry = uientry == null ? null : uientry.trim();
     }
 
-    public Short getMenulevel() {
+    public String getMenulevel() {
         return menulevel;
     }
 
-    public void setMenulevel(Short menulevel) {
+    public void setMenulevel(String menulevel) {
         this.menulevel = menulevel;
     }
 
@@ -141,11 +145,11 @@ public class AcMenu {
         this.parentsid = parentsid == null ? null : parentsid.trim();
     }
 
-    public Short getDisplayorder() {
+    public String getDisplayorder() {
         return displayorder;
     }
 
-    public void setDisplayorder(Short displayorder) {
+    public void setDisplayorder(String displayorder) {
         this.displayorder = displayorder;
     }
 
@@ -205,7 +209,24 @@ public class AcMenu {
         this.funccode = funccode == null ? null : funccode.trim();
     }
 
-    @Override
+    
+    public String getParentname() {
+		return parentname;
+	}
+
+	public void setParentname(String parentname) {
+		this.parentname = parentname;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	@Override
     public boolean equals(Object that) {
         if (this == that) {
             return true;
@@ -235,7 +256,9 @@ public class AcMenu {
             && (this.getOpenmode() == null ? other.getOpenmode() == null : this.getOpenmode().equals(other.getOpenmode()))
             && (this.getSubcount() == null ? other.getSubcount() == null : this.getSubcount().equals(other.getSubcount()))
             && (this.getAppid() == null ? other.getAppid() == null : this.getAppid().equals(other.getAppid()))
-            && (this.getFunccode() == null ? other.getFunccode() == null : this.getFunccode().equals(other.getFunccode()));
+            && (this.getFunccode() == null ? other.getFunccode() == null : this.getFunccode().equals(other.getFunccode()))
+            && (this.getParentname() == null ? other.getParentname() == null : this.getParentname().equals(other.getParentname()))
+        	&& (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()));
     }
 
     @Override
@@ -261,6 +284,8 @@ public class AcMenu {
         result = prime * result + ((getSubcount() == null) ? 0 : getSubcount().hashCode());
         result = prime * result + ((getAppid() == null) ? 0 : getAppid().hashCode());
         result = prime * result + ((getFunccode() == null) ? 0 : getFunccode().hashCode());
+        result = prime * result + ((getParentname() == null) ? 0 : getParentname().hashCode());
+        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         return result;
     }
 }

@@ -1,9 +1,11 @@
 package com.cdgit.loan.sysManage.acMenu.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,31 +23,25 @@ public class AcMenuServiceImpl {
 	@Autowired
 	AcMenuMapper acMenuMapper;
 	
-	private static List<AcMenu> MENU_LIST_ALL;
-	
 	public AcMenu selectByPrimaryKey(String menuid) {
 		return acMenuMapper.selectByPrimaryKey(menuid);
 	}
-	
 	/**
-     * 方法一  查询返回分页对象
-     * <p>Title: findUser</p>  
-     	第一个参数从第几页开始  第二个参数每页显示数量
-     * <p>Description: </p>  
-    
+	 * 查询数据库全量菜单数据，并且转化为树形结构
+     * 使用递归方法rebuildList2Tree建树
+     *
+     * @param 
      * @return
      */
     public Map<String, Object> queryMenuTree(){
     	Map<String, Object> map = new HashMap<>();
     	try {
     		List<AcMenu> menuList = acMenuMapper.queryMenuTree();
-        	MENU_LIST_ALL = menuList;
-         	for ( int i = 0;i < menuList.size(); i++ ) {
-     			convert(menuList.get(i));
-         	}
+    		List<AcMenu> tree = rebuildList2Tree(menuList);
+         	
          	map.put("code", "200");
             map.put("msg", "查询成功!");
-            map.put("data", menuList);
+            map.put("data", tree);
 		} catch (Exception e) {
 			// TODO: handle exception
 			map.put("code", "201");
@@ -54,19 +50,6 @@ public class AcMenuServiceImpl {
 		} finally {
 			return map;
 		}
-    }
-    
-    /**
-     * 转换为树状结构
-     * 
-     * */
-    public void convert(AcMenu menu) {
-    	for (int i=0;i< MENU_LIST_ALL.size();i++) {
-    		if (MENU_LIST_ALL.get(i).getParentsid() != null && MENU_LIST_ALL.get(i).getParentsid().equals(menu.getMenuid())) {
-    			convert(MENU_LIST_ALL.get(i));
-    			menu.getChildren().add(MENU_LIST_ALL.get(i));
-    		}
-    	}
     }
     
     public Map<String, Object> queryMenuByParentsid(Integer pageNum, Integer pageSize, String parentsid){
@@ -88,9 +71,19 @@ public class AcMenuServiceImpl {
 		}
     }
     
+    /**
+	 * 新增菜单
+     *
+     * @param 
+     * @return
+     */
     public Map<String, String> addMenu(AcMenu menu) {
 	
       	Map<String, String> map = new HashMap<>();
+      	if(StringUtils.isBlank(menu.getParentsid())){//如果是根节点，默认level=1 parentsid = '9999'
+      		menu.setParentsid("9999");
+      		menu.setMenulevel("1");
+      	}
     	try {
     		int back = acMenuMapper.insertSelective(menu);
             if (back == 0) {
@@ -111,6 +104,12 @@ public class AcMenuServiceImpl {
 		}
 	}
     
+    /**
+	 * 编辑菜单
+     *
+     * @param 
+     * @return
+     */
     public Map<String, String> editMenu(AcMenu menu) {
 	
     	Map<String, String> map = new HashMap<>();
@@ -134,7 +133,12 @@ public class AcMenuServiceImpl {
 			return map;
 		}
 	}
-    
+    /**
+	 * 删除菜单
+     *
+     * @param 
+     * @return
+     */
     public Map<String, String> deleteMenu(String menuid) {
     	
     	Map<String, String> map = new HashMap<>();
@@ -158,5 +162,51 @@ public class AcMenuServiceImpl {
 			return map;
 		}
 	}
+    /**
+     * 使用递归方法建树
+     *
+     * @param treeNodes
+     * @return
+     */
+    private static List<AcMenu> rebuildList2Tree(List<AcMenu> treeNodes) {
+        List<AcMenu> newTree = new ArrayList<AcMenu>();//初始化一个新的列表
+        for (AcMenu treeNode : treeNodes) {
+            if (isRootNode(treeNode)) {//如果不是根节点
+            	//选择根节点数据开始找儿子
+                newTree.add(findChildren(treeNode, treeNodes));
+            }
+        }
+        return newTree;//返回新的树形列表
+    }
+ 
+    /**
+     * 判断节点是否是根节点
+     * @param checkNode
+     * @param treeNodes
+     * @return
+     */
+    private static boolean isRootNode(AcMenu checkNode) {
+        if ("9999".equals(checkNode.getParentsid())) {//爸爸id等于9999为根节点，跟数据库设计对应。
+            return  true;
+        }
+        return false;
+    }
+ 
+ 
+    /**
+     * 递归查找子节点
+     *
+     * @param treeNodes
+     * @return
+     */
+    private static AcMenu findChildren(AcMenu parentNode, List<AcMenu> treeNodes) {
+        List<AcMenu> children = parentNode.getChildren();
+        for (AcMenu it : treeNodes) {
+            if (parentNode.getMenuid().equals(it.getParentsid())) {//找儿子，判断parentNode是不是有儿子
+                children.add(findChildren(it, treeNodes));
+            }
+        }
+        return parentNode;
+    }
 
 }

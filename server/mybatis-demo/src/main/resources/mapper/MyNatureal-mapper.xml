@@ -459,13 +459,13 @@ SELECT t1.PARTY_ID,
 
  </select>
  
- <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+ <delete id="deleteNaturalPersonByPrimaryKey" parameterType="java.lang.String">
     delete from TB_CSM_NATURAL_PERSON
     where PARTY_ID = #{PARTY_ID,jdbcType=VARCHAR}
   </delete>
  
  <!-- 本sql仅供测试demo -->
- <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.user.bean.TbCsmNaturalPerson">
+ <update id="updateNaturalPersonByPrimaryKeySelective" parameterType="com.cdgit.loan.user.bean.TbCsmNaturalPerson">
     update TB_CSM_NATURAL_PERSON
     <set>
       <if test="partyName != null">

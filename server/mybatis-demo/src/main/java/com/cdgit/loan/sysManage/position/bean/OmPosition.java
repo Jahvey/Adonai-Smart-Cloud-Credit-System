@@ -1,5 +1,6 @@
 package com.cdgit.loan.sysManage.position.bean;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class OmPosition {
@@ -21,9 +22,9 @@ public class OmPosition {
 
     private String positype;
 
-    private Date createtime;
+    private String createtime;
 
-    private Date lastupdate;
+    private String lastupdate;
 
     private Long updator;
 
@@ -129,19 +130,19 @@ public class OmPosition {
         this.positype = positype == null ? null : positype.trim();
     }
 
-    public Date getCreatetime() {
+    public String getCreatetime() {
         return createtime;
     }
 
-    public void setCreatetime(Date createtime) {
+    public void setCreatetime(String createtime) {
         this.createtime = createtime;
     }
 
-    public Date getLastupdate() {
+    public String getLastupdate() {
         return lastupdate;
     }
 
-    public void setLastupdate(Date lastupdate) {
+    public void setLastupdate(String lastupdate) {
         this.lastupdate = lastupdate;
     }
 

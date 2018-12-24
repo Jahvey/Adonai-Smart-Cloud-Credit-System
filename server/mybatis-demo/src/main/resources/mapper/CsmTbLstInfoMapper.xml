@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//com.order.test.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.csm.mapper.TbLstInfoMapper">
+<mapper namespace="com.cdgit.loan.csm.mapper.CsmTbLstInfoMapper">
 
-  <resultMap id="BaseResultMap" type="com.cdgit.loan.csm.bean.TbLstInfo">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.csm.bean.CsmTbLstInfo">
     <id column="PARTY_ID" jdbcType="VARCHAR" property="partyId" />
     <result column="LIST_STATUS" jdbcType="VARCHAR" property="listStatus" />
     <result column="APPROVE_STATUS" jdbcType="VARCHAR" property="approveStatus" />

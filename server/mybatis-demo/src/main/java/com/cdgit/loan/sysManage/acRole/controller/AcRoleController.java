@@ -28,7 +28,7 @@ public class AcRoleController {
 		return acRoleService.selectByPrimaryKey(menuid);
 	}
 	
-	@PostMapping("queryAllRole")
+	@PostMapping("/queryAllRole")
 	@ResponseBody
 	public Map<String, Object> queryAllRole(@RequestBody Map<String, Object> params){
 		String pageNum = "1";

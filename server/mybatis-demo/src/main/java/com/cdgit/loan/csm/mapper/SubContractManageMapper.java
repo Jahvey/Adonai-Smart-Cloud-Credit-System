@@ -8,7 +8,9 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.cdgit.loan.csm.bean.SubContractListVo;
+import com.cdgit.loan.csm.bean.OldContractListVo;
+import com.cdgit.loan.csm.bean.OldDbListVo;
+import com.cdgit.loan.csm.bean.CsmSubContractListVo;
 
 /**
  * @author cwalk
@@ -22,7 +24,22 @@ public interface SubContractManageMapper {
 	
 	
 	//查询所有担保合同列表
-	List<SubContractListVo> findSubContractList(Map map);
+	List<CsmSubContractListVo> findSubContractList(Map map);
+	
+	//查找担保合同对应的主合同信息
+	
+	
+	//获取原担保合同中 对应的押品信息
+	List<OldDbListVo> findOldDbList(Map map);
+	
+	
+	//查找原担保合同对应的主合同信息
+	List<OldContractListVo> findOldContractList(Map map);
+	
+	
+	
+	
+	
 	
 	
 	

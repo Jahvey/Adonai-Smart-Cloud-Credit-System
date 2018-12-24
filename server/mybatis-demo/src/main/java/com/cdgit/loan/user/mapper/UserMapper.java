@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.cdgit.loan.user.bean.Score;
 import com.cdgit.loan.user.bean.UserInfo;
 import com.cdgit.loan.user.bean.UserInfoCriteria;
 
@@ -36,6 +37,13 @@ public interface UserMapper {
 
 	 void update(UserInfo user);
 	 
+	 void updateById(UserInfo user);
+	 
 	 void updateUser(Map map);
+	 
+	 int getNextVal(Map map);
+	 int getNextVal1(String tableName);
+	 
+	 void insertScore(Score score);
 	 
 }

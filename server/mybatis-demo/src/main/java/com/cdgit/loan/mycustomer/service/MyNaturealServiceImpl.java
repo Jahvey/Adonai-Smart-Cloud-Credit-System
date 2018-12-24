@@ -54,7 +54,16 @@ public class MyNaturealServiceImpl {
         PageInfo pageInfo=new PageInfo(userList,(Integer)map.get("pageSize"));
     	return pageInfo;
 	}
+	/**
+	 * 传递map参数用requestParam
+	  为什么feign调用时失败
+	 * <p>Title: queryNaturalForDesk3</p>  
 	
+	 * <p>Description: </p>  
+	
+	 * @param map
+	 * @return
+	 */
 	public PageInfo<NaturealInfo> queryNaturalForDesk3(Map map){
 		PageHelper.startPage(Integer.valueOf((String)map.get("pageNum")),Integer.valueOf((String)map.get("pageSize")));
 //		Map queryMap=new HashMap<String,Object>();
@@ -63,6 +72,27 @@ public class MyNaturealServiceImpl {
 //    	List<NaturealInfo> userList=myCustomerMapper.queryNaturalForDesk(queryMap);
 		List<NaturealInfo> userList=myCustomerMapper.queryNaturalForDesk(map);
         PageInfo pageInfo=new PageInfo(userList,Integer.valueOf((String)map.get("pageSize")));
+    	return pageInfo;
+	}
+	
+	/**
+	 * 传递map参数用requestBody
+	
+	 * <p>Title: queryNaturalForDesk5</p>  
+	
+	 * <p>Description: </p>  
+	
+	 * @param map
+	 * @return
+	 */
+	public PageInfo<NaturealInfo> queryNaturalForDesk5(Map map){
+		PageHelper.startPage((Integer)map.get("pageNum"),(Integer)map.get("pageSize"));
+//		Map queryMap=new HashMap<String,Object>();
+//		queryMap.put("curUserNum", naturealCriteria.getCurUserNum());
+//		queryMap.put("orgcode", naturealCriteria.getOrgcode());
+//    	List<NaturealInfo> userList=myCustomerMapper.queryNaturalForDesk(queryMap);
+		List<NaturealInfo> userList=myCustomerMapper.queryNaturalForDesk(map);
+        PageInfo pageInfo=new PageInfo(userList,(Integer)map.get("pageSize"));
     	return pageInfo;
 	}
 	

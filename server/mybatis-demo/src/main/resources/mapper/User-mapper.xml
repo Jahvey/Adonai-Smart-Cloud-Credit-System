@@ -34,6 +34,18 @@
        FROM users
     </select>	
 
+	<select id="getNextVal" parameterType="java.util.HashMap"  resultType="java.lang.Integer" statementType="STATEMENT">
+       SELECT 
+       ${tableName}
+       FROM dual
+    </select>
+
+	<select id="getNextVal1" parameterType="java.lang.String"  resultType="java.lang.Integer" statementType="STATEMENT">
+       SELECT 
+       ${tableName}
+       FROM dual
+    </select>
+
 	<select id="getOne" parameterType="java.lang.Long" resultMap="BaseResultMap" >
         SELECT 
        <include refid="Base_Column_List" />
@@ -68,6 +80,14 @@
             (#{id,jdbcType=INTEGER},#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{userSex,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR})
     </insert>
 
+	<insert id="insertScore" parameterType="com.cdgit.loan.user.bean.Score" >
+       INSERT INTO 
+            score
+            (id,score_id,score,subject) 
+        VALUES
+            (#{id,jdbcType=INTEGER},#{scoreId,jdbcType=INTEGER},#{score,jdbcType=INTEGER},#{subject,jdbcType=VARCHAR})
+    </insert>	
+
     <update id="update" parameterType="com.cdgit.loan.user.bean.UserInfo" >
        UPDATE 
             users 
@@ -83,7 +103,16 @@
             id = #{id}
     </update>
 
-<update id="updateUser" parameterType="java.util.HashMap" >
+	<update id="updateById" parameterType="com.cdgit.loan.user.bean.UserInfo" >
+       UPDATE 
+            users 
+       SET 
+        remark=#{remark}
+       WHERE 
+            id = #{id}
+    </update>	
+
+	<update id="updateUser" parameterType="java.util.HashMap" >
        UPDATE 
             users 
        SET 

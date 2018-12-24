@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +37,9 @@ public class MyNaturealController {
 //		return myNaturealServiceImpl.queryNaturalForDesk(naturealCriteria);
 //	}
 	
+//	ObjectMapper mapper = new ObjectMapper(); 
+//	UserBean userBean = mapper.convertValue(resultMap.get("userBean"), UserBean.class); 
+	
 	@GetMapping("/queryNaturalForDesk")
 	public PageBean queryNaturalForDesk(@RequestParam(value="pageNum",required=true) int pageNum, @RequestParam(value="pageSize",required=true) int pageSize
 			,@RequestParam(value="curUserNum",required=true) String curUserNum, @RequestParam(value="orgcode",required=true) String orgcode){
@@ -52,6 +56,7 @@ public class MyNaturealController {
 		pageBean.setData(pageInfo.getList());
 		return pageBean;
 	}
+	
 	/**
 	 * map传参数实例  多个参数可以直接使用 不用定义多个requestParam
 	2018-12-13
@@ -65,6 +70,26 @@ public class MyNaturealController {
 	@GetMapping("/queryNaturalForDesk3")
 	public PageBean queryNaturalForDesk3(@RequestParam Map<String,Object> map){
 		PageInfo<NaturealInfo> pageInfo=myNaturealServiceImpl.queryNaturalForDesk3(map);
+		
+		PageBean pageBean=new PageBean();
+		pageBean.setTotal(pageInfo.getTotal());
+		pageBean.setData(pageInfo.getList());
+		return pageBean;
+	}
+	
+	/**
+	 * map传参数实例  多个参数可以直接使用 不用定义多个requestParam
+	2018-12-13
+	 * <p>Title: queryNaturalForDesk3</p>  
+	
+	 * <p>Description: </p>  
+	
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value="/queryNaturalForDesk5",method=RequestMethod.POST)
+	public PageBean queryNaturalForDesk5(@RequestBody Map<String,Object> map){
+		PageInfo<NaturealInfo> pageInfo=myNaturealServiceImpl.queryNaturalForDesk5(map);
 		
 		PageBean pageBean=new PageBean();
 		pageBean.setTotal(pageInfo.getTotal());
@@ -152,7 +177,7 @@ public class MyNaturealController {
 //		return myNaturealServiceImpl.queryNaturalForDesk1(map);
 //	}
 	
-	@GetMapping("/getNaturalPersonInfo")
+	@RequestMapping(value="getNaturalPersonInfo",method=RequestMethod.GET)
 	public NaturalPersonInfo getNaturalPersonInfo(@RequestBody NaturealInfo naturealInfo){
 		TbCsmParty tbCsmParty=myNaturealServiceImpl.gerTbCsmParty(naturealInfo);
 		TbCsmNaturalPerson tbCsmNaturalPerson=myNaturealServiceImpl.getTbCsmNaturalPerson(naturealInfo);

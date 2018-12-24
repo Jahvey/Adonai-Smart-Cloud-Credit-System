@@ -12,27 +12,27 @@ package com.cdgit.loan.csm.bean;
  */
 public class OldContractListVo {
 	
-	private String contractId;
-	
-	private String subcontractId;
-	
-	private String contractNum;
-	
-	private String contractAmt;
-	
-	private String conYuE;
-	
-	private String currencyCd;
-	
-	private String beginDate;
-	
-	private String endDate;
-	
-	private String productType;
-	
-	private String subcontractType;
-	
-	private String suretyAmt;
+	private String contractId;       //
+	                               
+	private String subcontractId;    //
+	                              
+	private String contractNum;      //合同编号
+	                               
+	private String contractAmt;      //合同金额
+	                               
+	private String conYuE;           //合同已用金额
+	                              
+	private String currencyCd;       //币种
+	                               
+	private String beginDate;        //合同起期
+	                             
+	private String endDate;          //合同止期
+	                                
+	private String productType;      //业务品种
+	                               
+	private String subcontractType;  //
+	                              
+	private String suretyAmt;        //本次担保金额
 
 	public String getContractId() {
 		return contractId;

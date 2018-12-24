@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.csm.mapper.TbLoanSummaryMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.loan.csm.bean.TbLoanSummary">
+<mapper namespace="com.cdgit.loan.contract.mapper.TbLoanSummaryMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.contract.bean.TbLoanSummary">
     <id column="SUMMARY_ID" jdbcType="VARCHAR" property="summaryId" />
     <result column="LOAN_ID" jdbcType="VARCHAR" property="loanId" />
     <result column="PARTY_ID" jdbcType="VARCHAR" property="partyId" />
@@ -81,7 +81,7 @@
     delete from CRMS.TB_LOAN_SUMMARY
     where SUMMARY_ID = #{summaryId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.cdgit.loan.csm.bean.TbLoanSummary">
+  <insert id="insert" parameterType="com.cdgit.loan.contract.bean.TbLoanSummary">
     insert into CRMS.TB_LOAN_SUMMARY (SUMMARY_ID, LOAN_ID, PARTY_ID, 
       SUMMARY_AMT, SUMMARY_CURRENCY_CD, BEGIN_DATE, 
       END_DATE, SUMMARY_TERM, CYCLE_UNIT, 
@@ -123,7 +123,7 @@
       #{settleDate,jdbcType=TIMESTAMP}, #{lastPayDate,jdbcType=TIMESTAMP}, #{bjYqts,jdbcType=DECIMAL}, 
       #{lxYqts,jdbcType=DECIMAL})
   </insert>
-  <insert id="insertSelective" parameterType="com.cdgit.loan.csm.bean.TbLoanSummary">
+  <insert id="insertSelective" parameterType="com.cdgit.loan.contract.bean.TbLoanSummary">
     insert into CRMS.TB_LOAN_SUMMARY
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="summaryId != null">
@@ -478,7 +478,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.csm.bean.TbLoanSummary">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.contract.bean.TbLoanSummary">
     update CRMS.TB_LOAN_SUMMARY
     <set>
       <if test="loanId != null">
@@ -655,7 +655,7 @@
     </set>
     where SUMMARY_ID = #{summaryId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.csm.bean.TbLoanSummary">
+  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.contract.bean.TbLoanSummary">
     update CRMS.TB_LOAN_SUMMARY
     set LOAN_ID = #{loanId,jdbcType=VARCHAR},
       PARTY_ID = #{partyId,jdbcType=VARCHAR},

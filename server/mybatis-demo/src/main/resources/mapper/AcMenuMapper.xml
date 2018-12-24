@@ -21,18 +21,25 @@
     <result column="SUBCOUNT" jdbcType="DECIMAL" property="subcount" />
     <result column="APPID" jdbcType="DECIMAL" property="appid" />
     <result column="FUNCCODE" jdbcType="VARCHAR" property="funccode" />
+    <result column="PARENTNAME" jdbcType="VARCHAR" property="parentname" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
   </resultMap>
   <sql id="Base_Column_List">
     MENUID, MENUNAME, MENULABEL, MENUCODE, ISLEAF, MENUACTION, PARAMETER, UIENTRY, MENULEVEL, 
     ROOTID, PARENTSID, DISPLAYORDER, IMAGEPATH, EXPANDPATH, MENUSEQ, OPENMODE, SUBCOUNT, 
-    APPID, FUNCCODE
+    APPID, FUNCCODE,PARENTNAME,TYPE
   </sql>
   <select id="queryMenuTree" parameterType="java.lang.String" resultMap="BaseResultMap"  >
        SELECT 
-       <include refid="Base_Column_List" />
-       FROM AC_MENU 
-       START WITH MENULEVEL = '1'
-       CONNECT BY PRIOR MENUID = PARENTSID
+       		a.menuid,a.menuname,a.isleaf,a.menuaction,a.parentsid,a.imagepath,a.displayorder,a.menulevel,a.type,b.menuname as parentname
+       FROM 
+       		AC_MENU a
+       LEFT JOIN 
+       		AC_MENU b 
+       ON 
+       		a.parentsid = b.menuid
+       START WITH a.MENULEVEL = '1' AND a.MENUID &gt; 10000
+       CONNECT BY PRIOR a.MENUID = a.PARENTSID
   </select>	
   <select id="queryMenuByParentsid" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -131,6 +138,9 @@
       <if test="funccode != null">
         FUNCCODE,
       </if>
+      <if test="type != null">
+        TYPE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       SEQ_AC_MENU.NEXTVAL,
@@ -187,6 +197,9 @@
       </if>
       <if test="funccode != null">
         #{funccode,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -246,6 +259,9 @@
       </if>
       <if test="funccode != null">
         FUNCCODE = #{funccode,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
       </if>
     </set>
     where MENUID = #{menuid,jdbcType=VARCHAR}

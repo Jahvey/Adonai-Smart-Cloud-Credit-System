@@ -1,7 +1,6 @@
 package com.cdgit.loan.sysManage.empManage.service;
 
 import java.util.Date;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +39,7 @@ public class OmEmployeeServiceImpl {
             PageInfo pageInfo=new PageInfo(empList,pageSize);
           	map.put("code", "200");
             map.put("msg", "查询成功!");
-            map.put("data", empList);
+            map.put("data", pageInfo);
 		} catch (Exception e) {
 			// TODO: handle exception
 			map.put("code", "201");
@@ -142,11 +141,6 @@ public class OmEmployeeServiceImpl {
 			if (emp.getOrgid() == null || emp.getOrgid().toString().equals("")) {
     			map.put("code", "201");
 		        map.put("msg", "请选择机构!");
-		        return map;
-    		}
-			if(!validateEmpcode(emp)) {
-    			map.put("code", "201");
-		        map.put("msg", "用户编码已存在，修改失败!");
 		        return map;
     		}
 			int back = omEmployeeMapper.updateByPrimaryKeySelective(emp);

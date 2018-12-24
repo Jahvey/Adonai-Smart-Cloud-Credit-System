@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cdgit.loan.sysManage.position.bean.OmPosition;
 import com.cdgit.loan.sysManage.position.service.OmPositionServiceImpl;
-import com.github.pagehelper.PageInfo;
 
 @CrossOrigin
 @RestController
@@ -70,7 +69,7 @@ public class OmPositionController {
 	 * 修改岗位信息
 	 * 
 	 * */
-	@PostMapping("/editPosit")
+	@PostMapping("/editPosition")
 	@ResponseBody
 	public Map<String, String> editPosition(@RequestBody OmPosition position) {
 		Map<String, String> map = new HashMap<>();
