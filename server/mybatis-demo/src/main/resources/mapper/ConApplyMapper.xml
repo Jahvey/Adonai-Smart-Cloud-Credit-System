@@ -4,7 +4,7 @@
 <mapper namespace="com.cdgit.loan.csm.mapper.ConApplyMapper">
 
   <resultMap id="ApproveConsVo" type="com.cdgit.loan.csm.bean.ApproveConsVo">
-
+	
   	 <result column="BIZ_TYPE" javaType="String" property="bizType" />
   	<result column="PRODUCT_TYPE" javaType="String" property="productType" />
   	<result column="APPLY_ID" javaType="String" property="applyId" />
@@ -24,16 +24,20 @@
   
     <resultMap id="PrintConsVo" type="com.cdgit.loan.csm.bean.PrintConsVo">
 
-  	 <result column="PERIOD_NUM" javaType="String" property="periodNum" />
+  	 
   	<result column="NUM" javaType="String" property="contractNum" />
+  	<result column="PARTY_NAME" javaType="String" property="partyName" />
   	<result column="CON_TYPE" javaType="String" property="conTypeCn" />
+  	<result column="PRODUCT_TYPE" javaType="String" property="productType"/> 
   	<result column="AMT" javaType="String" property="contractAmt" />
+  	
+  	<result column="PERIOD_NUM" javaType="String" property="periodNum" />
   	<result column="BEGIN_DATE" javaType="String" property="beginDate" />
   	<result column="END_DATE" javaType="String" property="endDate" />
   	
   	<result column="CURRENCY_CD" javaType="String" property="currencyCd" />
   	<result column="CONTRACT_DATE" javaType="String" property="contractDate" />
-  	<result column="PARTY_NAME" javaType="String" property="partyName" />
+  	
   	
 
   </resultMap>

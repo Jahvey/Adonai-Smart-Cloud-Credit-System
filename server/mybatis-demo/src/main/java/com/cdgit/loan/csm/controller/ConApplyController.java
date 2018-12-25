@@ -32,32 +32,32 @@ public class ConApplyController {
 	
 	
 	//使用RequestParam自定义分页
-		@SuppressWarnings({ "rawtypes", "unchecked" })
-		@GetMapping("/getPrintCons")
-		public PageBean getPrintCons(
-				@RequestParam(value="pageNum",required=true) int pageNum, 
-				@RequestParam(value="pageSize",required=true) int pageSize,
-				
-				@RequestParam(value="partyId",required=false)String partyId,
-				@RequestParam(value="conTypeCn",required=false)String conTypeCn,
-				@RequestParam(value="contractNum",required=false)String contractNum){
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GetMapping("/getPrintCons")
+	public PageBean getPrintCons(
+			@RequestParam(value="pageNum",required=true) int pageNum, 
+			@RequestParam(value="pageSize",required=true) int pageSize,
 			
-			Map map=new HashMap<String,Object>();
-			map.put("pageNum", pageNum);
-			map.put("pageSize", pageSize);
-			map.put("conTypeCn", conTypeCn);
-			map.put("partyId", partyId);
-			map.put("contractNum", contractNum);
+			@RequestParam(value="partyId",required=false)String partyId,
+			@RequestParam(value="conTypeCn",required=false)String conTypeCn,
+			@RequestParam(value="contractNum",required=false)String contractNum){
 		
-			PageInfo<ApproveConsVo> ApproveConsVo = conApplyServiceImpl.getPrintCons(map);
-			PageBean pageBean=new PageBean();
-			pageBean.setTotal(ApproveConsVo.getTotal());
-			pageBean.setData(ApproveConsVo.getList());
-			
-			return pageBean;
-
-			
-		}
+		Map map=new HashMap<String,Object>();
+		map.put("pageNum", pageNum);
+		map.put("pageSize", pageSize);
+		map.put("conTypeCn", conTypeCn);
+		map.put("partyId", partyId);
+		map.put("contractNum", contractNum);
+	
+		PageInfo<ApproveConsVo> ApproveConsVo = conApplyServiceImpl.getPrintCons(map);
+		PageBean pageBean=new PageBean();
+		pageBean.setTotal(ApproveConsVo.getTotal());
+		pageBean.setData(ApproveConsVo.getList());
+		
+		return pageBean;
+	
+		
+	}
 	
 	
 	

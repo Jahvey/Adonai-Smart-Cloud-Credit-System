@@ -13,31 +13,31 @@ package com.cdgit.loan.csm.bean;
  */
 public class ApproveConsVo {
 	
-	private String bizType;
-	
-	private String productType;
-	
-	private String applyId;
-	
-	private String amountDetailId;
-	
-	private String contractId;
-	
-	private String contractNum;
-	
-	private String contractAmt;
-	
-	private String conBalance;
-	
-	private String creditMode;
-	
-	private String conYuE;
-	
-	private String currencyCd;
-	
-	private String beginDate;
-	
-	private String endDate;
+	private String bizType;         //
+	                               
+	private String productType;     //业务品种(:tb_sys_product)
+	                              
+	private String applyId;         //
+	                               
+	private String amountDetailId;  //
+	                              
+	private String contractId;      //
+	                               
+	private String contractNum;     //合同编号
+	                              
+	private String contractAmt;     //合同金额
+	                              
+	private String conBalance;      //可用金额
+	                              
+	private String creditMode;      //合同性质 dictTypeId="XD_BIZ0003"
+	                              
+	private String conYuE;          //
+	                               
+	private String currencyCd;      //币种
+	                               
+	private String beginDate;       //
+	                               
+	private String endDate;         //
 
 	public String getBizType() {
 		return bizType;
