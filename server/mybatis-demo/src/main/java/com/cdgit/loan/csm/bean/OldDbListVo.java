@@ -22,9 +22,9 @@ public class OldDbListVo {
 	                                
 	private String suretyNo;          //抵质押物编号
 	                                
-	private String subconractType;    //抵质押类型COLL_TYPE
+	private String subconractType;    //抵质押类型COLL_TYPE   抵押01、质押02
 	                                
-	private String sortType;          //抵质押物类型
+	private String sortType;          //抵质押物类型(:XD_YWDB02)
 	                                
 	private String currencyCdn;       //币种
 	                                 
@@ -34,7 +34,7 @@ public class OldDbListVo {
 	                                 
 	private String usedAmt;           //已担保金额（元）
 	                                
-	private String mortgageStatus;    //
+	private String mortgageStatus;    //抵质押物状态(:XD_YWDB0139)
 	                                 
 	private String subcontractNum;    //
 

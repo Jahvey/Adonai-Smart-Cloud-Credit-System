@@ -38,5 +38,13 @@ public interface TbConContractInfoMapper {
      * 根据合同编号查询一条明细信息，先这样写
      * @return
      */
-    ConInfoHtXwQuery getConInfoByContractNum(String contractNum);
+    ConInfoHtXwQuery getConInfoByContractNum(Map map);
+    
+    /**
+     * 根据旧合同id查询旧合同编号
+     * @param contractNum
+     * @return
+     */
+    String getOldContractNum(String oldContractId);
+//    List<ConInfoHtXwQuery> getNewConInfoByContractNum(String contractNum);
 }

@@ -9,6 +9,8 @@ Vue.use(Router)
 /* Layout */
 import Layout from '../views/layout/Layout'
 import Login from '../views/login/index'
+import securityManagement from '../views/securitymanagement/securityManagement'
+
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
 * redirect: noredirect           if `redirect:noredirect` will no redirct in the breadcrumb
@@ -42,17 +44,6 @@ export const constantRouterMap = [
         component: _import('dashboard/index')
       }]
   },
-  //以前可用的登录首页 现在要改掉
-  // {
-  //   path: '/',
-  //   component: Layout,
-  //   redirect: '/dashboard',
-  //   name: '首页1',
-  //   children: [{
-  //     path: 'dashboard',
-  //     component: _import('dashboard/index')
-  //   }]
-  // },
   {
     path: '/org',
     component: Layout,
@@ -68,13 +59,13 @@ export const constantRouterMap = [
     }, {
       path: 'add',
       name: 'orgAdd',
-      hidden: true,
+      hidden: false,
       component: _import('org/OrgAdd'),
       meta: { title: '机构新增', icon: 'manage' }
     }, {
       path: 'edit',
       name: 'orgEdit',
-      hidden: true,
+      hidden: false,
       component: _import('org/OrgEdit'),
       meta: { title: '机构修改', icon: 'manage' }
     }]
@@ -146,7 +137,45 @@ export const constantRouterMap = [
       meta: { title: '用户测试列表修改', icon: 'manage' }
     }]
   },
+  
   {
+    path: '/securityManagement',
+    component: securityManagement,
+    name: '担保品管理',
+    meta: { title: '担保品管理', icon: 'organization' },
+    menuShow: true,
+    //redirect: '/securityManagement/mortgagepledge/addMortgagePledge',
+    roles: ['admin'],
+    children: [
+        {
+        path: 'addMortgagePledge',
+        name: '抵质押品新增',
+        component: _import('securitymanagement/mortgagepledge/addMortgagePledge'),//添加抵质押品
+        meta: { title: '抵质押品新增', icon: 'manage' }
+       },
+      {
+        path: 'editMortgagePledge',
+        name: '抵质押品维护',
+        component: _import('securitymanagement/mortgagepledge/editMortgagePledge'),//抵质押品维护
+        meta: { title: '抵质押品维护', icon: 'manage' }
+      },
+      {
+        path: 'addBondedInfo',
+        name: '抵债信息新增',
+        component: _import('securitymanagement/bondedinfo/addBondedInfo'),//添加抵债信息
+        meta: { title: '抵债信息新增', icon: 'manage' }
+      },
+      {
+        path: 'editBondedInfo',
+        name: '抵债信息维护',
+        component: _import('securitymanagement/bondedinfo/editBondedInfo'),//抵债信息维护
+        meta: { title: '抵债信息维护', icon: 'manage' }
+      },
+	  ]
+  },
+
+
+  {//by wanghao
     path: '/csm', // 主路径需要更改
     component: Layout,
     // redirect: '/contract/info',    
@@ -271,7 +300,7 @@ export const constantRouterMap = [
       }
     ]
   },
-    {
+    {//by wanghao
     path: '/crt', 
     component: Layout,
     // redirect: '/contract/info',    
@@ -318,9 +347,116 @@ export const constantRouterMap = [
       }
     ]
   },
-  { path: '*', redirect: '/404', hidden: true }
-]
+  {//by wanghao
+    path: '/biz', 
+    component: Layout,
+    // redirect: '/contract/info',    
+    // redirect: '/contract/list',  
+    name: '业务申请',
+    meta: { title: '业务申请', icon: 'organization' },
+    roles: ['admin'], // 这里需要更改
+    children: [
+      {
+        path: 'biz/biz_list',
+        name: '业务信息', 
+        component: _import('biz/biz/biz_list'), 
+        meta: { title: '业务信息', icon: 'manage' }
+      },
+      {
+        path: 'biz_apply/biz_apply_jxhj',
+        name: '循环贷/续接贷', 
+        component: _import('biz/biz_apply/biz_apply_jxhj'), 
+        meta: { title: '循环贷/续接贷', icon: 'manage' }
+      }
 
+    ]
+  },
+  {//by wanghao
+    path: '/crd', 
+    component: Layout,
+    // redirect: '/contract/info',    
+    name: '额度信息',
+    meta: { title: '额度信息', icon: 'organization' },
+    roles: ['admin'], // 这里需要更改
+    children: [
+      {
+        path: 'crdApply/crd_apply',
+        name: '综合授信额度信息', 
+        component: _import('crd/crdApply/crd_apply'), 
+        meta: { title: '综合授信额度信息', icon: 'manage' }
+      }
+
+    ]
+  },
+
+
+  {
+    path: '/crt',
+    component: Layout,
+    // redirect: '/contract/info',    //重定向需要更改,info改成什么？
+    name: '合同管理',
+    meta: { title: '合同管理', icon: 'organization' },
+    roles: ['admin'], // 这里需要更改
+    children: [
+      {
+        path: 'con_pub/con_apv_list',
+        name: '贷款合同',
+        component: _import('crt/con_pub/con_apv_list'),
+        meta: { title: '贷款合同', icon: 'manage' }
+      },
+      {
+        path: 'con_pub/con_apv_list2',
+        name: '内部银团合同',
+        component: _import('crt/con_pub/con_apv_list2'),
+        meta: { title: '内部银团合同', icon: 'manage' }
+      },
+      {
+        path: 'con_info/con_info_ht_xw',
+        name: '主合同基本信息',
+        component: _import('crt/con_info/con_info_ht_xw'),
+        meta: { title: '主合同基本信息', icon: 'manage' }
+      },
+      {
+        path: 'con_info/con_detail_ht_xw_uncycle',
+        name: '主合同明细信息',
+        component: _import('crt/con_info/con_detail_ht_xw_uncycle'),
+        meta: { title: '主合同明细信息', icon: 'manage' }
+      },
+      {
+        path: 'con_grt/con_dy_list',
+        name: '从合同之抵押合同',
+        component: _import('crt/con_grt/con_dy_list'),
+        meta: { title: '从合同之抵押合同', icon: 'manage' }
+      },
+      {
+        path: 'con_grt/con_zy_list',
+        name: '从合同之质押合同',
+        component: _import('crt/con_grt/con_zy_list'),
+        meta: { title: '从合同之质押合同', icon: 'manage' }
+      },
+      {
+        path: 'con_grt/con_bzr_list',
+        name: '从合同之保证合同',
+        component: _import('crt/con_grt/con_bzr_list'),
+        meta: { title: '从合同之保证合同', icon: 'manage' }
+      },
+      {
+        path: 'con_grt/con_bzj_list',
+        name: '从合同之关联保证金',
+        component: _import('crt/con_grt/con_bzj_list'),
+        meta: { title: '关联保证金', icon: 'manage' }
+      },
+      {
+        path: 'accountInfo/account_list',
+        name: '账户信息',
+        component: _import('crt/accountInfo/account_list'),
+        meta: { title: '账户信息', icon: 'manage' }
+      }
+    ]
+  },
+  { path: '*', redirect: '/404', hidden: true },
+
+]
 export default new Router({
   // mode: 'history', //后端支持可开 注意: 这个功能只在 HTML5 history 模式下可用。
   scrollBehavior: () => ({ y: 0 }),

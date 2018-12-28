@@ -9,12 +9,15 @@ package com.cdgit.loan.contract.query;
  */
 public class ConInfoHtXwQuery {
 
+	private String conStatus;					//合同状态	必须要（03或者05）
+	private String userId;						//经办人		必填
+	private String orgNum;						//经办机构	必填
 	private String partyName;
 	private String partyNum;
 	private String productType;
-	private String contractNum;				//根据合同编号查询详细的信息
+	private String contractNum;					//根据合同编号查询详细的信息
 	private String paperConNum;
-	private String oldContractNum;
+	private String oldContractNum;				//旧合同编号根据现合同id查询全部信息，里面有旧合同id，根据合同id查询合同编号
 	private String currencyCd;
 	private String contractAmt;
 	private String beginDate;
@@ -46,6 +49,33 @@ public class ConInfoHtXwQuery {
 	private String greenLoanUse;
 	private String greenRiskType;
 	private String greenRiskDetail;
+	private String oldContractId;				//旧合同id，如果存在就可以使用
+	
+	public String getOldContractId() {
+		return oldContractId;
+	}
+	public void setOldContractId(String oldContractId) {
+		this.oldContractId = oldContractId;
+	}
+	public String getConStatus() {
+		return conStatus;
+	}
+	public void setConStatus(String conStatus) {
+		this.conStatus = conStatus;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getOrgNum() {
+		return orgNum;
+	}
+	public void setOrgNum(String orgNum) {
+		this.orgNum = orgNum;
+	}
 	public String getPartyName() {
 		return partyName;
 	}
@@ -268,7 +298,22 @@ public class ConInfoHtXwQuery {
 	public void setGreenRiskDetail(String greenRiskDetail) {
 		this.greenRiskDetail = greenRiskDetail;
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "ConInfoHtXwQuery [conStatus=" + conStatus + ", userId=" + userId + ", orgNum=" + orgNum + ", partyName="
+				+ partyName + ", partyNum=" + partyNum + ", productType=" + productType + ", contractNum=" + contractNum
+				+ ", paperConNum=" + paperConNum + ", oldContractNum=" + oldContractNum + ", currencyCd=" + currencyCd
+				+ ", contractAmt=" + contractAmt + ", beginDate=" + beginDate + ", contractTerm=" + contractTerm
+				+ ", cycleUnit=" + cycleUnit + ", endDate=" + endDate + ", repaymentType=" + repaymentType
+				+ ", firstRepayTerm=" + firstRepayTerm + ", cycleIndCon=" + cycleIndCon + ", contractDate="
+				+ contractDate + ", contractAddress=" + contractAddress + ", specPaymentDate=" + specPaymentDate
+				+ ", internalDays=" + internalDays + ", loanUse=" + loanUse + ", guarantyType=" + guarantyType
+				+ ", mainGuarantyType=" + mainGuarantyType + ", loanTurn=" + loanTurn + ", riskInfo=" + riskInfo
+				+ ", act=" + act + ", serviceType=" + serviceType + ", reduceAmount=" + reduceAmount + ", ajustType="
+				+ ajustType + ", upgradeType=" + upgradeType + ", newProductType=" + newProductType
+				+ ", whetherArgRelated=" + whetherArgRelated + ", argType=" + argType + ", supArgType=" + supArgType
+				+ ", greenLoan=" + greenLoan + ", greenLoanUse=" + greenLoanUse + ", greenRiskType=" + greenRiskType
+				+ ", greenRiskDetail=" + greenRiskDetail + ", oldContractId=" + oldContractId + "]";
+	}
 
 }

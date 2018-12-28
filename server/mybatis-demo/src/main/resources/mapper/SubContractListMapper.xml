@@ -185,42 +185,33 @@
 
 			 and r.party_name like '%'||#{partyName}||'%'
 		</if>
+		
+		<!-- 一下的内容原来的sql语句没有，现在为了程序添加的 -->
+			 and r.user_num='200555'
+	 		 and r.org_num='0700'
   	
   	</sql>
 	<sql id="query_SubContractListVo">
 
-<!-- 原本的查询条件是根据subcontractType 来查询，现在该为subcontractTypeName   -->
-		<if test="subcontractTypeName !=null and subcontractTypeName !='' ">
-		<!-- and ta.subcontract_type =#{subcontractType} -->
-		
-			<if test="subcontractTypeName == '抵押'">   
-				and ta.subcontract_type ='01'
-			</if> 
-			<if test="subcontractTypeName == '质押'">   
-				and ta.subcontract_type ='02' 
-			</if> 
-			<if test="subcontractTypeName == '保证金'">   
-				and ta.subcontract_type ='03'
-			</if> 
-			
-			<if test="subcontractTypeName == '保证'">   
-				and ta.subcontract_type ='04' 
-			</if> 
-			
+	<!-- 
+		担保合同类型(XD_YWDB0131)
+	 -->
+		<if test="subcontractType !=null and subcontractType !='' ">
+			and ta.subcontract_type =#{subcontractType}	
 		</if>
 
 
-		<if test="subcontractNum !=null and subcontractNum !='' "><!-- 合同编号 -->
+		<if test="subcontractNum !=null and subcontractNum !='' "><!-- 担保合同号 -->
 			and ta.subcontract_Num like '%'||#{subcontractNum}||'%'
 		</if>
 		
 		
-		<if test="subcontractId !=null and subcontractId !='' ">
+		<if test="contractNum !=null and contractNum !='' ">
 		
 		and ta.SUBCONTRACT_ID in (
         	select t2.SUBCONTRACT_ID from tb_con_contract_info t1,tb_con_subcontract_rel t2 
-        	where t1.CONTRACT_ID=t2.CONTRACT_ID
-       		and t1.CONTRACT_NUM = #{subcontractId}
+        	where t1.CONTRACT_ID=t2.CONTRACT_ID  <!-- 贷款合同ID -->
+       		and t1.CONTRACT_NUM = #{contractNum}  <!-- 业务合同信息表合同编号 -->
         )
 		</if>
 		

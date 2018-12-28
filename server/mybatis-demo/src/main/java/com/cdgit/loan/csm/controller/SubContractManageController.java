@@ -40,21 +40,22 @@ public class SubContractManageController {
 			@RequestParam(value="pageNum",required=true) int pageNum, 
 			@RequestParam(value="pageSize",required=true) int pageSize,
 			
-			@RequestParam(value="subcontractTypeName",required=false)String subcontractTypeName,
-			@RequestParam(value="subcontractNum",required=false)String subcontractNum,
+			@RequestParam(value="subcontractType",required=false)String subcontractType,//担保合同类型(XD_YWDB0131)
+			@RequestParam(value="subcontractNum",required=false)String subcontractNum,//担保合同id
 			@RequestParam(value="partyId",required=false)String partyId,
-			@RequestParam(value="partyName",required=false)String partyName,
-			@RequestParam(value="subcontractId",required=false)String subcontractId){
+			@RequestParam(value="partyName",required=false)String partyName,//担保人名称
+			@RequestParam(value="contractNum",required=false)String contractNum//贷款合同ID
+			){
 		
 		Map map=new HashMap<String,Object>();
 		map.put("pageNum", pageNum);
 		map.put("pageSize", pageSize);
 		
-		map.put("subcontractTypeName", subcontractTypeName);
+		map.put("subcontractType", subcontractType);
 		map.put("subcontractNum", subcontractNum);
 		map.put("partyId", partyId);
 		map.put("partyName", partyName);
-		map.put("subcontractId", subcontractId);
+		map.put("contractNum", contractNum);
 	
 		PageInfo<CsmSubContractListVo> SubContractListVo = subContractManageServiceImpl.findSubContractList(map);
 		PageBean pageBean=new PageBean();

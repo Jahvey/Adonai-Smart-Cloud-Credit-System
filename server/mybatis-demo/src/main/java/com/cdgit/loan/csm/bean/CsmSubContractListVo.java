@@ -14,11 +14,11 @@ package com.cdgit.loan.csm.bean;
  */
 public class CsmSubContractListVo {
 	
-	private String subcontractId; 
+	private String subcontractId;           //担保合同ID
 	
-	private String partyId;
+	private String partyId;                 //
 	
-	private String subcontractType;
+	private String subcontractType;         //担保合同类型(XD_YWDB0131)
 	
 
 	private String subcontractNum;          //担保合同编号
@@ -40,6 +40,16 @@ public class CsmSubContractListVo {
 	private String userNum;                 //经办人
 	                                    
 	private String orgNum;                  //经办机构
+	
+	private String contractNum;             //业务合同信息表合同编号
+
+	public String getContractNum() {
+		return contractNum;
+	}
+
+	public void setContractNum(String contractNum) {
+		this.contractNum = contractNum;
+	}
 
 	public String getSubcontractNum() {
 		return subcontractNum;

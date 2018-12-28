@@ -18,18 +18,18 @@ public class TbConContractInfo {
 	private String currencyCd;					//币种
 	private BigDecimal contractAmt;				//合同金额
 	private String contractTerm;				//期限
-	private String cycleUnit;					//期限单位
+	private String cycleUnit;					//期限单位(:XD_GGCD6009)
 	private Date beginDate;						//开始时间（起始日）	TIMESTAMP(6)时间戳
 	private Date endDate;						//结束时间（到期日）
 	private Date contractDate;					//签约日期
 	private String loanUse;						//贷款用途
 	private String guarantyType;				//担保方式
-	private String loanTurn;					//行业投向？这个是啥？？？
+	private String loanTurn;					//行业投向(:CDXY0300)
 	private String userNum;						//经办人
 	private String orgNum;						//经办机构
 	private Date createTime;					//创建时间
 	private Date updateTime;					//更新时间
-	private String productType;					//业务品种
+	private String productType;					//业务品种(:tb_sys_product)
 	private String conStatus;					//合同状态(:XD_SXCD8003)
 	private String trusToPayFlg;				//受托支付标志
 	private String stopPayFlg;					//止付标志

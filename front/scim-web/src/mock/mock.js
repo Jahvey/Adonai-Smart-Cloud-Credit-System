@@ -22,6 +22,14 @@ export default {
       });
       console.log("用户大小:"+mockUsers.length);
 
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve([200, {
+            users: mockUsers
+          }]);
+        }, 1000);
+      });
+
       // var promise=new Promise((resolve, reject) => {
       //   resolve();
       // })

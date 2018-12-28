@@ -1,10 +1,11 @@
 const urlParam={
   state:{
-    targetUrl:'',
-    queryParam:{}
+    targetUrl:'',//目标url
+    queryParam:{},//查询参数传递
+    queryKey:["age","name"]//需要取值的key
   },
   mutations:{
-    getUrlParam(state,data){
+    getUrlParam(state,data) {
       console.log("urlParam值1:"+state.targetUrl);
       if(!data.targetUrl){
         console.log("urlParam值2:"+JSON.stringify(data)+"state.queryParam2:"+JSON.stringify(state.queryParam));

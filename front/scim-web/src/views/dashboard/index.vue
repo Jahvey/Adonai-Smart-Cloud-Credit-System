@@ -27,13 +27,13 @@
           </el-col>
 
           <el-col :span="12">
-            <el-form-item label="中文简称" prop="partyName">
-              <el-input v-model="cusInfo.chineseShortName"></el-input>
+            <el-form-item label="部门" prop="partyName">
+              <el-input v-model=cusInfo.dept></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
-            <el-form-item label="中文简称" prop="partyName">
+            <el-form-item label="中文简称1" prop="partyName">
               <el-input v-model="cusInfo.englishShortName"></el-input>
             </el-form-item>
           </el-col>
@@ -48,12 +48,19 @@
 
     <el-row align="middle" class="bottomBtn">
       <el-col align="center">
+        <el-button size="medium" type="primary" @click="change">保存1</el-button>
         <el-button size="medium" type="primary" @click="doSave">保存</el-button>
         <!--<el-button size="medium" type="primary" @click="doReset">重置</el-button>-->
         <el-button size="medium" type="primary" @click="doCancel">取消</el-button>
       </el-col>
     </el-row>
 
+
+    <el-row>
+      <el-col :span="12"><span>{{authorName}}</span></el-col>
+      <el-col :span="12"><span>{{dept}}</span></el-col>
+
+    </el-row>
 
   </div>
   <!--<div class="dashboard-text">role:<span v-for='role in roles' :key='role'>{{role}}</span></div>-->
@@ -105,7 +112,7 @@
         //   alert("111222:"+error);
         // });
       let queryParams={partyId:"5AF8119026E0FABDE05010AC57DD79A2"};
-      alert("页面复制:"+queryParams.partyId);
+      // alert("页面复制:"+queryParams.partyId);
         getTbCsmPartyInfoById({partyId:"5AF8119026E0FABDE05010AC57DD79A2"}).then(response => {
           // alert("具体值2:"+response);
           // alert(''.concat(response.data, '\r\n', response.status, '\r\n', response.statusText, '\r\n', response.headers, '\r\n', response.config));
@@ -127,11 +134,32 @@
           })
           this.$router.back()
         })
+      },
+      change(targetName){
+        console.log("原始页面值:"+targetName.dept);
+        this.$store.commit('newDept', {
+          dept: targetName.dept
+        });
       }
     },
     mounted: function(){
       this.cusInfo={};
         this.getTbCsmPartyInfo();
+    },
+    computed:{
+      authorName(){
+        return this.$store.state.indexStore.authorName;
+      },
+      age:{
+        get(){
+          return this.$store.state.indexStore.age;
+        }
+      },
+      dept:{
+        get(){
+          return this.$store.state.indexStore.dept;
+        }
+      }
     }
   }
 </script>

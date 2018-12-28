@@ -15,9 +15,9 @@ public class PrintConsVo {
 	                                      
 	private String partyName;               //借款/担保人
 	                                      
-	private String conTypeCn;               //合同类型
-	                                       
-	private String productType;             //业务品种
+	private String conTypeCn;               //担保合同类型(XD_YWDB0131) subcontract_type tb_con_subcontract
+	                                        //借据调整类型(:XD_DHBG0001)
+	private String productType;             //  业务品种
 	                                      
 	private String contractAmt;             //合同金额
 	                                      

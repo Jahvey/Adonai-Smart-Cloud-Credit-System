@@ -3,6 +3,8 @@ package com.cdgit.loan.contract.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,8 @@ import com.github.pagehelper.PageInfo;
 @RestController
 @RequestMapping("/conContractInfo")
 public class ConContractInfoController {
+	
+	private static final Log log =  LogFactory.getLog(ConContractInfoController.class);
 
 	@Autowired
 	ConContractInfoServiceImpl conContractInfoServiceImpl;
@@ -38,10 +42,10 @@ public class ConContractInfoController {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/queryConApvList")
-	public PageBean queryConApvList(@RequestParam(value="pageJump",required=true) int pageNum, 
-			@RequestParam(value="recInPage",required=true) int pageSize,
+	public PageBean queryConApvList(@RequestParam(value="pageNum",required=true) int pageNum, 
+			@RequestParam(value="pageSize",required=true) int pageSize,
 			@RequestParam(value="partyName",required=false)String partyName,
-			@RequestParam(value="status",required=false)String status,
+			@RequestParam(value="conStatus",required=false)String conStatus,
 			@RequestParam(value="contractNum",required=false)String contractNum,
 			@RequestParam(value="certType",required=false)String certType,
 			@RequestParam(value="certNum",required=false)String certNum,
@@ -50,7 +54,7 @@ public class ConContractInfoController {
 		map.put("pageNum", pageNum);
 		map.put("pageSize", pageSize);
 		map.put("partyName", partyName);
-		map.put("status", status);
+		map.put("conStatus", conStatus);
 		map.put("contractNum", contractNum);
 		map.put("certType", certType);
 		map.put("certNum", certNum);
@@ -72,12 +76,30 @@ public class ConContractInfoController {
 	
 	/**
 	 * 根据合同编号查询详细信息
+	 * 除了合同号之外，前台必须传递：
+	 * 	经办人userId（对应合同表TB_CON_CONTRACT_INFO字段USER_NUM）	必填，先在sql写死
+	 * 	经办机构orgNum（对应合同表TB_CON_CONTRACT_INFO字段ORG_NUM）	必填，先在sql写死
+	 * 	合同状态conStatus（对应合同表TB_CON_CONTRACT_INFO字段CON_STATUS，默认03已生效）
 	 * @param contractNum
 	 * @return
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping("/getConInfoByContractNum")
-	public ConInfoHtXwQuery getConInfoByContractNum(@RequestParam(value="contractNum",required=true)String contractNum){
-		return conContractInfoServiceImpl.getConInfoByContractNum(contractNum);
+	public ConInfoHtXwQuery getConInfoByContractNum(@RequestParam(value="contractNum",required=true)String contractNum,
+			@RequestParam(value="conStatus",required=true)String conStatus,
+			@RequestParam(value="userId",required=false)String userId,
+			@RequestParam(value="orgNum",required=false)String orgNum){
+		Map map=new HashMap<String,Object>();
+		map.put("contractNum", contractNum);
+		map.put("conStatus", conStatus);
+		map.put("userId", userId);
+		map.put("orgNum", orgNum);
+//		for (int i = 0; i < 20; i++) {
+//			log.debug("my conStatus........................"+conStatus);
+//		}
+//		
+		
+		return conContractInfoServiceImpl.getConInfoByContractNum(map);
 	}
 	
 }

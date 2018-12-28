@@ -13,6 +13,8 @@ package com.cdgit.loan.csm.bean;
  */
 public class ApproveConsVo {
 	
+	private String conStatus;       //合同状态(:XD_SXCD8003)  
+	
 	private String bizType;         //
 	                               
 	private String productType;     //业务品种(:tb_sys_product)
@@ -38,6 +40,14 @@ public class ApproveConsVo {
 	private String beginDate;       //
 	                               
 	private String endDate;         //
+	
+	public String getConStatus() {
+		return conStatus;
+	}
+
+	public void setConStatus(String conStatus) {
+		this.conStatus = conStatus;
+	}
 
 	public String getBizType() {
 		return bizType;

@@ -51,7 +51,7 @@ public class ConContractInfoServiceImpl {
 		//查询条件
 		map.put("userId", conApvListQuery.getUserId());
 		map.put("orgNum", conApvListQuery.getOrgNum());
-		map.put("status", conApvListQuery.getStatus());
+		map.put("conStatus", conApvListQuery.getConStatus());
 		map.put("partyName", conApvListQuery.getPartyName());
 		map.put("contractNum", conApvListQuery.getContractNum());
 		map.put("certType", conApvListQuery.getCertType());
@@ -63,13 +63,22 @@ public class ConContractInfoServiceImpl {
 	}
 	
 	/**
-	 * 根据合同编号查询一条详细信息，不需要分页
+	 * 根据合同编号查询一条详细信息，不需要分页，如果存在原合同，那么会查询2条合同，我们应该
+	 * 只返回一条数据，这里返回新的合同
 	 * @param contractNum
 	 * @return
 	 */
-	public ConInfoHtXwQuery getConInfoByContractNum(String contractNum){
+	public ConInfoHtXwQuery getConInfoByContractNum(Map map){
 		
-		return conContractInfoMapper.getConInfoByContractNum(contractNum);
+//		return conContractInfoMapper.getConInfoByContractNum(map);
+		ConInfoHtXwQuery conInfoByContractNum = conContractInfoMapper.getConInfoByContractNum(map);
+		//如果这条信息里面有旧合同，那么需要展示这条信息的旧合同编号
+		if(null !=conInfoByContractNum.getOldContractId()){
+			String oldContractNum = conContractInfoMapper.getOldContractNum(conInfoByContractNum.getOldContractId());
+			conInfoByContractNum.setOldContractNum(oldContractNum);
+			return conInfoByContractNum;
+		}
+		return conInfoByContractNum;
 	}
 	
 }

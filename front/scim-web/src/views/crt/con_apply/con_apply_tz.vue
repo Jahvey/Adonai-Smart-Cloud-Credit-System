@@ -16,7 +16,7 @@
 
 <script>
   import CscSingleTable from '@/components/CscSingleTable/CscSingleTable'
-  import { getApproveCons } from '@/api/contract'// 正常往后台发送异步请求的类
+  import { getApproveCons } from '@/api/csm'// 正常往后台发送异步请求的类
 
 
   // 合同模块也是需要引入用户的，以后需要根据用户查询对应的合同（高级查询）
@@ -24,6 +24,7 @@
   export default {
     data() {
       return {
+        //conStatus:'03',
         listLoading: false,
         entity: {// 这个就相当于一个form表单，在这里定义之后可以直接在上面去使用 entity.属性名
 
@@ -34,20 +35,24 @@
             columnNum: 2, // 一行几列
             queryCols: [
               { label: '主合同编号', inputType: 'input', modelName: 'contractNum' },
+             // { label: '合同状态', inputType: 'hidden',modelName:'conStatus',inputValue:'03'},
 
             ]
           },
           tabDef: {
+      
             isSelect: false, // 是否可以多选
             isIndex: true, // 是否有序号
             // 表格字段定义
             tabCols: [
+               //合同性质 dictTypeId="XD_BIZ0003"
+              
+              { label: '合同性质', prop: 'creditMode', isSort: true,isFormat:true,enumType:'creditMode' },
+              { label: '合同编号', prop: 'contractNum', isSort: true,isLink: true,url:'/crt/con_info/con_info_ht_xw',param:["contractNum","conStatus"]  },
+              { label: '合同品种', prop: 'productType', isSort: true,isFormat:true,enumType:'productType' },
+              { label: '币种', prop: 'currencyCd', isSort: true ,isFormat:true,enumType:'currencyCd'},
+              { label: '合同金额', prop: 'contractAmt', isSort: true },
 
-              { label: '合同性质', prop: 'creditMode', isSort: true,isParam: true },
-              { label: '合同编号', prop: 'contractNum', isSort: true, isLink: true,url: '/crt/con_apply/con_apply_print' },
-              { label: '合同品种', prop: 'productType', isSort: true ,isParam: true},
-              { label: '币种', prop: 'currencyCd', isSort: true },
-              { label: '合同金额', prop: 'contractAmt', isSort: true,isParam: true },
               { label: '可用金额(元)', prop: 'conBalance', isSort: true },
               { label: '合同起期', prop: 'beginDate', isSort: true },
               { label: '合同止期', prop: 'endDate', isSort: true }

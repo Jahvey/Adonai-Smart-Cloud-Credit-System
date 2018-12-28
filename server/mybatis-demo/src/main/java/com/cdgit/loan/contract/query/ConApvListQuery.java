@@ -11,7 +11,7 @@ public class ConApvListQuery {
 	private Integer pageSize;		//每页条数
 	private String userId;
 	private String orgNum;
-	private String status;			//合同状态
+	private String conStatus;			//合同状态
 	private String partyName;		//客户名称
 	private String contractNum;		//合同编号
 	private String certType;		//证件类型
@@ -41,11 +41,12 @@ public class ConApvListQuery {
 	public void setOrgNum(String orgNum) {
 		this.orgNum = orgNum;
 	}
-	public String getStatus() {
-		return status;
+
+	public String getConStatus() {
+		return conStatus;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setConStatus(String conStatus) {
+		this.conStatus = conStatus;
 	}
 	public String getPartyName() {
 		return partyName;
