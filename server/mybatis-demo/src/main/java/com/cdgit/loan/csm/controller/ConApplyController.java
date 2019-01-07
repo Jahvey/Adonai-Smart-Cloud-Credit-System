@@ -70,6 +70,7 @@ public class ConApplyController {
 	public PageBean getApproveCons(
 			@RequestParam(value="pageNum",required=true) int pageNum, 
 			@RequestParam(value="pageSize",required=true) int pageSize,
+			
 			@RequestParam(value="conStatus",required=false)String conStatus,
 			@RequestParam(value="userNum",required=false)String userNum,
 			@RequestParam(value="partyId",required=false)String partyId,
@@ -78,6 +79,7 @@ public class ConApplyController {
 		Map map=new HashMap<String,Object>();
 		map.put("pageNum", pageNum);
 		map.put("pageSize", pageSize);
+		
 		map.put("userNum", userNum);
 		map.put("partyId", partyId);
 		map.put("contractNum", contractNum);

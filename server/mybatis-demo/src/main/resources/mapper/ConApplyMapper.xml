@@ -4,7 +4,7 @@
 <mapper namespace="com.cdgit.loan.csm.mapper.ConApplyMapper">
 
   <resultMap id="ApproveConsVo" type="com.cdgit.loan.csm.bean.ApproveConsVo">
-	
+	<result  column="CON_STATUS" javaType="String" property="conStatus"/>
   	 <result column="BIZ_TYPE" javaType="String" property="bizType" />
   	<result column="PRODUCT_TYPE" javaType="String" property="productType" />
   	<result column="APPLY_ID" javaType="String" property="applyId" />
@@ -178,6 +178,7 @@ SELECT * FROM (
   <select id="getApproveCons" parameterType="java.util.HashMap" resultMap="ApproveConsVo">
 
 	select '业务合同' biz_type,
+					t.CON_STATUS,
 				 	 t.product_type,
 				 	 '' apply_id,
 				 	 t.amount_detail_id,
@@ -252,10 +253,11 @@ AND tb.PARTY_ID = #{partyId}
 	</sql>
 	<sql id="query_ApproveConsVo">
 	
-		<if test="userNum !=null and userNum !='' ">
+		<!-- <if test="userNum !=null and userNum !='' "> -->
 		
-			and t.user_num= #{userNum}
-		</if>
+			and t.user_num= '200555'
+			and t.org_num = '0700'
+		<!-- </if> -->
 		<if test="partyId !=null and partyId !='' ">
 			and t.PARTY_ID =#{partyId}
 		</if>

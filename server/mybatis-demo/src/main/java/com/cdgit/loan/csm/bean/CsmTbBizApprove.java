@@ -1,96 +1,117 @@
 package com.cdgit.loan.csm.bean;
 
-import java.math.BigDecimal;
-import java.util.Date;
+
 
 public class CsmTbBizApprove {
-    private String approveId;
+    private String approveId;          //
+                                  
+    private String bizNum;             //
+                                 
+    private String bizType;            //
+                                  
+    private String lowRiskBizType;     //
+                                 
+    private String applyModeType;      //
+                                  
+    private String bizHappenType;      //
+                                 
+    private String orgNum;             //
+                                 
+    private String userNum;            //
+                                  
+    private String partyId;            //
+                                  
+    private String businessProduct;    //
+                                    
+    private String productType;        //
+                                 
+    private String applyDate;          //
+                                 
+    private String handingDate;          //
+                                 
+    private String amountType;         //
+                                
+    private String createTime;           //
+                              
+    private String updateTime;           //
+                                 
+    private String csmCrdLevel;        //
+                                 
+    private String approvalNum;        //
+                                   
+    private String becomeEffectiveMark;//
+                                 
+    private String originalApproveId;  //
+                                 
+    private String isBankTeamLoan;     //
+                                   
+    private String loanInspectionFre; //
+                                   
+    private String policyDecisionIdea; //
+                                
+    private String validDate;            //
+                                   
+    private String policyDecisionNum;  //
+                                    
+    private String applyTypeMark;      //
+                                   
+    private String approveConclusion;  //
+                                
+    private String endOrgNum;          //
+                                   
+    private String endDate;              //
+                                  
+    private String ifDataMove;         //
+                                   
+    private String applyId;            //
+                                  
+    private String bizHappenNature;    //
+                                    
+    private String isGreenLoan;        //
+                                    
+    private String loanType;           //
+                                    
+    private String bizTypeFlag;        //
+                                    
+    private String guarantyType;       //
+                                   
+    private String termNum;            //
+                                    
+    private String termUnit;           //
+                                  
+    private String rmbAmt;             //
+                                    
+    private String boUse;          //
+                                   
+    private String noUse;          //
+                                    
+    private String crdId;              //
+                                     
+    private String creditMode;         //
+    							  
+    private String busiPartner;        //对私 二手房按揭、汽车消费贷款、公积金贷款显示是否有按揭合作商字段
+                                   
+    private String whetherBzxzfdk;     //住房贷款显示是否购买个人保障性住房
+    
 
-    private String bizNum;
 
-    private String bizType;
+	public String getBusiPartner() {
+		return busiPartner;
+	}
 
-    private String lowRiskBizType;
+	public void setBusiPartner(String busiPartner) {
+		this.busiPartner = busiPartner;
+	}
 
-    private String applyModeType;
+	public String getWhetherBzxzfdk() {
+		return whetherBzxzfdk;
+	}
 
-    private String bizHappenType;
+	public void setWhetherBzxzfdk(String whetherBzxzfdk) {
+		this.whetherBzxzfdk = whetherBzxzfdk;
+	}
 
-    private String orgNum;
-
-    private String userNum;
-
-    private String partyId;
-
-    private String businessProduct;
-
-    private String productType;
-
-    private Date applyDate;
-
-    private Date handingDate;
-
-    private String amountType;
-
-    private Date createTime;
-
-    private Date updateTime;
-
-    private String csmCrdLevel;
-
-    private String approvalNum;
-
-    private String becomeEffectiveMark;
-
-    private String originalApproveId;
-
-    private String isBankTeamLoan;
-
-    private Integer loanInspectionFre;
-
-    private String policyDecisionIdea;
-
-    private Date validDate;
-
-    private String policyDecisionNum;
-
-    private String applyTypeMark;
-
-    private String approveConclusion;
-
-    private String endOrgNum;
-
-    private Date endDate;
-
-    private String ifDataMove;
-
-    private String applyId;
-
-    private String bizHappenNature;
-
-    private String isGreenLoan;
-
-    private String loanType;
-
-    private String bizTypeFlag;
-
-    private String guarantyType;
-
-    private Integer termNum;
-
-    private String termUnit;
-
-    private BigDecimal rmbAmt;
-
-    private BigDecimal boUse;
-
-    private BigDecimal noUse;
-
-    private String crdId;
-
-    private String creditMode;
-
-    public String getApproveId() {
+	public String getApproveId() {
         return approveId;
     }
 
@@ -178,21 +199,7 @@ public class CsmTbBizApprove {
         this.productType = productType == null ? null : productType.trim();
     }
 
-    public Date getApplyDate() {
-        return applyDate;
-    }
 
-    public void setApplyDate(Date applyDate) {
-        this.applyDate = applyDate;
-    }
-
-    public Date getHandingDate() {
-        return handingDate;
-    }
-
-    public void setHandingDate(Date handingDate) {
-        this.handingDate = handingDate;
-    }
 
     public String getAmountType() {
         return amountType;
@@ -202,21 +209,7 @@ public class CsmTbBizApprove {
         this.amountType = amountType == null ? null : amountType.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getCsmCrdLevel() {
         return csmCrdLevel;
@@ -258,13 +251,7 @@ public class CsmTbBizApprove {
         this.isBankTeamLoan = isBankTeamLoan == null ? null : isBankTeamLoan.trim();
     }
 
-    public Integer getLoanInspectionFre() {
-        return loanInspectionFre;
-    }
 
-    public void setLoanInspectionFre(Integer loanInspectionFre) {
-        this.loanInspectionFre = loanInspectionFre;
-    }
 
     public String getPolicyDecisionIdea() {
         return policyDecisionIdea;
@@ -274,13 +261,7 @@ public class CsmTbBizApprove {
         this.policyDecisionIdea = policyDecisionIdea == null ? null : policyDecisionIdea.trim();
     }
 
-    public Date getValidDate() {
-        return validDate;
-    }
 
-    public void setValidDate(Date validDate) {
-        this.validDate = validDate;
-    }
 
     public String getPolicyDecisionNum() {
         return policyDecisionNum;
@@ -314,13 +295,7 @@ public class CsmTbBizApprove {
         this.endOrgNum = endOrgNum == null ? null : endOrgNum.trim();
     }
 
-    public Date getEndDate() {
-        return endDate;
-    }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
 
     public String getIfDataMove() {
         return ifDataMove;
@@ -378,13 +353,7 @@ public class CsmTbBizApprove {
         this.guarantyType = guarantyType == null ? null : guarantyType.trim();
     }
 
-    public Integer getTermNum() {
-        return termNum;
-    }
 
-    public void setTermNum(Integer termNum) {
-        this.termNum = termNum;
-    }
 
     public String getTermUnit() {
         return termUnit;
@@ -394,29 +363,33 @@ public class CsmTbBizApprove {
         this.termUnit = termUnit == null ? null : termUnit.trim();
     }
 
-    public BigDecimal getRmbAmt() {
-        return rmbAmt;
-    }
 
-    public void setRmbAmt(BigDecimal rmbAmt) {
-        this.rmbAmt = rmbAmt;
-    }
 
-    public BigDecimal getBoUse() {
-        return boUse;
-    }
+    public String getApplyDate() {
+		return applyDate;
+	}
 
-    public void setBoUse(BigDecimal boUse) {
-        this.boUse = boUse;
-    }
+	public void setApplyDate(String applyDate) {
+		this.applyDate = applyDate;
+	}
 
-    public BigDecimal getNoUse() {
-        return noUse;
-    }
+	public String getTermNum() {
+		return termNum;
+	}
 
-    public void setNoUse(BigDecimal noUse) {
-        this.noUse = noUse;
-    }
+	public void setTermNum(String termNum) {
+		this.termNum = termNum;
+	}
+
+	public String getRmbAmt() {
+		return rmbAmt;
+	}
+
+	public void setRmbAmt(String rmbAmt) {
+		this.rmbAmt = rmbAmt;
+	}
+
+
 
     public String getCrdId() {
         return crdId;
@@ -433,4 +406,70 @@ public class CsmTbBizApprove {
     public void setCreditMode(String creditMode) {
         this.creditMode = creditMode == null ? null : creditMode.trim();
     }
+
+	public String getHandingDate() {
+		return handingDate;
+	}
+
+	public void setHandingDate(String handingDate) {
+		this.handingDate = handingDate;
+	}
+
+	public String getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getLoanInspectionFre() {
+		return loanInspectionFre;
+	}
+
+	public void setLoanInspectionFre(String loanInspectionFre) {
+		this.loanInspectionFre = loanInspectionFre;
+	}
+
+	public String getValidDate() {
+		return validDate;
+	}
+
+	public void setValidDate(String validDate) {
+		this.validDate = validDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getBoUse() {
+		return boUse;
+	}
+
+	public void setBoUse(String boUse) {
+		this.boUse = boUse;
+	}
+
+	public String getNoUse() {
+		return noUse;
+	}
+
+	public void setNoUse(String noUse) {
+		this.noUse = noUse;
+	}
+    
+    
 }

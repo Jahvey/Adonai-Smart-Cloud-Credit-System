@@ -28,7 +28,7 @@
   
 
   
-  
+
   <!--客户业务列表-->
     <select id="getBizList" parameterType="java.util.HashMap" resultMap="CsmBizListVo">
 	    	SELECT P.PARTY_NUM,P.PARTY_NAME,T.* FROM (
@@ -64,7 +64,6 @@
 
   </select>
   
-  
 
   
 	<sql id="query_getBizList">
@@ -72,6 +71,9 @@
 		<if test="partyId !=null and partyId !='' ">
 			 AND a.PARTY_ID = #{partyId}
 		</if>
+		<!-- 为了测试使用写死的 -->
+		and   A.USER_NUM='200555'
+        and A.ORG_NUM='0700'
 
 
 	</sql>
