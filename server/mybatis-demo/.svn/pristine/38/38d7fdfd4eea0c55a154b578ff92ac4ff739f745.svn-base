@@ -1,0 +1,35 @@
+package com.cdgit.loan.csm.mapper;
+
+
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.cdgit.loan.csm.po.TbConAttachedInfoPo;
+import com.cdgit.loan.csm.po.TbConSubcontractPo;
+import com.cdgit.loan.csm.po.TbConSubcontractRelPo;
+import com.cdgit.loan.csm.po.TbConZhPo;
+
+@Mapper
+public interface CsmTzContractInfoVoMapper {
+	
+	
+	//账户信息
+	List<TbConZhPo> queryListCsmTbConZhInfo(String contractId);
+	
+	// 附属信息
+	TbConAttachedInfoPo queryCsmTbConAttachedInfoPo(String contractId);
+	
+	
+	//担保合同信息
+	List<TbConSubcontractRelPo> queryListCsmTbConSubcontractRelPo(Map map);
+	
+	
+	TbConSubcontractPo queryCsmTbConSubcontractPo(String subcontractId);
+	
+	
+	
+	
+}

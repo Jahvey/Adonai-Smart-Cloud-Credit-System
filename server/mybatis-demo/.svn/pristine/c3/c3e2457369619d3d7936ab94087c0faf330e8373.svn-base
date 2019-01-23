@@ -1,0 +1,162 @@
+package com.cdgit.loan.securitymanagement.service;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cdgit.loan.csm.common.Constant;
+import com.cdgit.loan.securitymanagement.bean.GrtBuildingProject;
+import com.cdgit.loan.securitymanagement.bean.GrtCollateral;
+import com.cdgit.loan.securitymanagement.bean.GrtDeposit;
+import com.cdgit.loan.securitymanagement.bean.GrtIntangibleAssets;
+import com.cdgit.loan.securitymanagement.bean.GrtRealEstateMortgage;
+import com.cdgit.loan.securitymanagerment.mapper.GrtBuildingProjectMapper;
+import com.cdgit.loan.securitymanagerment.mapper.GrtCollateralMapper;
+import com.cdgit.loan.securitymanagerment.mapper.GrtDepositMapper;
+import com.cdgit.loan.securitymanagerment.mapper.GrtIntangibleAssetsMapper;
+import com.cdgit.loan.securitymanagerment.mapper.GrtRealEstateMortgageMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+@Service
+@org.springframework.transaction.annotation.Transactional
+public class GrtCollateralServiceImpl {
+	@Autowired
+    private GrtCollateralMapper grtCollateralMapper;
+	@Autowired
+    private GrtDepositMapper grtDepositMapper;
+	@Autowired
+    private GrtIntangibleAssetsMapper grtIntangibleAssetsMapper;
+	private GrtRealEstateMortgageMapper grtRealEstateMortgageMapper;
+	private GrtBuildingProjectMapper grtBuildingProjectMapper;
+	public Map<String, Object> saveGrtCollateral(GrtCollateral grtCollateral) throws JsonProcessingException{
+		Map<String, Object> map = new HashMap<>();
+		int i = grtCollateralMapper.insertSelective(grtCollateral);
+		if(i>0){
+			//根据类型插入
+			if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_FDC)){//房地产
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_ZJGC)){//在建工程
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_TDCBJYQ)){//土地承包经营权
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_TDSYQ)){//土地使用权
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_CB)){//船舶
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_LQ)){//林权
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_CH)){//存货
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_ZSCQ)){//知识产权
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_YSZK)){//应收账款
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_JJ)){//基金
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_GQ)){//股权
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_CD)){//存单
+				//插入无形资产表
+				GrtIntangibleAssets grtIntangibleAssets = new GrtIntangibleAssets();
+				grtIntangibleAssets.setGuarantyId(grtCollateral.getGuarantyId());
+				i = grtIntangibleAssetsMapper.insertSelective(grtIntangibleAssets);
+				if(i>0){
+					GrtDeposit grtDeposit = new GrtDeposit();
+					grtDeposit.setGuarantyId(grtCollateral.getGuarantyId());
+					i = grtDepositMapper.insertSelective(grtDeposit);
+					if(i>0){
+						
+					} else{
+						map.put("flag", "false");
+						map.put("message", "操作失败!");
+						throw new RuntimeException();
+					}
+				} else{
+					map.put("flag", "false");
+					map.put("message", "操作失败!");
+					throw new RuntimeException();
+				}
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_GZZH)){//工资账户
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_ZJ)){//债券
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_SFQ)){//收费权
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_PJ)){//票据
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_CANGD)){//仓单
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_BD)){//保单
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_JQSB)){//机器设备
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_JTYSGJ)){//交通运输工具
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_JDC)){//机动车
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_NJJ)){//农机具
+				
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_QT)){//其他
+				
+			}
+			map.put("grtCollateral", grtCollateral);
+			map.put("flag", "true");
+			map.put("message", "操作成功!");
+		} else{
+			map.put("flag", "false");
+			map.put("message", "操作失败!");
+			throw new RuntimeException();
+		}
+		return map;
+	}
+	public Map<String, Object> updateGrtDepositAndGrtCollateral(GrtCollateral grtCollateral, GrtDeposit grtDeposit) {
+		Map<String, Object> map = new HashMap<>();
+		int i = grtCollateralMapper.updateByPrimaryKeySelective(grtCollateral);
+		if(i>0){
+			i = grtDepositMapper.updateByPrimaryKeySelective(grtDeposit);
+			if(i>0){
+				map.put("flag", "true");
+				map.put("message", "操作成功!");
+			} else{
+				map.put("flag", "false");
+				map.put("message", "操作失败!");
+				throw new RuntimeException();
+			}
+		}else{
+			map.put("flag", "false");
+			map.put("message", "操作失败!");
+			throw new RuntimeException();
+		}
+		return map;
+	}
+	public Map<String, Object> updateBuildingProjectAndGrtCollateral(GrtCollateral grtCollateral,
+			GrtRealEstateMortgage grtRealEstateMortgage, GrtBuildingProject grtBuildingProject) {
+		Map<String, Object> map = new HashMap<>();
+		int i = grtCollateralMapper.updateByPrimaryKeySelective(grtCollateral);
+		if(i>0){
+			i = grtRealEstateMortgageMapper.insertSelective(grtRealEstateMortgage);
+			if(i>0){
+				i = grtBuildingProjectMapper.insertSelective(grtBuildingProject);
+				if(i>0){
+					map.put("flag", "true");
+					map.put("message", "操作成功!");
+				} else{
+					map.put("flag", "false");
+					map.put("message", "操作失败!");
+					throw new RuntimeException("保存在建工程表发生异常");
+				}
+			} else{
+				map.put("flag", "false");
+				map.put("message", "操作失败!");
+				throw new RuntimeException("保存房产类型抵押表发生异常");
+			}
+		} else{
+			map.put("flag", "false");
+			map.put("message", "操作失败!");
+			throw new RuntimeException("更新抵质押物表发生异常");
+		}
+		return map;
+	}
+}

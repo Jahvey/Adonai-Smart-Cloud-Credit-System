@@ -1,0 +1,36 @@
+/**
+ * 
+ */
+package com.cdgit.loan.csm.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cdgit.loan.csm.mapper.CsmTzContractInfoVoMapper;
+import com.cdgit.loan.csm.po.TbConSubcontractRelPo;
+
+/**
+ * @author cwalk
+ *
+ */
+@Service
+@Transactional
+public class CsmTzContractInfoVoServiceImpl {
+	
+	@Autowired
+	CsmTzContractInfoVoMapper csmTzContractInfoVoMapper;
+
+	
+	//查询担保合同
+	public List<TbConSubcontractRelPo> queryListCsmTbConSubcontractRelPo(Map map) {
+		// 引入配置的分页插件，当前页和每页条数
+		List<TbConSubcontractRelPo> TbConSubcontractRelPo = csmTzContractInfoVoMapper.queryListCsmTbConSubcontractRelPo(map);
+
+		return TbConSubcontractRelPo;
+	}
+	
+}

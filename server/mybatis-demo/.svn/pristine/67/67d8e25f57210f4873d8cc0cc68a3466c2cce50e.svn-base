@@ -1,0 +1,112 @@
+package com.cdgit.loan.contract.service;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cdgit.loan.contract.bean.CrtTbConGjxyzkz;
+import com.cdgit.loan.contract.bean.CrtTbConJkbh;
+import com.cdgit.loan.contract.bean.CrtTbLoanInfo;
+import com.cdgit.loan.contract.bean.TbConContractInfo;
+import com.cdgit.loan.contract.mapper.CrtTbLoanInfoMapper;
+import com.cdgit.loan.contract.mapper.CrtTbLoanSummaryMapper;
+import com.cdgit.loan.contract.mapper.TbConContractInfoMapper;
+
+@Service
+@org.springframework.transaction.annotation.Transactional
+public class CrtLoanInfoServiceImpl {
+
+	@Autowired CrtTbLoanInfoMapper	loanInfoMapper;		//放款
+	
+	@Autowired CrtTbLoanSummaryMapper loanSummaryMapper;	//借据信息
+	
+	@Autowired TbConContractInfoMapper contractInfoMapper;	//合同
+	
+	@Autowired CrtGitUtilServiceImpl crtGitUtilService;	//公共的一些方法
+	
+	@Autowired CrtTbConJkbhServiceImpl conJkbhService;	//国际保函(22-进口保函批复)
+	
+	@Autowired CrtTbConGjxyzkzServiceImpl conGjxyzkzService;	//国际信用证开证
+	
+	//根据放款id（主键）查询一条放款信息
+	public CrtTbLoanInfo selectByPrimaryKey(String loanId){
+		return loanInfoMapper.selectLoanInfoByloanId(loanId);
+	}
+	
+	/**
+	 * 创建放款信息	
+	 * 	orgNum先写死，写死成0700
+	 * 	userNum	写死	200555
+	 * @param contractId
+	 * @param flag
+	 * @param orgNum
+	 */
+	public void createLoanInfo(String contractId,String flag,String orgNum,String userNum){
+		TbConContractInfo contractInfo = contractInfoMapper.queryOneConContractInfoByContractId(contractId);
+		String partyId = contractInfo.getPartyId();
+		String productType = contractInfo.getProductType();
+		String amountDetailId = contractInfo.getAmountDetailId();
+		String seqNo;
+		CrtTbLoanInfo loanInfo = new CrtTbLoanInfo();
+		//获取 放款/借据 编号
+		if("01008001".equals(productType) || "01008010".equals(productType) ||	"01008002".equals(productType) ||	//放款信息
+			"01006001".equals(productType) || "01006010".equals(productType) ||"01006002".equals(productType)){
+			seqNo = crtGitUtilService.getSeqNo("FK", orgNum);
+		}else{	//借据信息
+			seqNo = crtGitUtilService.getSeqNo("JJ", orgNum);
+		}
+		
+		String busiDate = crtGitUtilService.getBusiDate(); 	//获取营业时间
+		
+		if("01007014".equals(productType)){		//国际保函
+			CrtTbConJkbh crtTbConJkbh = conJkbhService.getOneCrtTbConJkbhByContractInfo(contractId, amountDetailId);
+			loanInfo.setEndDate(crtTbConJkbh.getDqrq());
+		}
+		if("01007013".equals(productType)){	//信用证开证
+			CrtTbConGjxyzkz crtTbConGjxyzkz = conGjxyzkzService.getOneCrtTbConGjxyzkzByContractInfo(contractId, amountDetailId);
+			loanInfo.setEndDate(crtTbConGjxyzkz.getDqrq());
+		}
+		
+		loanInfo.setLoanId(getUUID());
+		loanInfo.setContractId(contractId);
+		loanInfo.setPartyId(partyId);
+		loanInfo.setUserNum(userNum);
+		loanInfo.setOrgNum(orgNum);
+		loanInfo.setLoanStatus("01");
+		loanInfo.setLoanNum(seqNo);
+		loanInfo.setSummaryNum(seqNo);
+		try {
+			loanInfo.setCreateTime(new SimpleDateFormat("yyyy-MM-dd").parse(busiDate));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		loanInfo.setProductType(productType);
+		loanInfo.setRcnStan("生成的流水号，怎么来的？？");
+		if(flag.equals("1231")){
+			loanInfo.setCounterFlg("1231");
+		}
+		
+		loanInfoMapper.insertLoanInfoSelective(loanInfo);
+		//-------------------------------------华丽的分割线，插入票据信息---------------------------------------------------
+		if("01008001".equals(productType) || "01008010".equals(productType) ||
+		   "01008002".equals(productType) || "01006001".equals(productType) ||
+		   "01006010".equals(productType) || "01006002".equals(productType)){
+			
+		}
+	}
+	
+	
+	
+	//随机生成主键
+	public String getUUID() {
+		UUID uuid = UUID.randomUUID();
+		String str = uuid.toString();
+		String id = str.substring(0, 8) +str.substring(9, 13) + str.substring(14, 18) + str.substring(19, 23) +str.substring(24); 
+		System.err.println(id);
+		return id;
+	}
+	
+}

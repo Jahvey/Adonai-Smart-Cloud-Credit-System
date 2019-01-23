@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//com.order.test.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdgit.loan.csm.mapper.CsmTzContractInfoVoMapper">
+
+  <resultMap id="TbConZhPo" type="com.cdgit.loan.csm.po.TbConZhPo">
+	<result column="id" javaType="String" property="id" />
+	<result column="zhbs" javaType="String" property="zhbs" />
+	<result column="zhlx" javaType="String" property="zhlx" />
+	<result column="kzbs" javaType="String" property="kzbs" />
+	<result column="zh" javaType="String" property="zh" />
+	<result column="zhkhjq" javaType="String" property="zhkhjq" />
+	<result column="zhmc" javaType="String" property="zhmc" />
+ 
+  	<result column="CONTRACT_ID" javaType="String" property="contractId" />
+  	<result column="acc_status" javaType="String" property="accStatus" />
+
+  </resultMap>
+  
+  
+ <resultMap id="tbConAttachedInfoPo" type="com.cdgit.loan.csm.po.TbConAttachedInfoPo">
+	<result column="attached" javaType="String" property="attached" />
+	<result column="contract_id" javaType="String" property="contractId" />
+	<result column="arbitrate_type" javaType="String" property="arbitrateType" />
+	<result column="arbitrate_name" javaType="String" property="arbitrateName" />
+	<result column="arbitrate_address" javaType="String" property="arbitrateAddress" />
+	<result column="other" javaType="String" property="other" />
+	<result column="a_hold_count" javaType="String" property="aHoldCount" />
+	<result column="b_hold_count" javaType="String" property="bHoldCount" />
+	<result column="c_type" javaType="String" property="cType" />
+	<result column="c_hold_count" javaType="String" property="cHoldCount" />
+	<result column="total_count" javaType="String" property="totalCount" />
+	<result column="add_clause" javaType="String" property="addClause" />
+	<result column="constraint_index" javaType="String" property="constraintIndex" />
+  	<result column="d_hold_count" javaType="String" property="dHoldCount" />
+  	<result column="e_hold_count" javaType="String" property="eHoldCount" />
+  	<result column="tk_condition" javaType="String" property="tkCondition" />
+  	<result column="c_name" javaType="String" property="cName" />
+  	<result column="legal_court" javaType="String" property="legalCourt" />
+
+  </resultMap>
+  
+  
+  <resultMap id="tbConSubcontractRelPo" type="com.cdgit.loan.csm.po.TbConSubcontractRelPo">
+    <id column="CON_SUBCON_ID" javaType="String" property="conSubconId" />
+    <result column="CONTRACT_ID" javaType="String" property="contractId" />
+    <result column="SUBCONTRACT_ID" javaType="String" property="subcontractId" />
+    <result column="IF_EFFECTIVE" javaType="String" property="ifEffective" />
+    <result column="SURETY_AMT" javaType="String" property="suretyAmt" />
+    <result column="CREATE_TIME" javaType="java.sql.Timestamp" property="createTime" />
+    <result column="UPDATE_TIME" javaType="java.sql.Timestamp" property="updateTime" />
+    <result column="OPERATION_TYPE" javaType="String" property="operationType" />
+    <result column="SUBCONTRACT_ID_BACKUPS" javaType="String" property="subcontractIdBackups" />
+    <result column="SUBCONTRACT_AMT" javaType="String" property="subcontractAmt" />
+  </resultMap>
+  
+  
+  <resultMap id="tbConSubcontractPo" type="com.cdgit.loan.csm.po.TbConSubcontractPo">
+    <id column="SUBCONTRACT_ID" javaType="String" property="subcontractId" />
+    <result column="SUBCONTRACT_NUM" javaType="String" property="subcontractNum" />
+    <result column="SUBCONTRACT_MANUAL_NUM" javaType="String" property="subcontractManualNum" />
+    <result column="SUBCONTRACT_TYPE" javaType="String" property="subcontractType" />
+    <result column="SUBCONTRACT_STATUS" javaType="String" property="subcontractStatus" />
+    <result column="IF_TOP_SUBCON" javaType="String" property="ifTopSubcon" />
+    <result column="SIGN_DATE" javaType="java.sql.Timestamp" property="signDate" />
+    <result column="BEGIN_DATE" javaType="java.sql.Timestamp" property="beginDate" />
+    <result column="END_DATE" javaType="java.sql.Timestamp" property="endDate" />
+    <result column="SUBCONTRACT_AMT" javaType="String" property="subcontractAmt" />
+    <result column="USER_NUM" javaType="String" property="userNum" />
+    <result column="ORG_NUM" javaType="String" property="orgNum" />
+    <result column="CREATE_TIME" javaType="java.sql.Timestamp" property="createTime" />
+    <result column="UPDATE_TIME" javaType="java.sql.Timestamp" property="updateTime" />
+    <result column="PARTY_ID" javaType="String" property="partyId" />
+    <result column="BZ" javaType="String" property="bz" />
+    <result column="ZGBJXE" javaType="String" property="zgbjxe" />
+    <result column="JGGZRBLDJ" javaType="String" property="jggzrbldj" />
+    <result column="ZFWYJBL" javaType="String" property="zfwyjbl" />
+    <result column="CHANGE_PERCENT" javaType="String" property="changePercent" />
+    <result column="JRNCRBZJ" javaType="String" property="jrncrbzj" />
+    <result column="BZJJE" javaType="String" property="bzjje" />
+    <result column="BZJBL" javaType="String" property="bzjbl" />
+    <result column="BZJLX" javaType="String" property="bzjlx" />
+    <result column="AYLLJX" javaType="String" property="aylljx" />
+    <result column="ANLLJX" javaType="String" property="anlljx" />
+    <result column="JRTZKH" javaType="String" property="jrtzkh" />
+    <result column="AVI_AMT" javaType="String" property="aviAmt" />
+    <result column="TOTAL_AMT" javaType="String" property="totalAmt" />
+    <result column="PAPER_CON_NUM" javaType="String" property="paperConNum" />
+    <result column="BZJJXZQ" javaType="String" property="bzjjxzq" />
+    <result column="CON_PARTY_ID" javaType="String" property="conPartyId" />
+    <result column="IF_DATA_MOVE" javaType="String" property="ifDataMove" />
+    <result column="QTJSXFS" javaType="String" property="qtjsxfs" />
+    <result column="PROGUARANTY_WAY" javaType="String" property="proguarantyWay" />
+    <result column="PROGUARANTY_TYPE" javaType="String" property="proguarantyType" />
+    <result column="PROGUARANTY_FORM" javaType="String" property="proguarantyForm" />
+    <result column="SUB_SCOPE" javaType="String" property="subScope" />
+    <result column="DB_RATE" javaType="String" property="dbRate" />
+
+  </resultMap>
+  
+  
+  <select id="queryListCsmTbConSubcontractRelPo" parameterType="java.util.HashMap" resultMap="tbConSubcontractRelPo">
+	select 
+	*
+	from 
+		TB_CON_SUBCONTRACT_REL
+	where 
+		contract_id=#{contractId}
+		and if_effective=#{ifEffective}
+		
+		
+  </select>
+  
+  
+  
+<select id="queryCsmTbConSubcontractPo" parameterType="java.lang.String" resultMap="tbConSubcontractPo">
+	select 
+	*
+	from 
+		TB_CON_SUBCONTRACT
+	where 
+		subcontract_id=#{subcontractId}
+		
+  </select>
+  
+  
+  
+    <select id="queryListCsmTbConZhInfo" parameterType="java.lang.String" resultMap="TbConZhPo">
+	select 
+	*
+	from 
+		TB_CON_ZH
+	where 
+		contract_id=#{contractId}
+		
+  </select>
+  
+  <select id="queryCsmTbConAttachedInfoPo" parameterType="java.lang.String" resultMap="tbConAttachedInfoPo">
+	select 
+	*
+	from 
+		TB_CON_ATTACHED_INFO
+	where 
+		contract_id=#{contractId}
+		
+  </select>
+  
+  
+
+
+  
+  
+  
+</mapper>

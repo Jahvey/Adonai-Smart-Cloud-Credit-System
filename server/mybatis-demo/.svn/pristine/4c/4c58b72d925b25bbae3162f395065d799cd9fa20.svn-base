@@ -1,0 +1,37 @@
+package com.cdgit.loan.contract.service;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cdgit.loan.contract.mapper.CrtTbPubDateMapper;
+
+/**
+ * 获取营业时间：如果tb_pub_date表里面没有数据，那么返回当前系统时间
+ * 
+ * @author Administrator
+ *
+ */
+
+@Service
+@org.springframework.transaction.annotation.Transactional
+public class CrtTbPubDateServiceImpl {
+
+	@Autowired
+	CrtTbPubDateMapper crtTbPubDateMapper;
+
+	// 获得营业时间
+	public String getBusiDate() {
+		String previousDate = crtTbPubDateMapper.queryOperatingDate();
+		if (null == previousDate) {// 如果配置表没有信息，那么把当前系统时间赋值进去
+			Date currentDate = Calendar.getInstance().getTime();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			previousDate = sdf.format(currentDate);
+		}
+		return previousDate;
+	}
+
+}

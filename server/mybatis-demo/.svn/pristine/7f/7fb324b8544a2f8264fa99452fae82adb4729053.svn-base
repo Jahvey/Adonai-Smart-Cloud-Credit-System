@@ -1,0 +1,503 @@
+package com.cdgit.loan.securitymanagement.controller;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cdgit.loan.common.util.uid.UUIDGenerator;
+import com.cdgit.loan.securitymanagement.bean.GrtBuildingProject;
+import com.cdgit.loan.securitymanagement.bean.GrtCollateral;
+import com.cdgit.loan.securitymanagement.bean.GrtDeposit;
+import com.cdgit.loan.securitymanagement.bean.GrtRealEstateMortgage;
+import com.cdgit.loan.securitymanagement.service.GrtCollateralServiceImpl;
+
+/**
+ * 抵质押物controller
+ * 说明：saveGrtCollateral会保存基本呢抵质押品信息，详细信息(房地产，在建工程，保单等)添加(实际是更新)
+ * 都在此controller中完成
+ * @author wuyong
+ * @date 2018.12.25
+ *
+ */
+@RestController
+@RequestMapping("/grtCollateral")
+public class GrtCollateralController {
+	@Autowired
+	private GrtCollateralServiceImpl grtCollateralServiceImpl;
+	
+	/**
+	 * 保存基本的抵质押物信息
+	 * @param params
+	 * @return
+	 */
+	@PostMapping("/saveGrtCollateral")
+	public Map<String, Object> saveGrtCollateral(
+/*			@RequestParam(value="customerType",required=true)String customerType,
+			@RequestParam(value="partyTypeCd",required=true)String partyTypeCd,
+			@RequestParam(value="customerNum",required=true)String customerNum,
+			@RequestParam(value="collateralName",required=true)String collateralName,
+			@RequestParam(value="collateralTypeCd",required=true)String collateralTypeCd*/
+			@RequestBody Map<String, Object> params
+			){
+		Map<String, Object> map = new HashMap<>();
+		if(params.get("params")!=null){
+			try {
+				Map<String, Object> m = (Map<String, Object>)params.get("params");
+				if(m.get("customerType") ==null || m.get("partyTypeCd") ==null ||m.get("customerNum") ==null
+						|| m.get("collateralName") ==null || m.get("collateralTypeCd") ==null
+						|| m.get("dataCreatUserNum") ==null || m.get("dataCreatorOrgCd") ==null
+						|| m.get("lastUpdateUserNum") ==null || m.get("lastUpdateOrgCd") ==null){
+					map.put("flag", "error");
+					map.put("message", "非法数据访问");
+					return map;
+				}
+				String customerType = m.get("customerType").toString();
+				String partyTypeCd = m.get("partyTypeCd").toString();
+				String customerNum = m.get("customerNum").toString();
+				String collateralName = m.get("collateralName").toString();
+				String collateralTypeCd = m.get("collateralTypeCd").toString();
+				String dataCreatUserNum = m.get("dataCreatUserNum").toString();
+				String dataCreatorOrgCd = m.get("dataCreatorOrgCd").toString();
+				String lastUpdateUserNum = m.get("lastUpdateUserNum").toString();
+				String lastUpdateOrgCd = m.get("lastUpdateOrgCd").toString();
+				GrtCollateral grtCollateral = new GrtCollateral();
+				grtCollateral.setCustomerType(customerType);
+				grtCollateral.setPartyTypeCd(partyTypeCd);
+				grtCollateral.setCustomerNum(customerNum);
+				grtCollateral.setCollateralName(collateralName);
+				grtCollateral.setCollateralTypeCd(collateralTypeCd);
+				grtCollateral.setDataCreatorOrgCd(dataCreatorOrgCd);
+				grtCollateral.setDataCreatUserNum(dataCreatUserNum);
+				grtCollateral.setLastUpdateOrgCd(lastUpdateOrgCd);
+				grtCollateral.setLastUpdateUserNum(lastUpdateUserNum);
+				grtCollateral.setTimeMark(new Date());
+				grtCollateral.setSysUpdateTime(new Date());
+				grtCollateral.setCollateralNum(UUIDGenerator.getUUID(10));
+				grtCollateral.setGuarantyId(UUIDGenerator.getUUID());
+				map = grtCollateralServiceImpl.saveGrtCollateral(grtCollateral);
+			} catch (Exception e) {
+				map.put("flag", "error");
+				map.put("message", "服务器出错啦，请联系开发者!");
+			}
+		} else{
+			map.put("flag", "error");
+			map.put("message", "非法数据访问");
+		}
+		return map;
+	}
+	/**
+	 * 更新存单以及抵质押信息
+	 * @param params
+	 * @return
+	 */
+	@PostMapping("/saveGrtDepositAndGrtCollateral")
+	public Map<String, Object> saveGrtDepositAndGrtCollateral(
+			@RequestBody Map<String, Object> params
+			){
+		Map<String, Object> map = new HashMap<>();
+		if(params.get("params")!=null){
+			try {
+/*				*//**
+				 *             guarantyId:this.grtCollateralInfo.guarantyId,//担保ID
+            currencyCd:"",//币种
+            marketValue:"",//抵质押物认定价值(元)
+            bookValue:"",//账面原值/取得价值(元)
+            assetStatus:"",//价值认定方式
+            evaluateDate:"",//价值认定时间
+            submittingDate:"",//价值认定到期日
+            /*存单质押信息*//*
+            depositReceiptNum:"",//存单号码
+            depositType:"",//存单类型
+            drCurrency:"",//币种
+            amt:"",//金额
+            accountNum:"",//账号
+            depositTerm:"",//存期
+            startDate:"",//存单开户日
+            expireDate:"",//存单到期日
+            openBank:"",//开户银行全称
+            stopPaymentInd:"",//是否止付
+            commonAssetsInd:"否",//是否共有人
+            otherNote:"",//其他情况说明
+				 */
+				
+				
+				Map<String, Object> m = (Map<String, Object>)params.get("params");
+				if(m.get("guarantyId") ==null || m.get("currencyCd") ==null ||m.get("marketValue") ==null
+						|| m.get("bookValue") ==null || m.get("assetStatus") ==null
+						|| m.get("evaluateDate") ==null || m.get("submittingDate") ==null
+						|| m.get("depositReceiptNum") ==null || m.get("depositType") ==null
+						|| m.get("drCurrency") ==null || m.get("amt") ==null
+						|| m.get("accountNum") ==null || m.get("depositTerm") ==null
+						|| m.get("startDate") ==null || m.get("expireDate") ==null
+						|| m.get("openBank") ==null || m.get("stopPaymentInd") ==null
+						|| m.get("commonAssetsInd") ==null || m.get("otherNote") ==null
+						|| m.get("lastUpdateUserNum") ==null || m.get("lastUpdateOrgCd") ==null
+						
+						){
+					map.put("flag", "error");
+					map.put("message", "非法数据访问");
+					return map;
+				}
+				String guarantyId = m.get("guarantyId").toString();
+				String currencyCd = m.get("currencyCd").toString();
+				String marketValue = m.get("marketValue").toString();
+				String bookValue = m.get("bookValue").toString();
+				String assetStatus = m.get("assetStatus").toString();
+				String evaluateDate = m.get("evaluateDate").toString();
+				String submittingDate = m.get("submittingDate").toString();
+				String lastUpdateUserNum = m.get("lastUpdateUserNum").toString();
+				String lastUpdateOrgCd = m.get("lastUpdateOrgCd").toString();
+				String commonAssetsInd = m.get("commonAssetsInd").toString();
+				String otherNote = m.get("otherNote").toString();
+				String depositReceiptNum = m.get("depositReceiptNum").toString();
+				String depositType = m.get("depositType").toString();
+				String drCurrency = m.get("drCurrency").toString();
+				String amt = m.get("amt").toString();
+				String accountNum = m.get("accountNum").toString();
+				String depositTerm = m.get("depositTerm").toString();
+				String startDate = m.get("startDate").toString();
+				String expireDate = m.get("expireDate").toString();
+				String openBank = m.get("openBank").toString();
+				String stopPaymentInd = m.get("stopPaymentInd").toString();
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				//创建抵质押物
+				GrtCollateral grtCollateral = new GrtCollateral();
+				grtCollateral.setGuarantyId(guarantyId);
+				grtCollateral.setCurrencyCd(currencyCd);
+				grtCollateral.setMarketValue(new BigDecimal(marketValue));
+				grtCollateral.setBookValue(new BigDecimal(bookValue));
+				grtCollateral.setAssetStatus(assetStatus);
+				grtCollateral.setEvaluateDate(format.parse(evaluateDate));
+				grtCollateral.setSubmittingDate(format.parse(submittingDate));
+				grtCollateral.setLastUpdateOrgCd(lastUpdateOrgCd);
+				grtCollateral.setLastUpdateUserNum(lastUpdateUserNum);
+				grtCollateral.setSysUpdateTime(new Date());
+				grtCollateral.setCommonAssetsInd(commonAssetsInd);
+				grtCollateral.setOtherNote(otherNote);
+				//创建存单
+				GrtDeposit grtDeposit = new GrtDeposit();
+				grtDeposit.setGuarantyId(guarantyId);
+				grtDeposit.setDepositReceiptNum(depositReceiptNum);
+				grtDeposit.setAmt(new BigDecimal(amt));
+				grtDeposit.setDepositTerm(Integer.parseInt(depositTerm));
+				grtDeposit.setDepositType(depositType);
+				grtDeposit.setCurrencyCd(drCurrency);
+				grtDeposit.setAccountNum(accountNum);
+				grtDeposit.setStartDate(format.parse(startDate));
+				grtDeposit.setExpireDate(format.parse(expireDate));
+				grtDeposit.setOpenBank(openBank);
+				grtDeposit.setStopPaymentInd(stopPaymentInd);
+				
+				map = grtCollateralServiceImpl.updateGrtDepositAndGrtCollateral(grtCollateral,grtDeposit);
+			} catch (Exception e) {
+				map.put("flag", "error");
+				map.put("message", "服务器出错啦，请联系开发者!");
+				System.out.println(e.getMessage());
+			}
+		} else{
+			map.put("flag", "error");
+			map.put("message", "非法数据访问");
+		}
+		return map;
+	}
+	/**
+	 * 更新在建工程以及抵质押信息
+	 * @param params
+	 * @return
+	 */
+	@PostMapping("/saveBuildingProjectAndGrtCollateral")
+	public Map<String, Object> saveBuildingProjectAndGrtCollateral(
+			@RequestBody Map<String, Object> params
+			){
+		Map<String, Object> map = new HashMap<>();
+		if(params.get("params")!=null){
+			try {
+/*				*//**
+				 *             guarantyId:this.grtCollateralInfo.guarantyId,//担保ID
+            currencyCd:"",//币种
+            marketValue:"",//抵质押物认定价值(元)
+            bookValue:"",//账面原值/取得价值(元)
+            assetStatus:"",//价值认定方式
+            evaluateDate:"",//价值认定时间
+            submittingDate:"",//价值认定到期日
+
+
+            
+                                   抵质押物基本信息
+            nationalityCd:"中国",//国家或地区
+            provinceCd:"四川",//省/直辖市/自治区
+            cityCd:"绵阳",//城市/自治州
+            districtCd:"涪城区",//区/县
+            streetAddress:"",//镇以下的信息
+            acquireWayOfCollateralCd:"",//抵质押物获取途径
+            wayGuarantyEffectiveCd:"",//担保权认定生效方式
+            commonAssetsInd:"",//是否共同财产
+            commonOwnerName:"",//共有人名称
+            rightCertTypeCd:"",//权利证明类型
+            rightCertificationNum:"",//权利证明编号
+            handoverDate:"",//抵质押权取得/占有时间
+            collateralCardDepartment:"",//抵质押物发证机关
+            
+            
+                        抵质押物状态信息
+            takeoverInd:"",//是否可转让
+            allPledgeInd:"",//是否将全部价值抵押到我行
+            rentedLicensedInd:"",//是否租赁或许可他人使用
+            renterName:"",//承租人名称
+            leaseExpirationDate:"",//租赁到期日期
+            nationalisationInd:"",//是否国有资产
+            isStateSectorApproval:"",//是否取得国资部门批准
+            forbidCirculateInd:"",//是否法律规定禁止流通财产
+            propertyDisputedInd:"",//所有权是否有争议
+            invalidInd:"",//是否查封、扣押或监管
+            blemishInd:"",//抵质押物权是否存在瑕疵
+            
+            
+                        房地产类型抵押信息
+            utilizationType:"",//房屋使用类型
+            cityLocationInd:"",//是否位于城市地带
+            buildingLocation:"",//地理位置
+            cashCapacity:"",//变现能力
+            totleFloor:"",//总层数(层)
+            landArea:"",//用地面积(M²)
+            constructedDate:"",//建筑年代
+            landAcquiringWayCd:"",//建筑结构
+            houseLicenseInd:"",//有无房产权证
+            houseLicenseType:"",//房产权证类型
+            houseLicenseNum:"",//房产权证号
+            houseLicenseOwner:"",//房产权证人名称
+            landLicenseInd:"",//有无土地证
+            landLicenseDate:"",//核发日期
+            landLicenseType:"",//土地权证类型
+            landLicenseNum:"",//土地证号
+            landLicenseOwner:"",//土地权证人名称
+            landCharacter:"",//土地所有制性质
+            landUseType:"",//土地使用权类型
+            otherNote:"",//其他情况说明
+            
+                        在建工程信息
+            projectPurpose:"",//项目用途
+            buildedArea:"",//已完工建筑面积(M²)
+            investBudget:"",//总投资预算(元)
+            proOriDesignSizeCd:"",//工程原设计规模(M²)
+            mortgageArea:"",//抵押面积(M²)
+            proProcess:"",//工程形象进度(%)
+            finishedMoney:"",//累计完成投资额(元)
+            projectPresentStatus:"",//项目现状
+            isPaymentArrears:"",//是否拖欠工程款
+            arrearsAmt:"",//拖欠工程款的金额
+            isPaymentArrears:"",//有无工程规划许可证
+            isHasLandLicense:"",//有无建设用地规划许可证
+            buildUnit:"",//建设单位
+            startWorkLicInd:"",//有无建筑工程施工许可证
+            isPaymentLandTransfer:"",//土地出让金是否缴清
+				 */
+				
+				
+				Map<String, Object> m = (Map<String, Object>)params.get("params");
+				if(m.get("guarantyId") ==null || m.get("guarantyId").equals("") || m.get("currencyCd") ==null ||m.get("marketValue") ==null
+						|| m.get("bookValue") ==null || m.get("assetStatus") ==null
+						|| m.get("evaluateDate") ==null || m.get("submittingDate") ==null
+						|| m.get("lastUpdateUserNum") ==null || m.get("lastUpdateOrgCd") ==null
+						//抵质押物基本信息
+						|| m.get("nationalityCd") ==null || m.get("provinceCd") ==null
+						|| m.get("cityCd") ==null || m.get("districtCd") ==null
+						|| m.get("streetAddress") ==null || m.get("acquireWayOfCollateralCd") ==null
+						|| m.get("wayGuarantyEffectiveCd") ==null || m.get("commonAssetsInd") ==null
+						|| m.get("rightCertTypeCd") ==null || m.get("rightCertificationNum") ==null
+						|| m.get("handoverDate") ==null || m.get("collateralCardDepartment") ==null
+						//抵质押物状态信息
+						|| m.get("takeoverInd") ==null || m.get("allPledgeInd") ==null
+						|| m.get("rentedLicensedInd") ==null || m.get("nationalisationInd") ==null
+						|| m.get("forbidCirculateInd") ==null || m.get("propertyDisputedInd") ==null
+						|| m.get("invalidInd") ==null || m.get("blemishInd") ==null
+						//房地产类型信息
+						|| m.get("utilizationType") ==null || m.get("cityLocationInd") ==null
+						|| m.get("buildingLocation") ==null || m.get("cashCapacity") ==null
+						|| m.get("totleFloor") ==null || m.get("landArea") ==null
+						|| m.get("constructedDate") ==null || m.get("landAcquiringWayCd") ==null
+						|| m.get("houseLicenseInd") ==null || m.get("landLicenseInd") ==null
+						//在建工程信息
+						|| m.get("projectPurpose") ==null || m.get("buildedArea") ==null
+						|| m.get("investBudget") ==null || m.get("proOriDesignSizeCd") ==null
+						|| m.get("mortgageArea") ==null || m.get("proProcess") ==null
+						|| m.get("finishedMoney") ==null || m.get("projectPresentStatus") ==null
+						|| m.get("isPaymentArrears") ==null || m.get("isPaymentArrears") ==null
+						|| m.get("isHasLandLicense") ==null || m.get("buildUnit") ==null
+						|| m.get("startWorkLicInd") ==null || m.get("isPaymentLandTransfer") ==null
+						
+						){
+					map.put("flag", "error");
+					map.put("message", "非法数据访问");
+					return map;
+				}
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				//价值信息  也是公共信息
+				GrtCollateral grtCollateral = new GrtCollateral();
+				String guarantyId = m.get("guarantyId").toString();
+				grtCollateral.setGuarantyId(guarantyId);
+				String currencyCd = m.get("currencyCd").toString();
+				String marketValue = m.get("marketValue").toString();
+				String bookValue = m.get("bookValue").toString();
+				String assetStatus = m.get("assetStatus").toString();
+				String evaluateDate = m.get("evaluateDate").toString();
+				String submittingDate = m.get("submittingDate").toString();
+				String lastUpdateUserNum = m.get("lastUpdateUserNum").toString();
+				String lastUpdateOrgCd = m.get("lastUpdateOrgCd").toString();
+				//抵质押物基本信息  也是公共信息
+				String nationalityCd = m.get("nationalityCd").toString();
+				String provinceCd = m.get("provinceCd").toString();
+				String cityCd = m.get("cityCd").toString();
+				String districtCd = m.get("districtCd").toString();
+				String streetAddress = m.get("streetAddress").toString();
+				String acquireWayOfCollateralCd = m.get("acquireWayOfCollateralCd").toString();
+				String wayGuarantyEffectiveCd = m.get("wayGuarantyEffectiveCd").toString();
+				String commonAssetsInd = m.get("commonAssetsInd").toString();
+				String rightCertTypeCd = m.get("rightCertTypeCd").toString();
+				String rightCertificationNum = m.get("rightCertificationNum").toString();
+				String handoverDate = m.get("handoverDate").toString();
+				String collateralCardDepartment = m.get("collateralCardDepartment").toString();
+				String commonOwnerName = m.get("commonOwnerName")==null ? null : m.get("commonOwnerName").toString();
+				grtCollateral.setNationalityCd(nationalityCd);
+				grtCollateral.setProvinceCd(provinceCd);
+				grtCollateral.setCityCd(cityCd);
+				grtCollateral.setDistrictCd(districtCd);
+				grtCollateral.setStreetAddress(streetAddress);
+				grtCollateral.setAcquireWayOfCollateralCd(acquireWayOfCollateralCd);
+				grtCollateral.setWayGuarantyEffectiveCd(wayGuarantyEffectiveCd);
+				grtCollateral.setRightCertTypeCd(rightCertTypeCd);
+				grtCollateral.setRightCertificationNum(rightCertificationNum);
+				grtCollateral.setHandoverDate(format.parse(handoverDate));
+				grtCollateral.setCollateralCardDepartment(collateralCardDepartment);
+				grtCollateral.setCommonOwnerName(commonOwnerName);
+				//抵质押品状态信息  也是公共信息
+				String takeoverInd = m.get("takeoverInd").toString();
+				String allPledgeInd = m.get("allPledgeInd").toString();
+				String rentedLicensedInd = m.get("rentedLicensedInd").toString();
+				String nationalisationInd = m.get("nationalisationInd").toString();
+				String forbidCirculateInd = m.get("forbidCirculateInd").toString();
+				String propertyDisputedInd = m.get("propertyDisputedInd").toString();
+				String invalidInd = m.get("invalidInd").toString();
+				String blemishInd = m.get("blemishInd").toString();
+				String renterName = m.get("renterName")==null ? null : m.get("renterName").toString();
+				String leaseExpirationDate = m.get("leaseExpirationDate")==null ? null : m.get("leaseExpirationDate").toString();
+				String isStateSectorApproval = m.get("isStateSectorApproval")==null ? null : m.get("isStateSectorApproval").toString();
+				String otherNote = m.get("otherNote")==null ? null : m.get("otherNote").toString();
+				grtCollateral.setTakeoverInd(takeoverInd);
+				grtCollateral.setAllPledgeInd(allPledgeInd);
+				grtCollateral.setRentedLicensedInd(rentedLicensedInd);
+				grtCollateral.setNationalisationInd(nationalisationInd);
+				grtCollateral.setForbidCirculateInd(forbidCirculateInd);
+				grtCollateral.setPropertyDisputedInd(propertyDisputedInd);
+				grtCollateral.setInvalidInd(invalidInd);
+				grtCollateral.setBlemishInd(blemishInd);
+				grtCollateral.setRenterName(renterName);
+				grtCollateral.setLeaseExpirationDate(format.parse(leaseExpirationDate));
+				grtCollateral.setIsStateSectorApproval(isStateSectorApproval);
+				//创建抵质押物  也是公共信息
+				grtCollateral.setCurrencyCd(currencyCd);
+				grtCollateral.setMarketValue(new BigDecimal(marketValue));
+				grtCollateral.setBookValue(new BigDecimal(bookValue));
+				grtCollateral.setAssetStatus(assetStatus);
+				grtCollateral.setEvaluateDate(format.parse(evaluateDate));
+				grtCollateral.setSubmittingDate(format.parse(submittingDate));
+				grtCollateral.setLastUpdateOrgCd(lastUpdateOrgCd);
+				grtCollateral.setLastUpdateUserNum(lastUpdateUserNum);
+				grtCollateral.setSysUpdateTime(new Date());
+				grtCollateral.setCommonAssetsInd(commonAssetsInd);
+				grtCollateral.setOtherNote(otherNote);
+				//房产类型信息
+				GrtRealEstateMortgage grtRealEstateMortgage = new GrtRealEstateMortgage();
+				String utilizationType = m.get("utilizationType").toString();
+				String cityLocationInd = m.get("cityLocationInd").toString();
+				String buildingLocation = m.get("buildingLocation").toString();
+				String cashCapacity = m.get("cashCapacity").toString();
+				String totleFloor = m.get("totleFloor").toString();
+				String landArea = m.get("landArea").toString();
+				String constructedDate = m.get("constructedDate").toString();
+				String landAcquiringWayCd = m.get("landAcquiringWayCd").toString();
+				String houseLicenseInd = m.get("houseLicenseInd").toString();
+				String landLicenseInd = m.get("landLicenseInd").toString();
+				String houseLicenseType = m.get("houseLicenseType")==null ? null : m.get("houseLicenseType").toString();
+				String houseLicenseNum = m.get("houseLicenseNum")==null ? null : m.get("houseLicenseNum").toString();
+				String houseLicenseOwner = m.get("houseLicenseOwner")==null ? null : m.get("houseLicenseOwner").toString();
+				String landLicenseDate = m.get("landLicenseDate")==null ? null : m.get("landLicenseDate").toString();
+				String landLicenseType = m.get("landLicenseType")==null ? null : m.get("landLicenseType").toString();
+				String landLicenseNum = m.get("landLicenseNum")==null ? null : m.get("landLicenseNum").toString();
+				String landLicenseOwner = m.get("landLicenseOwner")==null ? null : m.get("landLicenseOwner").toString();
+				String landCharacter = m.get("landCharacter")==null ? null : m.get("landCharacter").toString();
+				String landUseType = m.get("landUseType")==null ? null : m.get("landUseType").toString();
+				grtRealEstateMortgage.setUtilizationType(utilizationType);
+				grtRealEstateMortgage.setCityLocationInd(cityLocationInd);
+				grtRealEstateMortgage.setBuildingLocation(buildingLocation);
+				grtRealEstateMortgage.setCashCapacity(cashCapacity);
+				grtRealEstateMortgage.setTotleFloor(Integer.parseInt(totleFloor));
+				grtRealEstateMortgage.setLandArea(new BigDecimal(landArea));
+				grtRealEstateMortgage.setConstructedDate(format.parse(constructedDate));
+				grtRealEstateMortgage.setLandAcquiringWayCd(landAcquiringWayCd);
+				grtRealEstateMortgage.setHouseLicenseInd(houseLicenseInd);
+				grtRealEstateMortgage.setLandLicenseInd(landLicenseInd);
+				grtRealEstateMortgage.setHouseLicenseType(houseLicenseType);
+				grtRealEstateMortgage.setHouseLicenseNum(houseLicenseNum);
+				grtRealEstateMortgage.setHouseLicenseOwner(houseLicenseOwner);
+				grtRealEstateMortgage.setLandLicenseDate(format.parse(landLicenseDate));
+				grtRealEstateMortgage.setLandLicenseType(landLicenseType);
+				grtRealEstateMortgage.setLandLicenseNum(landLicenseNum);
+				grtRealEstateMortgage.setLandLicenseOwner(landLicenseOwner);
+				grtRealEstateMortgage.setLandCharacter(landCharacter);
+				grtRealEstateMortgage.setLandUseType(landUseType);
+				grtRealEstateMortgage.setGuarantyId(guarantyId);
+				//在建工程信息
+				GrtBuildingProject grtBuildingProject = new GrtBuildingProject();
+				String projectPurpose = m.get("projectPurpose").toString();
+				String buildedArea = m.get("buildedArea").toString();
+				String investBudget = m.get("investBudget").toString();
+				String proOriDesignSizeCd = m.get("proOriDesignSizeCd").toString();
+				String mortgageArea = m.get("mortgageArea").toString();
+				String proProcess = m.get("proProcess").toString();
+				String finishedMoney = m.get("finishedMoney").toString();
+				String projectPresentStatus = m.get("projectPresentStatus").toString();
+				String isPaymentArrears = m.get("isPaymentArrears").toString();
+				String isHasLandLicense = m.get("isHasLandLicense").toString();
+				String buildUnit = m.get("buildUnit").toString();
+				String startWorkLicInd = m.get("startWorkLicInd").toString();
+				String isPaymentLandTransfer = m.get("isPaymentLandTransfer").toString();
+				String arrearsAmt = m.get("arrearsAmt")==null ? null : m.get("arrearsAmt").toString();
+				grtBuildingProject.setProjectPurpose(projectPurpose);
+				grtBuildingProject.setBuildedArea(new BigDecimal(buildedArea));
+				grtBuildingProject.setInvestBudget(new BigDecimal(investBudget));
+				grtBuildingProject.setProOriDesignSizeCd(proOriDesignSizeCd);
+				grtBuildingProject.setMortgageArea(new BigDecimal(mortgageArea));
+				grtBuildingProject.setProProcess(proProcess);
+				grtBuildingProject.setFinishedMoney(new BigDecimal(finishedMoney));
+				grtBuildingProject.setProjectPresentStatus(projectPresentStatus);
+				grtBuildingProject.setIsPaymentArrears(isPaymentArrears);
+				grtBuildingProject.setIsHasLandLicense(isHasLandLicense);
+				grtBuildingProject.setBuildUnit(buildUnit);
+				grtBuildingProject.setStartWorkLicInd(startWorkLicInd);
+				grtBuildingProject.setIsPaymentLandTransfer(isPaymentLandTransfer);
+				grtBuildingProject.setGuarantyId(guarantyId);
+				if(arrearsAmt!=null && !arrearsAmt.equals("")){
+					grtBuildingProject.setArrearsAmt(new BigDecimal(arrearsAmt));
+				}
+				map = grtCollateralServiceImpl.updateBuildingProjectAndGrtCollateral(grtCollateral,grtRealEstateMortgage,grtBuildingProject);
+			} catch (Exception e) {
+				map.put("flag", "error");
+				map.put("message", "服务器出错啦，请联系开发者!");
+				System.out.println(e.getMessage());
+			}
+		} else{
+			map.put("flag", "error");
+			map.put("message", "非法数据访问");
+		}
+		return map;
+	}
+}

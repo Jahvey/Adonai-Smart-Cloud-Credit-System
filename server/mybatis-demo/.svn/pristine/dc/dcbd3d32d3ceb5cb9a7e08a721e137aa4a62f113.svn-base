@@ -1,0 +1,25 @@
+package com.cdgit.loan.securitymanagerment.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.cdgit.loan.securitymanagement.bean.GrtCollateral;
+/**
+ * 抵质押物dao
+ * @author wuyong
+ * @date 2018.12.25
+ *
+ */
+@Mapper
+public interface GrtCollateralMapper {
+    int deleteByPrimaryKey(String guarantyId);
+
+    int insert(GrtCollateral record);
+
+    int insertSelective(GrtCollateral record);
+
+    GrtCollateral selectByPrimaryKey(String guarantyId);
+
+    int updateByPrimaryKeySelective(GrtCollateral record);
+
+    int updateByPrimaryKey(GrtCollateral record);
+}
