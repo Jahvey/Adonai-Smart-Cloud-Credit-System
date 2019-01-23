@@ -1,6 +1,5 @@
 package com.cdgit.loan.customerManage.natural.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ public class NaturalPersonController {
 	 */
 	@PostMapping("/naturalPerson")
 	@ResponseBody
-	public Map<String, Object> queryEmployee(@RequestBody Map<String, Object> params){
+	public Map<String, Object> naturalPerson(@RequestBody Map<String, Object> params){
 		String pageNum = "1";
 		String pageSize = "20";
 		String partyNum = "";
@@ -86,10 +85,34 @@ public class NaturalPersonController {
 	 * */
 	@PostMapping("/addNatural")
 	@ResponseBody
-	public Map<String, String> addEmp(@RequestBody NaturalPerson naturalPerson) {
-		Map<String, String> map = new HashMap<>();
-		map.put("code", "200");
-		map.put("msg", "新增成功！");
+	public Map<String, Object> addNatural(@RequestBody NaturalPerson naturalPerson) {
+		Map<String, Object> map = naturalPersonService.addNatural(naturalPerson);
+		return map;
+	}
+	
+	/**
+	 * 根据partyId查询自然人参与人信息
+	 * 
+	 * */
+	@PostMapping("/queryNaturalByPartyId")
+	@ResponseBody
+	public Map<String, Object> queryNaturalByPartyId(@RequestBody Map<String, Object> params) {
+		String partyId = "";
+		if(params.get("partyId") != null){
+			partyId = params.get("partyId").toString();
+		}
+		Map<String, Object> map = naturalPersonService.queryNaturalByPartyId(partyId);
+		return map;
+	}
+	
+	/**
+	 * 编辑自然人客户
+	 * 
+	 * */
+	@PostMapping("/editNatural")
+	@ResponseBody
+	public Map<String, Object> editNatural(@RequestBody NaturalPerson naturalPerson) {
+		Map<String, Object> map = naturalPersonService.editNatural(naturalPerson);
 		return map;
 	}
 }

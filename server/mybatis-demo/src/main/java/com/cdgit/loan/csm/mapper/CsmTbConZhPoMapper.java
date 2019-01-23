@@ -19,7 +19,16 @@ public interface CsmTbConZhPoMapper {
 	
 	//账户信息
 	List<TbConZhPo> queryListCsmTbConZhInfo(String contractId);
+	
+    int deleteCsmTbConZhById(String id);
 
-	
-	
+    int insertCsmTbConZh(TbConZhPo record);
+
+    int insertCsmTbConZhSelective(TbConZhPo record);
+
+    int updateCsmTbConZhSelective(TbConZhPo record);
+
+    int updateCsmTbConZh(TbConZhPo record);
+
+		
 }

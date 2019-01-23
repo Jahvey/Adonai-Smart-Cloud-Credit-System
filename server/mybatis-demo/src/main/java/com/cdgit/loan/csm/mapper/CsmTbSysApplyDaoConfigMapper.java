@@ -21,4 +21,18 @@ public interface CsmTbSysApplyDaoConfigMapper {
 	
 	
 	List<TbSysApplyDaoConfigPo> queryAllListTbSysApplyDaoConfig();
+	
+
+    int updateCsmTbSysApplyDaoConfigSelective(TbSysApplyDaoConfigPo record);
+
+    int updateCsmTbSysApplyDaoConfig(TbSysApplyDaoConfigPo record);
+    
+    int deleteCsmTbSysApplyDaoConfig(String configId);
+
+    int insertCsmTbSysApplyDaoConfig(TbSysApplyDaoConfigPo record);
+
+    int insertCsmTbSysApplyDaoConfigSelective(TbSysApplyDaoConfigPo record);
+    
+   
+	
 }

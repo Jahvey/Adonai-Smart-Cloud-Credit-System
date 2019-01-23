@@ -1,18 +1,20 @@
 package com.cdgit.loan.csm.po;
 
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TbBizAmountDetailApprovePo {//TB_BIZ_AMOUNT_DETAIL_APPROVE
+	
     private String productType;
 
     private String currencyCd;
 
-    private String exchangeRate;
+    private BigDecimal exchangeRate;
 
     private String cycleUnit;
 
-    private String creditTerm;
+    private Integer creditTerm;
 
     private String loanUse;
 
@@ -20,7 +22,7 @@ public class TbBizAmountDetailApprovePo {//TB_BIZ_AMOUNT_DETAIL_APPROVE
 
     private String cycleInd;
 
-    private String broadCycle;
+    private Short broadCycle;
 
     private String broadCycleUnit;
 
@@ -34,7 +36,7 @@ public class TbBizAmountDetailApprovePo {//TB_BIZ_AMOUNT_DETAIL_APPROVE
 
     private String oldDetailId;
 
-    private String detailAmt;
+    private BigDecimal detailAmt;
 
     private String amountId;
 
@@ -42,7 +44,7 @@ public class TbBizAmountDetailApprovePo {//TB_BIZ_AMOUNT_DETAIL_APPROVE
 
     private String prepaymentPenalty;
 
-    private String rmbAmt;
+    private BigDecimal rmbAmt;
 
     private String cycleIndCon;
 
@@ -50,17 +52,17 @@ public class TbBizAmountDetailApprovePo {//TB_BIZ_AMOUNT_DETAIL_APPROVE
 
     private String firstRepayTerm;
 
-    private String detailBalance;
+    private BigDecimal detailBalance;
 
-    private String detailUsed;
+    private BigDecimal detailUsed;
 
     private Date endDate;
 
     private String approveId;
 
-    private String noUse;
+    private BigDecimal noUse;
 
-    private String boUse;
+    private BigDecimal boUse;
 
     private String crdDtlId;
 
@@ -70,7 +72,7 @@ public class TbBizAmountDetailApprovePo {//TB_BIZ_AMOUNT_DETAIL_APPROVE
 
     private String creditStatus;
 
-    private String assurePer;
+    private BigDecimal assurePer;
 
     public String getProductType() {
         return productType;
@@ -88,7 +90,13 @@ public class TbBizAmountDetailApprovePo {//TB_BIZ_AMOUNT_DETAIL_APPROVE
         this.currencyCd = currencyCd == null ? null : currencyCd.trim();
     }
 
+    public BigDecimal getExchangeRate() {
+        return exchangeRate;
+    }
 
+    public void setExchangeRate(BigDecimal exchangeRate) {
+        this.exchangeRate = exchangeRate;
+    }
 
     public String getCycleUnit() {
         return cycleUnit;
@@ -98,7 +106,13 @@ public class TbBizAmountDetailApprovePo {//TB_BIZ_AMOUNT_DETAIL_APPROVE
         this.cycleUnit = cycleUnit == null ? null : cycleUnit.trim();
     }
 
+    public Integer getCreditTerm() {
+        return creditTerm;
+    }
 
+    public void setCreditTerm(Integer creditTerm) {
+        this.creditTerm = creditTerm;
+    }
 
     public String getLoanUse() {
         return loanUse;
@@ -124,7 +138,13 @@ public class TbBizAmountDetailApprovePo {//TB_BIZ_AMOUNT_DETAIL_APPROVE
         this.cycleInd = cycleInd == null ? null : cycleInd.trim();
     }
 
+    public Short getBroadCycle() {
+        return broadCycle;
+    }
 
+    public void setBroadCycle(Short broadCycle) {
+        this.broadCycle = broadCycle;
+    }
 
     public String getBroadCycleUnit() {
         return broadCycleUnit;
@@ -174,7 +194,13 @@ public class TbBizAmountDetailApprovePo {//TB_BIZ_AMOUNT_DETAIL_APPROVE
         this.oldDetailId = oldDetailId == null ? null : oldDetailId.trim();
     }
 
+    public BigDecimal getDetailAmt() {
+        return detailAmt;
+    }
 
+    public void setDetailAmt(BigDecimal detailAmt) {
+        this.detailAmt = detailAmt;
+    }
 
     public String getAmountId() {
         return amountId;
@@ -200,6 +226,13 @@ public class TbBizAmountDetailApprovePo {//TB_BIZ_AMOUNT_DETAIL_APPROVE
         this.prepaymentPenalty = prepaymentPenalty == null ? null : prepaymentPenalty.trim();
     }
 
+    public BigDecimal getRmbAmt() {
+        return rmbAmt;
+    }
+
+    public void setRmbAmt(BigDecimal rmbAmt) {
+        this.rmbAmt = rmbAmt;
+    }
 
     public String getCycleIndCon() {
         return cycleIndCon;
@@ -225,7 +258,21 @@ public class TbBizAmountDetailApprovePo {//TB_BIZ_AMOUNT_DETAIL_APPROVE
         this.firstRepayTerm = firstRepayTerm == null ? null : firstRepayTerm.trim();
     }
 
+    public BigDecimal getDetailBalance() {
+        return detailBalance;
+    }
 
+    public void setDetailBalance(BigDecimal detailBalance) {
+        this.detailBalance = detailBalance;
+    }
+
+    public BigDecimal getDetailUsed() {
+        return detailUsed;
+    }
+
+    public void setDetailUsed(BigDecimal detailUsed) {
+        this.detailUsed = detailUsed;
+    }
 
     public Date getEndDate() {
         return endDate;
@@ -243,7 +290,21 @@ public class TbBizAmountDetailApprovePo {//TB_BIZ_AMOUNT_DETAIL_APPROVE
         this.approveId = approveId == null ? null : approveId.trim();
     }
 
+    public BigDecimal getNoUse() {
+        return noUse;
+    }
 
+    public void setNoUse(BigDecimal noUse) {
+        this.noUse = noUse;
+    }
+
+    public BigDecimal getBoUse() {
+        return boUse;
+    }
+
+    public void setBoUse(BigDecimal boUse) {
+        this.boUse = boUse;
+    }
 
     public String getCrdDtlId() {
         return crdDtlId;
@@ -277,101 +338,27 @@ public class TbBizAmountDetailApprovePo {//TB_BIZ_AMOUNT_DETAIL_APPROVE
         this.creditStatus = creditStatus == null ? null : creditStatus.trim();
     }
 
-	public String getExchangeRate() {
-		return exchangeRate;
-	}
+    public BigDecimal getAssurePer() {
+        return assurePer;
+    }
 
-	public void setExchangeRate(String exchangeRate) {
-		this.exchangeRate = exchangeRate;
-	}
-
-	public String getCreditTerm() {
-		return creditTerm;
-	}
-
-	public void setCreditTerm(String creditTerm) {
-		this.creditTerm = creditTerm;
-	}
-
-	public String getBroadCycle() {
-		return broadCycle;
-	}
-
-	public void setBroadCycle(String broadCycle) {
-		this.broadCycle = broadCycle;
-	}
-
-	public String getDetailAmt() {
-		return detailAmt;
-	}
-
-	public void setDetailAmt(String detailAmt) {
-		this.detailAmt = detailAmt;
-	}
-
-	public String getRmbAmt() {
-		return rmbAmt;
-	}
-
-	public void setRmbAmt(String rmbAmt) {
-		this.rmbAmt = rmbAmt;
-	}
-
-	public String getDetailBalance() {
-		return detailBalance;
-	}
-
-	public void setDetailBalance(String detailBalance) {
-		this.detailBalance = detailBalance;
-	}
-
-	public String getDetailUsed() {
-		return detailUsed;
-	}
-
-	public void setDetailUsed(String detailUsed) {
-		this.detailUsed = detailUsed;
-	}
-
-	public String getNoUse() {
-		return noUse;
-	}
-
-	public void setNoUse(String noUse) {
-		this.noUse = noUse;
-	}
-
-	public String getBoUse() {
-		return boUse;
-	}
-
-	public void setBoUse(String boUse) {
-		this.boUse = boUse;
-	}
-
-	public String getAssurePer() {
-		return assurePer;
-	}
-
-	public void setAssurePer(String assurePer) {
-		this.assurePer = assurePer;
-	}
+    public void setAssurePer(BigDecimal assurePer) {
+        this.assurePer = assurePer;
+    }
 
 	@Override
 	public String toString() {
-		return "TbBizAmountDetailApprovePo [productType=" + productType + ", currencyCd=" + currencyCd
-				+ ", exchangeRate=" + exchangeRate + ", cycleUnit=" + cycleUnit + ", creditTerm=" + creditTerm
-				+ ", loanUse=" + loanUse + ", repaymentType=" + repaymentType + ", cycleInd=" + cycleInd
-				+ ", broadCycle=" + broadCycle + ", broadCycleUnit=" + broadCycleUnit + ", createTime=" + createTime
-				+ ", updateTime=" + updateTime + ", amountDetailId=" + amountDetailId + ", exchangeRateDate="
-				+ exchangeRateDate + ", oldDetailId=" + oldDetailId + ", detailAmt=" + detailAmt + ", amountId="
-				+ amountId + ", payment=" + payment + ", prepaymentPenalty=" + prepaymentPenalty + ", rmbAmt=" + rmbAmt
-				+ ", cycleIndCon=" + cycleIndCon + ", holidayFlg=" + holidayFlg + ", firstRepayTerm=" + firstRepayTerm
-				+ ", detailBalance=" + detailBalance + ", detailUsed=" + detailUsed + ", endDate=" + endDate
-				+ ", approveId=" + approveId + ", noUse=" + noUse + ", boUse=" + boUse + ", crdDtlId=" + crdDtlId
-				+ ", creditMode=" + creditMode + ", beginDate=" + beginDate + ", creditStatus=" + creditStatus
-				+ ", assurePer=" + assurePer + "]";
+		return "TbBizAmountDetailApprovePo [productType=" + productType + ", currencyCd=" + currencyCd + ", cycleUnit="
+				+ cycleUnit + ", creditTerm=" + creditTerm + ", loanUse=" + loanUse + ", repaymentType=" + repaymentType
+				+ ", cycleInd=" + cycleInd + ", broadCycle=" + broadCycle + ", broadCycleUnit=" + broadCycleUnit
+				+ ", createTime=" + createTime + ", updateTime=" + updateTime + ", amountDetailId=" + amountDetailId
+				+ ", exchangeRateDate=" + exchangeRateDate + ", oldDetailId=" + oldDetailId + ", amountId=" + amountId
+				+ ", payment=" + payment + ", prepaymentPenalty=" + prepaymentPenalty + ", cycleIndCon=" + cycleIndCon
+				+ ", holidayFlg=" + holidayFlg + ", firstRepayTerm=" + firstRepayTerm + ", endDate=" + endDate
+				+ ", approveId=" + approveId + ", crdDtlId=" + crdDtlId + ", creditMode=" + creditMode + ", beginDate="
+				+ beginDate + ", creditStatus=" + creditStatus + "]";
 	}
-
     
+ 
+	
 }

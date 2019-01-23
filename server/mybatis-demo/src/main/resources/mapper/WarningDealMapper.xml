@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.customerManage.mapper.WarningDealMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.bean.WarningDeal">
+<mapper namespace="com.cdgit.loan.customerManage.warningDeal.mapper.WarningDealMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.warningDeal.bean.WarningDeal">
     <id column="WARN_NO" jdbcType="VARCHAR" property="warnNo" />
     <result column="RULE_NO" jdbcType="VARCHAR" property="ruleNo" />
     <result column="ECIF_CUST_NUM" jdbcType="VARCHAR" property="ecifCustNum" />
@@ -39,7 +39,7 @@
     delete from TB_CSM_WARNING_DEAL
     where WARN_NO = #{warnNo,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.cdgit.loan.customerManage.bean.WarningDeal">
+  <insert id="insert" parameterType="com.cdgit.loan.customerManage.warningDeal.bean.WarningDeal">
     insert into TB_CSM_WARNING_DEAL (WARN_NO, RULE_NO, ECIF_CUST_NUM, 
       WARN_TYPE, WARN_DATE, WARN_INFO, 
       WARN_LEVEL, WARN_STATUS, CLOSE_FLAG, 
@@ -53,7 +53,7 @@
       #{closeOrg,jdbcType=VARCHAR}, #{validDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.bean.WarningDeal">
+  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.warningDeal.bean.WarningDeal">
     insert into TB_CSM_WARNING_DEAL
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="warnNo != null">
@@ -150,7 +150,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.customerManage.bean.WarningDeal">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.customerManage.warningDeal.bean.WarningDeal">
     update TB_CSM_WARNING_DEAL
     <set>
       <if test="ruleNo != null">
@@ -198,7 +198,7 @@
     </set>
     where WARN_NO = #{warnNo,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.bean.WarningDeal">
+  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.warningDeal.bean.WarningDeal">
     update TB_CSM_WARNING_DEAL
     set RULE_NO = #{ruleNo,jdbcType=VARCHAR},
       ECIF_CUST_NUM = #{ecifCustNum,jdbcType=VARCHAR},

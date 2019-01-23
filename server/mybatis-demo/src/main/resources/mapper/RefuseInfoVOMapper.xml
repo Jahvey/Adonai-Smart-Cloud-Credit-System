@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.customerManage.mapper.RefuseInfoVOMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.bean.RefuseInfoVO">
+<mapper namespace="com.cdgit.loan.customerManage.refuseInfo.mapper.RefuseInfoVOMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.refuseInfo.bean.RefuseInfoVO">
     <result column="APPROVE_ID" jdbcType="VARCHAR" property="approveId" />
     <result column="APPLY_DATE" jdbcType="TIMESTAMP" property="applyDate" />
     <result column="CREDIT_TERM" jdbcType="VARCHAR" property="creditTerm" />

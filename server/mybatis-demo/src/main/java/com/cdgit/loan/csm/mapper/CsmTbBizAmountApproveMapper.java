@@ -17,6 +17,20 @@ public interface CsmTbBizAmountApproveMapper {
 	
 	TbBizAmountApprovePo queryOneTbBizAmountApproveByAmountId(String amountId);
 	
+    int deleteOneCsmTbBizAmountApprove(String amountId);
+
+    int insertCsmTbBizAmountApprove(TbBizAmountApprovePo record);
+
+    int insertCsmTbBizAmountApproveSelective(TbBizAmountApprovePo record);
+
+
+
+    int updateCsmTbBizAmountApproveSelective(TbBizAmountApprovePo record);
+
+    int updateCsmTbBizAmountApprove(TbBizAmountApprovePo record);
+	
+	
+	
 	
 
 }

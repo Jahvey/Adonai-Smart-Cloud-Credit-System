@@ -7,6 +7,11 @@
 		select operating_date from tb_pub_date
 	</select>
 	
+	
+	<!-- 查询序列号 -->
+	<select id="querySeqByName" parameterType="java.util.HashMap" resultType="java.lang.String">
+		SELECT ${seqname} AS SEQNO FROM DUAL
+	</select>
 
 
 </mapper>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.customerManage.mapper.CreditInfoMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.bean.CreditInfo">
+<mapper namespace="com.cdgit.loan.customerManage.creditInfo.mapper.CreditInfoMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.creditInfo.bean.CreditInfo">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="PARTY_ID" jdbcType="VARCHAR" property="partyId" />
     <result column="INFO_SRC" jdbcType="VARCHAR" property="infoSrc" />
@@ -42,7 +42,7 @@
     delete from TB_CSM_CREDIT_INFO
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.cdgit.loan.customerManage.bean.CreditInfo">
+  <insert id="insert" parameterType="com.cdgit.loan.customerManage.creditInfo.bean.CreditInfo">
     insert into TB_CSM_CREDIT_INFO (ID, PARTY_ID, INFO_SRC, 
       QUERY_DATE, LETTER_OF_PRESENTATION, TITLE, 
       DJK_LXYQ_TIMES, DJK_LJYQ_TIMES, DK_LXQX_TIMES, 
@@ -58,7 +58,7 @@
       #{isalertcorp,jdbcType=VARCHAR}, #{havelawsuit,jdbcType=VARCHAR}, #{badleaderflag,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.bean.CreditInfo">
+  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.creditInfo.bean.CreditInfo">
     insert into TB_CSM_CREDIT_INFO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -173,7 +173,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.customerManage.bean.CreditInfo">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.customerManage.creditInfo.bean.CreditInfo">
     update TB_CSM_CREDIT_INFO
     <set>
       <if test="partyId != null">
@@ -230,7 +230,7 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.bean.CreditInfo">
+  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.creditInfo.bean.CreditInfo">
     update TB_CSM_CREDIT_INFO
     set PARTY_ID = #{partyId,jdbcType=VARCHAR},
       INFO_SRC = #{infoSrc,jdbcType=VARCHAR},

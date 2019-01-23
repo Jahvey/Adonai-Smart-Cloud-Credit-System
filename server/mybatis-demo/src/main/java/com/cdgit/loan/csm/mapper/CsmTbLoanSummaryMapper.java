@@ -9,5 +9,19 @@ public interface CsmTbLoanSummaryMapper {
 	
 	
 	TbLoanSummaryPo queryOneTbLoanSummaryBySummaryId(String summaryId);
+	
+    int deleteCsmTbLoanSummaryBySummaryId(String summaryId);
+
+    int insertCsmTbLoanSummary(TbLoanSummaryPo record);
+
+    int insertCsmTbLoanSummarySelective(TbLoanSummaryPo record);
+
+
+    int updateCsmTbLoanSummaryByPrimaryKeySelective(TbLoanSummaryPo record);
+
+    int updateCsmTbLoanSummary(TbLoanSummaryPo record);
+	
+
+	
 
 }

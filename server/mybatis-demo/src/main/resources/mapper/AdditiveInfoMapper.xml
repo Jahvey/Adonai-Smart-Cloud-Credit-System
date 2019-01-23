@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.customerManage.mapper.AdditiveInfoMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.bean.AdditiveInfo">
+<mapper namespace="com.cdgit.loan.customerManage.additiveInfo.mapper.AdditiveInfoMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.additiveInfo.bean.AdditiveInfo">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="PARTY_ID" jdbcType="VARCHAR" property="partyId" />
     <result column="TITLE" jdbcType="VARCHAR" property="title" />
@@ -26,13 +26,13 @@
     delete from TB_CSM_ADDITIVE_INFO
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.cdgit.loan.customerManage.bean.AdditiveInfo">
+  <insert id="insert" parameterType="com.cdgit.loan.customerManage.additiveInfo.bean.AdditiveInfo">
     insert into TB_CSM_ADDITIVE_INFO (ID, PARTY_ID, TITLE, 
       DETAIL_INFO)
     values (#{id,jdbcType=VARCHAR}, #{partyId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
       #{detailInfo,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.bean.AdditiveInfo">
+  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.additiveInfo.bean.AdditiveInfo">
     insert into TB_CSM_ADDITIVE_INFO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -63,7 +63,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.customerManage.bean.AdditiveInfo">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.customerManage.additiveInfo.bean.AdditiveInfo">
     update TB_CSM_ADDITIVE_INFO
     <set>
       <if test="partyId != null">
@@ -78,7 +78,7 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.bean.AdditiveInfo">
+  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.additiveInfo.bean.AdditiveInfo">
     update TB_CSM_ADDITIVE_INFO
     set PARTY_ID = #{partyId,jdbcType=VARCHAR},
       TITLE = #{title,jdbcType=VARCHAR},

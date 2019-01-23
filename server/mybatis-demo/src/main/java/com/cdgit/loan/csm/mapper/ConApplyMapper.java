@@ -30,5 +30,8 @@ public interface ConApplyMapper {
 	List<ApproveConsVo> getApproveCons1(Map map);
 	
 	
+	String queryJxhjOldConId(String applyId);
+	
+	
 
 }

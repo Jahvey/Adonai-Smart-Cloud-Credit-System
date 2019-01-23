@@ -1,5 +1,6 @@
 package com.cdgit.loan.csm.po;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TbLoanSummaryPo {
@@ -9,7 +10,7 @@ public class TbLoanSummaryPo {
 
     private String partyId;
 
-    private String summaryAmt;
+    private BigDecimal summaryAmt;
 
     private String summaryCurrencyCd;
 
@@ -17,7 +18,7 @@ public class TbLoanSummaryPo {
 
     private Date endDate;
 
-    private String summaryTerm;
+    private Long summaryTerm;
 
     private String cycleUnit;
 
@@ -35,47 +36,47 @@ public class TbLoanSummaryPo {
 
     private String nftNo;
 
-    private String jjye;
+    private BigDecimal jjye;
 
-    private String yqts;
+    private Integer yqts;
 
     private String fljg;
 
-    private String exchangeRate;
+    private BigDecimal exchangeRate;
 
-    private String rmbAmt;
+    private BigDecimal rmbAmt;
 
     private String guarantyType;
 
-    private String dftItr;
+    private BigDecimal dftItr;
 
-    private String dftItrIn;
+    private BigDecimal dftItrIn;
 
-    private String dftItrOut;
+    private BigDecimal dftItrOut;
 
     private String contractId;
 
-    private String ljyqcs;
+    private BigDecimal ljyqcs;
 
-    private String lxyqcs;
+    private BigDecimal lxyqcs;
 
     private String tiexiStatus;
 
     private String tingxiStatus;
 
-    private String jjyqbj;
+    private BigDecimal jjyqbj;
 
-    private String ljfx;
+    private BigDecimal ljfx;
 
-    private String byjezd;
+    private BigDecimal byjezd;
 
     private String bydmzd;
 
-    private String normalItr;
+    private BigDecimal normalItr;
 
-    private String arrearItr;
+    private BigDecimal arrearItr;
 
-    private String punishItr;
+    private BigDecimal punishItr;
 
     private String deavSts;
 
@@ -99,13 +100,13 @@ public class TbLoanSummaryPo {
 
     private String exextFlg;
 
-    private String bzjbl;
+    private BigDecimal bzjbl;
 
-    private String bzjje;
+    private BigDecimal bzjje;
 
-    private String newPnsItr;
+    private BigDecimal newPnsItr;
 
-    private String newFlItr;
+    private BigDecimal newFlItr;
 
     private String autoFljg;
 
@@ -115,9 +116,9 @@ public class TbLoanSummaryPo {
 
     private Date lastPayDate;
 
-    private String bjYqts;
+    private Integer bjYqts;
 
-    private String lxYqts;
+    private Integer lxYqts;
 
     public String getSummaryId() {
         return summaryId;
@@ -143,7 +144,14 @@ public class TbLoanSummaryPo {
         this.partyId = partyId == null ? null : partyId.trim();
     }
 
- 
+    public BigDecimal getSummaryAmt() {
+        return summaryAmt;
+    }
+
+    public void setSummaryAmt(BigDecimal summaryAmt) {
+        this.summaryAmt = summaryAmt;
+    }
+
     public String getSummaryCurrencyCd() {
         return summaryCurrencyCd;
     }
@@ -168,7 +176,13 @@ public class TbLoanSummaryPo {
         this.endDate = endDate;
     }
 
- 
+    public Long getSummaryTerm() {
+        return summaryTerm;
+    }
+
+    public void setSummaryTerm(Long summaryTerm) {
+        this.summaryTerm = summaryTerm;
+    }
 
     public String getCycleUnit() {
         return cycleUnit;
@@ -234,7 +248,21 @@ public class TbLoanSummaryPo {
         this.nftNo = nftNo == null ? null : nftNo.trim();
     }
 
- 
+    public BigDecimal getJjye() {
+        return jjye;
+    }
+
+    public void setJjye(BigDecimal jjye) {
+        this.jjye = jjye;
+    }
+
+    public Integer getYqts() {
+        return yqts;
+    }
+
+    public void setYqts(Integer yqts) {
+        this.yqts = yqts;
+    }
 
     public String getFljg() {
         return fljg;
@@ -244,7 +272,22 @@ public class TbLoanSummaryPo {
         this.fljg = fljg == null ? null : fljg.trim();
     }
 
-  
+    public BigDecimal getExchangeRate() {
+        return exchangeRate;
+    }
+
+    public void setExchangeRate(BigDecimal exchangeRate) {
+        this.exchangeRate = exchangeRate;
+    }
+
+    public BigDecimal getRmbAmt() {
+        return rmbAmt;
+    }
+
+    public void setRmbAmt(BigDecimal rmbAmt) {
+        this.rmbAmt = rmbAmt;
+    }
+
     public String getGuarantyType() {
         return guarantyType;
     }
@@ -253,9 +296,30 @@ public class TbLoanSummaryPo {
         this.guarantyType = guarantyType == null ? null : guarantyType.trim();
     }
 
-  
+    public BigDecimal getDftItr() {
+        return dftItr;
+    }
 
-  
+    public void setDftItr(BigDecimal dftItr) {
+        this.dftItr = dftItr;
+    }
+
+    public BigDecimal getDftItrIn() {
+        return dftItrIn;
+    }
+
+    public void setDftItrIn(BigDecimal dftItrIn) {
+        this.dftItrIn = dftItrIn;
+    }
+
+    public BigDecimal getDftItrOut() {
+        return dftItrOut;
+    }
+
+    public void setDftItrOut(BigDecimal dftItrOut) {
+        this.dftItrOut = dftItrOut;
+    }
+
     public String getContractId() {
         return contractId;
     }
@@ -264,7 +328,21 @@ public class TbLoanSummaryPo {
         this.contractId = contractId == null ? null : contractId.trim();
     }
 
-  
+    public BigDecimal getLjyqcs() {
+        return ljyqcs;
+    }
+
+    public void setLjyqcs(BigDecimal ljyqcs) {
+        this.ljyqcs = ljyqcs;
+    }
+
+    public BigDecimal getLxyqcs() {
+        return lxyqcs;
+    }
+
+    public void setLxyqcs(BigDecimal lxyqcs) {
+        this.lxyqcs = lxyqcs;
+    }
 
     public String getTiexiStatus() {
         return tiexiStatus;
@@ -282,9 +360,30 @@ public class TbLoanSummaryPo {
         this.tingxiStatus = tingxiStatus == null ? null : tingxiStatus.trim();
     }
 
-  
+    public BigDecimal getJjyqbj() {
+        return jjyqbj;
+    }
 
- 
+    public void setJjyqbj(BigDecimal jjyqbj) {
+        this.jjyqbj = jjyqbj;
+    }
+
+    public BigDecimal getLjfx() {
+        return ljfx;
+    }
+
+    public void setLjfx(BigDecimal ljfx) {
+        this.ljfx = ljfx;
+    }
+
+    public BigDecimal getByjezd() {
+        return byjezd;
+    }
+
+    public void setByjezd(BigDecimal byjezd) {
+        this.byjezd = byjezd;
+    }
+
     public String getBydmzd() {
         return bydmzd;
     }
@@ -293,7 +392,30 @@ public class TbLoanSummaryPo {
         this.bydmzd = bydmzd == null ? null : bydmzd.trim();
     }
 
- 
+    public BigDecimal getNormalItr() {
+        return normalItr;
+    }
+
+    public void setNormalItr(BigDecimal normalItr) {
+        this.normalItr = normalItr;
+    }
+
+    public BigDecimal getArrearItr() {
+        return arrearItr;
+    }
+
+    public void setArrearItr(BigDecimal arrearItr) {
+        this.arrearItr = arrearItr;
+    }
+
+    public BigDecimal getPunishItr() {
+        return punishItr;
+    }
+
+    public void setPunishItr(BigDecimal punishItr) {
+        this.punishItr = punishItr;
+    }
+
     public String getDeavSts() {
         return deavSts;
     }
@@ -382,7 +504,38 @@ public class TbLoanSummaryPo {
         this.exextFlg = exextFlg == null ? null : exextFlg.trim();
     }
 
-   
+    public BigDecimal getBzjbl() {
+        return bzjbl;
+    }
+
+    public void setBzjbl(BigDecimal bzjbl) {
+        this.bzjbl = bzjbl;
+    }
+
+    public BigDecimal getBzjje() {
+        return bzjje;
+    }
+
+    public void setBzjje(BigDecimal bzjje) {
+        this.bzjje = bzjje;
+    }
+
+    public BigDecimal getNewPnsItr() {
+        return newPnsItr;
+    }
+
+    public void setNewPnsItr(BigDecimal newPnsItr) {
+        this.newPnsItr = newPnsItr;
+    }
+
+    public BigDecimal getNewFlItr() {
+        return newFlItr;
+    }
+
+    public void setNewFlItr(BigDecimal newFlItr) {
+        this.newFlItr = newFlItr;
+    }
+
     public String getAutoFljg() {
         return autoFljg;
     }
@@ -415,210 +568,20 @@ public class TbLoanSummaryPo {
         this.lastPayDate = lastPayDate;
     }
 
-	public String getSummaryAmt() {
-		return summaryAmt;
-	}
+    public Integer getBjYqts() {
+        return bjYqts;
+    }
 
-	public void setSummaryAmt(String summaryAmt) {
-		this.summaryAmt = summaryAmt;
-	}
+    public void setBjYqts(Integer bjYqts) {
+        this.bjYqts = bjYqts;
+    }
 
-	public String getSummaryTerm() {
-		return summaryTerm;
-	}
+    public Integer getLxYqts() {
+        return lxYqts;
+    }
 
-	public void setSummaryTerm(String summaryTerm) {
-		this.summaryTerm = summaryTerm;
-	}
-
-	public String getJjye() {
-		return jjye;
-	}
-
-	public void setJjye(String jjye) {
-		this.jjye = jjye;
-	}
-
-	public String getYqts() {
-		return yqts;
-	}
-
-	public void setYqts(String yqts) {
-		this.yqts = yqts;
-	}
-
-	public String getExchangeRate() {
-		return exchangeRate;
-	}
-
-	public void setExchangeRate(String exchangeRate) {
-		this.exchangeRate = exchangeRate;
-	}
-
-	public String getRmbAmt() {
-		return rmbAmt;
-	}
-
-	public void setRmbAmt(String rmbAmt) {
-		this.rmbAmt = rmbAmt;
-	}
-
-	public String getDftItr() {
-		return dftItr;
-	}
-
-	public void setDftItr(String dftItr) {
-		this.dftItr = dftItr;
-	}
-
-	public String getDftItrIn() {
-		return dftItrIn;
-	}
-
-	public void setDftItrIn(String dftItrIn) {
-		this.dftItrIn = dftItrIn;
-	}
-
-	public String getDftItrOut() {
-		return dftItrOut;
-	}
-
-	public void setDftItrOut(String dftItrOut) {
-		this.dftItrOut = dftItrOut;
-	}
-
-	public String getLjyqcs() {
-		return ljyqcs;
-	}
-
-	public void setLjyqcs(String ljyqcs) {
-		this.ljyqcs = ljyqcs;
-	}
-
-	public String getLxyqcs() {
-		return lxyqcs;
-	}
-
-	public void setLxyqcs(String lxyqcs) {
-		this.lxyqcs = lxyqcs;
-	}
-
-	public String getJjyqbj() {
-		return jjyqbj;
-	}
-
-	public void setJjyqbj(String jjyqbj) {
-		this.jjyqbj = jjyqbj;
-	}
-
-	public String getLjfx() {
-		return ljfx;
-	}
-
-	public void setLjfx(String ljfx) {
-		this.ljfx = ljfx;
-	}
-
-	public String getByjezd() {
-		return byjezd;
-	}
-
-	public void setByjezd(String byjezd) {
-		this.byjezd = byjezd;
-	}
-
-	public String getNormalItr() {
-		return normalItr;
-	}
-
-	public void setNormalItr(String normalItr) {
-		this.normalItr = normalItr;
-	}
-
-	public String getArrearItr() {
-		return arrearItr;
-	}
-
-	public void setArrearItr(String arrearItr) {
-		this.arrearItr = arrearItr;
-	}
-
-	public String getPunishItr() {
-		return punishItr;
-	}
-
-	public void setPunishItr(String punishItr) {
-		this.punishItr = punishItr;
-	}
-
-	public String getBzjbl() {
-		return bzjbl;
-	}
-
-	public void setBzjbl(String bzjbl) {
-		this.bzjbl = bzjbl;
-	}
-
-	public String getBzjje() {
-		return bzjje;
-	}
-
-	public void setBzjje(String bzjje) {
-		this.bzjje = bzjje;
-	}
-
-	public String getNewPnsItr() {
-		return newPnsItr;
-	}
-
-	public void setNewPnsItr(String newPnsItr) {
-		this.newPnsItr = newPnsItr;
-	}
-
-	public String getNewFlItr() {
-		return newFlItr;
-	}
-
-	public void setNewFlItr(String newFlItr) {
-		this.newFlItr = newFlItr;
-	}
-
-	public String getBjYqts() {
-		return bjYqts;
-	}
-
-	public void setBjYqts(String bjYqts) {
-		this.bjYqts = bjYqts;
-	}
-
-	public String getLxYqts() {
-		return lxYqts;
-	}
-
-	public void setLxYqts(String lxYqts) {
-		this.lxYqts = lxYqts;
-	}
-
-	@Override
-	public String toString() {
-		return "TbLoanSummaryPo [summaryId=" + summaryId + ", loanId=" + loanId + ", partyId=" + partyId
-				+ ", summaryAmt=" + summaryAmt + ", summaryCurrencyCd=" + summaryCurrencyCd + ", beginDate=" + beginDate
-				+ ", endDate=" + endDate + ", summaryTerm=" + summaryTerm + ", cycleUnit=" + cycleUnit + ", userNum="
-				+ userNum + ", orgNum=" + orgNum + ", createTime=" + createTime + ", updateTime=" + updateTime
-				+ ", summaryStatusCd=" + summaryStatusCd + ", summaryNum=" + summaryNum + ", nftNo=" + nftNo + ", jjye="
-				+ jjye + ", yqts=" + yqts + ", fljg=" + fljg + ", exchangeRate=" + exchangeRate + ", rmbAmt=" + rmbAmt
-				+ ", guarantyType=" + guarantyType + ", dftItr=" + dftItr + ", dftItrIn=" + dftItrIn + ", dftItrOut="
-				+ dftItrOut + ", contractId=" + contractId + ", ljyqcs=" + ljyqcs + ", lxyqcs=" + lxyqcs
-				+ ", tiexiStatus=" + tiexiStatus + ", tingxiStatus=" + tingxiStatus + ", jjyqbj=" + jjyqbj + ", ljfx="
-				+ ljfx + ", byjezd=" + byjezd + ", bydmzd=" + bydmzd + ", normalItr=" + normalItr + ", arrearItr="
-				+ arrearItr + ", punishItr=" + punishItr + ", deavSts=" + deavSts + ", entrustReturnPrincipalAcc="
-				+ entrustReturnPrincipalAcc + ", entrustReturnInterestAcc=" + entrustReturnInterestAcc + ", rcnStan="
-				+ rcnStan + ", ywbh=" + ywbh + ", backCd=" + backCd + ", ifDataMove=" + ifDataMove + ", ifDataMove1="
-				+ ifDataMove1 + ", periodFlag=" + periodFlag + ", periodNum=" + periodNum + ", exextFlg=" + exextFlg
-				+ ", bzjbl=" + bzjbl + ", bzjje=" + bzjje + ", newPnsItr=" + newPnsItr + ", newFlItr=" + newFlItr
-				+ ", autoFljg=" + autoFljg + ", adjustFlg=" + adjustFlg + ", settleDate=" + settleDate
-				+ ", lastPayDate=" + lastPayDate + ", bjYqts=" + bjYqts + ", lxYqts=" + lxYqts + "]";
-	}
-
+    public void setLxYqts(Integer lxYqts) {
+        this.lxYqts = lxYqts;
+    }
     
 }

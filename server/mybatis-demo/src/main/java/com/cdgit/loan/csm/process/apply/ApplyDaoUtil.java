@@ -33,6 +33,11 @@ public class ApplyDaoUtil {
 	CsmTbSysApplyDaoConfigMapper csmTbSysApplyDaoConfigMapper;
 	
 	private  Map<String, List<Object[]>> configMap;
+	
+//	public ApplyDaoUtil(){
+//		
+//		this.loadConfig();
+//	}
 //	static {
 //		loadConfig();
 //	}
@@ -81,7 +86,7 @@ public class ApplyDaoUtil {
 	
 	public  TbSysApplyDaoConfigPo getConfig(ApplyDaoParam param) {
 		// -----------测试用begin
-		//loadConfig();
+		loadConfig();
 		// -----------测试用end
 		List<Object[]> configList = configMap.get(param.getMatchId());
 		String id = param.getId();

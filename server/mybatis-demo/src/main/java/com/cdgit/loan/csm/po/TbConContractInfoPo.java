@@ -583,4 +583,5 @@ public class TbConContractInfoPo {
     public void setJxhjId(String jxhjId) {
         this.jxhjId = jxhjId == null ? null : jxhjId.trim();
     }
+    
 }

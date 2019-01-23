@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.customerManage.mapper.SubContractMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.bean.SubContract">
+<mapper namespace="com.cdgit.loan.customerManage.subContract.mapper.SubContractMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.subContract.bean.SubContract">
     <id column="SUBCONTRACT_ID" jdbcType="VARCHAR" property="subcontractId" />
     <result column="SUBCONTRACT_NUM" jdbcType="VARCHAR" property="subcontractNum" />
     <result column="SUBCONTRACT_MANUAL_NUM" jdbcType="VARCHAR" property="subcontractManualNum" />
@@ -126,7 +126,7 @@
     delete from TB_CON_SUBCONTRACT
     where SUBCONTRACT_ID = #{subcontractId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.cdgit.loan.customerManage.bean.SubContract">
+  <insert id="insert" parameterType="com.cdgit.loan.customerManage.subContract.bean.SubContract">
     insert into TB_CON_SUBCONTRACT (SUBCONTRACT_ID, SUBCONTRACT_NUM, SUBCONTRACT_MANUAL_NUM, 
       SUBCONTRACT_TYPE, SUBCONTRACT_STATUS, IF_TOP_SUBCON, 
       SIGN_DATE, BEGIN_DATE, END_DATE, 
@@ -156,7 +156,7 @@
       #{proguarantyForm,jdbcType=VARCHAR}, #{subScope,jdbcType=VARCHAR}, #{dbRate,jdbcType=DECIMAL}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.bean.SubContract">
+  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.subContract.bean.SubContract">
     insert into TB_CON_SUBCONTRACT
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="subcontractId != null">
@@ -397,7 +397,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.customerManage.bean.SubContract">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.customerManage.subContract.bean.SubContract">
     update TB_CON_SUBCONTRACT
     <set>
       <if test="subcontractNum != null">
@@ -517,7 +517,7 @@
     </set>
     where SUBCONTRACT_ID = #{subcontractId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.bean.SubContract">
+  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.subContract.bean.SubContract">
     update TB_CON_SUBCONTRACT
     set SUBCONTRACT_NUM = #{subcontractNum,jdbcType=VARCHAR},
       SUBCONTRACT_MANUAL_NUM = #{subcontractManualNum,jdbcType=VARCHAR},

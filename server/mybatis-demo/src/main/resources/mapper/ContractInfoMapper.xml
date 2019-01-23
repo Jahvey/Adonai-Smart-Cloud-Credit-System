@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.customerManage.mapper.ContractInfoMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.bean.ContractInfo">
+<mapper namespace="com.cdgit.loan.customerManage.contractInfo.mapper.ContractInfoMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.contractInfo.bean.ContractInfo">
     <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
     <result column="AMOUNT_DETAIL_ID" jdbcType="VARCHAR" property="amountDetailId" />
     <result column="CONTRACT_NUM" jdbcType="VARCHAR" property="contractNum" />
@@ -107,7 +107,7 @@
 	   and tc.con_status = '03'
 	   and ba.party_id = #{partyId,jdbcType=VARCHAR}
   </select>
-  <insert id="insert" parameterType="com.cdgit.loan.customerManage.bean.ContractInfo">
+  <insert id="insert" parameterType="com.cdgit.loan.customerManage.contractInfo.bean.ContractInfo">
     insert into TB_CON_CONTRACT_INFO (CONTRACT_ID, AMOUNT_DETAIL_ID, CONTRACT_NUM, 
       CONTRACT_ADDRESS, PARTY_ID, OLD_CONTRACT_ID, 
       CURRENCY_CD, CONTRACT_AMT, CONTRACT_TERM, 
@@ -149,7 +149,7 @@
       #{crdDtlId,jdbcType=VARCHAR}, #{creditMode,jdbcType=VARCHAR}, #{creditStatus,jdbcType=VARCHAR}, 
       #{jxhjId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.bean.ContractInfo">
+  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.contractInfo.bean.ContractInfo">
     insert into TB_CON_CONTRACT_INFO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="contractId != null">

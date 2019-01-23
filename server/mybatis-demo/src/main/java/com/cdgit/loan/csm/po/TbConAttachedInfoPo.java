@@ -9,205 +9,197 @@ package com.cdgit.loan.csm.po;
  */
 public class TbConAttachedInfoPo {//TB_CON_ATTACHED_INFO
 	
-	private String attached;
-	
-	private String contractId;
-	
-	private String arbitrateType;
-	
-	private String arbitrateName;
-	
-	private String arbitrateAddress;
-	
-	private String other;
-	
-	private String aHoldCount;
-	
-	private String bHoldCount;
-	
-	private String cType;
-	
-	private String cHoldCount;
-	
-	private String totalCount;
-	
-	private String addClause;
-	
-	private String constraintIndex;
-	
-	private String dHoldCount;
-	
-	private String eHoldCount;
-	
-	private String tkCondition;
-	
-	private String cName;
-	
-	private String legalCourt;
+	  private String attached;
 
-	public String getAttached() {
-		return attached;
-	}
+	    private String contractId;
 
-	public void setAttached(String attached) {
-		this.attached = attached;
-	}
+	    private String arbitrateType;
 
-	public String getContractId() {
-		return contractId;
-	}
+	    private String arbitrateName;
 
-	public void setContractId(String contractId) {
-		this.contractId = contractId;
-	}
+	    private String arbitrateAddress;
 
-	public String getArbitrateType() {
-		return arbitrateType;
-	}
+	    private String other;
 
-	public void setArbitrateType(String arbitrateType) {
-		this.arbitrateType = arbitrateType;
-	}
+	    private Integer aHoldCount;
 
-	public String getArbitrateName() {
-		return arbitrateName;
-	}
+	    private Integer bHoldCount;
 
-	public void setArbitrateName(String arbitrateName) {
-		this.arbitrateName = arbitrateName;
-	}
+	    private String cType;
 
-	public String getArbitrateAddress() {
-		return arbitrateAddress;
-	}
+	    private Integer cHoldCount;
 
-	public void setArbitrateAddress(String arbitrateAddress) {
-		this.arbitrateAddress = arbitrateAddress;
-	}
+	    private Integer totalCount;
 
-	public String getOther() {
-		return other;
-	}
+	    private String addClause;
 
-	public void setOther(String other) {
-		this.other = other;
-	}
+	    private String constraintIndex;
 
-	public String getaHoldCount() {
-		return aHoldCount;
-	}
+	    private Integer dHoldCount;
 
-	public void setaHoldCount(String aHoldCount) {
-		this.aHoldCount = aHoldCount;
-	}
+	    private Integer eHoldCount;
 
-	public String getbHoldCount() {
-		return bHoldCount;
-	}
+	    private String tkCondition;
 
-	public void setbHoldCount(String bHoldCount) {
-		this.bHoldCount = bHoldCount;
-	}
+	    private String cName;
 
-	public String getcType() {
-		return cType;
-	}
+	    private String legalCourt;
 
-	public void setcType(String cType) {
-		this.cType = cType;
-	}
+	    public String getAttached() {
+	        return attached;
+	    }
 
-	public String getcHoldCount() {
-		return cHoldCount;
-	}
+	    public void setAttached(String attached) {
+	        this.attached = attached == null ? null : attached.trim();
+	    }
 
-	public void setcHoldCount(String cHoldCount) {
-		this.cHoldCount = cHoldCount;
-	}
+	    public String getContractId() {
+	        return contractId;
+	    }
 
-	public String getTotalCount() {
-		return totalCount;
-	}
+	    public void setContractId(String contractId) {
+	        this.contractId = contractId == null ? null : contractId.trim();
+	    }
 
-	public void setTotalCount(String totalCount) {
-		this.totalCount = totalCount;
-	}
+	    public String getArbitrateType() {
+	        return arbitrateType;
+	    }
 
-	public String getAddClause() {
-		return addClause;
-	}
+	    public void setArbitrateType(String arbitrateType) {
+	        this.arbitrateType = arbitrateType == null ? null : arbitrateType.trim();
+	    }
 
-	public void setAddClause(String addClause) {
-		this.addClause = addClause;
-	}
+	    public String getArbitrateName() {
+	        return arbitrateName;
+	    }
 
-	public String getConstraintIndex() {
-		return constraintIndex;
-	}
+	    public void setArbitrateName(String arbitrateName) {
+	        this.arbitrateName = arbitrateName == null ? null : arbitrateName.trim();
+	    }
 
-	public void setConstraintIndex(String constraintIndex) {
-		this.constraintIndex = constraintIndex;
-	}
+	    public String getArbitrateAddress() {
+	        return arbitrateAddress;
+	    }
 
-	public String getdHoldCount() {
-		return dHoldCount;
-	}
+	    public void setArbitrateAddress(String arbitrateAddress) {
+	        this.arbitrateAddress = arbitrateAddress == null ? null : arbitrateAddress.trim();
+	    }
 
-	public void setdHoldCount(String dHoldCount) {
-		this.dHoldCount = dHoldCount;
-	}
+	    public String getOther() {
+	        return other;
+	    }
 
-	public String geteHoldCount() {
-		return eHoldCount;
-	}
+	    public void setOther(String other) {
+	        this.other = other == null ? null : other.trim();
+	    }
 
-	public void seteHoldCount(String eHoldCount) {
-		this.eHoldCount = eHoldCount;
-	}
+	    public Integer getaHoldCount() {
+	        return aHoldCount;
+	    }
 
-	public String getTkCondition() {
-		return tkCondition;
-	}
+	    public void setaHoldCount(Integer aHoldCount) {
+	        this.aHoldCount = aHoldCount;
+	    }
 
-	public void setTkCondition(String tkCondition) {
-		this.tkCondition = tkCondition;
-	}
+	    public Integer getbHoldCount() {
+	        return bHoldCount;
+	    }
 
-	public String getcName() {
-		return cName;
-	}
+	    public void setbHoldCount(Integer bHoldCount) {
+	        this.bHoldCount = bHoldCount;
+	    }
 
-	public void setcName(String cName) {
-		this.cName = cName;
-	}
+	    public String getcType() {
+	        return cType;
+	    }
 
-	public String getLegalCourt() {
-		return legalCourt;
-	}
+	    public void setcType(String cType) {
+	        this.cType = cType == null ? null : cType.trim();
+	    }
 
-	public void setLegalCourt(String legalCourt) {
-		this.legalCourt = legalCourt;
-	}
+	    public Integer getcHoldCount() {
+	        return cHoldCount;
+	    }
 
-	@Override
-	public String toString() {
-		return "TbConAttachedInfoPo [attached=" + attached + ", contractId=" + contractId + ", arbitrateType="
-				+ arbitrateType + ", arbitrateName=" + arbitrateName + ", arbitrateAddress=" + arbitrateAddress
-				+ ", other=" + other + ", aHoldCount=" + aHoldCount + ", bHoldCount=" + bHoldCount + ", cType=" + cType
-				+ ", cHoldCount=" + cHoldCount + ", totalCount=" + totalCount + ", addClause=" + addClause
-				+ ", constraintIndex=" + constraintIndex + ", dHoldCount=" + dHoldCount + ", eHoldCount=" + eHoldCount
-				+ ", tkCondition=" + tkCondition + ", cName=" + cName + ", legalCourt=" + legalCourt + "]";
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	    public void setcHoldCount(Integer cHoldCount) {
+	        this.cHoldCount = cHoldCount;
+	    }
+
+	    public Integer getTotalCount() {
+	        return totalCount;
+	    }
+
+	    public void setTotalCount(Integer totalCount) {
+	        this.totalCount = totalCount;
+	    }
+
+	    public String getAddClause() {
+	        return addClause;
+	    }
+
+	    public void setAddClause(String addClause) {
+	        this.addClause = addClause == null ? null : addClause.trim();
+	    }
+
+	    public String getConstraintIndex() {
+	        return constraintIndex;
+	    }
+
+	    public void setConstraintIndex(String constraintIndex) {
+	        this.constraintIndex = constraintIndex == null ? null : constraintIndex.trim();
+	    }
+
+	    public Integer getdHoldCount() {
+	        return dHoldCount;
+	    }
+
+	    public void setdHoldCount(Integer dHoldCount) {
+	        this.dHoldCount = dHoldCount;
+	    }
+
+	    public Integer geteHoldCount() {
+	        return eHoldCount;
+	    }
+
+	    public void seteHoldCount(Integer eHoldCount) {
+	        this.eHoldCount = eHoldCount;
+	    }
+
+	    public String getTkCondition() {
+	        return tkCondition;
+	    }
+
+	    public void setTkCondition(String tkCondition) {
+	        this.tkCondition = tkCondition == null ? null : tkCondition.trim();
+	    }
+
+	    public String getcName() {
+	        return cName;
+	    }
+
+	    public void setcName(String cName) {
+	        this.cName = cName == null ? null : cName.trim();
+	    }
+
+	    public String getLegalCourt() {
+	        return legalCourt;
+	    }
+
+	    public void setLegalCourt(String legalCourt) {
+	        this.legalCourt = legalCourt == null ? null : legalCourt.trim();
+	    }
+
+		@Override
+		public String toString() {
+			return "TbConAttachedInfoPo [attached=" + attached + ", contractId=" + contractId + ", arbitrateType="
+					+ arbitrateType + ", arbitrateName=" + arbitrateName + ", arbitrateAddress=" + arbitrateAddress
+					+ ", other=" + other + ", aHoldCount=" + aHoldCount + ", bHoldCount=" + bHoldCount + ", cType="
+					+ cType + ", cHoldCount=" + cHoldCount + ", totalCount=" + totalCount + ", addClause=" + addClause
+					+ ", constraintIndex=" + constraintIndex + ", dHoldCount=" + dHoldCount + ", eHoldCount="
+					+ eHoldCount + ", tkCondition=" + tkCondition + ", cName=" + cName + ", legalCourt=" + legalCourt
+					+ "]";
+		}
+	    
+	    
 
 }

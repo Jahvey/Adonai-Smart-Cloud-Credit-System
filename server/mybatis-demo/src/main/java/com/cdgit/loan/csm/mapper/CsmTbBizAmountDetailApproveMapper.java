@@ -10,6 +10,10 @@ public interface CsmTbBizAmountDetailApproveMapper {
 	
 	TbBizAmountDetailApprovePo queryOneTbBizAmountDetailApproveByAmountDetailId(String amountDetailId);
 	
-	
+    int insertCsmTbBizAmountDetailApprove(TbBizAmountDetailApprovePo record);
+
+    int insertCsmTbBizAmountDetailApproveSelective(TbBizAmountDetailApprovePo record);
+    
+
 
 }

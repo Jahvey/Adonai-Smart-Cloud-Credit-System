@@ -9,6 +9,17 @@ public interface CsmTbBizApproveMapper {
 	
 	
 	TbBizApprovePo queryOneTbBizApproveByApproveId(String approveId);
+	
+    int deleteCsmTbBizApproveByApproveId(String approveId);
+
+    int insertCsmTbBizApprove(TbBizApprovePo record);
+
+    int insertCsmTbBizApproveSelective(TbBizApprovePo record);
+
+
+    int updateCsmTbBizApproveSelective(TbBizApprovePo record);
+
+    int updateCsmTbBizApprove(TbBizApprovePo record);
 
 	
 }

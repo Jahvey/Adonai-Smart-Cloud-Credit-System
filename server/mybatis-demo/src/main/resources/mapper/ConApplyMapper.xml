@@ -42,6 +42,17 @@
 
   </resultMap>
   
+
+  
+  
+ <select id="queryJxhjOldConId" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT 
+	ls.CONTRACT_ID
+	FROM TB_BIZ_SUMMARY bs
+		INNER JOIN TB_LOAN_SUMMARY ls ON bs.SUMMARY_ID = ls.SUMMARY_ID 
+	WHERE bs.APPLY_ID = #{applyId}
+</select>
+  
   
   
     <select id="getPrintCons" parameterType="java.util.HashMap" resultMap="PrintConsVo">

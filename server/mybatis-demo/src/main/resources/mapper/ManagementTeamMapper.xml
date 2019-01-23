@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.customerManage.mapper.ManagementTeamMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.bean.ManagementTeam">
+<mapper namespace="com.cdgit.loan.customerManage.managementTeam.mapper.ManagementTeamMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.managementTeam.bean.ManagementTeam">
     <id column="MANAGEMENT_TEAM_ID" jdbcType="VARCHAR" property="managementTeamId" />
     <result column="USER_NUM" jdbcType="VARCHAR" property="userNum" />
     <result column="USER_PLACING_CD" jdbcType="VARCHAR" property="userPlacingCd" />
@@ -30,7 +30,7 @@
     delete from TB_CSM_MANAGEMENT_TEAM
     where MANAGEMENT_TEAM_ID = #{managementTeamId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.cdgit.loan.customerManage.bean.ManagementTeam">
+  <insert id="insert" parameterType="com.cdgit.loan.customerManage.managementTeam.bean.ManagementTeam">
     insert into TB_CSM_MANAGEMENT_TEAM (MANAGEMENT_TEAM_ID, USER_NUM, USER_PLACING_CD, 
       STATUS, PARTY_ID, UPDATE_TIME, 
       ORG_NUM, CREATE_TIME, PARTY_TYPE
@@ -40,7 +40,7 @@
       #{orgNum,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{partyType,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.bean.ManagementTeam">
+  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.managementTeam.bean.ManagementTeam">
     insert into TB_CSM_MANAGEMENT_TEAM
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="managementTeamId != null">
@@ -101,7 +101,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPartyId" parameterType="com.cdgit.loan.customerManage.bean.ManagementTeam">
+  <update id="updateByPartyId" parameterType="com.cdgit.loan.customerManage.managementTeam.bean.ManagementTeam">
     update TB_CSM_MANAGEMENT_TEAM
     <set>
       <if test="userNum != null">
@@ -131,7 +131,7 @@
     </set>
     where PARTY_ID = #{partyId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.bean.ManagementTeam">
+  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.managementTeam.bean.ManagementTeam">
     update TB_CSM_MANAGEMENT_TEAM
     set USER_NUM = #{userNum,jdbcType=VARCHAR},
       USER_PLACING_CD = #{userPlacingCd,jdbcType=VARCHAR},

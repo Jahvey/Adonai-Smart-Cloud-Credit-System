@@ -24,4 +24,10 @@ public interface NaturalPersonMapper {
    List<NaturalPerson> naturalPersonList(@Param("partyNum") String partyNum, @Param("partyName")String partyName
 		   ,@Param("certType")String certType,@Param("certNum") String certNum,@Param("isPotentialCust") String isPotentialCust
 		   ,@Param("isFarmer")String isFarmer,@Param("phoneNumber") String phoneNumber,@Param("unitAdress") String unitAdress);
+   
+   int insertSelective(NaturalPerson naturalPerson);
+   
+   int updateByPrimaryKeySelective(NaturalPerson naturalPerson);
+   
+   NaturalPerson queryNaturalByPartyId(String partyId);
 }
