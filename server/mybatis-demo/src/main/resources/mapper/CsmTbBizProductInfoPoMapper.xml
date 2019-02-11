@@ -12,10 +12,20 @@
     <result column="BIZ_DON" jdbcType="VARCHAR" property="bizDon" />
   </resultMap>
 
+
+  <select id="queryByProductType" parameterType="java.lang.String" resultMap="csmTbBizProductInfoPo">
+    select 
+    *
+    from Tb_Biz_Product_Info b
+    where b.product_cd= #{productType,jdbcType=VARCHAR}
+  </select>
+
+
+
   <select id="queryCsmTbBizProductInfoById" parameterType="java.lang.String" resultMap="csmTbBizProductInfoPo">
     select 
     *
-    from CRMS.TB_BIZ_PRODUCT_INFO
+    from TB_BIZ_PRODUCT_INFO
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteCsmTbBizProductInfoById" parameterType="java.lang.String">

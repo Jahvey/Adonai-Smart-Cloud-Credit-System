@@ -5,12 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cdgit.loan.common.util.uid.DateUtil;
+import com.cdgit.loan.sysManage.empManage.bean.AcOperator;
+import com.cdgit.loan.sysManage.empManage.bean.AcOperatorRole;
+import com.cdgit.loan.sysManage.empManage.bean.OmEmpOrg;
 import com.cdgit.loan.sysManage.empManage.bean.OmEmployee;
+import com.cdgit.loan.sysManage.empManage.mapper.AcOperatorMapper;
 import com.cdgit.loan.sysManage.empManage.mapper.OmEmployeeMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -21,7 +26,8 @@ public class OmEmployeeServiceImpl {
 	
 	@Autowired
 	OmEmployeeMapper omEmployeeMapper;
-	
+	@Autowired
+	AcOperatorMapper acOperatorMapper;
 	/**
      * 方法一  查询返回分页对象
      * <p>Title: findUser</p>  
@@ -30,6 +36,7 @@ public class OmEmployeeServiceImpl {
     
      * @return
      */
+	
     public Map<String, Object> queryEmployee(Integer pageNum, Integer pageSize, Long inorgid
     		, String empcode, String empname, String orgname, String status){
     	Map<String, Object> map = new HashMap<>();
@@ -54,6 +61,7 @@ public class OmEmployeeServiceImpl {
      * 新增用户
      * 
      * */
+    
     public Map<String, String> addEmp(OmEmployee emp) {
       	Map<String, String> map = new HashMap<>();
     	try {
@@ -69,10 +77,18 @@ public class OmEmployeeServiceImpl {
     		}
     		Date now = DateUtil.StrToDate(DateUtil.getDate("yyyy-MM-dd HH:mm:ss"));
     		emp.setCreatetime(now);
+    		emp.setUserid(emp.getEmpcode());
     		emp.setLastmodytime(now);
     		int back = omEmployeeMapper.insertSelective(emp);
     		int checkEO = omEmployeeMapper.addEmporg(emp.getEmpcode());
-            if (back == 0 || checkEO == 0) {
+    		
+    		AcOperator acOperator = new AcOperator();
+    		acOperator.setUserid(emp.getUserid());
+    		acOperator.setOperatorname(emp.getUserid());
+    		acOperator.setStatus("running");
+    		acOperator.setMenutype("menubar");
+    		int operator_ist = acOperatorMapper.insert(acOperator);
+            if (back == 0 || checkEO == 0 || operator_ist == 0) {
 		        map.put("code", "201");
 		        map.put("msg", "新增失败!");
 			}else {
@@ -88,6 +104,7 @@ public class OmEmployeeServiceImpl {
 			return map;
 		}
 	}
+    
     
 	/**
 	 * 检验用户code是否合格
@@ -144,7 +161,14 @@ public class OmEmployeeServiceImpl {
 		        return map;
     		}
 			int back = omEmployeeMapper.updateByPrimaryKeySelective(emp);
-			if (back == 0) {
+			int back_oeo = 0;
+			if(back != 0){
+				OmEmpOrg omEmpOrg = new OmEmpOrg();
+				omEmpOrg.setEmpid(emp.getEmpid());
+				omEmpOrg.setOrgid(emp.getOrgid());
+				back_oeo = omEmployeeMapper.updateEmporg(omEmpOrg);
+			}
+			if (back == 0 || back_oeo == 0) {
 		        map.put("code", "201");
 		        map.put("msg", "修改失败!");
 			}else {
@@ -222,4 +246,41 @@ public class OmEmployeeServiceImpl {
     	
     }
 
+    /**
+     * 用户添加角色
+     * */
+    public Map<String,Object> insertOperatorRole(String orgid,String operatorid,String[] roles){
+    	Map<String,Object> map = new HashMap<String,Object>();
+    	if(StringUtils.isBlank(orgid) || StringUtils.isBlank(operatorid)){
+    		map.put("code", "201");
+    		map.put("msg", "用户配置角色失败，用户编号或用户机构号不能为空！");
+    	}
+    	try {
+    		//先清空关系信息
+    		omEmployeeMapper.deleteOperatorRole(operatorid);
+    		//添加关系信息
+    		String[] succ = new String[roles.length];
+    		int index = 0;
+    		for(int i=0;i<roles.length;i++){
+    			if(StringUtils.isNotBlank(roles[i])){
+    				AcOperatorRole acOperatorRole = new AcOperatorRole();
+        			acOperatorRole.setOperatorid(operatorid);
+        			acOperatorRole.setOrgid(orgid);
+        			acOperatorRole.setRoleid(roles[i]);
+        			omEmployeeMapper.insertOperatorRole(acOperatorRole);
+        			succ[index++] = roles[i];
+    			}
+    		}
+    		map.put("code", "200");
+    		map.put("msg", "用户配置角色成功");
+    		map.put("data", succ);
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("code", "201");
+            map.put("msg", "用户配置角色失败！"+e.getStackTrace());
+            e.printStackTrace();
+		} finally {
+			return map;
+		}
+    }
 }

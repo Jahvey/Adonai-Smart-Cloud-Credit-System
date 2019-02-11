@@ -87,9 +87,9 @@ public class OmEmployee {
 
     private String departmentId;
     
-    //查询字段
     private int inorgid;
 	private String inorgname;
+ 
     private int orglevel;
 	private String orgcode;
 	private String status;

@@ -5,6 +5,7 @@ package com.cdgit.loan.csm.bean;
 
 import java.util.HashMap;
 
+import com.cdgit.loan.csm.po.CsmTbCsmPartyPo;
 import com.cdgit.loan.csm.po.TbBizAmountDetailApprovePo;
 import com.cdgit.loan.csm.po.TbConContractInfoPo;
 
@@ -26,7 +27,7 @@ public class CsmConInfoBaseVo {
 	
 	private CsmBizAmountApprove tbBizAmountApprove;
 	
-	private TbCsmParty  party;
+	private CsmTbCsmPartyPo  party;
 	
 	private TbBizAmountDetailApprovePo tbBizAmountDetailApprove;
 	
@@ -81,11 +82,13 @@ public class CsmConInfoBaseVo {
 		this.tbBizAmountApprove = tbBizAmountApprove;
 	}
 
-	public TbCsmParty getParty() {
+	
+
+	public CsmTbCsmPartyPo getParty() {
 		return party;
 	}
 
-	public void setParty(TbCsmParty party) {
+	public void setParty(CsmTbCsmPartyPo party) {
 		this.party = party;
 	}
 

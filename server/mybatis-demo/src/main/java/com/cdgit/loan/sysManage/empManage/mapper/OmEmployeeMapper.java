@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.cdgit.loan.sysManage.empManage.bean.AcOperatorRole;
+import com.cdgit.loan.sysManage.empManage.bean.OmEmpOrg;
 import com.cdgit.loan.sysManage.empManage.bean.OmEmployee;
 
 @Mapper
@@ -29,4 +31,10 @@ public interface OmEmployeeMapper {
     
     List<OmEmployee> queryEmployeeByTemp(@Param("inorgid") Long inorgid,@Param("empcode") String empcode,@Param("empname") String empname
     		,@Param("orgname") String orgname,@Param("status") String status);
+    
+    int updateEmporg(OmEmpOrg omEmpOrg);
+    
+    int insertOperatorRole(AcOperatorRole acOperatorRole);
+    
+    int deleteOperatorRole(String operatorid);
 }

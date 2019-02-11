@@ -20,9 +20,16 @@
     APPLY_DETAIL_ID, CREATE_TIME, UPDATE_TIME, AMOUNT_DETAIL_ID, GTJKR, APPLY_XW_AMT, 
     APPLY_XW_TERM, CYCLE_UNIT_XW, WTR, WTRLX, WTDKXZ, WTXM_ID, APPLY_DATE
   </sql>
+  <select id="queryByAmountDetailId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select 
+    *
+    from TB_BIZ_XW_APPROVE
+    where Amount_Detail_Id = #{amountDetailId,jdbcType=VARCHAR}
+  
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from CRMS.TB_BIZ_XW_APPROVE
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </select>

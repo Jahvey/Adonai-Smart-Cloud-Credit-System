@@ -1,7 +1,9 @@
 package com.cdgit.loan.csm.mapper;
 
-import com.cdgit.loan.csm.po.CsmTbConHptxPo;
+import org.apache.ibatis.annotations.Mapper;
 
+import com.cdgit.loan.csm.po.CsmTbConHptxPo;
+@Mapper
 public interface CsmTbConHptxPoMapper {
     int deleteByPrimaryKey(String applyDetailId);
 
@@ -14,4 +16,6 @@ public interface CsmTbConHptxPoMapper {
     int updateByPrimaryKeySelective(CsmTbConHptxPo record);
 
     int updateByPrimaryKey(CsmTbConHptxPo record);
+    
+    CsmTbConHptxPo queryByConInfo(String contractId);
 }

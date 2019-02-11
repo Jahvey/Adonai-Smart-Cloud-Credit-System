@@ -1,7 +1,9 @@
 package com.cdgit.loan.csm.mapper;
 
-import com.cdgit.loan.csm.po.CsmTbConJkdfPo;
+import org.apache.ibatis.annotations.Mapper;
 
+import com.cdgit.loan.csm.po.CsmTbConJkdfPo;
+@Mapper
 public interface CsmTbConJkdfPoMapper {
     int deleteByPrimaryKey(String applyDetailId);
 

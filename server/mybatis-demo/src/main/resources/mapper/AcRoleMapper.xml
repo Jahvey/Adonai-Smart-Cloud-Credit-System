@@ -10,8 +10,36 @@
     <result column="INITFLAG" jdbcType="VARCHAR" property="initflag" />
     <result column="LEG_ORG" jdbcType="VARCHAR" property="legOrg" />
   </resultMap>
+  <resultMap id="AcMenuResultMap" type="com.cdgit.loan.sysManage.acMenu.bean.AcMenu">
+    <id column="MENUID" jdbcType="VARCHAR" property="menuid" />
+    <result column="MENUNAME" jdbcType="VARCHAR" property="menuname" />
+    <result column="MENULABEL" jdbcType="VARCHAR" property="menulabel" />
+    <result column="MENUCODE" jdbcType="VARCHAR" property="menucode" />
+    <result column="ISLEAF" jdbcType="VARCHAR" property="isleaf" />
+    <result column="MENUACTION" jdbcType="VARCHAR" property="menuaction" />
+    <result column="PARAMETER" jdbcType="VARCHAR" property="parameter" />
+    <result column="UIENTRY" jdbcType="VARCHAR" property="uientry" />
+    <result column="MENULEVEL" jdbcType="DECIMAL" property="menulevel" />
+    <result column="ROOTID" jdbcType="VARCHAR" property="rootid" />
+    <result column="PARENTSID" jdbcType="VARCHAR" property="parentsid" />
+    <result column="DISPLAYORDER" jdbcType="DECIMAL" property="displayorder" />
+    <result column="IMAGEPATH" jdbcType="VARCHAR" property="imagepath" />
+    <result column="EXPANDPATH" jdbcType="VARCHAR" property="expandpath" />
+    <result column="MENUSEQ" jdbcType="VARCHAR" property="menuseq" />
+    <result column="OPENMODE" jdbcType="VARCHAR" property="openmode" />
+    <result column="SUBCOUNT" jdbcType="DECIMAL" property="subcount" />
+    <result column="APPID" jdbcType="DECIMAL" property="appid" />
+    <result column="FUNCCODE" jdbcType="VARCHAR" property="funccode" />
+    <result column="PARENTNAME" jdbcType="VARCHAR" property="parentname" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+  </resultMap>
   <sql id="Base_Column_List">
     ROLEID, ROLENAME, ROLETYPE, ROLEDESC, APPID, INITFLAG, LEG_ORG
+  </sql>
+  <sql id="AcMenu_Column_List">
+    t1.MENUID, t1.MENUNAME, t1.MENULABEL, t1.MENUCODE, t1.ISLEAF, t1.MENUACTION, t1.PARAMETER, t1.UIENTRY, t1.MENULEVEL, 
+    t1.ROOTID, t1.PARENTSID, t1.DISPLAYORDER, t1.IMAGEPATH, t1.EXPANDPATH, t1.MENUSEQ, t1.OPENMODE, t1.SUBCOUNT, 
+    t1.APPID, t1.FUNCCODE,t1.TYPE
   </sql>
   <select id="queryAllRole" parameterType="java.lang.String" resultMap="BaseResultMap">
     	SELECT ROLEID,ROLENAME,ROLETYPE FROM AC_ROLE WHERE 1=1
@@ -135,4 +163,35 @@
       LEG_ORG = #{legOrg,jdbcType=VARCHAR}
     where ROLEID = #{roleid,jdbcType=VARCHAR}
   </update>
+  
+  <select id="findRoleMenus" resultMap="AcMenuResultMap" parameterType="java.lang.String">
+  	select
+  	 <include refid="AcMenu_Column_List"/>
+  	from 
+  		ac_menurole t2
+  	left join 
+  		AC_MENU t1
+  	on
+  		t1.menuid = t2.menuid
+  	where t2.roleid = #{roleid,jdbcType=VARCHAR}
+  	
+  </select>
+  <select id="getRolesByUserId" resultType="com.cdgit.loan.sysManage.acRole.bean.AcRole" parameterType="java.lang.String">
+  	select roleid
+ 	from ac_operatorrole t1
+ 	inner join ac_operator t2
+    	on t1.operatorid = t2.operatorid
+ 	where t2.userid = #{userId,jdbcType=VARCHAR}
+  	
+  </select>
+  
+  <insert id="addRoleMenu" parameterType="com.cdgit.loan.sysManage.acRole.bean.AcRoleMenu">
+  		insert into ac_menurole(menuid,roleid)
+  		values(#{menuId,jdbcType=VARCHAR},#{roleId,jdbcType=VARCHAR})
+  </insert>
+  
+  <delete id="deleteRoleMenuByRoleId">
+  	delete from ac_menurole where roleId = #{roleId,jdbcType=VARCHAR}
+  </delete>
+  
 </mapper>

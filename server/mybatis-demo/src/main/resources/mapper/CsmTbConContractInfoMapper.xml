@@ -64,6 +64,19 @@
   </resultMap>
   
   
+  
+  <select id="queryOneCsmTbConContractInfoByConId" parameterType="java.lang.String" resultMap="csmTbConContractInfoPo">
+  select 
+  *
+  from 
+  tb_con_contract_info a
+  where
+  a.contract_id=#{contractId,jdbcType=VARCHAR}
+  
+  
+  </select>
+  
+  
     <insert id="insertCsmTbConContractInfo" parameterType="com.cdgit.loan.csm.po.TbConContractInfoPo">
     insert into CRMS.TB_CON_CONTRACT_INFO (CONTRACT_ID, AMOUNT_DETAIL_ID, CONTRACT_NUM, 
       CONTRACT_ADDRESS, PARTY_ID, OLD_CONTRACT_ID, 

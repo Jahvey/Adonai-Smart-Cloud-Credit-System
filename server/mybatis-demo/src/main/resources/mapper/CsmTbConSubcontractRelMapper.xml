@@ -28,6 +28,22 @@
   </select>
   
   
+   <select id="queryListBySubconIdAndPartyId" parameterType="java.util.HashMap" resultMap="tbConSubcontractRelPo">
+	select 
+	*
+	from 
+		TB_CON_SUBCONTRACT_REL
+	where 
+		1=1
+		<if test="subcontractId !=null and subcontractId !='' ">
+		and subcontract_id=#{subcontractId,jdbcType=VARCHAR}
+		</if>
+		<if test="partyId !=null and partyId !='' ">
+		and party_id=#{partyId,jdbcType=VARCHAR}
+		</if>
+		
+
+  </select>
   
   <select id="queryListCsmTbConSubcontractRelPo" parameterType="java.util.HashMap" resultMap="tbConSubcontractRelPo">
 	select 
@@ -39,6 +55,7 @@
 		and if_effective=#{ifEffective,jdbcType=VARCHAR}
 
   </select>
+  
   
   
   <select id="queryCsmTbConSubcontractRelByConSubconId" parameterType="java.lang.String" resultMap="tbConSubcontractRelPo">

@@ -18,9 +18,15 @@
     APPLY_DETAIL_ID, CREATE_TIME, UPDATE_TIME, AMOUNT_DETAIL_ID, JMRHSX, SFJMRHSX, APPLY_TYPE, 
     WHETHER_ZFTDCBJGDK, DCKFDK_TYPE, AJGC_TYPE, AJGC_DETAIL_TYPE
   </sql>
+    <select id="queryByAmountDetailId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    *
+    from CRMS.TB_BIZ_GDZCDK_APPROVE
+    where Amount_Detail_Id = #{amountDetailId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from CRMS.TB_BIZ_GDZCDK_APPROVE
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </select>

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cdgit.loan.securitymanagement.bean.GrtCollateralNotarization;
-import com.cdgit.loan.securitymanagerment.mapper.GrtCollateralNotarizationMapper;
+import com.cdgit.loan.securitymanagement.mapper.GrtCollateralNotarizationMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 

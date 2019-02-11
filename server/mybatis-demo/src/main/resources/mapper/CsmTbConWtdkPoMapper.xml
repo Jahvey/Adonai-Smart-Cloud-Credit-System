@@ -28,7 +28,7 @@
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from CRMS.TB_CON_WTDK
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </select>

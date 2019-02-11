@@ -1,6 +1,9 @@
 package com.cdgit.loan.sysManage.empManage.bean;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.cdgit.loan.common.util.login.LoginUtil;
 
 public class AcOperator {
     private Long operatorid;
@@ -23,7 +26,7 @@ public class AcOperator {
 
     private Date lastlogin;
 
-    private Long errcount;
+    private int errcount = 0;
 
     private Date startdate;
 
@@ -43,6 +46,12 @@ public class AcOperator {
 
     private String dynamicswitch;
 
+    public AcOperator() throws Exception{
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	this.invaldate = sdf.parse("2099-12-31");
+    	this.startdate = new Date();
+    	this.password = LoginUtil.md5();
+    }
     public Long getOperatorid() {
         return operatorid;
     }
@@ -123,11 +132,11 @@ public class AcOperator {
         this.lastlogin = lastlogin;
     }
 
-    public Long getErrcount() {
+    public int getErrcount() {
         return errcount;
     }
 
-    public void setErrcount(Long errcount) {
+    public void setErrcount(int errcount) {
         this.errcount = errcount;
     }
 
@@ -203,64 +212,5 @@ public class AcOperator {
         this.dynamicswitch = dynamicswitch == null ? null : dynamicswitch.trim();
     }
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        AcOperator other = (AcOperator) that;
-        return (this.getOperatorid() == null ? other.getOperatorid() == null : this.getOperatorid().equals(other.getOperatorid()))
-            && (this.getUserid() == null ? other.getUserid() == null : this.getUserid().equals(other.getUserid()))
-            && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
-            && (this.getInvaldate() == null ? other.getInvaldate() == null : this.getInvaldate().equals(other.getInvaldate()))
-            && (this.getOperatorname() == null ? other.getOperatorname() == null : this.getOperatorname().equals(other.getOperatorname()))
-            && (this.getAuthmode() == null ? other.getAuthmode() == null : this.getAuthmode().equals(other.getAuthmode()))
-            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getUnlocktime() == null ? other.getUnlocktime() == null : this.getUnlocktime().equals(other.getUnlocktime()))
-            && (this.getMenutype() == null ? other.getMenutype() == null : this.getMenutype().equals(other.getMenutype()))
-            && (this.getLastlogin() == null ? other.getLastlogin() == null : this.getLastlogin().equals(other.getLastlogin()))
-            && (this.getErrcount() == null ? other.getErrcount() == null : this.getErrcount().equals(other.getErrcount()))
-            && (this.getStartdate() == null ? other.getStartdate() == null : this.getStartdate().equals(other.getStartdate()))
-            && (this.getEnddate() == null ? other.getEnddate() == null : this.getEnddate().equals(other.getEnddate()))
-            && (this.getValidtime() == null ? other.getValidtime() == null : this.getValidtime().equals(other.getValidtime()))
-            && (this.getMaccode() == null ? other.getMaccode() == null : this.getMaccode().equals(other.getMaccode()))
-            && (this.getIpaddress() == null ? other.getIpaddress() == null : this.getIpaddress().equals(other.getIpaddress()))
-            && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
-            && (this.getPassword1() == null ? other.getPassword1() == null : this.getPassword1().equals(other.getPassword1()))
-            && (this.getUseridmap() == null ? other.getUseridmap() == null : this.getUseridmap().equals(other.getUseridmap()))
-            && (this.getDynamicswitch() == null ? other.getDynamicswitch() == null : this.getDynamicswitch().equals(other.getDynamicswitch()));
-    }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getOperatorid() == null) ? 0 : getOperatorid().hashCode());
-        result = prime * result + ((getUserid() == null) ? 0 : getUserid().hashCode());
-        result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
-        result = prime * result + ((getInvaldate() == null) ? 0 : getInvaldate().hashCode());
-        result = prime * result + ((getOperatorname() == null) ? 0 : getOperatorname().hashCode());
-        result = prime * result + ((getAuthmode() == null) ? 0 : getAuthmode().hashCode());
-        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-        result = prime * result + ((getUnlocktime() == null) ? 0 : getUnlocktime().hashCode());
-        result = prime * result + ((getMenutype() == null) ? 0 : getMenutype().hashCode());
-        result = prime * result + ((getLastlogin() == null) ? 0 : getLastlogin().hashCode());
-        result = prime * result + ((getErrcount() == null) ? 0 : getErrcount().hashCode());
-        result = prime * result + ((getStartdate() == null) ? 0 : getStartdate().hashCode());
-        result = prime * result + ((getEnddate() == null) ? 0 : getEnddate().hashCode());
-        result = prime * result + ((getValidtime() == null) ? 0 : getValidtime().hashCode());
-        result = prime * result + ((getMaccode() == null) ? 0 : getMaccode().hashCode());
-        result = prime * result + ((getIpaddress() == null) ? 0 : getIpaddress().hashCode());
-        result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
-        result = prime * result + ((getPassword1() == null) ? 0 : getPassword1().hashCode());
-        result = prime * result + ((getUseridmap() == null) ? 0 : getUseridmap().hashCode());
-        result = prime * result + ((getDynamicswitch() == null) ? 0 : getDynamicswitch().hashCode());
-        return result;
-    }
 }

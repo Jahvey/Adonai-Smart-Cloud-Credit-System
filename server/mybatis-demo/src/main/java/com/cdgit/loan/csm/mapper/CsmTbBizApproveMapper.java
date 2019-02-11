@@ -7,6 +7,7 @@ import com.cdgit.loan.csm.po.TbBizApprovePo;
 @Mapper
 public interface CsmTbBizApproveMapper {
 	
+	TbBizApprovePo queryByApplyId(String applyId);
 	
 	TbBizApprovePo queryOneTbBizApproveByApproveId(String approveId);
 	

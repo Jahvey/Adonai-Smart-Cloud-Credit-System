@@ -2,7 +2,9 @@ package com.cdgit.loan.csm.po;
 
 import java.util.Date;
 
-public class CsmTbBizXdzmApprovePo {
+import com.cdgit.loan.csm.bean.CsmConDetailVo;
+
+public class CsmTbBizXdzmApprovePo extends CsmConDetailVo{
     private String applyDetailId;
 
     private Date createTime;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.customerManage.illegalRecord.mapper.IllegalRecordMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.illegalRecord.bean.IllegalRecord">
+<mapper namespace="com.cdgit.loan.customerManage.mapper.IllegalRecordMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.bean.IllegalRecord">
     <id column="SUMMARY_NUM" jdbcType="VARCHAR" property="summaryNum" />
     <id column="CURR_PERI" jdbcType="VARCHAR" property="currPeri" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
@@ -57,19 +57,19 @@
 	   and a.party_id = d.party_id
 	   and a.party_id = #{partyId,jdbcType=VARCHAR}
   </select>
-  <select id="selectByPrimaryKey" parameterType="com.cdgit.loan.customerManage.illegalRecord.bean.IllegalRecordKey" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="com.cdgit.loan.customerManage.bean.IllegalRecordKey" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from TB_LOAN_ILLEGAL_RECORD
     where SUMMARY_NUM = #{summaryNum,jdbcType=VARCHAR}
       and CURR_PERI = #{currPeri,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.cdgit.loan.customerManage.illegalRecord.bean.IllegalRecordKey">
+  <delete id="deleteByPrimaryKey" parameterType="com.cdgit.loan.customerManage.bean.IllegalRecordKey">
     delete from TB_LOAN_ILLEGAL_RECORD
     where SUMMARY_NUM = #{summaryNum,jdbcType=VARCHAR}
       and CURR_PERI = #{currPeri,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.cdgit.loan.customerManage.illegalRecord.bean.IllegalRecord">
+  <insert id="insert" parameterType="com.cdgit.loan.customerManage.bean.IllegalRecord">
     insert into TB_LOAN_ILLEGAL_RECORD (SUMMARY_NUM, CURR_PERI, STATUS, 
       PARTY_ID, BEGIN_DATE, END_DATE, 
       OVERDUE_DATE, REPAY_DATE, RCV_PRN, 
@@ -89,7 +89,7 @@
       #{orgNum,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.illegalRecord.bean.IllegalRecord">
+  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.bean.IllegalRecord">
     insert into TB_LOAN_ILLEGAL_RECORD
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="summaryNum != null">
@@ -246,7 +246,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.customerManage.illegalRecord.bean.IllegalRecord">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.customerManage.bean.IllegalRecord">
     update TB_LOAN_ILLEGAL_RECORD
     <set>
       <if test="status != null">
@@ -322,7 +322,7 @@
     where SUMMARY_NUM = #{summaryNum,jdbcType=VARCHAR}
       and CURR_PERI = #{currPeri,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.illegalRecord.bean.IllegalRecord">
+  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.bean.IllegalRecord">
     update TB_LOAN_ILLEGAL_RECORD
     set STATUS = #{status,jdbcType=VARCHAR},
       PARTY_ID = #{partyId,jdbcType=VARCHAR},

@@ -15,18 +15,26 @@
     APPLY_DETAIL_ID, CREATE_TIME, UPDATE_TIME, AMOUNT_DETAIL_ID, WTR, WTRLX, WTDKXZ, 
     WTXM_ID
   </sql>
+  <select id="queryByAmountDetailId" parameterType="java.lang.String" resultMap="BaseResultMap" >
+  
+    select 
+    *
+    from TB_BIZ_WTDK_APPROVE
+    where Amount_Detail_Id = #{amountDetailId,jdbcType=VARCHAR}
+  
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
-    from CRMS.TB_BIZ_WTDK_APPROVE
+    *
+    from TB_BIZ_WTDK_APPROVE
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from CRMS.TB_BIZ_WTDK_APPROVE
+    delete from TB_BIZ_WTDK_APPROVE
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.cdgit.loan.csm.po.CsmTbBizWtdkApprovePo">
-    insert into CRMS.TB_BIZ_WTDK_APPROVE (APPLY_DETAIL_ID, CREATE_TIME, UPDATE_TIME, 
+    insert into  TB_BIZ_WTDK_APPROVE (APPLY_DETAIL_ID, CREATE_TIME, UPDATE_TIME, 
       AMOUNT_DETAIL_ID, WTR, WTRLX, 
       WTDKXZ, WTXM_ID)
     values (#{applyDetailId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
@@ -34,7 +42,7 @@
       #{wtdkxz,jdbcType=VARCHAR}, #{wtxmId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.cdgit.loan.csm.po.CsmTbBizWtdkApprovePo">
-    insert into CRMS.TB_BIZ_WTDK_APPROVE
+    insert into TB_BIZ_WTDK_APPROVE
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="applyDetailId != null">
         APPLY_DETAIL_ID,
@@ -89,7 +97,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.csm.po.CsmTbBizWtdkApprovePo">
-    update CRMS.TB_BIZ_WTDK_APPROVE
+    update TB_BIZ_WTDK_APPROVE
     <set>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
@@ -116,7 +124,7 @@
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.csm.po.CsmTbBizWtdkApprovePo">
-    update CRMS.TB_BIZ_WTDK_APPROVE
+    update TB_BIZ_WTDK_APPROVE
     set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       AMOUNT_DETAIL_ID = #{amountDetailId,jdbcType=VARCHAR},

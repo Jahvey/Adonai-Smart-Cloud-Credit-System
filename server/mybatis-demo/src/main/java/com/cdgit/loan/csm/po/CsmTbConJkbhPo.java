@@ -3,7 +3,9 @@ package com.cdgit.loan.csm.po;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CsmTbConJkbhPo {
+import com.cdgit.loan.csm.bean.CsmConDetailVo;
+
+public class CsmTbConJkbhPo extends CsmConDetailVo{
     private String applyDetailId;
 
     private Date createTime;

@@ -52,12 +52,56 @@ public class AcMenuServiceImpl {
 		}
     }
     
+    /**
+	 * 根据角色ID查询对应菜单数据，并且转化为树形结构
+     * 使用递归方法rebuildList2Tree建树
+     *
+     * @param 
+     * @return
+     */
+    public Map<String, Object> queryMenuTreeByRole(String roleid){
+    	Map<String, Object> map = new HashMap<>();
+    	try {
+    		List<AcMenu> menuList = acMenuMapper.queryMenuTreeByRole(roleid);
+    		List<AcMenu> tree = rebuildList2Tree(menuList);
+         	
+         	map.put("code", "200");
+            map.put("msg", "查询成功!");
+            map.put("data", tree);
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("code", "201");
+            map.put("msg", "查询失败!");
+            e.printStackTrace();
+		} finally {
+			return map;
+		}
+    }
     public Map<String, Object> queryMenuByParentsid(Integer pageNum, Integer pageSize, String parentsid){
     	Map<String, Object> map = new HashMap<>();
     	try {
     		PageHelper.startPage(pageNum,pageSize);
         	List<AcMenu> menuList = acMenuMapper.queryMenuByParentsid(parentsid);
         	PageInfo pageInfo=new PageInfo(menuList,pageSize);
+          	map.put("code", "200");
+            map.put("msg", "查询成功!");
+            map.put("data", menuList);
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("code", "201");
+            map.put("msg", "查询失败!");
+            e.printStackTrace();
+		} finally {
+			return map; 
+		}
+    }
+    /**
+     * 根据角色获取菜单列表
+     * */
+    public Map<String, Object> queryMenuByRoleid(String roleid){
+    	Map<String, Object> map = new HashMap<>();
+    	try {
+        	List<AcMenu> menuList = acMenuMapper.queryMenuByRoleid(roleid);
           	map.put("code", "200");
             map.put("msg", "查询成功!");
             map.put("data", menuList);

@@ -13,10 +13,10 @@ import com.cdgit.loan.csm.po.TbBizProductInfoPo;
 public class ProductUtil {
 	
 	@Autowired
-	static CsmProductMapper csmProductMapper;
+	CsmProductMapper csmProductMapper;
 	
 	@SuppressWarnings("unchecked")
-	public static String getEntityName(String productCd) {
+	public  String getEntityName(String productCd) {
 		List<TbBizProductInfoPo> datas = csmProductMapper.queryProductInfo(productCd);
 		//Object[] datas = DatabaseExt.queryByNamedSql(DBUtil.DB_NAME_DEF, "com.bos.pub.product.getProductInfo", productCd);
 		if (datas == null || datas.size()== 0) {
@@ -28,7 +28,7 @@ public class ProductUtil {
 	
 	
 	@SuppressWarnings("unchecked")
-	public static String getTableName(String productCd) {
+	public  String getTableName(String productCd) {
 		List<TbBizProductInfoPo> datas = csmProductMapper.queryProductInfo(productCd);
 		//Object[] datas = DatabaseExt.queryByNamedSql(DBUtil.DB_NAME_DEF, "com.bos.pub.product.getProductInfo", productCd);
 		if (datas == null || datas.size()== 0) {

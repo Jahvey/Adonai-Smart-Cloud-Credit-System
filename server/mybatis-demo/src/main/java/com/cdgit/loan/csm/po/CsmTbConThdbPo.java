@@ -3,7 +3,9 @@ package com.cdgit.loan.csm.po;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CsmTbConThdbPo {
+import com.cdgit.loan.csm.bean.CsmConDetailVo;
+
+public class CsmTbConThdbPo extends CsmConDetailVo{
     private String applyDetailId;
 
     private Date createTime;
@@ -163,4 +165,15 @@ public class CsmTbConThdbPo {
     public void setFph(String fph) {
         this.fph = fph == null ? null : fph.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConThdbPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", contractId=" + contractId + ", tdhm=" + tdhm
+				+ ", xyzhm=" + xyzhm + ", tdrq=" + tdrq + ", dqrq=" + dqrq + ", bzjzh=" + bzjzh + ", bzjje=" + bzjje
+				+ ", bzjbz=" + bzjbz + ", bzjblbdy=" + bzjblbdy + ", dkll=" + dkll + ", rzzh=" + rzzh + ", fph=" + fph
+				+ "]";
+	}
+    
+    
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,24 +32,28 @@ public class AcMenuController {
 		return acMenuService.selectByPrimaryKey(menuid);
 	}
 	
-	/**
-	 * 
-	 *startPgae(页码，每页几条数据)
-	 *@ResponseBody()将返回的page转换为json对象由页面的js进行解析
-	
-	 * <p>Title: findUser</p>  
-	
-	 * <p>Description: </p>  
-	
-	 * @param omOrganizationCriteria
-	 * @return
-	 */
-	@PostMapping("/queryMenuTree")
+	@PostMapping("/queryMenuTreeByRole")
 	@ResponseBody
-	public Map<String, Object> queryPosition(){
-		return acMenuService.queryMenuTree();
+	public Map<String, Object> queryMenuTreeByRole(@RequestBody Map<String, Object> params){
+		Map<String, Object> map = new HashMap<>();
+		String roleid = "";
+		if(params.get("roleid") != null){
+			roleid = params.get("roleid").toString();
+		}
+		if(StringUtils.isBlank(roleid)){
+			map.put("code", "201");
+			map.put("msg", "根据角色查询菜单树失败，角色编号不能为空");
+			return map;
+		}
+		map = acMenuService.queryMenuTreeByRole(roleid);
+		return map;
 	}
-	
+	@PostMapping("/queryMenuTree")
+	public Map<String, Object> queryMenuTree(){
+		Map<String, Object> map = new HashMap<>();
+		map = acMenuService.queryMenuTree();
+		return map;
+	}
 	@PostMapping("queryMenuByParentsid")
 	@ResponseBody
 	public Map<String, Object> queryMenuByParentsid(@RequestBody Map<String, Object> params){

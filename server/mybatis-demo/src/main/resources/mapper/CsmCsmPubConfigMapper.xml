@@ -22,8 +22,8 @@
 			tb_pub_config 
 		WHERE 
 			cfg_status = '1'
-			AND cfg_group = #{cfgGroup} 
-			AND cfg_key = #{cfgKey}
+			AND cfg_group = #{cfgGroup,jdbcType=VARCHAR} 
+			AND cfg_key = #{cfgKey,jdbcType=VARCHAR}
 </select>
 
 <select id="selectCsmPubConfigByKeys" parameterType="com.cdgit.loan.csm.po.CsmPubConfigPoKey" resultMap="csmPubConfigPo">

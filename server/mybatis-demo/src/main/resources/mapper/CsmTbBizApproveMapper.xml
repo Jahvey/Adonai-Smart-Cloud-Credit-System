@@ -51,6 +51,21 @@
   </resultMap>
   
   
+    <select id="queryByApplyId" parameterType="java.lang.String" resultMap="CsmTbBizApprovePo">
+  
+  select *
+  from
+  TB_BIZ_APPROVE
+  where
+  apply_id=#{applyId,jdbcType=VARCHAR}
+  
+  
+  </select>
+  
+  
+  
+  
+  
   <select id="queryOneTbBizApproveByApproveId" parameterType="java.lang.String" resultMap="CsmTbBizApprovePo">
   
   select *

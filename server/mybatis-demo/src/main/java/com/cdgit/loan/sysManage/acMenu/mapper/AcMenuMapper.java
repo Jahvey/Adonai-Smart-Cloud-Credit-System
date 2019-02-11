@@ -6,23 +6,25 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.cdgit.loan.sysManage.acMenu.bean.AcMenu;
 
-import feign.Param;
-
 @Mapper
 public interface AcMenuMapper {
-    int deleteByPrimaryKey(String menuid);
 
-    int insert(AcMenu record);
-
-    int insertSelective(AcMenu record);
-
-    AcMenu selectByPrimaryKey(String menuid);
-
-    int updateByPrimaryKeySelective(AcMenu record);
-
-    int updateByPrimaryKey(AcMenu record);
-    
-    List<AcMenu> queryMenuTree();
-    
-    List<AcMenu> queryMenuByParentsid(@Param(value = "parentsid") String parentsid);
+	 
+	AcMenu selectByPrimaryKey(String menuid);
+	
+	List<AcMenu> queryMenuTree();
+	
+	List<AcMenu> queryMenuTreeByRole(String roleid);
+	
+	List<AcMenu> queryMenuByParentsid(String parentsid);
+	
+	List<AcMenu> queryMenuByRoleid(String roleid);
+	
+	int insertSelective(AcMenu menu);
+	
+	int updateByPrimaryKeySelective(AcMenu menu);
+	
+	int deleteByPrimaryKey(String menuid);
+	
+	
 }

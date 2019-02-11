@@ -583,5 +583,28 @@ public class TbConContractInfoPo {
     public void setJxhjId(String jxhjId) {
         this.jxhjId = jxhjId == null ? null : jxhjId.trim();
     }
+
+	@Override
+	public String toString() {
+		return "TbConContractInfoPo [contractId=" + contractId + ", amountDetailId=" + amountDetailId + ", contractNum="
+				+ contractNum + ", contractAddress=" + contractAddress + ", partyId=" + partyId + ", oldContractId="
+				+ oldContractId + ", currencyCd=" + currencyCd + ", contractAmt=" + contractAmt + ", contractTerm="
+				+ contractTerm + ", cycleUnit=" + cycleUnit + ", beginDate=" + beginDate + ", endDate=" + endDate
+				+ ", contractDate=" + contractDate + ", loanUse=" + loanUse + ", guarantyType=" + guarantyType
+				+ ", loanTurn=" + loanTurn + ", userNum=" + userNum + ", orgNum=" + orgNum + ", createTime="
+				+ createTime + ", updateTime=" + updateTime + ", productType=" + productType + ", conStatus="
+				+ conStatus + ", trusToPayFlg=" + trusToPayFlg + ", stopPayFlg=" + stopPayFlg + ", specPaymentDate="
+				+ specPaymentDate + ", exchangeRate=" + exchangeRate + ", rmbAmt=" + rmbAmt + ", conBalance="
+				+ conBalance + ", cycleIndCon=" + cycleIndCon + ", repaymentType=" + repaymentType + ", tkDate="
+				+ tkDate + ", holidayFlg=" + holidayFlg + ", mainGuarantyType=" + mainGuarantyType + ", xyId=" + xyId
+				+ ", paperConNum=" + paperConNum + ", internalDays=" + internalDays + ", clsResult=" + clsResult
+				+ ", ifDataMove=" + ifDataMove + ", firstRepayTerm=" + firstRepayTerm + ", conYuE=" + conYuE
+				+ ", payWay=" + payWay + ", payDepend1=" + payDepend1 + ", payDepend2=" + payDepend2 + ", payDepend3="
+				+ payDepend3 + ", prepaymentPenalty=" + prepaymentPenalty + ", prepayMakeupRate=" + prepayMakeupRate
+				+ ", leastPrepayAmount=" + leastPrepayAmount + ", prepayJs=" + prepayJs + ", bzjbl=" + bzjbl
+				+ ", crdCent=" + crdCent + ", applyModeType=" + applyModeType + ", lowRiskBizType=" + lowRiskBizType
+				+ ", agriculLoans=" + agriculLoans + ", conOccupy=" + conOccupy + ", crdDtlId=" + crdDtlId
+				+ ", creditMode=" + creditMode + ", creditStatus=" + creditStatus + ", jxhjId=" + jxhjId + "]";
+	}
     
 }

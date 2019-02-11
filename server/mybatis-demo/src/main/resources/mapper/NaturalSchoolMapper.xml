@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.customerManage.naturalSchool.mapper.NaturalSchoolMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.naturalSchool.bean.NaturalSchool">
+<mapper namespace="com.cdgit.loan.customerManage.mapper.NaturalSchoolMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.bean.NaturalSchool">
     <id column="SCHOOL_ID" jdbcType="VARCHAR" property="schoolId" />
     <result column="COLLEGENAME" jdbcType="VARCHAR" property="collegename" />
     <result column="COLLEGEADDR" jdbcType="VARCHAR" property="collegeaddr" />
@@ -41,7 +41,7 @@
     delete from TB_CSM_NATURAL_SCHOOL
     where SCHOOL_ID = #{schoolId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.cdgit.loan.customerManage.naturalSchool.bean.NaturalSchool">
+  <insert id="insert" parameterType="com.cdgit.loan.customerManage.bean.NaturalSchool">
     insert into TB_CSM_NATURAL_SCHOOL (SCHOOL_ID, COLLEGENAME, COLLEGEADDR, 
       INSTITUTENAME, COLLEGETYPE, EDUCSIGN, 
       SUBJECTNAME, GRADUATEYEAR, LASTCHANDATE, 
@@ -55,7 +55,7 @@
       #{partyId,jdbcType=VARCHAR}, #{nationalityCd,jdbcType=VARCHAR}, #{provinceCd,jdbcType=VARCHAR}, 
       #{cityCd,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.naturalSchool.bean.NaturalSchool">
+  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.bean.NaturalSchool">
     insert into TB_CSM_NATURAL_SCHOOL
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="schoolId != null">
@@ -164,7 +164,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.customerManage.naturalSchool.bean.NaturalSchool">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.customerManage.bean.NaturalSchool">
     update TB_CSM_NATURAL_SCHOOL
     <set>
       <if test="collegename != null">
@@ -218,7 +218,7 @@
     </set>
     where SCHOOL_ID = #{schoolId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.naturalSchool.bean.NaturalSchool">
+  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.bean.NaturalSchool">
     update TB_CSM_NATURAL_SCHOOL
     set COLLEGENAME = #{collegename,jdbcType=VARCHAR},
       COLLEGEADDR = #{collegeaddr,jdbcType=VARCHAR},

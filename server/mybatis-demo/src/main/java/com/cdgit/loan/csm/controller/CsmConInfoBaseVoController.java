@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cdgit.loan.csm.bean.CsmConCreditInfo;
 import com.cdgit.loan.csm.bean.CsmConInfoBaseVo;
 import com.cdgit.loan.csm.bean.CsmTbBizApprove;
-import com.cdgit.loan.csm.gitUtils.CsmGitUtilsMapper;
+import com.cdgit.loan.csm.pub.gitUtils.CsmGitUtilsMapper;
 import com.cdgit.loan.csm.mapper.CsmConInfoBaseVoMapper;
 import com.cdgit.loan.csm.service.CsmConInfoBaseVoServiceImpl;
 

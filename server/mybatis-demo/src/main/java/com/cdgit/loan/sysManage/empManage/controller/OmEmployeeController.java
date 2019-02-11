@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cdgit.loan.sysManage.empManage.bean.OmEmployee;
 import com.cdgit.loan.sysManage.empManage.service.OmEmployeeServiceImpl;
+
+import net.minidev.json.JSONArray;
 
 @CrossOrigin
 @RestController
@@ -121,4 +122,25 @@ public class OmEmployeeController {
 		map = omEmployeeService.updateOperatorStatus(status, userid);
 		return map;
 	}
+	
+	@PostMapping("insertOperatorRole")
+	@ResponseBody
+	public Map<String, Object> insertOperatorRole(@RequestBody Map<String, Object> params) {
+		String operatorid = "";
+		String orgid="";
+		String[] roles = null;
+		if(params.get("operatorid") != null){
+			operatorid = params.get("operatorid").toString();
+		}
+		if(params.get("orgid") != null){
+			orgid = params.get("orgid").toString();
+		}
+		if(params.get("roles") != null){
+			roles = params.get("roles").toString().replaceAll(" ", "").replace("[", "").replace("]", "").split(",");
+		}
+		Map<String, Object> map = omEmployeeService.insertOperatorRole(orgid, operatorid, roles);
+		
+		return map;
+	}
+	
 }

@@ -14,6 +14,7 @@ import com.cdgit.loan.csm.po.TbBizAmountApprovePo;
 @Mapper
 public interface CsmTbBizAmountApproveMapper {
 	
+	TbBizAmountApprovePo queryByApproveId(String approveId);
 	
 	TbBizAmountApprovePo queryOneTbBizAmountApproveByAmountId(String amountId);
 	
@@ -23,14 +24,9 @@ public interface CsmTbBizAmountApproveMapper {
 
     int insertCsmTbBizAmountApproveSelective(TbBizAmountApprovePo record);
 
-
-
     int updateCsmTbBizAmountApproveSelective(TbBizAmountApprovePo record);
 
     int updateCsmTbBizAmountApprove(TbBizAmountApprovePo record);
-	
-	
-	
 	
 
 }

@@ -32,6 +32,17 @@
 
   </resultMap>
 
+
+<select id="queryByApproveId" parameterType="java.lang.String" resultMap="csmTbBizAmountApprovePo">
+	select 
+	*
+	from 
+	TB_BIZ_AMOUNT_APPROVE
+	where 
+	approve_id=#{approveId,jdbcType=VARCHAR}
+
+  </select>
+
   <select id="queryOneTbBizAmountApproveByAmountId" parameterType="java.lang.String" resultMap="csmTbBizAmountApprovePo">
 	select 
 	*

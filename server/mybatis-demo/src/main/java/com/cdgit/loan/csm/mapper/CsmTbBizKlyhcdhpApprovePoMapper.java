@@ -1,7 +1,10 @@
 package com.cdgit.loan.csm.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.cdgit.loan.csm.po.CsmTbBizKlyhcdhpApprovePo;
 
+@Mapper
 public interface CsmTbBizKlyhcdhpApprovePoMapper {
     int deleteByPrimaryKey(String applyDetailId);
 
@@ -14,4 +17,6 @@ public interface CsmTbBizKlyhcdhpApprovePoMapper {
     int updateByPrimaryKeySelective(CsmTbBizKlyhcdhpApprovePo record);
 
     int updateByPrimaryKey(CsmTbBizKlyhcdhpApprovePo record);
+    
+    CsmTbBizKlyhcdhpApprovePo queryByAmountDetailId(String amountDetailId);
 }

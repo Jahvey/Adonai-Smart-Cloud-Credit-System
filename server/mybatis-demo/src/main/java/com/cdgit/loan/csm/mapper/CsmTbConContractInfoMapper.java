@@ -11,5 +11,7 @@ public interface CsmTbConContractInfoMapper {
 	
 	int insertCsmTbConContractInfoSelective(TbConContractInfoPo contractInfo);
 	
+	TbConContractInfoPo queryOneCsmTbConContractInfoByConId(String contractId);
+	
 
 }

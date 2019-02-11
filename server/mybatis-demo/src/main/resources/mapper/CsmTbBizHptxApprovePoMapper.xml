@@ -18,18 +18,30 @@
     APPLY_DETAIL_ID, CREATE_TIME, UPDATE_TIME, AMOUNT_DETAIL_ID, TXZJYT, HPZL, SFXYFX, 
     MFCNBL_BUY, MFCNBL_SELL, HPZS, DKLL
   </sql>
+  <select id="queryByAmountDetailId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    *
+    from TB_BIZ_HPTX_APPROVE
+    where AMOUNT_DETAIL_ID = #{amountDetailId,jdbcType=VARCHAR}
+
+  
+  </select>
+  
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
-    from CRMS.TB_BIZ_HPTX_APPROVE
+    *
+    from TB_BIZ_HPTX_APPROVE
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from CRMS.TB_BIZ_HPTX_APPROVE
+    delete from 
+    TB_BIZ_HPTX_APPROVE
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.cdgit.loan.csm.po.CsmTbBizHptxApprovePo">
-    insert into CRMS.TB_BIZ_HPTX_APPROVE (APPLY_DETAIL_ID, CREATE_TIME, UPDATE_TIME, 
+    insert into 
+	TB_BIZ_HPTX_APPROVE (APPLY_DETAIL_ID, CREATE_TIME, UPDATE_TIME, 
       AMOUNT_DETAIL_ID, TXZJYT, HPZL, 
       SFXYFX, MFCNBL_BUY, MFCNBL_SELL, 
       HPZS, DKLL)
@@ -39,7 +51,8 @@
       #{hpzs,jdbcType=DECIMAL}, #{dkll,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.cdgit.loan.csm.po.CsmTbBizHptxApprovePo">
-    insert into CRMS.TB_BIZ_HPTX_APPROVE
+    insert into 
+    TB_BIZ_HPTX_APPROVE
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="applyDetailId != null">
         APPLY_DETAIL_ID,
@@ -112,7 +125,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.csm.po.CsmTbBizHptxApprovePo">
-    update CRMS.TB_BIZ_HPTX_APPROVE
+    update TB_BIZ_HPTX_APPROVE
     <set>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
@@ -148,7 +161,7 @@
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.csm.po.CsmTbBizHptxApprovePo">
-    update CRMS.TB_BIZ_HPTX_APPROVE
+    update TB_BIZ_HPTX_APPROVE
     set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       AMOUNT_DETAIL_ID = #{amountDetailId,jdbcType=VARCHAR},

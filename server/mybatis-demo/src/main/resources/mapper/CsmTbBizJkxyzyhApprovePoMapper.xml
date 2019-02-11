@@ -14,9 +14,15 @@
   <sql id="Base_Column_List">
     APPLY_DETAIL_ID, CREATE_TIME, UPDATE_TIME, AMOUNT_DETAIL_ID, JYQ, DKLL, YFH, YQTS
   </sql>
+    <select id="queryByAmountDetailId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    *
+    from CRMS.TB_BIZ_JKXYZYH_APPROVE
+   where Amount_Detail_Id = #{amountDetailId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from CRMS.TB_BIZ_JKXYZYH_APPROVE
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </select>

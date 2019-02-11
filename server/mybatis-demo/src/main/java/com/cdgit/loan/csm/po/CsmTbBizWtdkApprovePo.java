@@ -2,7 +2,11 @@ package com.cdgit.loan.csm.po;
 
 import java.util.Date;
 
-public class CsmTbBizWtdkApprovePo {
+import com.cdgit.loan.csm.bean.CsmConDetailVo;
+
+
+
+public class CsmTbBizWtdkApprovePo  extends CsmConDetailVo{
     private String applyDetailId;
 
     private Date createTime;
@@ -27,19 +31,23 @@ public class CsmTbBizWtdkApprovePo {
         this.applyDetailId = applyDetailId == null ? null : applyDetailId.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+    
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
 
-    public void setUpdateTime(Date updateTime) {
+
+    public Date getCreateTime() {
+		return createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 

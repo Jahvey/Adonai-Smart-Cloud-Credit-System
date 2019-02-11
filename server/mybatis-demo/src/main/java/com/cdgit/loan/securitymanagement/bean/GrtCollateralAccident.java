@@ -3,7 +3,7 @@ package com.cdgit.loan.securitymanagement.bean;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.cdgit.loan.csm.common.BigDecimalConvertToString;
+import com.cdgit.loan.common.util.BigDecimalConvertToString;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

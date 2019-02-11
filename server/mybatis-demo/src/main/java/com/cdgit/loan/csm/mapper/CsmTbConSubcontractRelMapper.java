@@ -9,6 +9,8 @@ import com.cdgit.loan.csm.po.TbConSubcontractRelPo;
 
 @Mapper
 public interface CsmTbConSubcontractRelMapper {
+	
+	List<TbConSubcontractRelPo> queryListBySubconIdAndPartyId(Map map);
 
 	// 查询主合同下所关联的所有从合同
 	List<TbConSubcontractRelPo> queryListCsmTbConSubcontractRelByconId(String contractId);

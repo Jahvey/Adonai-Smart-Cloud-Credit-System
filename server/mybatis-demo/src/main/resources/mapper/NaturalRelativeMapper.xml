@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.customerManage.naturalRelative.mapper.NaturalRelativeMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.naturalRelative.bean.NaturalRelative">
+<mapper namespace="com.cdgit.loan.customerManage.mapper.NaturalRelativeMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.customerManage.bean.NaturalRelative">
     <id column="NATURAL_RELATIVE_ID" jdbcType="VARCHAR" property="naturalRelativeId" />
     <result column="PARTY_ID" jdbcType="VARCHAR" property="partyId" />
     <result column="RELATIVEID_PARTY_ID" jdbcType="VARCHAR" property="relativeidPartyId" />
@@ -55,7 +55,7 @@
     delete from TB_CSM_NATURAL_RELATIVE
     where NATURAL_RELATIVE_ID = #{naturalRelativeId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.cdgit.loan.customerManage.naturalRelative.bean.NaturalRelative">
+  <insert id="insert" parameterType="com.cdgit.loan.customerManage.bean.NaturalRelative">
     insert into TB_CSM_NATURAL_RELATIVE (NATURAL_RELATIVE_ID, PARTY_ID, RELATIVEID_PARTY_ID, 
       CERTIFICATE_TYPE_CD, CERT_ID, CONTACT_TEL_NUM, 
       INPUT_ORG_NUM, UPDATE_ORG_NUM, UPDATE_USER_NUM, 
@@ -77,7 +77,7 @@
       #{partyName,jdbcType=VARCHAR}, #{parSeqId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.naturalRelative.bean.NaturalRelative">
+  <insert id="insertSelective" parameterType="com.cdgit.loan.customerManage.bean.NaturalRelative">
     insert into TB_CSM_NATURAL_RELATIVE
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="naturalRelativeId != null">
@@ -246,7 +246,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.customerManage.naturalRelative.bean.NaturalRelative">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.customerManage.bean.NaturalRelative">
     update TB_CSM_NATURAL_RELATIVE
     <set>
       <if test="partyId != null">
@@ -330,7 +330,7 @@
     </set>
     where NATURAL_RELATIVE_ID = #{naturalRelativeId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.naturalRelative.bean.NaturalRelative">
+  <update id="updateByPrimaryKey" parameterType="com.cdgit.loan.customerManage.bean.NaturalRelative">
     update TB_CSM_NATURAL_RELATIVE
     set PARTY_ID = #{partyId,jdbcType=VARCHAR},
       RELATIVEID_PARTY_ID = #{relativeidPartyId,jdbcType=VARCHAR},

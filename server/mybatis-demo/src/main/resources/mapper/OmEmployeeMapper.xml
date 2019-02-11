@@ -616,4 +616,13 @@
       DEPARTMENT_ID = #{departmentId,jdbcType=VARCHAR}
     where EMPID = #{empid,jdbcType=DECIMAL}
   </update>
+  <delete id="deleteOperatorRole">
+  	delete from ac_operatorrole where operatorid = #{operatorid,jdbcType=DECIMAL} 
+  </delete>
+  
+  <insert id="insertOperatorRole" parameterType="com.cdgit.loan.sysManage.empManage.bean.AcOperatorRole">
+  	insert into ac_operatorrole(operatorid,roleid,orgid)
+  	values(#{operatorid,jdbcType=DECIMAL},#{roleid,jdbcType=DECIMAL},#{orgid,jdbcType=DECIMAL} )
+  </insert>
+  
 </mapper>

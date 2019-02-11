@@ -3,7 +3,10 @@ package com.cdgit.loan.csm.po;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CsmTbBizThdbApprovePo {
+import com.cdgit.loan.csm.bean.CsmConDetailVo;
+
+
+public class CsmTbBizThdbApprovePo extends CsmConDetailVo{
     private String applyDetailId;
 
     private Date createTime;
@@ -133,4 +136,14 @@ public class CsmTbBizThdbApprovePo {
     public void setDkll(BigDecimal dkll) {
         this.dkll = dkll;
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbBizThdbApprovePo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", tdhm=" + tdhm + ", xyzhm=" + xyzhm + ", tdrq="
+				+ tdrq + ", dqrq=" + dqrq + ", bzjzh=" + bzjzh + ", bzjje=" + bzjje + ", bzjbz=" + bzjbz + ", bzjblbdy="
+				+ bzjblbdy + ", dkll=" + dkll + "]";
+	}
+    
+    
 }

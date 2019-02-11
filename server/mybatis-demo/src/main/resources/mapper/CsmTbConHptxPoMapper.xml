@@ -26,9 +26,15 @@
     MFCNBL_BUY, MFCNBL_SELL, HPZS, CONTRACT_ID, TXYLL, PRODUCT_TYPE, HPBH, TXQQ, DKLL, 
     CURRENCY_CD, HP_TOTAL_AMT
   </sql>
+    <select id="queryByConInfo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    *
+    from CRMS.TB_CON_HPTX
+    where contract_id = #{contractId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from CRMS.TB_CON_HPTX
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </select>

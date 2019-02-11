@@ -42,6 +42,49 @@
 
   </resultMap>
   
+  
+  <resultMap type="com.cdgit.loan.csm.bean.ApproveAndSxxyVo" id="ApproveAndSxxyVo">
+		<result column="biz_Num" javaType="String" property="bizNum" />
+		<result column="party_Name" javaType="String" property="partyName" />
+		<result column="biz_Type" javaType="String" property="bizType" />
+		<result column="biz_Type_Flag" javaType="String" property="bizTypeFlag" />
+		<result column="biz_Happen_Nature" javaType="String" property="bizHappenNature" />
+		<result column="biz_Happen_Type" javaType="String" property="bizHappenType" />
+		<result column="detail_Amt" javaType="String" property="detailAmt" />
+		<result column="currency_Cd" javaType="String" property="currencyCd" />
+		<result column="credit_Term" javaType="String" property="creditTerm" />
+		<result column="cycle_Unit" javaType="String" property="cycleUnit" />
+		<result column="valid_Date" javaType="String" property="validDate" />
+		<result column="end_Date" javaType="String" property="endDate" />
+		<result column="amount_Detail_Id" javaType="String" property="amountDetailId" />
+		<result column="approve_Id" javaType="String" property="approveId" />
+		<result column="apply_Id" javaType="String" property="applyId" />
+		<result column="product_Type" javaType="String" property="productType" />
+		<result column="party_Id" javaType="String" property="partyId" />
+		<result column="credit_Mode" javaType="String" property="creditMode" />
+		<result column="bo_Use" javaType="String" property="boUse" />
+
+
+  </resultMap>
+
+<select id="getJxhjContractNum" parameterType="java.lang.String" resultType="java.lang.String">
+
+select 
+r.contract_num
+ from 
+ tb_con_contract_info r, 
+ tb_biz_summary s, 
+ tb_loan_summary l
+where 
+  r.contract_id = l.contract_id
+  and l.summary_id = s.summary_id
+  and s.apply_id = #{applyId}
+
+
+
+</select>
+
+
 
   
   
@@ -212,7 +255,7 @@ SELECT * FROM (
   
   
   
-  <select id="getApproveAndSxxy" parameterType="java.util.HashMap" resultMap="ApproveConsVo">
+  <select id="getApproveAndSxxy" parameterType="java.util.HashMap" resultMap="ApproveAndSxxyVo">
 	SELECT
 	tb.biz_num,
 	te.party_name,
@@ -241,8 +284,25 @@ WHERE
 	tb.APPROVE_ID = td.APPROVE_ID 
 	AND tb.party_id = te.party_id 
 	AND td.bo_use>0
-AND tb.PARTY_ID = #{partyId}
+	
+	<if test="partyId !=null and partyId !='' ">
+	AND tb.PARTY_ID = #{partyId}
+	</if>
+	
+	<if test="userId !=null and userId !='' ">
+	AND DECODE(td.CREDIT_MODE,'02',#{userId},tb.user_num) = #{userId}
+	</if>
+	
+	<if test="amountDetailId !=null and amountDetailId !='' ">
+	AND td.AMOUNT_DETAIL_ID = #{amountDetailId}
+	</if>
+	
+	
+	<if test="bizNum !=null and bizNum !='' ">
+	AND tb.BIZ_NUM LIKE '%'||#{bizNum}||'%'
+	</if>
 
+	AND tb.BECOME_EFFECTIVE_MARK = '03'
 
   </select>
   

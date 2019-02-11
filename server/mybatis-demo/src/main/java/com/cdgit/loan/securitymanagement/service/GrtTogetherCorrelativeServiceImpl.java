@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cdgit.loan.securitymanagement.bean.GrtTogetherCorrelative;
-import com.cdgit.loan.securitymanagerment.mapper.GrtTogetherCorrelativeMapper;
+import com.cdgit.loan.securitymanagement.mapper.GrtTogetherCorrelativeMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 

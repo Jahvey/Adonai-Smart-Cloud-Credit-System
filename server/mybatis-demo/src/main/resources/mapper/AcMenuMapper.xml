@@ -41,6 +41,19 @@
        START WITH a.MENULEVEL = '1' AND a.MENUID &gt; 10000
        CONNECT BY PRIOR a.MENUID = a.PARENTSID
   </select>	
+  <select id="queryMenuTreeByRole" parameterType="java.lang.String" resultMap="BaseResultMap"  >
+        SELECT 
+           a.menuid,a.menuname,a.isleaf,a.menuaction,a.parentsid,a.imagepath,a.displayorder,a.menulevel,a.type,b.menuname as parentname
+       FROM 
+           AC_MENU a
+       inner join 
+             ac_menurole c on a.menuid = c.menuid
+       left join 
+            AC_MENU b
+       on a.parentsid = b.menuid
+       where c.roleid = #{roleid,jdbcType=VARCHAR}
+  </select>	
+  
   <select id="queryMenuByParentsid" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
