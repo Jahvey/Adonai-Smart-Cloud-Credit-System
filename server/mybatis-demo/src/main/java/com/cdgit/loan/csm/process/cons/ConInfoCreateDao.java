@@ -2,10 +2,10 @@ package com.cdgit.loan.csm.process.cons;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bouncycastle.crypto.RuntimeCryptoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +16,7 @@ import com.cdgit.loan.common.util.uid.UUIDGenerator;
 import com.cdgit.loan.csm.bean.CsmConDetailVo;
 import com.cdgit.loan.csm.mapper.ConApplyMapper;
 import com.cdgit.loan.csm.mapper.CsmConDetailVoMapper;
+import com.cdgit.loan.csm.mapper.CsmRuleEngineMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizAmountDetailApproveMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizAmountLoanrateApproveMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizApproveMapper;
@@ -137,8 +138,6 @@ import com.cdgit.loan.csm.process.accInfo.ContractSub;
 import com.cdgit.loan.csm.process.products.ProductUtil;
 import com.cdgit.loan.csm.pub.gitUtils.CommonUtils;
 import com.cdgit.loan.csm.pub.gitUtils.GitUtils;
-
-import oracle.net.aso.n;
 
 
 @Service
@@ -338,6 +337,9 @@ public class ConInfoCreateDao {//ConDao0001
 	
 	@Autowired
 	ProductUtil productUtil;
+	
+	@Autowired
+	CsmRuleEngineMapper csmRuleEngineMapper;
 
 	@Transactional
 	public TbConContractInfoPo create(Map<String, Object> apply) {//TODO 待测这个是创建合同的核心方法。。。。。。。。。。
@@ -360,7 +362,7 @@ public class ConInfoCreateDao {//ConDao0001
 		return "";
 	}
 	
-	public TbConContractInfoPo createApply(Map<String, Object> dataMap) {//TODO 未完成得部分周末弄.......
+	public TbConContractInfoPo createApply(Map<String, Object> dataMap) {//TODO 2019-02-12
 	
 		String amountDetailId = (String) dataMap.get("amountDetailId");
 		if (StringUtil.isNull(amountDetailId)) {
@@ -871,7 +873,25 @@ public class ConInfoCreateDao {//ConDao0001
 //				, "RBIZ_0046" // 存在在途业务调整
 //				, "RCRD_0212"// 存在在途授信调整
 //		);
-
+		if(0!=csmRuleEngineMapper.ruleXFE_0003(biz.getApproveId())){
+			throw new RuntimeException("[XFE_0003]该批复已被纳入[移交申请],在业务结束前无法处理");
+		}
+		if(0!=csmRuleEngineMapper.ruleRCON_0202(bizDtlId)){
+			throw new RuntimeException("[RCON_0202]该业务已存在在途合同申请");
+		}
+		if(0!=csmRuleEngineMapper.ruleRCON_0203(bizDtlId)){
+			throw new RuntimeException("[RCON_0203]该业务已生成合同");
+		}
+		if(1!=csmRuleEngineMapper.ruleRCON_0204(bizDtlId)){
+			throw new RuntimeException("[RCON_0204]该业务已无可用额度");
+		}
+		if(0!=csmRuleEngineMapper.ruleRBIZ_0046(biz.getApproveId())){
+			throw new RuntimeException("[RBIZ_0046]该业务存在在途调整申请");
+		}
+		if(0!=csmRuleEngineMapper.ruleRCRD_0212(biz.getCrdId())){
+			throw new RuntimeException("[RCRD_0212]该授信数据存在在途授信调整");
+		}
+		
 		dataMap.put("db_biz", biz);
 		dataMap.put("db_bizDtl", bizDtl);
 		return null;

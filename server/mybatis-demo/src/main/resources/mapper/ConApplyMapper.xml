@@ -66,6 +66,80 @@
 
 
   </resultMap>
+  
+<!--合同失效处理非综合授信批复失效-->
+<update id="updateCancelPF" parameterType="java.lang.String" >
+UPDATE TB_BIZ_APPROVE a 
+SET a.BECOME_EFFECTIVE_MARK = '06' 
+WHERE
+	a.APPROVE_ID = ( SELECT ad.APPROVE_ID FROM TB_BIZ_AMOUNT_DETAIL_APPROVE ad WHERE ad.AMOUNT_DETAIL_ID = #{amountDetailId} ) 
+	AND a.CREDIT_MODE IN ( '03', '05' );
+
+</update>
+
+<!-- 合同失效处理更新从合同信息 -->
+<update id="updateConInfoRelStatus" parameterType="java.lang.String">
+	update tb_con_subcontract r
+	   set r.subcontract_status = '05'
+	 where r.subcontract_id in
+	       (select t.subcontract_id
+	          from tb_con_subcontract_rel t
+	         where t.contract_id = #{contractId})
+	 and nvl(r.IF_TOP_SUBCON,'0') = '0'
+
+</update>
+
+
+<!--合同失效处理额度重新计算-->
+<update id="updateCreditLimit" parameterType="java.lang.String">
+
+<if test="partyId !=null and partyId !='' ">
+call CRED_RECOUNT(#{partyId})
+</if>
+
+</update>  
+
+
+<!--合同失效处理更新主合同信息-->
+<update id="updateConInfoStatus" parameterType="java.lang.String">
+UPDATE TB_CON_CONTRACT_INFO ci 
+SET 
+ci.CON_STATUS = NVL(( SELECT MAX( '05' ) 
+FROM TB_LOAN_SUMMARY ls WHERE ls.CONTRACT_ID = ci.CONTRACT_ID AND ls.SUMMARY_STATUS_CD != '06' ), '04' ) 
+WHERE
+	CONTRACT_ID = #{contractId}
+
+
+</update>  
+  
+<!-- 根据合同id查询 业务性质 -->
+<select id="getConInfoBizType" parameterType="java.lang.String" resultType="java.util.HashMap">
+
+SELECT 
+DISTINCT
+	e.BIZ_TYPE bizType,
+	e.BIZ_TYPE_FLAG bizTypeFlag,
+	e.APPLY_MODE_TYPE applyModeType
+	
+FROM
+	tb_con_contract_info b,
+	tb_biz_amount_detail_approve c,
+	Tb_Biz_Amount_approve d,
+	tb_biz_approve e 
+WHERE
+
+	b.amount_detail_id = c.amount_detail_id 
+	AND c.amount_id = d.amount_id 
+	AND d.approve_id = e.approve_id
+	
+	
+	and b.CONTRACT_ID = #{contractId}
+	
+	
+
+
+</select>
+
 
 <select id="getJxhjContractNum" parameterType="java.lang.String" resultType="java.lang.String">
 

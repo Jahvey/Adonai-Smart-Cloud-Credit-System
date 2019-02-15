@@ -16,4 +16,6 @@ public interface CsmTbConBhPoMapper {
     int updateByPrimaryKeySelective(CsmTbConBhPo record);
 
     int updateByPrimaryKey(CsmTbConBhPo record);
+    
+    CsmTbConBhPo queryByConInfo(String contractId);
 }

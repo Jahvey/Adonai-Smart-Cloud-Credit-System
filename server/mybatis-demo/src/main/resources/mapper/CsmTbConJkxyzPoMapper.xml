@@ -20,9 +20,16 @@
     APPLY_DETAIL_ID, CREATE_TIME, UPDATE_TIME, AMOUNT_DETAIL_ID, JYQ, BZJBLBDY, CONTRACT_ID, 
     KZSFBL, KZXFBL, SYRMC, XYZYXQ, DKLL, YQTS
   </sql>
+  
+    <select id="queryByConInfo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    *
+    from CRMS.TB_CON_JKXYZ
+    where contract_id = #{contractId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from CRMS.TB_CON_JKXYZ
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </select>

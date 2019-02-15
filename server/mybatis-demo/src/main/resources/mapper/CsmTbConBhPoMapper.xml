@@ -39,9 +39,16 @@
     MYHTJE, JCXMMC, SFBZWB, SFFCSX, SXF_TYPE, SXF_RATE, SXF_MIN_AMT, SXF_AMT, CNF_RATE, 
     BH_QXFS, JCXMBH
   </sql>
+  
+    <select id="queryByConInfo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    *
+    from CRMS.TB_CON_BH
+    where contract_id = #{contractId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from CRMS.TB_CON_BH
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </select>

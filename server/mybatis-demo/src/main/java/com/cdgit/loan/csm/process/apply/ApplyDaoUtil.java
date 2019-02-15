@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cdgit.loan.csm.mapper.CsmTbSysApplyDaoConfigMapper;
 import com.cdgit.loan.csm.po.TbSysApplyDaoConfigPo;
+import com.cdgit.loan.csm.pub.gitUtils.GitUtils;
 
 /**
  * class数字含义<br/>
@@ -29,8 +30,30 @@ import com.cdgit.loan.csm.po.TbSysApplyDaoConfigPo;
 @Transactional
 public class ApplyDaoUtil {
 	
+	/**
+	 * 额度类型-分离式
+	 */
+	public static final String CREDIT_MODE_CLEFT = "00";
+	/**
+	 * 额度类型-一体化
+	 */
+	public static final String CREDIT_MODE_UNITE = "02";
+	/**
+	 * 额度类型-单笔单批
+	 */
+	public static final String CREDIT_MODE_ONLY = "03";
+	/**
+	 * 额度类型-低风险
+	 */
+	public static final String CREDIT_MODE_LOW = "05";
+	
+	
+	
 	@Autowired
 	CsmTbSysApplyDaoConfigMapper csmTbSysApplyDaoConfigMapper;
+	
+	@Autowired
+	GitUtils gitUtils;
 	
 	private  Map<String, List<Object[]>> configMap;
 	
@@ -116,5 +139,9 @@ public class ApplyDaoUtil {
 //		}			
 //	}
 	
+	
+	public  boolean isZhsx(String creditMode) {
+		return gitUtils.contain(creditMode, new String[] { CREDIT_MODE_UNITE, CREDIT_MODE_CLEFT });
+	}
 	
 }

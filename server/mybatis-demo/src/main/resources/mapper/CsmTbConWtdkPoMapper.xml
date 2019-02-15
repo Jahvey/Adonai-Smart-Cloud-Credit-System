@@ -26,6 +26,13 @@
     CONTRACT_ID, DKYT, DKZL, DKXM, DZYWJQZBGF, WTXM_ID, SXF_PAY_WAY, QTF_PAY_WAY, DB_SX_WAY, 
     DK_PAY_WAY, DIS_YT_FX
   </sql>
+  
+   <select id="queryByConInfo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    *
+    from CRMS.TB_CON_WTDK
+    where contract_id = #{contractId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     *

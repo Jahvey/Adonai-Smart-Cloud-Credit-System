@@ -50,6 +50,23 @@
   
   </resultMap>
   
+  <!-- 增加根据合同id查询业务申请ID和押品编号的SQL语句 -->
+ <select id="getBizGrtRel" parameterType="java.lang.String" resultType="java.util.HashMap" >
+ 	select distinct 
+ 	th.surety_id suretyId,
+ 	th.surety_no suretyNo,
+ 	tb.apply_id applyId
+	from tb_biz_approve tb,TB_BIZ_AMOUNT_APPROVE tc,TB_BIZ_AMOUNT_DETAIL_APPROVE td,tb_con_contract_info con,
+         tb_con_subcontract_rel tf,tb_con_subcontract te,TB_CON_SUB_GRT_REL tg,tb_grt_mortgage_basic th
+    where tb.APPROVE_ID=tc.APPROVE_ID
+    	and tc.AMOUNT_ID=td.AMOUNT_ID
+    	and td.amount_detail_id=con.amount_detail_id
+    	and con.contract_id=tf.contract_id and tf.subcontract_id=te.subcontract_id
+    	and te.subcontract_id = tg.subcontract_id and tg.surety_id = th.surety_id
+    	and con.contract_id = #{contractId}
+ 
+ 
+ </select> 
   
     <select id="queryByApplyId" parameterType="java.lang.String" resultMap="CsmTbBizApprovePo">
   

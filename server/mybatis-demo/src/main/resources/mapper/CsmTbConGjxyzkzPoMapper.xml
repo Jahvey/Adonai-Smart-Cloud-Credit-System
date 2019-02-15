@@ -30,9 +30,15 @@
     DQRQ, YZBL, DZBL, BZJZH, BZJJE, BZJBZ, BZJBLBDY, MYHTH, MYHTJE, GNGJZ, DKLL, RZZH, 
     YWHM, FPH, KZJE
   </sql>
+    <select id="queryByConInfo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    *
+    from CRMS.TB_CON_GJXYZKZ
+    where contract_id = #{contractId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from CRMS.TB_CON_GJXYZKZ
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </select>

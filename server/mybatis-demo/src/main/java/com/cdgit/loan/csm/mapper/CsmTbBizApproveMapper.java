@@ -1,5 +1,8 @@
 package com.cdgit.loan.csm.mapper;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cdgit.loan.csm.po.TbBizApprovePo;
@@ -10,6 +13,8 @@ public interface CsmTbBizApproveMapper {
 	TbBizApprovePo queryByApplyId(String applyId);
 	
 	TbBizApprovePo queryOneTbBizApproveByApproveId(String approveId);
+	
+	List<HashMap<String, Object>> getBizGrtRel(String contractId);
 	
     int deleteCsmTbBizApproveByApproveId(String approveId);
 

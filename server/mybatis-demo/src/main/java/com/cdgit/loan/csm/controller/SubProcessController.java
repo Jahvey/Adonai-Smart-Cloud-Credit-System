@@ -128,6 +128,14 @@ public class SubProcessController {
 	@Autowired
 	ConApply conApply;
 	
+	//根据合同id查询 业务性质  TODO 需要测试2019-2-11
+	@GetMapping("/getConInfoBizType1")
+	public String getConInfoBizType1(String contractId){
+		return conApply.getConInfoBizType(contractId);
+		
+	}
+	
+	
 	//合同调整综合测试
 	@GetMapping("/tzContractInfo1")
 	public  HashMap<String,Object> tzContractInfo1(String contractId,String bizType){

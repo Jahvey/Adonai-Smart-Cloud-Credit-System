@@ -37,9 +37,15 @@
     THIRD_LOAN_AMOUNT, TOTAL_DEBT, THIRD_BORROW_AMOUNT, THIRD_GUARANT, STOCK_CHANGE, 
     FINANCIAL_LIMIT, WYBCBL, JMRHSX, SFJMRHSX, ZH_PJCL_YQ
   </sql>
+    <select id="queryByConInfo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    *
+    from CRMS.TB_CON_GDZCDK
+    where contract_id = #{contractId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from CRMS.TB_CON_GDZCDK
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </select>

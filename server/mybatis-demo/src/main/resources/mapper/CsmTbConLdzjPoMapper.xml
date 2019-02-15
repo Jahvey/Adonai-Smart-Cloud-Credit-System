@@ -25,9 +25,16 @@
     PAY_WAY, PAY_DEPEND1, PAY_DEPEND2, PAY_DEPEND3, LEAST_PREPAY_AMOUNT, PREPAY_JS, PREPAY_MAKEUP_RATE, 
     LEAST_SETTLE_RATE, JMRHSX, SFJMRHSX, MIN_AMT
   </sql>
+
+    <select id="queryByConInfo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    *
+    from CRMS.TB_CON_LDZJ
+    where contract_id = #{contractId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from CRMS.TB_CON_LDZJ
     where APPLY_DETAIL_ID = #{applyDetailId,jdbcType=VARCHAR}
   </select>

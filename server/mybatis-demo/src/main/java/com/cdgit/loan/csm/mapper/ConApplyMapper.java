@@ -40,5 +40,20 @@ public interface ConApplyMapper {
 	
 	List<ApproveAndSxxyVo> getApproveAndSxxy(Map map);
 
+	//根据合同id查询 业务性质
+	HashMap<String, Object>  getConInfoBizType(String contractId);
+	
+	//合同失效处理更新主合同信息
+	int updateConInfoStatus(String contractId);
 
+	//合同失效处理额度重新计算
+	int updateCreditLimit(String partyId);
+	
+	//合同失效处理更新从合同信息
+	int updateConInfoRelStatus(String contractId);
+	
+	//合同失效处理非综合授信批复失效
+	int updateCancelPF(String amountDetailId);
+	
+	
 }

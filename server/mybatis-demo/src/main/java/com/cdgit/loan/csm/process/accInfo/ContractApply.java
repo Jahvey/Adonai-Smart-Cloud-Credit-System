@@ -442,315 +442,341 @@ public class ContractApply {
 			
 		}else if("tb_con_wtdk".equals(tarTableName)){//2
 //TODO 没有写完。。。过完年再来写
-//			csmTbConWtdkPoMapper
-//
-//		}else if("tb_con_xmdkcnh".equals(tarTableName)){//3
-//			CsmTbBizXmdkcnhApprovePo productDetail = csmTbBizXmdkcnhApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConXmdkcnhPo csmTbConXmdkcnhPo = new CsmTbConXmdkcnhPo();
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConXmdkcnhPo, true);
-//			
-//			csmTbConXmdkcnhPo.setContractId(contractInfo.getContractId());
-//			csmTbConXmdkcnhPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConXmdkcnhPo.setUpdateTime(null);
-//			csmTbConXmdkcnhPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConXmdkcnhPoMapper.insertSelective(csmTbConXmdkcnhPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//
-//		}else if("tb_con_gjxyzdbdk".equals(tarTableName)){//4
-//			CsmTbBizGjxyzdbdkApprovePo productDetail = csmTbBizGjxyzdbdkApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConGjxyzdbdkPo csmTbConGjxyzdbdkPo = new CsmTbConGjxyzdbdkPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConGjxyzdbdkPo, true);
-//			
-//			csmTbConGjxyzdbdkPo.setContractId(contractInfo.getContractId());
-//			csmTbConGjxyzdbdkPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConGjxyzdbdkPo.setUpdateTime(null);
-//			csmTbConGjxyzdbdkPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConGjxyzdbdkPoMapper.insertSelective(csmTbConGjxyzdbdkPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//			
-//		}else if("tb_con_gjfft".equals(tarTableName)){//5
-//			CsmTbBizGjfftApprovePo productDetail = csmTbBizGjfftApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConGjfftPo csmTbConGjfftPo = new CsmTbConGjfftPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConGjfftPo, true);
-//			
-//			csmTbConGjfftPo.setContractId(contractInfo.getContractId());
-//			csmTbConGjfftPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConGjfftPo.setUpdateTime(null);
-//			csmTbConGjfftPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConGjfftPoMapper.insertSelective(csmTbConGjfftPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//
-//		}else if("tb_con_ckxyzyh".equals(tarTableName)){//6
-//			CsmTbBizCkxyzyhApprovePo productDetail = csmTbBizCkxyzyhApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConCkxyzyhPo csmTbConCkxyzyhPo = new CsmTbConCkxyzyhPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConCkxyzyhPo, true);
-//			
-//			csmTbConCkxyzyhPo.setContractId(contractInfo.getContractId());
-//			csmTbConCkxyzyhPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConCkxyzyhPo.setUpdateTime(null);
-//			csmTbConCkxyzyhPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConCkxyzyhPoMapper.insertSelective(csmTbConCkxyzyhPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_frzhtz".equals(tarTableName)){//7
-//			CsmTbBizFrzhtzApprovePo productDetail = csmTbBizFrzhtzApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConFrzhtzPo csmTbConFrzhtzPo = new CsmTbConFrzhtzPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConFrzhtzPo, true);
-//			
-//			csmTbConFrzhtzPo.setContractId(contractInfo.getContractId());
-//			csmTbConFrzhtzPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConFrzhtzPo.setUpdateTime(null);
-//			csmTbConFrzhtzPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConFrzhtzPoMapper.insertSelective(csmTbConFrzhtzPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);	
-//		}else if ("tb_con_jkttyh".equals(tarTableName)) {//8
-//			CsmTbBizJkttyhApprovePo productDetail = CsmTbBizJkttyhApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConJkttyhPo csmTbConJkttyhPo = new CsmTbConJkttyhPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConJkttyhPo, true);
-//			
-//			csmTbConJkttyhPo.setContractId(contractInfo.getContractId());
-//			csmTbConJkttyhPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConJkttyhPo.setUpdateTime(null);
-//			csmTbConJkttyhPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConJkttyhPoMapper.insertSelective(csmTbConJkttyhPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if ("tb_con_jkdsyh".equals(tarTableName)) {//9
-//			CsmTbBizJkdsyhApprovePo productDetail = csmTbBizJkdsyhApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConJkdsyhPo csmTbConJkdsyhPo = new CsmTbConJkdsyhPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConJkdsyhPo, true);
-//			
-//			csmTbConJkdsyhPo.setContractId(contractInfo.getContractId());
-//			csmTbConJkdsyhPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConJkdsyhPo.setUpdateTime(null);
-//			csmTbConJkdsyhPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConJkdsyhPoMapper.insertSelective(csmTbConJkdsyhPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);	
-//		}else if("tb_con_xw".equals(tarTableName)){//10
-//			CsmTbBizXwApprovePo productDetail = csmTbBizXwApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConXwPo csmTbConXwPo = new CsmTbConXwPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConXwPo, true);
-//			
-//			csmTbConXwPo.setContractId(contractInfo.getContractId());
-//			csmTbConXwPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConXwPo.setUpdateTime(null);
-//			csmTbConXwPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConXwPoMapper.insertSelective(csmTbConXwPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);	
-//		}else if("tb_con_cktsyh".equals(tarTableName)){//11
-//			CsmTbBizCktsyhApprovePo productDetail = csmTbBizCktsyhApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConCktsyhPo csmTbConCktsyhPo = new CsmTbConCktsyhPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConCktsyhPo, true);
-//			
-//			csmTbConCktsyhPo.setContractId(contractInfo.getContractId());
-//			csmTbConCktsyhPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConCktsyhPo.setUpdateTime(null);
-//			csmTbConCktsyhPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConCktsyhPoMapper.insertSelective(csmTbConCktsyhPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_jkxyz".equals(tarTableName)){//12
-//			CsmTbBizJkxyzApprovePo productDetail = csmTbBizJkxyzApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConJkxyzPo csmTbConJkxyzPo = new CsmTbConJkxyzPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConJkxyzPo, true);
-//			
-//			csmTbConJkxyzPo.setContractId(contractInfo.getContractId());
-//			csmTbConJkxyzPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConJkxyzPo.setUpdateTime(null);
-//			csmTbConJkxyzPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConJkxyzPoMapper.insertSelective(csmTbConJkxyzPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_gnxyz".equals(tarTableName)){//13
-//			CsmTbBizGnxyzApprovePo productDetail = csmTbBizGnxyzApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConGnxyzPo csmTbConGnxyzPo = new CsmTbConGnxyzPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConGnxyzPo, true);
-//			
-//			csmTbConGnxyzPo.setContractId(contractInfo.getContractId());
-//			csmTbConGnxyzPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConGnxyzPo.setUpdateTime(null);
-//			csmTbConGnxyzPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConGnxyzPoMapper.insertSelective(csmTbConGnxyzPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_jkdf".equals(tarTableName)){//14
-//			CsmTbBizJkdfApprovePo productDetail = csmTbBizJkdfApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConJkdfPo csmTbConJkdfPo = new CsmTbConJkdfPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConJkdfPo, true);
-//			
-//			csmTbConJkdfPo.setContractId(contractInfo.getContractId());
-//			csmTbConJkdfPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConJkdfPo.setUpdateTime(null);
-//			csmTbConJkdfPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConJkdfPoMapper.insertSelective(csmTbConJkdfPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_gjxyzkz".equals(tarTableName)){//15
-//			CsmTbBizGjxyzkzApprovePo productDetail = csmTbBizGjxyzkzApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConGjxyzkzPo csmTbConGjxyzkzPo = new CsmTbConGjxyzkzPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConGjxyzkzPo, true);
-//			
-//			csmTbConGjxyzkzPo.setContractId(contractInfo.getContractId());
-//			csmTbConGjxyzkzPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConGjxyzkzPo.setUpdateTime(null);
-//			csmTbConGjxyzkzPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConGjxyzkzPoMapper.insertSelective(csmTbConGjxyzkzPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_klyhcdhp".equals(tarTableName)){//16
-//			CsmTbBizKlyhcdhpApprovePo productDetail = csmTbBizKlyhcdhpApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConKlyhcdhpPo csmTbConKlyhcdhpPo = new CsmTbConKlyhcdhpPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConKlyhcdhpPo, true);
-//			
-//			csmTbConKlyhcdhpPo.setContractId(contractInfo.getContractId());
-//			csmTbConKlyhcdhpPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConKlyhcdhpPo.setUpdateTime(null);
-//			csmTbConKlyhcdhpPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConKlyhcdhpPoMapper.insertSelective(csmTbConKlyhcdhpPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_jkxyzyh".equals(tarTableName)){//17
-//			CsmTbBizJkxyzyhApprovePo productDetail = csmTbBizJkxyzyhApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConJkxyzyhPo csmTbConJkxyzyhPo = new CsmTbConJkxyzyhPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConJkxyzyhPo, true);
-//			
-//			csmTbConJkxyzyhPo.setContractId(contractInfo.getContractId());
-//			csmTbConJkxyzyhPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConJkxyzyhPo.setUpdateTime(null);
-//			csmTbConJkxyzyhPo.setCreateTime(gitUtils.getCurrDate());
-//			CsmTbConJkxyzyhPoMapper.insertSelective(csmTbConJkxyzyhPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_bh".equals(tarTableName)){//18
-//			CsmTbBizBhApprovePo productDetail = csmTbBizBhApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConBhPo csmTbConBhPo = new CsmTbConBhPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConBhPo, true);
-//			
-//			csmTbConBhPo.setContractId(contractInfo.getContractId());
-//			csmTbConBhPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConBhPo.setUpdateTime(null);
-//			csmTbConBhPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConBhPoMapper.insertSelective(csmTbConBhPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_xdzm".equals(tarTableName)){//19
-//			CsmTbBizXdzmApprovePo productDetail = csmTbBizXdzmApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConXdzmPo csmTbConXdzmPo = new CsmTbConXdzmPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConXdzmPo, true);
-//			
-//			csmTbConXdzmPo.setContractId(contractInfo.getContractId());
-//			csmTbConXdzmPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConXdzmPo.setUpdateTime(null);
-//			csmTbConXdzmPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConXdzmPoMapper.insertSelective(csmTbConXdzmPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_gdzcdk".equals(tarTableName)){//20
-//			CsmTbBizGdzcdkApprovePo productDetail = csmTbBizGdzcdkApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConGdzcdkPo csmTbConGdzcdkPo = new CsmTbConGdzcdkPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConGdzcdkPo, true);
-//			
-//			csmTbConGdzcdkPo.setContractId(contractInfo.getContractId());
-//			csmTbConGdzcdkPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConGdzcdkPo.setUpdateTime(null);
-//			csmTbConGdzcdkPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConGdzcdkPoMapper.insertSelective(csmTbConGdzcdkPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_ldzj".equals(tarTableName)){//21
-//			CsmTbBizLdzjApprovePo productDetail = csmTbBizLdzjApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConLdzjPo csmTbConLdzjPo = new CsmTbConLdzjPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConLdzjPo, true);
-//			
-//			csmTbConLdzjPo.setContractId(contractInfo.getContractId());
-//			csmTbConLdzjPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			System.err.println("[tb_con_ldzj]数据插入成功！ApplyDetailId;"+csmTbConLdzjPo.getApplyDetailId());
-//			csmTbConLdzjPo.setUpdateTime(null);
-//			csmTbConLdzjPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConLdzjPoMapper.insertSelective(csmTbConLdzjPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_gnbl".equals(tarTableName)){//22
-//			CsmTbBizGnblApprovePo productDetail = csmTbBizGnblApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConGnblPo csmTbConGnblPo = new CsmTbConGnblPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConGnblPo, true);
-//			
-//			csmTbConGnblPo.setContractId(contractInfo.getContractId());
-//			csmTbConGnblPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConGnblPo.setUpdateTime(null);
-//			csmTbConGnblPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConGnblPoMapper.insertSelective(csmTbConGnblPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_bgdk".equals(tarTableName)){//23
-//			CsmTbBizBgdkApprovePo productDetail = csmTbBizBgdkApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConBgdkPo csmTbConBgdkPo = new CsmTbConBgdkPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConBgdkPo, true);
-//			
-//			csmTbConBgdkPo.setContractId(contractInfo.getContractId());
-//			csmTbConBgdkPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConBgdkPo.setUpdateTime(null);
-//			csmTbConBgdkPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConBgdkPoMapper.insertSelective(csmTbConBgdkPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_jkbh".equals(tarTableName)){//24
-//			CsmTbBizJkbhApprovePo productDetail = csmTbBizJkbhApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConJkbhPo csmTbConJkbhPo = new CsmTbConJkbhPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConJkbhPo, true);
-//			
-//			csmTbConJkbhPo.setContractId(contractInfo.getContractId());
-//			csmTbConJkbhPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConJkbhPo.setUpdateTime(null);
-//			csmTbConJkbhPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConJkbhPoMapper.insertSelective(csmTbConJkbhPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
-//		}else if("tb_con_thdb".equals(tarTableName)){//25
-//			CsmTbBizThdbApprovePo productDetail = csmTbBizThdbApprovePoMapper.queryByAmountDetailId(amountDetailId);
-//			CsmTbConThdbPo csmTbConThdbPo = new CsmTbConThdbPo();
-//			
-//			BeanUtil.copyBeanProperties(productDetail, csmTbConThdbPo, true);
-//			
-//			csmTbConThdbPo.setContractId(contractInfo.getContractId());
-//			csmTbConThdbPo.setApplyDetailId(UUIDGenerator.getUUID());
-//			csmTbConThdbPo.setUpdateTime(null);
-//			csmTbConThdbPo.setCreateTime(gitUtils.getCurrDate());
-//			csmTbConThdbPoMapper.insertSelective(csmTbConThdbPo);
-//			
-//			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
+			CsmTbConWtdkPo productDetail = csmTbConWtdkPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConWtdkPoMapper.insertSelective(productDetail);
+				
+			}
+			
+
+		}else if("tb_con_xmdkcnh".equals(tarTableName)){//3
+			CsmTbConXmdkcnhPo productDetail = csmTbConXmdkcnhPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConXmdkcnhPoMapper.insertSelective(productDetail);
+				
+			}
+
+
+		}else if("tb_con_gjxyzdbdk".equals(tarTableName)){//4
+			CsmTbConGjxyzdbdkPo productDetail = csmTbConGjxyzdbdkPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConGjxyzdbdkPoMapper.insertSelective(productDetail);
+				
+			}
+			
+
+			
+		}else if("tb_con_gjfft".equals(tarTableName)){//5
+			CsmTbConGjfftPo productDetail = csmTbConGjfftPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConGjfftPoMapper.insertSelective(productDetail);
+				
+			}
+
+
+		}else if("tb_con_ckxyzyh".equals(tarTableName)){//6
+			CsmTbConCkxyzyhPo productDetail = csmTbConCkxyzyhPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConCkxyzyhPoMapper.insertSelective(productDetail);
+				
+			}
+			
+
+		}else if("tb_con_frzhtz".equals(tarTableName)){//7
+			CsmTbConFrzhtzPo productDetail = csmTbConFrzhtzPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConFrzhtzPoMapper.insertSelective(productDetail);
+				
+			}
+			
+
+		}else if ("tb_con_jkttyh".equals(tarTableName)) {//8
+			CsmTbConJkttyhPo productDetail = csmTbConJkttyhPoMapper.queryByConInfo(contractId);
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConJkttyhPoMapper.insertSelective(productDetail);
+				
+			}
+						
+
+		}else if ("tb_con_jkdsyh".equals(tarTableName)) {//9
+			CsmTbConJkdsyhPo productDetail = csmTbConJkdsyhPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConJkdsyhPoMapper.insertSelective(productDetail);
+				
+			}
+	
+	
+		}else if("tb_con_xw".equals(tarTableName)){//10
+			CsmTbConXwPo productDetail = csmTbConXwPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConXwPoMapper.insertSelective(productDetail);
+				
+			}
+			
+	
+		}else if("tb_con_cktsyh".equals(tarTableName)){//11
+			CsmTbConCktsyhPo productDetail = csmTbConCktsyhPoMapper.queryByConInfo(contractId);
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConCktsyhPoMapper.insertSelective(productDetail);
+				
+			}			
+		
+
+		}else if("tb_con_jkxyz".equals(tarTableName)){//12
+			CsmTbConJkxyzPo productDetail = csmTbConJkxyzPoMapper.queryByConInfo(contractId);
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConJkxyzPoMapper.insertSelective(productDetail);
+				
+			}				
+			
+		
+
+		}else if("tb_con_gnxyz".equals(tarTableName)){//13
+			CsmTbConGnxyzPo productDetail = csmTbConGnxyzPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConGnxyzPoMapper.insertSelective(productDetail);
+				
+			}				
+
+
+		}else if("tb_con_jkdf".equals(tarTableName)){//14
+			CsmTbConJkdfPo productDetail = csmTbConJkdfPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConJkdfPoMapper.insertSelective(productDetail);
+				
+			}		
+
+
+		}else if("tb_con_gjxyzkz".equals(tarTableName)){//15
+			CsmTbConGjxyzkzPo productDetail = csmTbConGjxyzkzPoMapper.queryByConInfo(contractId);
+
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConGjxyzkzPoMapper.insertSelective(productDetail);
+				
+			}	
+			
+
+		}else if("tb_con_klyhcdhp".equals(tarTableName)){//16
+			CsmTbConKlyhcdhpPo productDetail = csmTbConKlyhcdhpPoMapper.queryByConInfo(contractId);
+
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConKlyhcdhpPoMapper.insertSelective(productDetail);
+				
+			}	
+
+
+		}else if("tb_con_jkxyzyh".equals(tarTableName)){//17
+			CsmTbConJkxyzPo productDetail = csmTbConJkxyzPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConJkxyzPoMapper.insertSelective(productDetail);
+				
+			}	
+
+
+		}else if("tb_con_bh".equals(tarTableName)){//18
+			CsmTbConBhPo productDetail = csmTbConBhPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConBhPoMapper.insertSelective(productDetail);
+				
+			}				
+
+		}else if("tb_con_xdzm".equals(tarTableName)){//19
+			CsmTbConXdzmPo productDetail = csmTbConXdzmPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConXdzmPoMapper.insertSelective(productDetail);
+				
+			}	
+			
+
+
+		}else if("tb_con_gdzcdk".equals(tarTableName)){//20
+			CsmTbConGdzcdkPo productDetail = csmTbConGdzcdkPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConGdzcdkPoMapper.insertSelective(productDetail);
+				
+			}	
+
+		}else if("tb_con_ldzj".equals(tarTableName)){//21
+			CsmTbConLdzjPo productDetail = csmTbConLdzjPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConLdzjPoMapper.insertSelective(productDetail);
+				
+			}	
+
+
+		}else if("tb_con_gnbl".equals(tarTableName)){//22
+			CsmTbConGnblPo productDetail = csmTbConGnblPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConGnblPoMapper.insertSelective(productDetail);
+				
+			}	
+
+		}else if("tb_con_bgdk".equals(tarTableName)){//23
+			CsmTbConBgdkPo productDetail = csmTbConBgdkPoMapper.queryByConInfo(contractId);
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConBgdkPoMapper.insertSelective(productDetail);
+				
+			}	
+
+
+		}else if("tb_con_jkbh".equals(tarTableName)){//24
+			CsmTbConJkbhPo productDetail = csmTbConJkbhPoMapper.queryByConInfo(contractId);
+			
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConJkbhPoMapper.insertSelective(productDetail);
+				
+			}	
+
+
+		}else if("tb_con_thdb".equals(tarTableName)){//25
+			CsmTbConThdbPo productDetail = csmTbConThdbPoMapper.queryByConInfo(contractId);
+			// 明细信息
+			if (null != productDetail.getApplyDetailId()) {
+				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
+				productDetail.setUpdateTime(null);
+				productDetail.setContractId(contractId);
+				System.err.println("合同调整完成:[applyDetailId]"+productDetail.getApplyDetailId());
+				csmTbConThdbPoMapper.insertSelective(productDetail);
+				
+			}	
+
 		}else if("tb_con_ckttfprz".equals(tarTableName)) {//26
 
+			
 		}else {
 			//直接抛异常了，还有啥好说的
-			throw new RuntimeException("将批复信息表 拷贝到 合同表的操作失败！！！");
+			throw new RuntimeException("【合同调整】 的操作失败！！！");
 		}
 		
 		// 担保合同信息 com.bos.dataset.crt.TbConSubcontractRel
