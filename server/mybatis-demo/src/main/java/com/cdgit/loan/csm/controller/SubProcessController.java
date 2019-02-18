@@ -195,8 +195,8 @@ public class SubProcessController {
 //		hashMap.put("partyId", "5AF8118FE74FFABDE05010AC57DD79A2");
 //		hashMap.put("partyName", "族满功羊秋钞晔皎迦与狸侏牛");
 //		hashMap.put("bizType", "02");
-//		hashMap.put("amountDetailId", "ff808081627148e60162749c96fe06a5");
-		hashMap.put("AMOUNT_DETAIL_ID", "ff808081627148e60162749c96fe06a5");
+		hashMap.put("amountDetailId", "ff808081627148e60162749c96fe06a5");
+		//hashMap.put("AMOUNT_DETAIL_ID", "ff808081627148e60162749c96fe06a5");
 		return conInfoCreateDao.create(hashMap);
 		
 		

@@ -856,7 +856,8 @@ public class ConInfoCreateDao {//ConDao0001
 	
 
 	public String createValid(Map<String, Object> dataMap) {
-		String bizDtlId = (String) dataMap.get("AMOUNT_DETAIL_ID");
+		//String bizDtlId = (String) dataMap.get("AMOUNT_DETAIL_ID");//需要注意一下
+		String bizDtlId = (String) dataMap.get("amountDetailId");
 		TbBizAmountDetailApprovePo bizDtl = csmTbBizAmountDetailApproveMapper.queryOneTbBizAmountDetailApproveByAmountDetailId(bizDtlId);
 		TbBizApprovePo biz = csmTbBizApproveMapper.queryOneTbBizApproveByApproveId(bizDtl.getApproveId());
 		//DataObject bizDtl = EntityUtil.getEntityById(BizTableName.TB_BIZ_AMOUNT_DETAIL_APPROVE, "amountDetailId", bizDtlId);

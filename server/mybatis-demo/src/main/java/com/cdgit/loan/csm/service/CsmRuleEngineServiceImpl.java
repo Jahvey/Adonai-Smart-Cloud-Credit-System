@@ -107,7 +107,10 @@ public class CsmRuleEngineServiceImpl {
 		case "RGRT_0012":
 			res=csmRuleEngineMapper.ruleRGRT_0012(param); //contractId
 			break;
-
+		case "RCON_0003":
+			res=csmRuleEngineMapper.ruleRCON_0003(param); //contractId
+			break;
+			
 		default:
 			res=1;
 			break;

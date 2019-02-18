@@ -88,7 +88,7 @@ public class ConInfoSxxy {
 		//查询协议信息
 		
 		//tbConCreditInfo/partyId 是不是等于空或者empty
-		if(tbConCreditInfo.getApplyId()!=null||!tbConCreditInfo.equals(""))
+		if(null!=tbConCreditInfo&&tbConCreditInfo.getApplyId()!=null)
 		{//否
 			//如果营业事件为空，则设置一个营业时间
 			if(tbConCreditInfo.getContractDate()==null){			

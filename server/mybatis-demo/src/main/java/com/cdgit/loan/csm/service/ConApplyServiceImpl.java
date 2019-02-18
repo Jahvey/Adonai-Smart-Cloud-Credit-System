@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cdgit.loan.csm.bean.ApproveAndSxxyVo;
 import com.cdgit.loan.csm.bean.ApproveConsVo;
 import com.cdgit.loan.csm.mapper.ConApplyMapper;
 import com.cdgit.loan.csm.queryparams.ApproveConsVoQuery;
@@ -78,7 +79,13 @@ public class ConApplyServiceImpl {
 	}
 	
 	
-	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public PageInfo<ApproveAndSxxyVo> getApproveAndSxxy(Map map){
+		PageHelper.startPage((Integer)map.get("pageNum"),(Integer)map.get("pageSize"));
+		List<ApproveAndSxxyVo> ApproveAndSxxyVoQuery = conApplyMapper.getApproveAndSxxy(map);
+		PageInfo pageInfo=new PageInfo(ApproveAndSxxyVoQuery,(Integer)map.get("pageSize"));
+    	return pageInfo;
+	}
 	
 
 }

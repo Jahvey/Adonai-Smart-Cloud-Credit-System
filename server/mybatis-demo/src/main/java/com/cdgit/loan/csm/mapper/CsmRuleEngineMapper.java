@@ -77,5 +77,8 @@ public interface CsmRuleEngineMapper {
 	//RGRT_0017" name="判断是否有临时出库的押品"  errMsg="该合同有临时出库的押品，不允许做合同失效"
 	Integer ruleRGRT_0017(String contractId);
 	
+	//RCON_0003" name="合同基本信息未保存" checktype="ineqn" checkedFieldName="$c" targetDataList="0" errCode="2015110-001" errMsg="合同基本信息未保存" 
+	Integer ruleRCON_0003(String contractId);
+	
 	
 }

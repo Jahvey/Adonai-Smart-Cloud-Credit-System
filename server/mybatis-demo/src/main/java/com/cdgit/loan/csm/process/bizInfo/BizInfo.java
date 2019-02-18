@@ -13,6 +13,7 @@ import com.cdgit.loan.csm.mapper.CsmTbCsmGroupCompanyPoMapper;
 import com.cdgit.loan.csm.po.CsmTbBizApplyPo;
 import com.cdgit.loan.csm.po.CsmTbBizBankStructApplyPo;
 import com.cdgit.loan.csm.po.CsmTbCsmGroupCompanyPo;
+import com.thoughtworks.xstream.mapper.Mapper.Null;
 
 /**
  * @author cwalk
@@ -38,11 +39,15 @@ public class BizInfo {
 		CsmTbBizApplyPo bizApply = csmTbBizApplyPoMapper.selectByPrimaryKey(applyId);
 		CsmTbBizBankStructApplyPo bankTs = csmTbBizBankStructApplyPoMapper.queryByApplyId(applyId);
 		CsmTbCsmGroupCompanyPo group = csmTbCsmGroupCompanyPoMapper.selectByPrimaryKey(bizApply.getPartyId());
-		if("03".equals(group.getStatus())){//是否集团客户
-			bankTs.setGroupCustomer("1");//是集团客户
-		}else {
-			bankTs.setGroupCustomer("0");
+		if (bankTs==null) System.err.println("[TbBizBankStructApply] is null");
+		if(bankTs!=null){
+			if(null!=group && "03".equals(group.getStatus())){//是否集团客户
+				bankTs.setGroupCustomer("1");//是集团客户
+			}else {
+				bankTs.setGroupCustomer("0");
+			}
 		}
+		
 
 		return bankTs;
 	}

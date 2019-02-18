@@ -239,6 +239,12 @@ select count(*) c
 
 </select>
 
+<!-- 合同基本信息未保存 -->
+<select id="ruleRCON_0003" parameterType="java.lang.String" resultType="java.lang.Integer">
+
+select count(*) as c from tb_con_contract_info r where r.contract_id =#{contractId}  and r.update_time is not null 
+</select>
+
 
 
 
