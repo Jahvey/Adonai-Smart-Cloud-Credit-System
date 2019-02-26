@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cdgit.loan.common.util.uid.DateUtil;
+import com.cdgit.loan.common.util.DateUtil;
 import com.cdgit.loan.common.util.uid.UUIDGenerator;
 import com.cdgit.loan.customerManage.bean.ImpornantEvent;
 import com.cdgit.loan.customerManage.mapper.ImpornantEventMapper;

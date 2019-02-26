@@ -1,5 +1,7 @@
 package com.cdgit.loan.contract.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cdgit.loan.contract.bean.CrtTbConZh;
@@ -12,10 +14,7 @@ import com.cdgit.loan.contract.bean.CrtTbConZh;
 @Mapper
 public interface CrtTbConZhMapper {
 
-    int insertSelective(CrtTbConZh record);
-
-    CrtTbConZh selectByPrimaryKey(String id);
-
-    int updateByPrimaryKeySelective(CrtTbConZh record);
+	//根据合同id查询多条合同账户信息
+	List<CrtTbConZh> selectAllConZhByContractId(String contractId);
 
 }

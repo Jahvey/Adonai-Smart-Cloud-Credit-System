@@ -5,13 +5,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.bouncycastle.crypto.RuntimeCryptoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cdgit.loan.common.util.BeanUtil;
-import com.cdgit.loan.common.util.uid.StringUtil;
+import com.cdgit.loan.common.util.StringUtil;
 import com.cdgit.loan.common.util.uid.UUIDGenerator;
 import com.cdgit.loan.csm.bean.CsmConDetailVo;
 import com.cdgit.loan.csm.mapper.ConApplyMapper;

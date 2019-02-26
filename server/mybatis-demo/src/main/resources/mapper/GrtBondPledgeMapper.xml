@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.securitymanagerment.mapper.GrtBondPledgeMapper">
+<mapper namespace="com.cdgit.loan.securitymanagement.mapper.GrtBondPledgeMapper">
   <resultMap id="BaseResultMap" type="com.cdgit.loan.securitymanagement.bean.GrtBondPledge">
     <id column="GUARANTY_ID" jdbcType="VARCHAR" property="guarantyId" />
     <result column="ISSUE_PERS_NAME" jdbcType="VARCHAR" property="issuePersName" />

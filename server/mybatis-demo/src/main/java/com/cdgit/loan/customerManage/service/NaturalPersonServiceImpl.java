@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cdgit.loan.common.util.uid.DateUtil;
+import com.cdgit.loan.common.constants.Constant;
+import com.cdgit.loan.common.util.DateUtil;
 import com.cdgit.loan.common.util.uid.UUIDGenerator;
 import com.cdgit.loan.customerManage.bean.ManagementTeam;
 import com.cdgit.loan.customerManage.bean.NaturalPerson;
@@ -212,5 +213,32 @@ public class NaturalPersonServiceImpl {
 		}
 
 	}
+
+	public Map<String, Object> selectCustomerAllByPartyTypeCd(Integer pageNum,Integer pageSize,
+			String legOrg ,
+			String partyTypeCd,String certType, 
+			String certNum, String partyName,
+			String orgRegisterCd, String registrCd, String unifySocietyCreditNum) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(partyTypeCd.equals(Constant.CUSTOMER_TYPE_NATURAL_PERSON)){//自然人
+			PageHelper.startPage(pageNum,pageSize);
+			List<Map<String, Object>> list = naturalPersonMapper.importbzrNatureCus(certType,certNum,partyName,legOrg);
+			PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(list, pageSize);
+			map.put("data", pageInfo);
+			map.put("flag", "true");
+			map.put("message", "操作成功!");
+		} else{//公司客户
+			PageHelper.startPage(pageNum,pageSize);
+			List<Map<String, Object>> list = naturalPersonMapper.importbzrComCus(certType,certNum,partyName,orgRegisterCd,registrCd,unifySocietyCreditNum,legOrg);
+			PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(list, pageSize);
+			map.put("data", pageInfo);
+			map.put("flag", "true");
+			map.put("message", "操作成功!");
+		}
+
+		return map;
+	}
+
+
 
 }

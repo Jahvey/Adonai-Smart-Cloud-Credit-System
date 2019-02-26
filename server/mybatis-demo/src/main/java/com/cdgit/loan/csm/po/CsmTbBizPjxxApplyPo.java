@@ -283,4 +283,19 @@ public class CsmTbBizPjxxApplyPo {
     public void setSortOrder(BigDecimal sortOrder) {
         this.sortOrder = sortOrder;
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbBizPjxxApplyPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", cprqc=" + cprqc + ", cprzh=" + cprzh
+				+ ", skrqc=" + skrqc + ", skrzh=" + skrzh + ", skrkhh=" + skrkhh + ", pjhm=" + pjhm + ", currencyCd="
+				+ currencyCd + ", hpje=" + hpje + ", hpxs=" + hpxs + ", hpcprq=" + hpcprq + ", hpdqrq=" + hpdqrq
+				+ ", dfdz=" + dfdz + ", htbh=" + htbh + ", jlzt=" + jlzt + ", remitterbankname=" + remitterbankname
+				+ ", remitterbankno=" + remitterbankno + ", payeebankname=" + payeebankname + ", payeebankno="
+				+ payeebankno + ", acceptorbankname=" + acceptorbankname + ", acceptorbankno=" + acceptorbankno
+				+ ", billid=" + billid + ", forbidflag=" + forbidflag + ", contractId=" + contractId + ", sortOrder="
+				+ sortOrder + "]";
+	}
+    
+    
 }

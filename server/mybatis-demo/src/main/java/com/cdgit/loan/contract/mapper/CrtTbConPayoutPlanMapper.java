@@ -1,5 +1,7 @@
 package com.cdgit.loan.contract.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cdgit.loan.contract.bean.CrtTbConPayoutPlan;
@@ -12,10 +14,7 @@ import com.cdgit.loan.contract.bean.CrtTbConPayoutPlan;
 @Mapper
 public interface CrtTbConPayoutPlanMapper {
 
-    int insertSelective(CrtTbConPayoutPlan record);
-
-    CrtTbConPayoutPlan selectByPrimaryKey(String payoutPlanId);
-
-    int updateByPrimaryKeySelective(CrtTbConPayoutPlan record);
+	//根据合同id查询多条合同用款计划
+    List<CrtTbConPayoutPlan> selectAllConPayoutPlanByContractId(String contractId);
 
 }

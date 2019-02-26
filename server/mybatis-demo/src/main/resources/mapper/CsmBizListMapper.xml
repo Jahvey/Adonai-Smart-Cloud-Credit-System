@@ -30,7 +30,7 @@
   
 
   <!--客户业务列表-->
-    <select id="getBizList" parameterType="java.util.HashMap" resultMap="CsmBizListVo">
+    <select id="getBizList" parameterType="java.lang.String"  resultMap="CsmBizListVo">
 	    	SELECT P.PARTY_NUM,P.PARTY_NAME,T.* FROM (
 	SELECT
 		A.APPROVE_ID,

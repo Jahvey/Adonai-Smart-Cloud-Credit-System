@@ -74,4 +74,13 @@ public class CsmTbConXmdkcnhPo extends CsmConDetailVo{
     public void setItemName(String itemName) {
         this.itemName = itemName == null ? null : itemName.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConXmdkcnhPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", sfkwtjcx=" + sfkwtjcx + ", contractId="
+				+ contractId + ", itemName=" + itemName + "]";
+	}
+    
+    
 }

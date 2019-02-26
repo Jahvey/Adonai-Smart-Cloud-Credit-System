@@ -30,4 +30,13 @@ public class Constant {
 	
 	public final static String CUSTOMER_TYPE_NATURAL_PERSON="02";//客户类型，自然人客户
 	public final static String CUSTOMER_TYPE_LEGAL_PERSON="01";//客户类型，公司客户
+	
+	public final static String GUARANTEE_COMPANY="1";
+	
+	public final static String COLL_TYPE_MORTGAGE="01";//抵押
+	public final static String COLL_TYPE_PLEDGE="02";//质押
+	public final static String COLL_TYPE_MORTGAGE_AND_PLEDGE="00";//即可抵押也可质押
+	public final static String MORTGAGE_RATE_MAX ="90";//抵质押率最大值
+	
+	
 }

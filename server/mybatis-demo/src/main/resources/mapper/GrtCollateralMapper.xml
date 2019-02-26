@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.securitymanagerment.mapper.GrtCollateralMapper">
+<mapper namespace="com.cdgit.loan.securitymanagement.mapper.GrtCollateralMapper">
   <resultMap id="BaseResultMap" type="com.cdgit.loan.securitymanagement.bean.GrtCollateral">
     <id column="GUARANTY_ID" jdbcType="VARCHAR" property="guarantyId" />
     <result column="COLLATERAL_TYPE_CD" jdbcType="VARCHAR" property="collateralTypeCd" />
@@ -94,6 +94,7 @@
   	<result column="MARKET_VALUE" jdbcType="DECIMAL" property="marketValue" />
   	<result column="CURRENCY_CD" jdbcType="VARCHAR" property="currencyCd" />
   	<result column="TIME_MARK" jdbcType="TIMESTAMP" property="timeMark" />
+  	<result column="IS_BIND" jdbcType="VARCHAR" property="isBind" />
   </resultMap>
   <sql id="Base_Column_List">
     GUARANTY_ID, COLLATERAL_TYPE_CD, PARTY_TYPE_CD, COLLATERAL_NUM, COLLATERAL_STATUS_CD, 
@@ -117,10 +118,11 @@
 	  T2.PARTY_NUM, T2.PARTY_NAME, T3.CERT_TYPE,T3.CERT_NUM,T2.IS_POTENTIAL_CUST,T2.PARTY_ID
 	  ,T3.IS_FARMER,T3.PHONE_NUMBER,T3.IS_THIRD_CUST,
 		T4.GUARANTY_ID,T4.COLLATERAL_NAME,T4.COLLATERAL_TYPE_CD,T4.CUSTOMER_TYPE,T4.COLLATERAL_NUM,
-		T4.MARKET_VALUE,T4.CURRENCY_CD,T4.TIME_MARK
+		T4.MARKET_VALUE,T4.CURRENCY_CD,T4.TIME_MARK,DECODE(T5.NUM,NULL,'否',0,'否','是')IS_BIND
 		FROM TB_GRT_COLLATERAL T4
   		JOIN TB_CSM_PARTY T2 ON T4.CUSTOMER_NUM = T2.PARTY_NUM
 		JOIN TB_CSM_NATURAL_PERSON T3 ON T2.PARTY_ID = T3.PARTY_ID
+		LEFT JOIN (SELECT COUNT(SURETY_ID) NUM,SURETY_ID FROM TB_GRT_MORTGAGE_BASIC GROUP BY SURETY_ID )T5 ON T4.GUARANTY_ID=T5.SURETY_ID
 	  	WHERE T2.PARTY_TYPE_CD = '02'  
 	    AND T4.DATA_CREAT_USER_NUM = '200555'
 	  	AND T4.DATA_CREATOR_ORG_CD = '0700'

@@ -135,4 +135,14 @@ public class CsmTbConJkxyzPo extends CsmConDetailVo{
     public void setYqts(String yqts) {
         this.yqts = yqts == null ? null : yqts.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConJkxyzPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", jyq=" + jyq + ", bzjblbdy=" + bzjblbdy
+				+ ", contractId=" + contractId + ", kzsfbl=" + kzsfbl + ", kzxfbl=" + kzxfbl + ", syrmc=" + syrmc
+				+ ", xyzyxq=" + xyzyxq + ", dkll=" + dkll + ", yqts=" + yqts + "]";
+	}
+    
+    
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.ledger.creditledger.mapper.ChTbGrtGuaranteeBasicMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.ledger.creditledger.resultbean.GuarCompanyManageAccountResult">
+<mapper namespace="com.cdgit.loan.ledger.creditledger.mapper.ChTbGrtGuaranteeBasicMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.ledger.creditledger.resultbean.GuarCompanyManageAccountResult">
     <result column="PARTY_NAME" jdbcType="VARCHAR" property="partyName" />
     <result column="CREDIT_AMOUNT" jdbcType="DECIMAL" property="creditAmount" />
     <result column="SIMPLE_AMOUNT" jdbcType="DECIMAL" property="simpleAmount" />
@@ -98,7 +98,7 @@
 		 </if>  
   </select>
   
-  <resultMap id="BaseResultMap1" type="com.cdgit.ledger.creditledger.resultbean.CustQuotaAccountResult">
+  <resultMap id="BaseResultMap1" type="com.cdgit.loan.ledger.creditledger.resultbean.CustQuotaAccountResult">
     <result column="ORG_NUM" jdbcType="VARCHAR" property="orgNum" />
     <result column="PARTY_NAME" jdbcType="DECIMAL" property="partyName" />
     <result column="CURRENCY_CD" jdbcType="DECIMAL" property="currencyCd" />
@@ -143,7 +143,7 @@
 		 	AND T.USER_NUM LIKE '%'||#{userNum}||'%' 
 		  </if>
 	 </select>
-  <resultMap id="BaseResultMap2" type="com.cdgit.ledger.creditledger.resultbean.GroupCustomerReplyResult">
+  <resultMap id="BaseResultMap2" type="com.cdgit.loan.ledger.creditledger.resultbean.GroupCustomerReplyResult">
     <result column="ORG_NUM" jdbcType="VARCHAR" property="orgNum" />
     <result column="PARTY_NAME" jdbcType="VARCHAR" property="partyName" />
     <result column="APPROVAL_NUM" jdbcType="DECIMAL" property="approvalNum" />
@@ -251,7 +251,7 @@
 		  </if>
 	 </select>
   
-   <resultMap id="corporationContract" type="com.cdgit.ledger.creditledger.resultbean.CompanyContractInfoResult">
+   <resultMap id="corporationContract" type="com.cdgit.loan.ledger.creditledger.resultbean.CompanyContractInfoResult">
     		<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
     		<result property="userNum" column="USER_NUM" jdbcType="VARCHAR"/>
     		<result property="xyContractNum" column="XY_CONTRACT_NUM" jdbcType="VARCHAR"/>
@@ -379,7 +379,7 @@
 		   </if>  -->  
 		   
 	 </select>
-  	 <resultMap id="indvcustomerContract" type="com.cdgit.ledger.creditledger.resultbean.PersonalContractInfoResult">
+  	 <resultMap id="indvcustomerContract" type="com.cdgit.loan.ledger.creditledger.resultbean.PersonalContractInfoResult">
     		<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
     		<result property="userNum" column="USER_NUM" jdbcType="VARCHAR"/>
     		<result property="contractNum" column="CONTRACT_NUM" jdbcType="VARCHAR"/>
@@ -512,7 +512,7 @@
 		   <isNotNull property="maxAmt">  AND TZ.$amtType$ &lt;= #maxAmt#</isNotNull> -->
 	 </select>
   
-  	 <resultMap id="corporationLoan" type="com.cdgit.ledger.creditledger.resultbean.CorporateLendInfoResult">
+  	 <resultMap id="corporationLoan" type="com.cdgit.loan.ledger.creditledger.resultbean.CorporateLendInfoResult">
 	 		<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
     		<result property="userNum" column="USER_NUM" jdbcType="VARCHAR"/>
     		<result property="partyName" column="PARTY_NAME" jdbcType="VARCHAR"/>
@@ -819,7 +819,7 @@
 		   <isNotNull property="minAmt">  AND T.$amtType$ &gt;= #minAmt#</isNotNull>
 		   <isNotNull property="maxAmt">  AND T.$amtType$ &lt;= #maxAmt#</isNotNull> -->
 	 </select>
-  	 <resultMap id="indvcustomerLoan" type="com.cdgit.ledger.creditledger.resultbean.PersonalLendInfoResult">
+  	 <resultMap id="indvcustomerLoan" type="com.cdgit.loan.ledger.creditledger.resultbean.PersonalLendInfoResult">
 	 		<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
     		<result property="userNum" column="USER_NUM" jdbcType="VARCHAR"/>
     		<result property="partyName" column="PARTY_NAME" jdbcType="VARCHAR"/>
@@ -1142,7 +1142,7 @@
 			   <isNotNull property="maxAmt">  AND T.$amtType$ &lt;= #maxAmt#</isNotNull> -->
 	  </select>	
 	  
-	  <resultMap id="thirdCustomerLoan" type="com.cdgit.ledger.creditledger.resultbean.CooperaProjectQuotaResult">
+	  <resultMap id="thirdCustomerLoan" type="com.cdgit.loan.ledger.creditledger.resultbean.CooperaProjectQuotaResult">
 	 		<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
     		<result property="userNum" column="USER_NUM" jdbcType="VARCHAR"/>
     		<result property="partyName" column="PARTY_NAME" jdbcType="VARCHAR"/>

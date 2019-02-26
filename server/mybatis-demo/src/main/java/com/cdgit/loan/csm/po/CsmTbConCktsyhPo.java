@@ -115,4 +115,14 @@ public class CsmTbConCktsyhPo extends CsmConDetailVo{
     public void setDkll(BigDecimal dkll) {
         this.dkll = dkll;
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConCktsyhPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", contractId=" + contractId + ", inAccNo="
+				+ inAccNo + ", bizNum=" + bizNum + ", fph=" + fph + ", yhtxbz=" + yhtxbz + ", tsh=" + tsh + ", dkll="
+				+ dkll + "]";
+	}
+    
+    
 }

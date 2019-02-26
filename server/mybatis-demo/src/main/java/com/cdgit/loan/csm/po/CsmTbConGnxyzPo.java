@@ -95,4 +95,13 @@ public class CsmTbConGnxyzPo extends CsmConDetailVo{
     public void setBzj(BigDecimal bzj) {
         this.bzj = bzj;
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConGnxyzPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", bzjblbdy=" + bzjblbdy + ", contractId="
+				+ contractId + ", dkll=" + dkll + ", bzjbl=" + bzjbl + ", bzj=" + bzj + "]";
+	}
+    
+    
 }

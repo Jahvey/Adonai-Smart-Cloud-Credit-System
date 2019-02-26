@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.ledger.naturalperson.mapper.TbCsmNaturalPersonMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.ledger.naturalperson.bean.TbCsmNaturalPerson">
+<mapper namespace="com.cdgit.loan.ledger.naturalperson.mapper.TbCsmNaturalPersonMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.ledger.naturalperson.bean.TbCsmNaturalPerson">
     <id column="PARTY_ID" jdbcType="VARCHAR" property="partyId" />
     <result column="PARTY_NAME" jdbcType="VARCHAR" property="partyName" />
     <result column="ENGLISH_NAME" jdbcType="VARCHAR" property="englishName" />
@@ -74,7 +74,7 @@
   </resultMap>
   
   <!-- 封装结果集 -->
-  <resultMap id="BaseResultMap2" type="com.cdgit.ledger.naturalperson.bean.NaturealCust">
+  <resultMap id="BaseResultMap2" type="com.cdgit.loan.ledger.naturalperson.bean.NaturealCust">
   	<result column="PARTY_ID" javaType="string" property="partyId" />
   	<result column="PARTY_NAME" javaType="string" property="partyName" />
   	<result column="CERT_TYPE" javaType="string" property="certType" />
@@ -177,7 +177,7 @@
 		 order by t3.create_time desc -->  
   </select>
   
-  <resultMap id="BaseResultMap3" type="com.cdgit.ledger.naturalperson.bean.TbCsmGuarGroup">
+  <resultMap id="BaseResultMap3" type="com.cdgit.loan.ledger.naturalperson.bean.TbCsmGuarGroup">
     <id column="PARTY_ID" jdbcType="VARCHAR" property="partyId" />
     <result column="JOINT_GUARANTEE_TYPE" jdbcType="VARCHAR" property="jointGuaranteeType" />
     <result column="JOINT_GUARANTEE_STATUS" jdbcType="VARCHAR" property="jointGuaranteeStatus" />
@@ -189,7 +189,7 @@
     <result column="MANAGE_WAY" jdbcType="VARCHAR" property="manageWay" />
   </resultMap>
   
-   <resultMap id="BaseResultMap4" type="com.cdgit.ledger.naturalperson.bean.GuarCustResult">
+   <resultMap id="BaseResultMap4" type="com.cdgit.loan.ledger.naturalperson.bean.GuarCustResult">
     <id column="ID" jdbcType="VARCHAR" property="Id" />
     <result column="JOINT_GUARANTEE_TYPE" jdbcType="VARCHAR" property="jointGuaranteeType" />
     <result column="JOINT_GUARANTEE_STATUS" jdbcType="VARCHAR" property="jointGuaranteeStatus" />
@@ -245,7 +245,7 @@
 	</if>
   </select>
   
-  <resultMap id="BaseResultMap5" type="com.cdgit.ledger.naturalperson.bean.InterbankCustResult">
+  <resultMap id="BaseResultMap5" type="com.cdgit.loan.ledger.naturalperson.bean.InterbankCustResult">
     <result column="ORG_NUM" jdbcType="VARCHAR" property="orgNum" />
     <result column="AREA_TYPE" jdbcType="VARCHAR" property="areaType" />
     <result column="FINANCE_ENTERPRISE_TYPE" jdbcType="VARCHAR" property="financeEnterpriseType" />
@@ -316,7 +316,7 @@
 	</if> 	
   </select>
   
-  <resultMap id="BaseResultMap6" type="com.cdgit.ledger.naturalperson.bean.ThirdCustResult">
+  <resultMap id="BaseResultMap6" type="com.cdgit.loan.ledger.naturalperson.bean.ThirdCustResult">
     <result column="ORG_NUM" jdbcType="VARCHAR" property="orgNum" />
     <result column="PARTY_NAME" jdbcType="VARCHAR" property="partyName" />
     <result column="UNIFY_SOCIETY_CREDIT_NUM" jdbcType="VARCHAR" property="unifySocietyCreditNum" />
@@ -384,7 +384,7 @@
   </select>
   
   <!--集团客户查询  -->
-  <resultMap id="groupCorporation" type="com.cdgit.ledger.naturalperson.bean.GroupCorporationResult">
+  <resultMap id="groupCorporation" type="com.cdgit.loan.ledger.naturalperson.bean.GroupCorporationResult">
 		 	<result property="partyId" column="PARTY_ID" jdbcType="VARCHAR"/>
 			<result property="partyNum" column="PARTY_NUM" jdbcType="VARCHAR"/>
 			<result property="partyName" column="PARTY_NAME" jdbcType="VARCHAR"/>
@@ -547,7 +547,7 @@
 	 
 	 
 	 </select>
-  	  <resultMap id="corporation" type="com.cdgit.ledger.naturalperson.bean.PubCustResult">
+  	  <resultMap id="corporation" type="com.cdgit.loan.ledger.naturalperson.bean.PubCustResult">
 			<result property="orgname" column="ORGNAME" jdbcType="VARCHAR"/>
 			<result property="partyId" column="PARTY_ID" jdbcType="VARCHAR"/>
 			<result property="partyName" column="PARTY_NAME" jdbcType="VARCHAR"/>

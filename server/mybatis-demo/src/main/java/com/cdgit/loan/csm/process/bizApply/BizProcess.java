@@ -2,8 +2,14 @@ package com.cdgit.loan.csm.process.bizApply;
 
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.cdgit.loan.common.util.StringUtil;
+import com.cdgit.loan.csm.mapper.CsmTbCsmPartyPoMapper;
+import com.cdgit.loan.csm.po.CsmTbCsmPartyPo;
+import com.cdgit.loan.csm.process.bizApply.AProcessActions.CrtAction;
 
 
 
@@ -58,6 +64,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BizProcess {
 	
+
+	
+	@Autowired
+	CsmTbCsmPartyPoMapper csmTbCsmPartyPoMapper;
+	
+
+	
+	@Autowired
+	CrtAction crtAction;
+	
 	public final static String MSG_KEY = "errCode";
 	public final static String MSG_TEXT = "errDesc";
 	public final static String PROCESS_ID = "processId";
@@ -73,6 +89,7 @@ public class BizProcess {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			String processId = createBpsProcessThrowError(bizId, type);
+			System.err.println("[业务流程id]:"+processId);
 			resultMap.put(PROCESS_ID, processId);
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -98,30 +115,35 @@ public class BizProcess {
 
 	public String createBpsProcessThrowError(String bizId, String type) {
 		System.err.println("流程发起时->bizId=" + bizId + ",type=" + type);
-//		if (StringUtil.isNull(bizId)) {
-//			throw new RuntimeException("需要创建流程的业务编号错误");
-//		} else if (StringUtil.isNull(type)) {
-//			throw new RuntimeException("错误的流程类型，请传入正确流程类型!");
-//		}
-//		ProcessType pt = ProcessType.get(type);
-//		IProcessAction processAction;
-//		if (pt == null || (processAction = pt.getAction()) == null) {
-//			throw new RuntimeException("错误的流程类型[" + type + "]，尚未配置相关流程信息!");
-//		}
-//		ProcessParam param = processAction.action(bizId);
-//		if (param.getTemplateName() == null) {
-//			throw new RuntimeException("没有获取到流程模版名称");
-//		}
-//		if (!param.isAbsenceParty()) {
-//			if (StringUtil.isNull(param.getPartyId())) {
-//				throw new RuntimeException("没有获取到正确的客户信息");
-//			}
-//			// 获取流程中的客户信息
-//			setPartyInfoToRelaMap(param);
-//		}
-//		if (param.getModelType() == null) {
-//			param.setModelType(type);
-//		}
+		if (StringUtil.isNull(bizId)) {
+			throw new RuntimeException("需要创建流程的业务编号错误");
+		} else if (StringUtil.isNull(type)) {
+			throw new RuntimeException("错误的流程类型，请传入正确流程类型!");
+		}
+
+		if("crt".equals(type)){
+			CrtAction pt = new CrtAction();
+			if (pt == null ) {
+				throw new RuntimeException("错误的流程类型[" + type + "]，尚未配置相关流程信息!");
+			}
+		}
+		
+		
+		ProcessParam param = crtAction.action(bizId);
+		if (param.getTemplateName() == null) {
+			throw new RuntimeException("没有获取到流程模版名称");
+		}
+		if (!param.isAbsenceParty()) {
+			if (StringUtil.isNull(param.getPartyId())) {
+				throw new RuntimeException("没有获取到正确的客户信息");
+			}
+			// 获取流程中的客户信息
+			setPartyInfoToRelaMap(param);
+		}
+		if (param.getModelType() == null) {
+			param.setModelType(type);
+		}
+		System.err.println("发起[业务流程]param:"+param);
 //		// 发起业务流程
 //		Object[] objs = param.isBatch() ? createProcessByBatch(param) : createProcess(param);
 //		if ((String) objs[1] != null || (String) objs[2] != null) {
@@ -131,7 +153,12 @@ public class BizProcess {
 		return "";
 	}
 	
-	
+	private void setPartyInfoToRelaMap(ProcessParam param) {
+		CsmTbCsmPartyPo party = csmTbCsmPartyPoMapper.selectByPrimaryKey(param.getPartyId());
+		//DataObject party = EntityUtil.getEntityById("com.bos.dataset.csm.TbCsmParty", "partyId", param.getPartyId());
+		param.putRelaMap("cusName", party.getPartyName());
+		param.putRelaMap("custId", party.getPartyNum());
+	}
 	
 
 }

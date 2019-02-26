@@ -213,4 +213,19 @@ public class CsmTbConLoanratePo {
     public void setDiscFlag(String discFlag) {
         this.discFlag = discFlag == null ? null : discFlag.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConLoanratePo [loanrateId=" + loanrateId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", rateType=" + rateType + ", interestCollectType=" + interestCollectType
+				+ ", rateFloatProportion=" + rateFloatProportion + ", irUpdateFrequency=" + irUpdateFrequency
+				+ ", baseRateValue=" + baseRateValue + ", rateFloatMember=" + rateFloatMember
+				+ ", overdueRateUpProportion=" + overdueRateUpProportion + ", yearRate=" + yearRate + ", floatType="
+				+ floatType + ", floatWay=" + floatWay + ", gracePeriodDay=" + gracePeriodDay + ", gracePeriodType="
+				+ gracePeriodType + ", graceCountIntFlag=" + graceCountIntFlag + ", contractId=" + contractId
+				+ ", holidayFlg=" + holidayFlg + ", holidayIntFlg=" + holidayIntFlg + ", feeFlag=" + feeFlag
+				+ ", discFlag=" + discFlag + "]";
+	}
+    
+    
 }

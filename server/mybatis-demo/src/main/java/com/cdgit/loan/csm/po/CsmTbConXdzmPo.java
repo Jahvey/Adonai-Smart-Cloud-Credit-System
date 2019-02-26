@@ -94,4 +94,13 @@ public class CsmTbConXdzmPo extends CsmConDetailVo{
     public void setPayWay(String payWay) {
         this.payWay = payWay == null ? null : payWay.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConXdzmPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", sfkwtjcx=" + sfkwtjcx + ", contractId="
+				+ contractId + ", applyReason=" + applyReason + ", itemName=" + itemName + ", payWay=" + payWay + "]";
+	}
+    
+    
 }

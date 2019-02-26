@@ -458,4 +458,24 @@ public class CrtTbLoanInfo {
     public void setRcnStan(String rcnStan) {
         this.rcnStan = rcnStan == null ? null : rcnStan.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CrtTbLoanInfo [loanId=" + loanId + ", contractId=" + contractId + ", loanNum=" + loanNum
+				+ ", loanSubject1=" + loanSubject1 + ", loanAmt=" + loanAmt + ", currencyCd=" + currencyCd
+				+ ", loanTerm=" + loanTerm + ", cycleUnit=" + cycleUnit + ", beginDate=" + beginDate + ", endDate="
+				+ endDate + ", loanOrg=" + loanOrg + ", userNum=" + userNum + ", orgNum=" + orgNum + ", createTime="
+				+ createTime + ", updateTime=" + updateTime + ", productType=" + productType + ", partyId=" + partyId
+				+ ", loanStatus=" + loanStatus + ", specPaymentDate=" + specPaymentDate + ", holidayFlg=" + holidayFlg
+				+ ", holidayItrWay=" + holidayItrWay + ", counterFlg=" + counterFlg + ", batFlg=" + batFlg
+				+ ", trusToPayFlg=" + trusToPayFlg + ", stopPayFlg=" + stopPayFlg + ", repayType=" + repayType
+				+ ", summaryNum=" + summaryNum + ", exchangeRate=" + exchangeRate + ", rmbAmt=" + rmbAmt
+				+ ", ifDataMove=" + ifDataMove + ", firstRepayTerm=" + firstRepayTerm + ", hpzs=" + hpzs + ", hpbh="
+				+ hpbh + ", pjzl=" + pjzl + ", drweBnkNm=" + drweBnkNm + ", drweBnkNo=" + drweBnkNo + ", drweBnkAdr="
+				+ drweBnkAdr + ", txzq=" + txzq + ", comAmt=" + comAmt + ", term=" + term + ", unit=" + unit
+				+ ", payOutFlag=" + payOutFlag + ", orgRcnStan=" + orgRcnStan + ", midStatus=" + midStatus
+				+ ", rcnStan=" + rcnStan + "]";
+	}
+    
+    
 }

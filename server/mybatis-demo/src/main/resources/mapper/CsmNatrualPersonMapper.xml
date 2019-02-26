@@ -40,8 +40,7 @@
   	<result column="entrust_Type" javaType="String" property="entrustType" />	
 
   </resultMap>
-  
-  
+     
   <select id="getEntrustAccountsByPartyId" parameterType="java.util.HashMap" resultMap="csmEntrustAccountVo">
   	
 		SELECT
@@ -93,17 +92,8 @@
 
        and( T.LIST_STATUS != '2' or T.LIST_STATUS is null)
 	  <include refid="query_NaturalForDesk"></include>
-
-		
-
   </select>
-
-  
-
-
-  
-  
-  
+ 
   
   <sql id="query_NaturalForDesk">
 

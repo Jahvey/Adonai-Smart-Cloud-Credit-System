@@ -2,6 +2,7 @@ package com.cdgit.loan.contract.mapper;
 
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,9 @@ public interface TbConContractInfoMapper {
      * @return
      */
     TbConContractInfo queryOneConContractInfoByContractId(String contractId);
+    
+	//查询担保合同编号(可能存在多条数据)
+	List<HashMap<String,String>> getSubContractNum(String contractNum);
     
     /**
      * 查询我的业务之贷款合同主页面信息，map里面保存的是分页的参数

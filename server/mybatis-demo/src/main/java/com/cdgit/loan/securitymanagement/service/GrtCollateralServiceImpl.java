@@ -9,12 +9,13 @@ import org.springframework.stereotype.Service;
 
 import com.cdgit.loan.common.constants.Constant;
 import com.cdgit.loan.common.util.BeanUtils;
+import com.cdgit.loan.guaranteevaluation.bean.GrtMortgageBasic;
+import com.cdgit.loan.guaranteevaluation.mapper.GrtMortgageBasicMapper;
 import com.cdgit.loan.securitymanagement.bean.GrtBill;
 import com.cdgit.loan.securitymanagement.bean.GrtBondPledge;
 import com.cdgit.loan.securitymanagement.bean.GrtBuildingProject;
 import com.cdgit.loan.securitymanagement.bean.GrtChargingRightMortgage;
 import com.cdgit.loan.securitymanagement.bean.GrtCollateral;
-import com.cdgit.loan.securitymanagement.bean.GrtCollateralInsurance;
 import com.cdgit.loan.securitymanagement.bean.GrtCurrentAssets;
 import com.cdgit.loan.securitymanagement.bean.GrtDeposit;
 import com.cdgit.loan.securitymanagement.bean.GrtEarningsAccount;
@@ -128,8 +129,29 @@ public class GrtCollateralServiceImpl {
 	private GrtMachineEquipmentMapper grtMachineEquipmentMapper;
 	@Autowired
 	private GrtTrafficOthersMapper grtTrafficOthersMapper;
+	@Autowired
+	private GrtMortgageBasicMapper grtMortgageBasicMapper;
 	public Map<String, Object> saveGrtCollateral(GrtCollateral grtCollateral) throws JsonProcessingException{
 		Map<String, Object> map = new HashMap<>();
+		if(
+				grtCollateral.getCollateralTypeCd().equals(Constant.GC_ZSCQ) ||//知识产权
+				grtCollateral.getCollateralTypeCd().equals(Constant.GC_GZZH) ||//工资账户
+				grtCollateral.getCollateralTypeCd().equals(Constant.GC_CD) ||//仓单
+				grtCollateral.getCollateralTypeCd().equals(Constant.GC_YSZK) ||//应收账款
+				grtCollateral.getCollateralTypeCd().equals(Constant.GC_CH) ||//存货
+				grtCollateral.getCollateralTypeCd().equals(Constant.GC_SFQ) ||//收费权
+				grtCollateral.getCollateralTypeCd().equals(Constant.GC_CD) ||//存单
+				grtCollateral.getCollateralTypeCd().equals(Constant.GC_ZJ) ||//债券
+				grtCollateral.getCollateralTypeCd().equals(Constant.GC_GQ) ||//股权
+				grtCollateral.getCollateralTypeCd().equals(Constant.GC_JJ) ||//基金
+				grtCollateral.getCollateralTypeCd().equals(Constant.GC_PJ) ||//票据
+				grtCollateral.getCollateralTypeCd().equals(Constant.GC_BD) //保单
+				//grtCollateral.getCollateralTypeCd().equals(Constant.GC_BD) ||//其他质押
+				){ //质押物
+			grtCollateral.setMpType("02");
+		} else{//抵押物
+			grtCollateral.setMpType("01");
+		}
 		int i = grtCollateralMapper.insertSelective(grtCollateral);
 		if(i>0){
 			//根据类型插入
@@ -523,9 +545,7 @@ public class GrtCollateralServiceImpl {
 					throw new RuntimeException("插入交通运输设备表失败");
 				}
 				
-			}/*else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_NJJ)){//农机具
-				
-			}*/else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_QT)){//其他
+			}else if(grtCollateral.getCollateralTypeCd().equals(Constant.GC_QT)){//其他
 				//其他信息没有单独的表，就一张抵质押品表
 			}
 			map.put("grtCollateral", grtCollateral);
@@ -1064,8 +1084,7 @@ public class GrtCollateralServiceImpl {
 	public Map<String, Object> deleteGrtCollateralById(String guarantyId) {
 		Map<String, Object> map = new HashMap<>();
 		//删除之前的判断
-		//1.是否已经关联合同，关联不能删除
-		//2.删除子表信息，担保品共有人、保险、登记、公证、意外不是级联删除
+		//1.删除子表信息，担保品共有人、保险、登记、公证、意外不是级联删除
 		Map<String, Object> m = grtCollateralMapper.selectBandRelationResult(guarantyId);
 		Integer TOGETHER = Integer.parseInt(m.get("TOGETHER").toString());
 		Integer INSURANCE =Integer.parseInt(m.get("INSURANCE").toString());
@@ -1091,17 +1110,20 @@ public class GrtCollateralServiceImpl {
 				sb.append("意外信息,");
 			}
 			sb.deleteCharAt(sb.lastIndexOf(","));
-			map.put("flag", "false");
-			map.put("message", sb.toString());
+			throw new RuntimeException(sb.toString());
 		} else{
+			//2.是否已经关联合同，关联不能删除 TODO,该grtMortgageBasicMapper可能要改
+			GrtMortgageBasic grtMortgageBasic = grtMortgageBasicMapper.selectByPrimaryKey(guarantyId);
+			if(grtMortgageBasic!=null){
+				throw new RuntimeException("该抵质押品已经绑定业务，不能删除！");
+			}
 			//直接删除
 			int i = grtCollateralMapper.deleteByPrimaryKey(guarantyId);
 			if(i>0){
 				map.put("flag", "true");
 				map.put("message", "操作成功!");
 			} else{
-				map.put("flag", "false");
-				map.put("message", "删除失败！");
+				throw new RuntimeException("删除失败！");
 			}
 		}
 		return map;

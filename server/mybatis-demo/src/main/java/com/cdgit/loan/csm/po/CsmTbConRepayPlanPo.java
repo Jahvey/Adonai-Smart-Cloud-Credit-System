@@ -73,4 +73,13 @@ public class CsmTbConRepayPlanPo {
     public void setContractId(String contractId) {
         this.contractId = contractId == null ? null : contractId.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConRepayPlanPo [repayPlanId=" + repayPlanId + ", repayDate=" + repayDate + ", repayAmt=" + repayAmt
+				+ ", periodsNumber=" + periodsNumber + ", createTime=" + createTime + ", updateTime=" + updateTime
+				+ ", contractId=" + contractId + "]";
+	}
+    
+    
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.ledger.pubquery.mapper.ChTbIrmInternalRatingApplyMapper">
-  <resultMap id="Rate" type="com.cdgit.ledger.pubquery.resultbean.CustRateInfoResult">
+<mapper namespace="com.cdgit.loan.ledger.pubquery.mapper.ChTbIrmInternalRatingApplyMapper">
+  <resultMap id="Rate" type="com.cdgit.loan.ledger.pubquery.resultbean.CustRateInfoResult">
 			<result property="orgname" column="ORGNAME" jdbcType="VARCHAR"/>
 			<result property="partyName" column="PARTY_NAME" jdbcType="VARCHAR"/>
 			<result property="certType" column="CERT_TYPE" jdbcType="VARCHAR"/>
@@ -64,7 +64,7 @@
 		   <isNotNull property="userNum">    AND T3.User_Num = #userNum# </isNotNull>
 		   <isNotNull property="generalAdjustRatingCd">AND T1.GENERAL_ADJUST_RATING_CD = #generalAdjustRatingCd# </isNotNull> -->
   </select>
-   <resultMap id="RiskClass" type="com.cdgit.ledger.pubquery.resultbean.RiskClassResult">
+   <resultMap id="RiskClass" type="com.cdgit.loan.ledger.pubquery.resultbean.RiskClassResult">
 			<result property="acApplyId" column="AC_APPLY_ID" jdbcType="VARCHAR"/>
 			<result property="acApplyNum" column="AC_APPLY_NUM" jdbcType="VARCHAR"/>
 			<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
@@ -134,7 +134,7 @@
 	   <isNotNull property="userNum">    AND T2.USER_NUM = #userNum# </isNotNull> -->
   </select>
   
-   <resultMap id="afterLoanChange" type="com.cdgit.ledger.pubquery.resultbean.ChangeAfterLoanResult">
+   <resultMap id="afterLoanChange" type="com.cdgit.loan.ledger.pubquery.resultbean.ChangeAfterLoanResult">
 			<result property="changeId" column="CHANGE_ID" jdbcType="VARCHAR"/>
 			<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
 			<result property="partyId" column="PARTY_ID" jdbcType="VARCHAR"/>
@@ -210,7 +210,7 @@
 	 <isNotNull property="loanChangeType">    AND LC.LOAN_CHANGE_TYPE = #loanChangeType# </isNotNull> -->	   
 	 </select>
   
-  <resultMap id="afterLoanCheck" type="com.cdgit.ledger.pubquery.resultbean.PostLoanInspectResult">
+  <resultMap id="afterLoanCheck" type="com.cdgit.loan.ledger.pubquery.resultbean.PostLoanInspectResult">
 			<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
 			<result property="checkId" column="CHECK_ID" jdbcType="VARCHAR"/>
 			<result property="partyId" column="PARTY_ID" jdbcType="VARCHAR"/>
@@ -319,7 +319,7 @@
 		  </if>
 	 
 	 </select>
-  <resultMap id="declineLoan" type="com.cdgit.ledger.pubquery.resultbean.DeclineLoanResult">
+  <resultMap id="declineLoan" type="com.cdgit.loan.ledger.pubquery.resultbean.DeclineLoanResult">
     		<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
 			<result property="partyName" column="PARTY_NAME" jdbcType="VARCHAR"/>
 			<result property="certType" column="CERT_TYPE" jdbcType="VARCHAR"/>
@@ -393,7 +393,7 @@
 		  </if>
 	 </select>
   
-     <resultMap id="fundUseLedger" type="com.cdgit.ledger.pubquery.resultbean.FundUseLedgerResult">
+     <resultMap id="fundUseLedger" type="com.cdgit.loan.ledger.pubquery.resultbean.FundUseLedgerResult">
     		<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
     		<result property="userNum" column="USER_NUM" jdbcType="VARCHAR"/>
     		<result property="partyId" column="PARTY_ID" jdbcType="VARCHAR"/>
@@ -462,7 +462,7 @@
 		</isNotNull> -->
 	 </select>
 	
-	<resultMap id="repaymentPlan" type="com.cdgit.ledger.pubquery.resultbean.RepaymentPlanResult">
+	<resultMap id="repaymentPlan" type="com.cdgit.loan.ledger.pubquery.resultbean.RepaymentPlanResult">
     		<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
     		<result property="partyId" column="PARTY_ID" jdbcType="VARCHAR"/>
     		<result property="partyNum" column="PARTY_NUM" jdbcType="VARCHAR"/>
@@ -556,7 +556,7 @@
 			  
 			    ORDER BY T.END_DATE
 	 </select>  
-  	 <resultMap id="DetailedHistory" type="com.cdgit.ledger.pubquery.resultbean.DetailedHistoryResult">
+  	 <resultMap id="DetailedHistory" type="com.cdgit.loan.ledger.pubquery.resultbean.DetailedHistoryResult">
     		<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
     		<result property="partyId" column="PARTY_ID" jdbcType="VARCHAR"/>
     		<result property="partyNum" column="PARTY_NUM" jdbcType="VARCHAR"/>
@@ -649,7 +649,7 @@
 				  </if>
 			ORDER BY R.RCV_DATE DESC 
 	 </select>
-  	  <resultMap id="techProcess" type="com.cdgit.ledger.pubquery.resultbean.TechProcessResult">
+  	  <resultMap id="techProcess" type="com.cdgit.loan.ledger.pubquery.resultbean.TechProcessResult">
     		<result property="processId" column="PROCESS_ID" jdbcType="VARCHAR"/>
     		<result property="cusName" column="CUS_NAME" jdbcType="VARCHAR"/>
     		<result property="createOrgNum" column="CREATE_ORG_NUM" jdbcType="VARCHAR"/>
@@ -776,7 +776,7 @@
   </select>
 	
 	
-	<resultMap id="quarState" type="com.cdgit.ledger.pubquery.resultbean.QuarStateResult">
+	<resultMap id="quarState" type="com.cdgit.loan.ledger.pubquery.resultbean.QuarStateResult">
     		<result property="partyName" column="PARTY_NAME" jdbcType="VARCHAR"/>
     		<result property="contractNum" column="CONTRACT_NUM" jdbcType="VARCHAR"/>
     		<result property="summaryNum" column="SUMMARY_NUM" jdbcType="VARCHAR"/>
@@ -868,7 +868,7 @@
 			 AND a.ORG_NUM IN (SELECT O.ORGCODE FROM OM_ORGANIZATION O  WHERE O.ORGSEQ 
 		    					LIKE '%'||(select orgid from om_organization where orgcode = #{orgNum,jdbcType=VARCHAR})||'%')
     </select>
-	<resultMap id="RecognEnterpriseScale" type="com.cdgit.ledger.pubquery.resultbean.RecognEnterpriseScaleResult">
+	<resultMap id="RecognEnterpriseScale" type="com.cdgit.loan.ledger.pubquery.resultbean.RecognEnterpriseScaleResult">
     		<result property="partyName" column="PARTY_NAME" jdbcType="VARCHAR"/>
 			<result property="userNum" column="USER_NUM" jdbcType="VARCHAR"/>
 			<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
@@ -921,7 +921,7 @@
 		<isNotNull property="partyId"> AND s.party_Id = #partyId# </isNotNull> -->
 	</select>
 	
-	 <resultMap id="corporationLoan" type="com.cdgit.ledger.pubquery.resultbean.BorrowQueryResult">
+	 <resultMap id="corporationLoan" type="com.cdgit.loan.ledger.pubquery.resultbean.BorrowQueryResult">
 	 		<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
     		<result property="userNum" column="USER_NUM" jdbcType="VARCHAR"/>
     		<result property="partyName" column="PARTY_NAME" jdbcType="VARCHAR"/>
@@ -1081,7 +1081,7 @@
 	        <isNotNull property="partyName">  and c.party_name like '%$partyName$%' </isNotNull> -->
      </select>
      
-     <resultMap id="gdbn" type="com.cdgit.ledger.pubquery.resultbean.FixedQueryResult">
+     <resultMap id="gdbn" type="com.cdgit.loan.ledger.pubquery.resultbean.FixedQueryResult">
     		<result property="orgNum" column="ORG_NUM" jdbcType="VARCHAR"/>
     		<result property="orgName" column="ORGNAME" jdbcType="VARCHAR"/>
     		<result property="orgSeq" column="ORGSEQ" jdbcType="VARCHAR"/>

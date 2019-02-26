@@ -37,16 +37,18 @@ public class CsmRuleEngineController {
 	
 	
 	@GetMapping("/updateValidateForCon")
-	public Integer updateValidateForCon(String name,String param){
-		
-		return csmRuleEngineServiceImpl.updateValidateForCon(name, param);
+	@ResponseBody
+	public HashMap<String, Integer> updateValidateForCon(@RequestParam HashMap<String, String> map){
+		System.err.println("[updateValidateForCon]"+map);
+		return csmRuleEngineServiceImpl.updateValidateForCon(map);
 	}
 	
 	
 	@GetMapping("/disabValidateForCon")
-	public Integer disabValidateForCon(String name,String param){
-		
-		return csmRuleEngineServiceImpl.disabValidateForCon(name, param);
+	@ResponseBody
+	public HashMap<String, Integer> disabValidateForCon(@RequestParam HashMap<String, String> map){
+		System.err.println("[disabValidateForCon]"+map);
+		return csmRuleEngineServiceImpl.disabValidateForCon(map);
 	}
 	
 	

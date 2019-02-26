@@ -212,5 +212,22 @@ public class MyNaturealController {
 		return naturalPersonInfo;
 		
 	}
-	
+//	@GetMapping("/queryGradeInfo")
+//	public PageBean getGradeinfo(
+//			@RequestParam(value="pageNum",required=true) int pageNum,
+//			@RequestParam(value="pageSize",required=true) int pageSize,
+//			@RequestParam(value="curUserNum",required=true) String curUserNum, 
+//			@RequestParam(value="orgcode",required=true) String orgcode
+//			){
+//		Map map=new HashMap<String,Object>();
+//		map.put("pageNum", pageNum);
+//		map.put("pageSize", pageSize);
+//		map.put("curUserNum", curUserNum);
+//		map.put("orgcode", orgcode);
+//		PageInfo<GradeInfo> pageInfo=myNaturealServiceImpl.queryGradeinfo(map);
+//		PageBean pageBean=new PageBean();
+//		pageBean.setTotal(pageInfo.getTotal());
+//		pageBean.setData(pageInfo.getList());
+//		return pageBean;
+//	}
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.afterloan.afterloancheck.mapper.ChCheckFrequencyMapper">
-	<resultMap type="com.cdgit.afterloan.afterloancheck.resultbean.CheckFrequencyResult" id="rateMap">
+<mapper namespace="com.cdgit.loan.afterloan.afterloancheck.mapper.ChCheckFrequencyMapper">
+	<resultMap type="com.cdgit.loan.afterloan.afterloancheck.resultbean.CheckFrequencyResult" id="rateMap">
         <result column="DEFAULT_RATE" property="defaultRate" jdbcType="VARCHAR"/>
         <result column="APPROVE_RATE" property="approveRate" jdbcType="VARCHAR"/>
         <result column="SET_RATE" property="setRate" jdbcType="VARCHAR"/>

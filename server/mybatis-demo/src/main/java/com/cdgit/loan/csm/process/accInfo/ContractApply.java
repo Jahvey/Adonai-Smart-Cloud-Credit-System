@@ -3,7 +3,6 @@
  */
 package com.cdgit.loan.csm.process.accInfo;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cdgit.loan.csm.pub.gitUtils.GitUtils;
-import com.cdgit.loan.common.util.BeanUtil;
 import com.cdgit.loan.common.util.uid.UUIDGenerator;
 import com.cdgit.loan.csm.mapper.CsmTbBizBgdkApprovePoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizBhApprovePoMapper;
@@ -84,35 +81,9 @@ import com.cdgit.loan.csm.mapper.CsmTbConXmdkcnhPoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbConXwPoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbConZhPoMapper;
 import com.cdgit.loan.csm.mapper.CsmTzContractInfoVoMapper;
-import com.cdgit.loan.csm.po.CsmTbBizBgdkApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizBhApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizCktsyhApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizCkttfprzApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizCkxyzyhApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizFrzhtzApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizGdzcdkApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizGjfftApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizGjxyzdbdkApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizGjxyzkzApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizGnblApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizGnxyzApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizHptxApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizJkbhApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizJkdfApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizJkdsyhApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizJkttyhApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizJkxyzApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizJkxyzyhApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizKlyhcdhpApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizLdzjApprovePo;
 import com.cdgit.loan.csm.po.CsmTbBizMyhtxxApplyPo;
 import com.cdgit.loan.csm.po.CsmTbBizPjxxApplyPo;
 import com.cdgit.loan.csm.po.CsmTbBizSubcontractRelPo;
-import com.cdgit.loan.csm.po.CsmTbBizThdbApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizWtdkApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizXdzmApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizXmdkcnhApprovePo;
-import com.cdgit.loan.csm.po.CsmTbBizXwApprovePo;
 import com.cdgit.loan.csm.po.CsmTbConBgdkPo;
 import com.cdgit.loan.csm.po.CsmTbConBhPo;
 import com.cdgit.loan.csm.po.CsmTbConCktsyhPo;
@@ -133,7 +104,6 @@ import com.cdgit.loan.csm.po.CsmTbConJkdfPo;
 import com.cdgit.loan.csm.po.CsmTbConJkdsyhPo;
 import com.cdgit.loan.csm.po.CsmTbConJkttyhPo;
 import com.cdgit.loan.csm.po.CsmTbConJkxyzPo;
-import com.cdgit.loan.csm.po.CsmTbConJkxyzyhPo;
 import com.cdgit.loan.csm.po.CsmTbConKlyhcdhpPo;
 import com.cdgit.loan.csm.po.CsmTbConLdzjPo;
 import com.cdgit.loan.csm.po.CsmTbConLoanratePo;
@@ -152,6 +122,7 @@ import com.cdgit.loan.csm.po.TbConSubGrtRelPo;
 import com.cdgit.loan.csm.po.TbConSubcontractPo;
 import com.cdgit.loan.csm.po.TbConSubcontractRelPo;
 import com.cdgit.loan.csm.po.TbConZhPo;
+import com.cdgit.loan.csm.pub.gitUtils.GitUtils;
 
 /**
  * @author Administrator
@@ -424,13 +395,13 @@ public class ContractApply {
 		entityName = entityName.replace("Apply", "");
 		tarTableName=tarTableName.replace("biz", "con").replace("_apply", "");
 		//TODO 一共有26种情况  每一种情况分别讨论 productDetail还没有创建出来，待测试................
-		
+		System.err.println("[tarTableName] is:"+tarTableName);
 		if("tb_con_hptx".equals(tarTableName)){//1
 			
 			CsmTbConHptxPo productDetail = csmTbConHptxPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null!=productDetail && null != productDetail.getApplyDetailId()) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -441,11 +412,11 @@ public class ContractApply {
 			
 			
 		}else if("tb_con_wtdk".equals(tarTableName)){//2
-//TODO 没有写完。。。过完年再来写
+
 			CsmTbConWtdkPo productDetail = csmTbConWtdkPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null!=productDetail && null != productDetail.getApplyDetailId()) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -459,7 +430,7 @@ public class ContractApply {
 			CsmTbConXmdkcnhPo productDetail = csmTbConXmdkcnhPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null!=productDetail && null != productDetail.getApplyDetailId()) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -473,7 +444,7 @@ public class ContractApply {
 			CsmTbConGjxyzdbdkPo productDetail = csmTbConGjxyzdbdkPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null!=productDetail && null != productDetail.getApplyDetailId()) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -488,7 +459,7 @@ public class ContractApply {
 			CsmTbConGjfftPo productDetail = csmTbConGjfftPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null!=productDetail && null != productDetail.getApplyDetailId()) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -502,7 +473,7 @@ public class ContractApply {
 			CsmTbConCkxyzyhPo productDetail = csmTbConCkxyzyhPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null!=productDetail && null != productDetail.getApplyDetailId()) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -516,7 +487,7 @@ public class ContractApply {
 			CsmTbConFrzhtzPo productDetail = csmTbConFrzhtzPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null!=productDetail && null != productDetail.getApplyDetailId()) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -529,7 +500,7 @@ public class ContractApply {
 		}else if ("tb_con_jkttyh".equals(tarTableName)) {//8
 			CsmTbConJkttyhPo productDetail = csmTbConJkttyhPoMapper.queryByConInfo(contractId);
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null!=productDetail &&  null != productDetail.getApplyDetailId()) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -543,7 +514,7 @@ public class ContractApply {
 			CsmTbConJkdsyhPo productDetail = csmTbConJkdsyhPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null!=productDetail && null != productDetail.getApplyDetailId()) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -557,7 +528,7 @@ public class ContractApply {
 			CsmTbConXwPo productDetail = csmTbConXwPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null!=productDetail && null != productDetail.getApplyDetailId()) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -570,7 +541,7 @@ public class ContractApply {
 		}else if("tb_con_cktsyh".equals(tarTableName)){//11
 			CsmTbConCktsyhPo productDetail = csmTbConCktsyhPoMapper.queryByConInfo(contractId);
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null!=productDetail && null != productDetail.getApplyDetailId()) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -583,7 +554,7 @@ public class ContractApply {
 		}else if("tb_con_jkxyz".equals(tarTableName)){//12
 			CsmTbConJkxyzPo productDetail = csmTbConJkxyzPoMapper.queryByConInfo(contractId);
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null!=productDetail ) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -598,7 +569,7 @@ public class ContractApply {
 			CsmTbConGnxyzPo productDetail = csmTbConGnxyzPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null != productDetail) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -612,7 +583,7 @@ public class ContractApply {
 			CsmTbConJkdfPo productDetail = csmTbConJkdfPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null != productDetail) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -626,7 +597,7 @@ public class ContractApply {
 			CsmTbConGjxyzkzPo productDetail = csmTbConGjxyzkzPoMapper.queryByConInfo(contractId);
 
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null != productDetail) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -640,7 +611,7 @@ public class ContractApply {
 			CsmTbConKlyhcdhpPo productDetail = csmTbConKlyhcdhpPoMapper.queryByConInfo(contractId);
 
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null != productDetail) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -654,7 +625,7 @@ public class ContractApply {
 			CsmTbConJkxyzPo productDetail = csmTbConJkxyzPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null != productDetail) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -668,7 +639,7 @@ public class ContractApply {
 			CsmTbConBhPo productDetail = csmTbConBhPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null != productDetail) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -681,7 +652,7 @@ public class ContractApply {
 			CsmTbConXdzmPo productDetail = csmTbConXdzmPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null != productDetail) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -696,7 +667,7 @@ public class ContractApply {
 			CsmTbConGdzcdkPo productDetail = csmTbConGdzcdkPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null != productDetail) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -709,7 +680,7 @@ public class ContractApply {
 			CsmTbConLdzjPo productDetail = csmTbConLdzjPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null != productDetail) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -723,7 +694,7 @@ public class ContractApply {
 			CsmTbConGnblPo productDetail = csmTbConGnblPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null != productDetail) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -735,7 +706,7 @@ public class ContractApply {
 		}else if("tb_con_bgdk".equals(tarTableName)){//23
 			CsmTbConBgdkPo productDetail = csmTbConBgdkPoMapper.queryByConInfo(contractId);
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null != productDetail) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -749,7 +720,7 @@ public class ContractApply {
 			CsmTbConJkbhPo productDetail = csmTbConJkbhPoMapper.queryByConInfo(contractId);
 			
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null != productDetail) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -762,7 +733,7 @@ public class ContractApply {
 		}else if("tb_con_thdb".equals(tarTableName)){//25
 			CsmTbConThdbPo productDetail = csmTbConThdbPoMapper.queryByConInfo(contractId);
 			// 明细信息
-			if (null != productDetail.getApplyDetailId()) {
+			if (null != productDetail) {
 				productDetail.setApplyDetailId(UUIDGenerator.getUUID());
 				productDetail.setUpdateTime(null);
 				productDetail.setContractId(contractId);
@@ -778,7 +749,7 @@ public class ContractApply {
 			//直接抛异常了，还有啥好说的
 			throw new RuntimeException("【合同调整】 的操作失败！！！");
 		}
-		
+		System.err.println("26种合同明细情况操作完成!");
 		// 担保合同信息 com.bos.dataset.crt.TbConSubcontractRel
 		List<TbConSubcontractRelPo> conRels = csmTbConSubcontractRelMapper.queryListCsmTbConSubcontractRelByconId(contractId);
 		
@@ -786,14 +757,15 @@ public class ContractApply {
 		//根据合同id查询票据信息
 		//查存量数据
 		 HashMap<String,String> map = new HashMap<String,String>();
-		 map.put("contractNum", tbConContractInfo.getContractNum());
+		 map.put("htbh", tbConContractInfo.getContractNum());
 		 map.put("amountDetailId", tbConContractInfo.getAmountDetailId());
 		List<CsmTbBizPjxxApplyPo> pjxxs = csmTbBizPjxxApplyPoMapper.queryListByAmtDetailIdAndHtbh(map);
 		
 		if(null !=pjxxs && pjxxs.size()>0){
 			//新数据
 			map.put("amountDetailId", tbConContractInfo.getAmountDetailId());
-			map.put("contractNum", tbConContractInfo.getContractNum());
+			//map.put("contractNum", tbConContractInfo.getContractNum());
+			map.put("htbh", tbConContractInfo.getContractNum());
 			map.put("contractId", tbConContractInfo.getContractId());
 			List<CsmTbBizPjxxApplyPo> pjs = csmTbBizPjxxApplyPoMapper.queryListByAmtDetailIdAndHtbh(map);
 			if(null !=pjs && pjs.size()>0){
@@ -801,96 +773,105 @@ public class ContractApply {
 			}
 			
 		}
+		System.err.println("[存量数据]pjxxs:"+pjxxs);
 		// 新建合同信息并保存
 		// 获取时间com.bos.pub.GitUtil.getBusiDate
 		Date date = gitUtils.getBusiDate();
 		// 业务合同基本信息
 		if(null!=tbConContractInfo.getPartyId()){
 			
-			tbConContractInfo.setContractId(null);
+			tbConContractInfo.setContractId(UUIDGenerator.getUUID());
 			tbConContractInfo.setOldContractId(contractId);
 			tbConContractInfo.setConStatus("01");
 			tbConContractInfo.setCreateTime(date);
 			csmTbConContractInfoMapper.insertCsmTbConContractInfoSelective(tbConContractInfo);
+			System.err.println("保存[tbConContractInfo]信息成功!"+tbConContractInfo);
 			
 		}
 		
 		// 新合同ID
 		contractId = tbConContractInfo.getContractId();
 		// 合同利率信息
-		if (null != tbConLoanrate.getLoanrateId()) {
-			tbConLoanrate.setLoanrateId(null);
+		if (null != tbConLoanrate) {
+			tbConLoanrate.setLoanrateId(UUIDGenerator.getUUID());
 			tbConLoanrate.setContractId(contractId);
 			csmTbConLoanratePoMapper.insertSelective(tbConLoanrate);
+			System.err.println("保存合同利率信息成功![tbConLoanrate]"+tbConLoanrate);
 		} 
 		// 标志信息
-		if (null != tbConFlagInfo.getFlagId()) {
-			tbConFlagInfo.setFlagId(null);;
+		if (null != tbConFlagInfo) {
+			tbConFlagInfo.setFlagId(UUIDGenerator.getUUID());
 			tbConFlagInfo.setContractId(contractId);
 			csmTbConFlagInfoPoMapper.insertSelective(tbConFlagInfo);
+			System.err.println("保存标志信息成功![tbConFlagInfo]"+tbConFlagInfo);
 		}
 		// 通知书文书送达
-		if (null != noticeAddrs.getUuid()) {
-			noticeAddrs.setUuid(null);
+		if (null != noticeAddrs) {
+			noticeAddrs.setUuid(UUIDGenerator.getUUID());
 			noticeAddrs.setContractId(contractId);
 			csmTbConNoticeAddrsPoMapper.insertSelective(noticeAddrs);
+			System.err.println("保存通知文书信息成功[noticeAddrs]"+noticeAddrs);
 
 		}
 		// 合同明细下附属信息
-		if (null != tbConAttachedInfo.getAttached()) {
-			tbConAttachedInfo.setAttached(null);
+		if (null != tbConAttachedInfo) {
+			tbConAttachedInfo.setAttached(UUIDGenerator.getUUID());
 			tbConAttachedInfo.setContractId(contractId);
 			csmTbConAttachedInfoPoMapper.insertCsmTbConAttachedInfoSelective(tbConAttachedInfo);
+			System.err.println("保存合同明细下附属信息成功![tbConAttachedInfo]"+tbConAttachedInfo);
 	
 		}
 		// 用款计划
 		for (int i = 0; i <= tbConPayoutPlans.size()- 1; i++) {
 			CsmTbConPayoutPlanPo tbConPayoutPlan = tbConPayoutPlans.get(i);
-			if (null != tbConPayoutPlan.getPayoutPlanId()) {
-				tbConPayoutPlan.setPayoutPlanId(null);
+			if (null != tbConPayoutPlan) {
+				tbConPayoutPlan.setPayoutPlanId(UUIDGenerator.getUUID());
 				tbConPayoutPlan.setContractDetailId(contractId);
 				csmTbConPayoutPlanPoMapper.insertSelective(tbConPayoutPlan);
+				System.err.println("保存用款计划成功!【tbConPayoutPlan】"+tbConPayoutPlan);
 
 			}
 		}
 		// 还款计划
 		for (int i = 0; i <= tbConRepayPlans.size() - 1; i++) {
 			CsmTbConRepayPlanPo tbConRepayPlan = tbConRepayPlans.get(i);
-			if (null != tbConRepayPlan.getRepayPlanId()) {
-				tbConRepayPlan.setRepayPlanId(null);
+			if (null != tbConRepayPlan) {
+				tbConRepayPlan.setRepayPlanId(UUIDGenerator.getUUID());
 				tbConRepayPlan.setContractId(contractId);
 				csmTbConRepayPlanPoMapper.insertSelective(tbConRepayPlan);
-	
+				System.err.println("还款计划成功【tbConRepayPlan】"+tbConRepayPlan);
 			}
 		}
 		// 账户信息
 		for (int i = 0; i <= tbConZhs.size() - 1; i++) {
 			TbConZhPo tbConZh = tbConZhs.get(i);
-			if (null != tbConZh.getId()) {
-				tbConZh.setId(null);
+			if (null != tbConZh) {
+				tbConZh.setId(UUIDGenerator.getUUID());
 				tbConZh.setContractId(contractId);
 				csmTbConZhPoMapper.insertCsmTbConZhSelective(tbConZh);
+				System.err.println("账户信息[tbConZh]"+tbConZh);
 
 			}
 		}
 		// 费用信息
 		for (int i = 0; i <= tbConFees.size() - 1; i++) {
 			CsmTbConFeePo tbConFee = tbConFees.get(i);
-			if (null != tbConFee.getFeeId()) {
-				tbConFee.setFeeId(null);
+			if (null != tbConFee) {
+				tbConFee.setFeeId(UUIDGenerator.getUUID());
 				tbConFee.setContractDetailId(contractId);
 				csmTbConFeePoMapper.insertSelective(tbConFee);
+				System.err.println("费用信息[tbConFee]"+tbConFee);
 		
 			}
 		}
 		// 贸易合同信息-----20151016--
 		for (int i = 0; i <= myhts.size()- 1; i++) {
 			CsmTbBizMyhtxxApplyPo myht = myhts.get(i);
-			if (null != myht.getHtId()) {
-				myht.setHtId(null);
+			if (null != myht) {
+				myht.setHtId(UUIDGenerator.getUUID());
 				myht.setAmountDetailId(contractId);
 				csmTbBizMyhtxxApplyPoMapper.insertSelective(myht);
-			
+				System.err.println("贸易合同信息[myht]"+myht);
 			}
 		}
 		
@@ -906,11 +887,11 @@ public class ContractApply {
 		if(null !=pjxxs && pjxxs.size()!=0){
 			for (int i = 0; i < pjxxs.size(); i++) {
 				 CsmTbBizPjxxApplyPo tbBizPjxxApply = pjxxs.get(i);
-				 tbBizPjxxApply.setApplyDetailId(null);
+				 tbBizPjxxApply.setApplyDetailId(UUIDGenerator.getUUID());
 				 tbBizPjxxApply.setJlzt("01");//未提交
 				 tbBizPjxxApply.setContractId(contractId);//调整备份
 				 csmTbBizPjxxApplyPoMapper.insertSelective(tbBizPjxxApply);
-	
+				 System.err.println("票据信息[tbBizPjxxApply]"+tbBizPjxxApply);
 			}
 		}
 		
@@ -923,19 +904,20 @@ public class ContractApply {
 			TbConSubcontractPo conSubcon = csmTbConSubcontractMapper.queryCsmTbConSubcontractPo(conRel.getSubcontractId());
 
 			//备份担保合同
-			conSubcon.setSubcontractId(null);
+			conSubcon.setSubcontractId(UUIDGenerator.getUUID());
 			conSubcon.setSubcontractStatus("01");
 			csmTbConSubcontractMapper.insertOneCsmTbConSubcontractSelective(conSubcon);
+			System.err.println("备份担保合同完成！【TbConSubcontract】"+conSubcon);
 
 			//新担保合同Id
 			String subcontractId = conSubcon.getSubcontractId();
 			
 			// 保证金协议下附属信息
 			if ("03".equals(conSubcon.getSubcontractType())) {
-				tbConAttachedInfo.setAttached(null);
+				tbConAttachedInfo.setAttached(UUIDGenerator.getUUID());
 				tbConAttachedInfo.setContractId(subcontractId);
 				csmTbConAttachedInfoPoMapper.insertCsmTbConAttachedInfoSelective(tbConAttachedInfo);
-	
+				System.err.println("[tbConAttachedInfo]"+tbConAttachedInfo);
 			}
 			//备份担保合同与押品关系信息表
 			List<TbConSubGrtRelPo> conSubgrts = csmTbConSubGrtRelMapper.queryListTbConSubGrtRel(conRel.getSubcontractId());
@@ -944,10 +926,10 @@ public class ContractApply {
 				for (int j = 0; j < conSubgrts.size(); j++) {
 					TbConSubGrtRelPo conSubgrt = conSubgrts.get(j);
 					//备份新的关系
-					conSubgrt.setRelationId(null);
+					conSubgrt.setRelationId(UUIDGenerator.getUUID());
 					conSubgrt.setSubcontractId(subcontractId);
 					csmTbConSubGrtRelMapper.insertCsmTbConSubGrtRelSelective(conSubgrt);
-	
+					System.err.println("备份担保合同与押品关系信息表完成[TbConSubGrtRelPo]"+conSubgrt);
 				}
 			}		
 			
@@ -955,38 +937,42 @@ public class ContractApply {
 			
 			CsmTbBizSubcontractRelPo bizSubRel = csmTbBizSubcontractRelPoMapper.queryOneBySubcontractId(conRel.getSubcontractId());
 			
-			bizSubRel.setRelationId(null);
+			bizSubRel.setRelationId(UUIDGenerator.getUUID());
 			bizSubRel.setCreateTime(date);
 			bizSubRel.setSubcontractId(subcontractId);//合同调整提交至流程最后一步修改为新的担保合同Id，如果撤销则修改为原担保合同Id				
 			csmTbBizSubcontractRelPoMapper.insertSelective(bizSubRel);
+			System.err.println("[TbBizSubcontractRel]"+bizSubRel);
 
 
 			
-			//added by shendl 备份担保合同附属信息  文书和通知送达信息
+			// 备份担保合同附属信息  文书和通知送达信息
 			TbConAttachedInfoPo tbSubConAttachedInfo = csmTbConAttachedInfoPoMapper.queryCsmTbConAttachedInfoPo(conRel.getSubcontractId());
 			
 		
-			if (null != tbSubConAttachedInfo.getAttached()) {
-				tbSubConAttachedInfo.setAttached(null);
+			if (null != tbSubConAttachedInfo) {
+				tbSubConAttachedInfo.setAttached(UUIDGenerator.getUUID());
 				tbSubConAttachedInfo.setContractId(subcontractId);
 				csmTbConAttachedInfoPoMapper.insertCsmTbConAttachedInfoSelective(tbSubConAttachedInfo);
-				
+				System.err.println("备份担保合同附属信息成功![tbSubConAttachedInfo]"+tbSubConAttachedInfo);
 			}
 			CsmTbConNoticeAddrsPo noticeSubConAddrs = csmTbConNoticeAddrsPoMapper.queryByConId(conRel.getSubcontractId());
 
-			if (null != noticeSubConAddrs.getUuid()) {
-				noticeSubConAddrs.setUuid(null);
+			if (null != noticeSubConAddrs) {
+				noticeSubConAddrs.setUuid(UUIDGenerator.getUUID());
 				noticeSubConAddrs.setContractId(subcontractId);
 				csmTbConNoticeAddrsPoMapper.insertSelective(noticeSubConAddrs);
+				System.err.println("备份文书和通知送达成功！[noticeSubConAddrs]"+noticeSubConAddrs);
 			
 			}
 			
 			//备份担保合同信息与贷款合同信息关系表
-			conRel.setConSubconId(null);
+			conRel.setConSubconId(UUIDGenerator.getUUID());
 			conRel.setContractId(contractId);
 			conRel.setSubcontractId(subcontractId);
 			conRel.setOperationType("01");
 			csmTbConSubcontractRelMapper.insertCsmTbConSubcontractRelSelective(conRel);
+			System.err.println("备份担保合同信息与贷款合同信息关系表完成[TbConSubcontractRel]"+conRel);
+			
 
 		}
 

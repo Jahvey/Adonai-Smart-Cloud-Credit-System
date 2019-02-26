@@ -176,10 +176,15 @@
         </table> 
 	    <table tableName="TB_CSM_ENTRUST_ACCOUNT" domainObjectName="EntrustAccount"
             enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-        </table> --> 
+        </table> 
         <table tableName="TB_CSM_WARNING_DEAL" domainObjectName="WarningDeal"
             enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-        </table> 
-
+        </table> --> 
+		<!-- <table tableName="TB_AFT_FIRST_CHECK" domainObjectName="ChTbAftFirstCheck"
+            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
+        </table> -->
+        <table tableName="TB_CLA_DEBT_DETAILINFO" domainObjectName="ChTbClaDebtDetailinfo"
+            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
+        </table>
     </context>
 </generatorConfiguration>

@@ -4,7 +4,6 @@
 package com.cdgit.loan.csm.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cdgit.loan.csm.bean.ApproveAndSxxyVo;
-import com.cdgit.loan.csm.bean.ApproveConsVo;
+import com.cdgit.loan.csm.bean.CsmConInfoHtVoQuery;
 import com.cdgit.loan.csm.message.PageBean;
 import com.cdgit.loan.csm.po.CsmTbBizBankStructApplyPo;
 import com.cdgit.loan.csm.po.TbConContractInfoPo;
@@ -65,13 +64,15 @@ public class CsmProcessorController {
 	@Autowired
 	CsmRuleEngineServiceImpl csmRuleEngineServiceImpl;
 	
+
+	
 	
 	//TODO 合同失效 待测
 	
 	//获取业务信息
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/conApply/getConInfoBizType")
-	public String getConInfoBizType(String contractId){
+	public HashMap<String, Object> getConInfoBizType(String contractId){
 		
 		return conApply.getConInfoBizType(contractId);
 		
@@ -87,6 +88,7 @@ public class CsmProcessorController {
 		
 	}
 	
+	//TODO 合同失效 待测试
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/conApply/disConInfo")
 	public String disConInfo(String contractId,String flag){
@@ -108,7 +110,7 @@ public class CsmProcessorController {
 	}
 	
 	
-	//TODO 合同调整 待测
+	//TODO 合同调整 测试完成 通过 2019/2/21
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/conApply/tzContractInfo")
 	public HashMap<String, Object> tzContractInfo(String contractId,String bizType){
@@ -128,11 +130,29 @@ public class CsmProcessorController {
 		
 	}
 	
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/conInfoSxxy/getConInfoByContarctId")
-	public HashMap<String, Object> getConInfoByContarctId(String contractId){		
-		return (HashMap<String, Object>) conInfoSxxy.getConInfoByContarctId(contractId);	
+	@ResponseBody
+	public CsmConInfoHtVoQuery getConInfoByContarctId(@RequestParam String contractId){	
+		 HashMap<String, Object> map=conInfoSxxy.getConInfoByContarctId(contractId);
+		 CsmConInfoHtVoQuery bean=(CsmConInfoHtVoQuery) map.get("CsmConInfoHtVo");
+		 return  bean;	
 	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GetMapping("/conInfoSxxy/getConInfoMapByContarctId")
+	public HashMap<String, Object> getConInfoMapByContarctId(String contractId){		
+		return  conInfoSxxy.getConInfoByContarctId(contractId);	
+	}
+	
+	
+//	@SuppressWarnings({ "rawtypes", "unchecked" })
+//	@RequestMapping(value="/conInfoSxxy/getConInfoByContarctId",method=RequestMethod.POST)
+//	public HashMap<String, Object> getConInfoByContarctId(@RequestBody Map map){	
+//		return (HashMap<String, Object>) conInfoSxxy.getConInfoByContarctId((String)map.get("contractId"));	
+//	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/bizInfo/getBankTeamStruct")
@@ -152,7 +172,7 @@ public class CsmProcessorController {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/rule/RuleEngineMapper")  
 	public Integer RuleEngineMapper(String name,String param){	//可以直接调用校验接口	
-		 return csmRuleEngineServiceImpl.updateValidateForCon(name, param);
+		 return csmRuleEngineServiceImpl.updateValidateForCon1(name, param);
 	}
 	
 	

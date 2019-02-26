@@ -225,4 +225,18 @@ public class CsmTbConXwPo extends CsmConDetailVo{
     public void setDisYtFx(BigDecimal disYtFx) {
         this.disYtFx = disYtFx;
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConXwPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", gtjkr=" + gtjkr + ", payWay=" + payWay
+				+ ", capitalPayCondition1=" + capitalPayCondition1 + ", capitalPayCondition2=" + capitalPayCondition2
+				+ ", capitalPayCondition3=" + capitalPayCondition3 + ", sfnhdk=" + sfnhdk + ", sfcztx=" + sfcztx
+				+ ", contractId=" + contractId + ", houseContractNum=" + houseContractNum + ", nationalityCd="
+				+ nationalityCd + ", provinceCd=" + provinceCd + ", cityCd=" + cityCd + ", district=" + district
+				+ ", streetAddress=" + streetAddress + ", sxfPayWay=" + sxfPayWay + ", qtfPayWay=" + qtfPayWay
+				+ ", dbSxWay=" + dbSxWay + ", disYtFx=" + disYtFx + "]";
+	}
+    
+    
 }

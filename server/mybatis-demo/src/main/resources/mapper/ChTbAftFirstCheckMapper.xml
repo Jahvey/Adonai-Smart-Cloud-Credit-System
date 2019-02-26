@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.afterloan.afterloancheck.mapper.ChTbAftFirstCheckMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.afterloan.afterloancheck.resultbean.BorListResult">
+<mapper namespace="com.cdgit.loan.afterloan.afterloancheck.mapper.ChTbAftFirstCheckMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.afterloan.afterloancheck.resultbean.BorListResult">
     <result column="PARTY_ID" jdbcType="VARCHAR" property="partyId" />
     <result column="PARTY_NUM" jdbcType="VARCHAR" property="partyNum" />
     <result column="CORP_CUSTOMER_TYPE_CD" jdbcType="VARCHAR" property="corpCustomerTypeCd" />

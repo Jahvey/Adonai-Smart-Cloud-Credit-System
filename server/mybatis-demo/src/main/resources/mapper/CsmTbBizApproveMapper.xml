@@ -93,7 +93,9 @@
   
   
   </select>
-  
+  <select id="getBizIds" parameterType="java.lang.String" resultMap="CsmTbBizApprovePo">
+    SELECT APPROVE_ID BIZ_DTL_ID FROM TB_BIZ_APPROVE WHERE CRD_ID=#{crdId,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteCsmTbBizApproveByApproveId" parameterType="java.lang.String">
     delete from CRMS.TB_BIZ_APPROVE
     where APPROVE_ID = #{approveId,jdbcType=VARCHAR}

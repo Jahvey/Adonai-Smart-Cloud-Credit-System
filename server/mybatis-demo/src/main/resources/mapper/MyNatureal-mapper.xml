@@ -33,6 +33,7 @@
     <result column="IS_POTENTIAL_CUST" jdbcType="VARCHAR" property="isPotentialCust" />
     <result column="LEG_ORG" jdbcType="VARCHAR" property="legOrg" />
   </resultMap>
+  
   <sql id="Base_Column_List">
     PARTY_ID, PARTY_NUM, PARTY_TYPE_CD, PARTY_NAME, ECIF_PARTY_NUM, CREATE_TIME, UPDATE_TIME, 
     EXAMINE_STATE, CUST_PROPERTY_STATUS, IF_DATA_MOVE, IS_POTENTIAL_CUST, LEG_ORG
@@ -676,6 +677,6 @@ SELECT t1.PARTY_ID,
     where PARTY_ID = #{partyId,jdbcType=VARCHAR}
   </update>
  
- 
+   
  
 </mapper>

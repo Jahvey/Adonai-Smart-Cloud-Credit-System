@@ -62,4 +62,13 @@ public class CsmTbBizSubcontractRelPo {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbBizSubcontractRelPo [relationId=" + relationId + ", approveId=" + approveId + ", applyId="
+				+ applyId + ", subcontractId=" + subcontractId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + "]";
+	}
+    
+    
 }

@@ -31,7 +31,7 @@ public class GitUtils {
 	
 	
 	public  String getLegorg() {
-		String legorg = "";
+		String legorg = "9999";   //TODO 默认写死是绵阳商行的法人代表   ORG_MCCB = "9999";
 		// 获取session里的机构级别串
 //		IUserObject user = CommonUtil.getIUserObject();
 //		Map<String, Object> attmap = user.getAttributes();

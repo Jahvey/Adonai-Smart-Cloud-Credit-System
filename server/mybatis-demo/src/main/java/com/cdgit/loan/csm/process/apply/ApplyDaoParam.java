@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import com.cdgit.loan.common.util.uid.StringUtil;
+import com.cdgit.loan.common.util.StringUtil;
 
 /**
  * @author cwalk

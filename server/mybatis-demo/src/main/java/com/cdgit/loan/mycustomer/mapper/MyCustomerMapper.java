@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.cdgit.loan.user.bean.NaturealCriteria;
 import com.cdgit.loan.user.bean.NaturealInfo;
 import com.cdgit.loan.user.bean.TbCsmNaturalPerson;
 import com.cdgit.loan.user.bean.TbCsmParty;
@@ -44,5 +43,8 @@ public interface MyCustomerMapper {
 	
 	//我的客户-查询自然人客户列表
 	List<NaturealInfo> queryNaturalForDesk(Map map);
+	
+	//我的-客户评级信息列表
+//	List<GradeInfo> queryGradeinfo(Map map);
 	
 }

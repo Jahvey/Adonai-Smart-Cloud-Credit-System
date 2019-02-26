@@ -94,4 +94,13 @@ public class CsmTbConFrzhtzPo extends CsmConDetailVo{
     public void setNormalAccNo(String normalAccNo) {
         this.normalAccNo = normalAccNo == null ? null : normalAccNo.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConFrzhtzPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", tzzhh=" + tzzhh + ", tzzhmc=" + tzzhmc
+				+ ", tzcxqx=" + tzcxqx + ", contractId=" + contractId + ", normalAccNo=" + normalAccNo + "]";
+	}
+    
+    
 }

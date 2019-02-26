@@ -12,6 +12,8 @@ public interface CsmTbBizApproveMapper {
 	
 	TbBizApprovePo queryByApplyId(String applyId);
 	
+	String[] getBizIds(String crdId);
+	
 	TbBizApprovePo queryOneTbBizApproveByApproveId(String approveId);
 	
 	List<HashMap<String, Object>> getBizGrtRel(String contractId);
@@ -21,7 +23,6 @@ public interface CsmTbBizApproveMapper {
     int insertCsmTbBizApprove(TbBizApprovePo record);
 
     int insertCsmTbBizApproveSelective(TbBizApprovePo record);
-
 
     int updateCsmTbBizApproveSelective(TbBizApprovePo record);
 

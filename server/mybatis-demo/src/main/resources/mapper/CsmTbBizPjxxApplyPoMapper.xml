@@ -54,7 +54,7 @@
     Tb_Biz_Pjxx_Apply b
     where 
     b.amount_detail_id= #{amountDetailId,jdbcType=VARCHAR}
-    and b.htbh=#{contractNum,jdbcType=VARCHAR}
+    and b.htbh=#{htbh,jdbcType=VARCHAR}
     <if test="contractId !=null and contractId !='' ">
     and b.contract_id=#{contractId,jdbcType=VARCHAR}
     </if>

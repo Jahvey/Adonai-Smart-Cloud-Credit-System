@@ -135,4 +135,15 @@ public class CsmTbConKlyhcdhpPo extends CsmConDetailVo{
     public void setHpzs(Integer hpzs) {
         this.hpzs = hpzs;
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConKlyhcdhpPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", bzjblbdy=" + bzjblbdy + ", sfbz=" + sfbz
+				+ ", contractId=" + contractId + ", cdrqc=" + cdrqc + ", bzjbl=" + bzjbl + ", bzjje=" + bzjje
+				+ ", tgfpdclqx=" + tgfpdclqx + ", dkll=" + dkll + ", hpzs=" + hpzs + "]";
+	}
+    
+    
+	
 }

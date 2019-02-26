@@ -118,6 +118,14 @@ public class ProcessParam {
 		return processName;
 	}
 
+	@Override
+	public String toString() {
+		return "ProcessParam [templateName=" + templateName + ", modelType=" + modelType + ", partyId=" + partyId
+				+ ", userCode=" + userCode + ", userName=" + userName + ", orgName=" + orgName + ", orgCode=" + orgCode
+				+ ", bizId=" + bizId + ", processName=" + processName + ", relaMap=" + relaMap + ", absenceParty="
+				+ absenceParty + ", batch=" + batch + "]";
+	}
+
 	
 
 }

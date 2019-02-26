@@ -343,7 +343,26 @@
 		from tb_con_contract_info
 		where contract_id = #{contractId,jdbcType=VARCHAR}
 	</select>
-
+	<!-- 查询担保合同信息，可能有多条信息 -->
+	<select id="getSubContractNum" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select distinct 
+			c.subcontract_id,
+			c.subcontract_type,
+			c.subcontract_num,
+			d.party_type_cd 
+	    from tb_con_contract_info a,
+	       	tb_con_subcontract_rel b,
+	       	tb_con_subcontract c,
+	       	tb_csm_party d
+		where 
+			a.contract_id=b.contract_id 
+		and( b.if_effective='1' or b.if_effective is null)<!--有效-->
+		and c.subcontract_id=b.subcontract_id
+		and a.party_id=d.party_id
+		<!--and c.if_top_subcon='1' 最高额-->
+		and c.subcontract_status='03'
+		and a.contract_num=#{contractNum}
+	</select>
 	<sql id="Base_con_contract_Column_List">
 		CONTRACT_ID,AMOUNT_DETAIL_ID,CONTRACT_NUM,CONTRACT_ADDRESS,PARTY_ID,OLD_CONTRACT_ID,CURRENCY_CD,
 		CONTRACT_AMT,CONTRACT_TERM,CYCLE_UNIT,BEGIN_DATE,END_DATE,CONTRACT_DATE,LOAN_USE,GUARANTY_TYPE,

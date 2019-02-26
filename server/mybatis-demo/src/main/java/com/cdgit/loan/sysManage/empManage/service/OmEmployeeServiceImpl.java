@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cdgit.loan.common.util.uid.DateUtil;
+import com.cdgit.loan.common.util.DateUtil;
 import com.cdgit.loan.sysManage.empManage.bean.AcOperator;
 import com.cdgit.loan.sysManage.empManage.bean.AcOperatorRole;
 import com.cdgit.loan.sysManage.empManage.bean.OmEmpOrg;

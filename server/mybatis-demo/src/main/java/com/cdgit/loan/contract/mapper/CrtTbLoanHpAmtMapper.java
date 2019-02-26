@@ -22,5 +22,8 @@ public interface CrtTbLoanHpAmtMapper {
     
     //插入多条数据
     int insertManyCrtTbLoanHpAmt(List<CrtTbLoanHpAmt> list);
+    
+    //根据loanId查询汇票出账金额总和
+    List<java.math.BigDecimal> queryForLoanAmt(String loanId);
 
 }

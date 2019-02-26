@@ -185,4 +185,16 @@ public class CsmTbConHptxPo extends CsmConDetailVo{
     public void setHpTotalAmt(BigDecimal hpTotalAmt) {
         this.hpTotalAmt = hpTotalAmt;
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConHptxPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", txzjyt=" + txzjyt + ", hpzl=" + hpzl
+				+ ", sfxyfx=" + sfxyfx + ", mfcnblBuy=" + mfcnblBuy + ", mfcnblSell=" + mfcnblSell + ", hpzs=" + hpzs
+				+ ", contractId=" + contractId + ", txyll=" + txyll + ", productType=" + productType + ", hpbh=" + hpbh
+				+ ", txqq=" + txqq + ", dkll=" + dkll + ", currencyCd=" + currencyCd + ", hpTotalAmt=" + hpTotalAmt
+				+ "]";
+	}
+    
+    
 }

@@ -175,4 +175,16 @@ public class CsmTbConBgdkPo extends CsmConDetailVo{
     public void setLeastSettleRate(BigDecimal leastSettleRate) {
         this.leastSettleRate = leastSettleRate;
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConBgdkPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", bgfs=" + bgfs + ", bgjyje=" + bgjyje
+				+ ", bbgf=" + bbgf + ", contractId=" + contractId + ", restRate=" + restRate + ", payWay=" + payWay
+				+ ", payDepend1=" + payDepend1 + ", payDepend2=" + payDepend2 + ", payDepend3=" + payDepend3
+				+ ", prepayJs=" + prepayJs + ", prepayMakeupRate=" + prepayMakeupRate + ", leastPrepayAmount="
+				+ leastPrepayAmount + ", leastSettleRate=" + leastSettleRate + "]";
+	}
+    
+    
 }

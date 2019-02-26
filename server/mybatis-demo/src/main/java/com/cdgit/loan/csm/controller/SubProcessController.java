@@ -22,6 +22,7 @@ import com.cdgit.loan.csm.mapper.CsmTbBizAmountDetailApproveMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizApproveMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizSummaryMapper;
 import com.cdgit.loan.csm.mapper.CsmTbConAttachedInfoPoMapper;
+import com.cdgit.loan.csm.mapper.CsmTbConContractInfoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbConSubContractTPoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbConSubGrtRelMapper;
 import com.cdgit.loan.csm.mapper.CsmTbConSubcontractMapper;
@@ -128,9 +129,20 @@ public class SubProcessController {
 	@Autowired
 	ConApply conApply;
 	
+	@Autowired
+	CsmTbConContractInfoMapper csmTbConContractInfoMapper;
+	
+	
+	@GetMapping("/queryOneCsmTbConContractInfoByConId1")
+	public TbConContractInfoPo queryOneCsmTbConContractInfoByConId1(String contractId){
+		return csmTbConContractInfoMapper.queryOneCsmTbConContractInfoByConId(contractId);
+		
+	}
+	
+	
 	//根据合同id查询 业务性质  TODO 需要测试2019-2-11
 	@GetMapping("/getConInfoBizType1")
-	public String getConInfoBizType1(String contractId){
+	public HashMap<String, Object> getConInfoBizType1(String contractId){
 		return conApply.getConInfoBizType(contractId);
 		
 	}

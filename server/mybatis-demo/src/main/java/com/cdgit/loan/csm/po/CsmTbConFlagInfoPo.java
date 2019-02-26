@@ -210,4 +210,17 @@ public class CsmTbConFlagInfoPo {
     public void setGreenRiskDetail(String greenRiskDetail) {
         this.greenRiskDetail = greenRiskDetail == null ? null : greenRiskDetail.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConFlagInfoPo [flagId=" + flagId + ", contractId=" + contractId + ", loanTurn=" + loanTurn
+				+ ", greenLoan=" + greenLoan + ", emphasisTurn=" + emphasisTurn + ", rhbzffl=" + rhbzffl + ", yjbzffl="
+				+ yjbzffl + ", riskInfo=" + riskInfo + ", act=" + act + ", serviceType=" + serviceType
+				+ ", reduceAmount=" + reduceAmount + ", focusType=" + focusType + ", ajustType=" + ajustType
+				+ ", upgradeType=" + upgradeType + ", newProductType=" + newProductType + ", whetherArgRelated="
+				+ whetherArgRelated + ", supArgType=" + supArgType + ", argType=" + argType + ", greenLoanUse="
+				+ greenLoanUse + ", greenRiskType=" + greenRiskType + ", greenRiskDetail=" + greenRiskDetail + "]";
+	}
+    
+    
 }

@@ -272,4 +272,18 @@ public class CsmTbConNoticeAddrsPo {
     public void setdOther(String dOther) {
         this.dOther = dOther == null ? null : dOther.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConNoticeAddrsPo [uuid=" + uuid + ", contractId=" + contractId + ", aSendAddr=" + aSendAddr
+				+ ", aPostcode=" + aPostcode + ", aReceiver=" + aReceiver + ", aPhone=" + aPhone + ", aEmail=" + aEmail
+				+ ", aOther=" + aOther + ", bSendAddr=" + bSendAddr + ", bPostcode=" + bPostcode + ", bReceiver="
+				+ bReceiver + ", bPhone=" + bPhone + ", createTime=" + createTime + ", updateTime=" + updateTime
+				+ ", bEmail=" + bEmail + ", cSendAddr=" + cSendAddr + ", cPostcode=" + cPostcode + ", cReceiver="
+				+ cReceiver + ", cPhone=" + cPhone + ", cEmail=" + cEmail + ", cOther=" + cOther + ", dSendAddr="
+				+ dSendAddr + ", dPostcode=" + dPostcode + ", dReceiver=" + dReceiver + ", dPhone=" + dPhone
+				+ ", dEmail=" + dEmail + ", dOther=" + dOther + "]";
+	}
+    
+    
 }

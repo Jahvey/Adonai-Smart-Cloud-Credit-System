@@ -175,4 +175,16 @@ public class CsmTbConLdzjPo extends CsmConDetailVo{
     public void setMinAmt(BigDecimal minAmt) {
         this.minAmt = minAmt;
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConLdzjPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", contractId=" + contractId + ", restRate="
+				+ restRate + ", payWay=" + payWay + ", payDepend1=" + payDepend1 + ", payDepend2=" + payDepend2
+				+ ", payDepend3=" + payDepend3 + ", leastPrepayAmount=" + leastPrepayAmount + ", prepayJs=" + prepayJs
+				+ ", prepayMakeupRate=" + prepayMakeupRate + ", leastSettleRate=" + leastSettleRate + ", jmrhsx="
+				+ jmrhsx + ", sfjmrhsx=" + sfjmrhsx + ", minAmt=" + minAmt + "]";
+	}
+    
+    
 }

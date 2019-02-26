@@ -133,4 +133,15 @@ public class CsmTbConFeePo {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConFeePo [feeId=" + feeId + ", costType=" + costType + ", chargingDirection=" + chargingDirection
+				+ ", chargingFrequency=" + chargingFrequency + ", chargingType=" + chargingType
+				+ ", chargingProportion=" + chargingProportion + ", shouldFee=" + shouldFee + ", reductionFee="
+				+ reductionFee + ", actualFee=" + actualFee + ", feeDate=" + feeDate + ", contractDetailId="
+				+ contractDetailId + ", createTime=" + createTime + ", updateTime=" + updateTime + "]";
+	}
+    
+    
 }

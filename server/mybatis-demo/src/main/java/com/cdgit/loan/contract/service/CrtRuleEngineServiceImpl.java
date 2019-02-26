@@ -76,7 +76,7 @@ public class CrtRuleEngineServiceImpl {
 				"02,04".equals(contractInfo.getGuarantyType()) ||
 				"04,02".equals(contractInfo.getGuarantyType())
 					){
-				msg = "0";//校验 36
+				msg = "0";//校验 36	RLON_0036？？？按揭存在未入库的押品？？
 			}
 			//个贷：'02002004': '个人商用房按揭贷款'
 			if("02002004".equals(contractInfo.getProductType()) || 

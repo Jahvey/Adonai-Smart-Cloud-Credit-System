@@ -1,12 +1,15 @@
 package com.cdgit.loan.customerManage.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -115,4 +118,42 @@ public class NaturalPersonController {
 		Map<String, Object> map = naturalPersonService.editNatural(naturalPerson);
 		return map;
 	}
+	
+	
+	/**
+	 * 查询自然或者对公客户,新增保证人使用
+	 * @author 吴勇
+	 * TODO 说明：查询了自然人和对公客户，与Controller描述不太匹配，是否更改？
+	 * 
+	 * */
+	@GetMapping("/selectCustomerAllByPartyTypeCd")
+	@ResponseBody
+	public Map<String, Object> selectCustomerAllByPartyTypeCd(
+			//自然人和对公客户共有参数
+			@RequestParam(value="certType",required=false) String certType,
+			@RequestParam(value="certNum",required=false) String certNum,
+			@RequestParam(value="partyName",required=false) String partyName,
+			//对公客户使用
+			@RequestParam(value="orgRegisterCd",required=false) String orgRegisterCd,
+			@RequestParam(value="registrCd",required=false) String registrCd,
+			@RequestParam(value="unifySocietyCreditNum",required=false) String unifySocietyCreditNum,
+			//客户类型,必须
+			@RequestParam(value="partyTypeCd",required=true) String partyTypeCd,
+			@RequestParam(value="legOrg",required=true) String legOrg,
+			@RequestParam(value="pageNum",required=true) Integer pageNum,
+			@RequestParam(value="pageSize",required=true) Integer pageSize
+			
+			) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try{
+			map = naturalPersonService.selectCustomerAllByPartyTypeCd(pageNum,pageSize,legOrg,partyTypeCd,certType,certNum,partyName,orgRegisterCd,registrCd,unifySocietyCreditNum);
+		}catch(Exception e){
+			map.put("flag", "error");
+			map.put("message", "操作失败啦！"+e.getMessage());
+			e.printStackTrace();
+		}
+		return map;
+	}
+
+	
 }

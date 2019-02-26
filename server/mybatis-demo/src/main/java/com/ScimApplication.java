@@ -4,8 +4,8 @@ import java.util.Properties;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.github.pagehelper.PageHelper;
 
@@ -23,14 +23,32 @@ springboot会自动加载spring.datasource.*相关配置，数据源就会自动
  */
 
 
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
+@EnableTransactionManagement
 @SpringBootApplication
 public class ScimApplication {
 
 	public static void main(String[] args) {
+//		WorkFlowVO workFlowVO=new WorkFlowVO();
+//		workFlowVO.setContractAmt(100.03);
+//		workFlowVO.setCurrent(new Timestamp(0));
+//		workFlowVO.setEndDate(new Date());
+//		workFlowVO.setFloatRate(new BigDecimal(10.022012));
+//		workFlowVO.setHeaderAdminFlag(false);
+//		workFlowVO.setTerm(new Long(43));
+//		workFlowVO.setIsPJ(11);
+//		workFlowVO.setName("什么名字");
+//		CopyWorkFlowVO copVO=new CopyWorkFlowVO();
+//		BeanUtil.copyBeanProperties(workFlowVO, copVO, false);
+//		System.out.println("workFlowVO2:"+workFlowVO.getCurrent());
+//		System.out.println("workFlowVO2:"+workFlowVO.getEndDate());
+//		System.out.println("copVO1:"+copVO.getCurrent());
+//		System.out.println("copVO2:"+copVO.getEndDate());
+//		System.out.println("copVO1:"+copVO.getFloatRate());
 		System.out.println("-----Scim工程-------SpringBoot开始启动------------------");
 		SpringApplication.run(ScimApplication.class, args);
 		System.out.println("-----Scim工程-------SpringBoot启动完成------------------");
+		
 	}
 	
 	/**

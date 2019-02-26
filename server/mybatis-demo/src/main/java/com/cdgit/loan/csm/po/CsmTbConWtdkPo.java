@@ -185,4 +185,15 @@ public class CsmTbConWtdkPo extends CsmConDetailVo{
     public void setDisYtFx(BigDecimal disYtFx) {
         this.disYtFx = disYtFx;
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConWtdkPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", wtr=" + wtr + ", wtrlx=" + wtrlx + ", wtdkxz="
+				+ wtdkxz + ", contractId=" + contractId + ", dkyt=" + dkyt + ", dkzl=" + dkzl + ", dkxm=" + dkxm
+				+ ", dzywjqzbgf=" + dzywjqzbgf + ", wtxmId=" + wtxmId + ", sxfPayWay=" + sxfPayWay + ", qtfPayWay="
+				+ qtfPayWay + ", dbSxWay=" + dbSxWay + ", dkPayWay=" + dkPayWay + ", disYtFx=" + disYtFx + "]";
+	}
+    
+    
 }

@@ -125,4 +125,14 @@ public class CsmTbConJkdfPo extends CsmConDetailVo{
     public void setYwbh(String ywbh) {
         this.ywbh = ywbh == null ? null : ywbh.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConJkdfPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", jyq=" + jyq + ", contractId=" + contractId
+				+ ", rzzh=" + rzzh + ", ywhm=" + ywhm + ", fph=" + fph + ", dkll=" + dkll + ", cplx=" + cplx + ", ywbh="
+				+ ywbh + "]";
+	}
+    
+    
 }

@@ -104,6 +104,76 @@
 		<result property="unitAdress" column="UNIT_ADRESS" />
 		<result property="ecifPartyNum" column="ECIF_PARTY_NUM" />
   </resultMap>
+  <!--by wuyong start  -->
+  <resultMap type="java.util.HashMap" id="importbzrComCusMap">
+  		<result property="partyId" column="PARTY_ID"/>
+  		<result property="partyNum" column="PARTY_NUM"/>
+		<result property="partyName" column="PARTY_NAME"/>	
+		<result property="userNum" column="USER_NUM"/>	
+		<result property="orgNum" column="ORG_NUM"/>	
+		<result property="certType" column="CERT_TYPE" />
+		<result property="certNum" column="CERT_NUM" />
+		<result property="middleCode" column="MIDDLE_CODE" />
+		<result property="unifySocietyCreditNum" column="UNIFY_SOCIETY_CREDIT_NUM" />
+		<result property="partyTypeCd" column="PARTY_TYPE_CD" />
+		<result property="orgRegisterCd" column="ORG_REGISTER_CD" />
+		<result property="registrCd" column="REGISTR_CD" />
+  </resultMap>
+  
+  	<!--查询借款人所有信息-->
+     <select id="findByPartyId" resultType="java.util.Map">
+    	select * from V_CSM_PARTY p where p.PARTY_ID=#{partyId}
+	</select>
+  	<!--引入保证人 :保证人为自然人时可以引入(对公)拥有管护权和业务权的借款关系人全行的关系人 -->
+	<!-- modi by shangmf:20171018:增加法人标识，各自只能查到自己的客户 -->
+     <select id="importbzrComCus" resultMap="importbzrComCusMap">
+    	select v.PARTY_ID,v.PARTY_NUM,v.PARTY_NAME,v.user_num,v.org_num,v.CERT_TYPE,v.CERT_NUM,v.MIDDLE_CODE,v.unify_Society_Credit_Num,v.PARTY_TYPE_CD,con.ORG_REGISTER_CD,con.REGISTR_CD
+			from V_CSM_PARTY v,TB_CSM_CORPORATION con
+			where v.PARTY_ID=con.PARTY_ID
+            and v.PARTY_TYPE_CD='01'
+            and v.org_num in ( select om.orgcode from om_organization om where om.leg_org = #{legOrg} )
+	      <if test="orgRegisterCd != null and orgRegisterCd != '' "> 
+	       and con.ORG_REGISTER_CD=#{orgRegisterCd}
+	     </if>            
+	      <if test="registrCd != null and registrCd != '' "> 
+	       and con.REGISTR_CD=#{registrCd}
+	     </if>            
+	      <if test="certType != null and certType != '' "> 
+	       and v.CERT_TYPE= #{certType}
+	     </if>            
+	      <if test="certNum != null and certNum != '' "> 
+	       and v.CERT_NUM=#{certNum}
+	     </if>            
+	      <if test="partyName != null and partyName != '' "> 
+	       and v.PARTY_NAME like  '%'||#{certType}||'%'
+	     </if>            
+	      <if test="unifySocietyCreditNum != null and unifySocietyCreditNum != '' "> 
+	       and v.unify_Society_Credit_Num like  '%'||#{unifySocietyCreditNum}||'%'
+	     </if>            
+	</select>
+  	<!--引入保证人 :保证人为自然人时可以引入(自然人)拥有管护权和业务权的借款关系人全行的关系人 -->
+	<!-- modi by shangmf:20171018:增加法人标识，各自只能查到自己的客户 -->
+     <select id="importbzrNatureCus" resultMap="importbzrComCusMap">
+    	select v.PARTY_ID,v.PARTY_NUM,v.PARTY_NAME,v.CERT_TYPE,v.CERT_NUM,v.MIDDLE_CODE,v.PARTY_TYPE_CD,v.user_num,v.org_num
+			from V_CSM_PARTY v
+			where  v.PARTY_TYPE_CD='02'
+			and v.org_num in ( select om.orgcode from om_organization om where om.leg_org = #{legOrg} )
+	      <if test="certType != null and certType != '' "> 
+	       and v.CERT_TYPE= #{certType}
+	     </if>            
+	      <if test="certNum != null and certNum != '' "> 
+	       and v.CERT_NUM=#{certNum}
+	     </if>            
+	      <if test="partyName != null and partyName != '' "> 
+	       and v.PARTY_NAME like  '%'||#{certType}||'%'
+	     </if> 
+	</select>
+  <!--by wuyong end  -->
+  
+  
+  
+  
+  
   <!--客户管理自然人客户列表-->
   <select id="naturalPersonList" parameterType="java.util.HashMap" resultMap="naturalPerson">
 	SELECT 

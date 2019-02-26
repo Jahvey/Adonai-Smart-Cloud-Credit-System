@@ -305,4 +305,18 @@ public class CsmTbConBhPo extends CsmConDetailVo{
     public void setJcxmbh(String jcxmbh) {
         this.jcxmbh = jcxmbh == null ? null : jcxmbh.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConBhPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", bhzl=" + bhzl + ", bzjbl=" + bzjbl + ", syr="
+				+ syr + ", syrfddz=" + syrfddz + ", sfbz=" + sfbz + ", contractId=" + contractId + ", bzjje=" + bzjje
+				+ ", klrq=" + klrq + ", dqrq=" + dqrq + ", dkll=" + dkll + ", bzjblbdy=" + bzjblbdy + ", wyjbl=" + wyjbl
+				+ ", bzjzh=" + bzjzh + ", bzjbz=" + bzjbz + ", myhth=" + myhth + ", myhtje=" + myhtje + ", jcxmmc="
+				+ jcxmmc + ", sfbzwb=" + sfbzwb + ", sffcsx=" + sffcsx + ", sxfType=" + sxfType + ", sxfRate=" + sxfRate
+				+ ", sxfMinAmt=" + sxfMinAmt + ", sxfAmt=" + sxfAmt + ", cnfRate=" + cnfRate + ", bhQxfs=" + bhQxfs
+				+ ", jcxmbh=" + jcxmbh + "]";
+	}
+    
+    
 }

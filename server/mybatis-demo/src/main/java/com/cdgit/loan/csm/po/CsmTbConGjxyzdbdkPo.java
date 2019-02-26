@@ -115,4 +115,13 @@ public class CsmTbConGjxyzdbdkPo extends CsmConDetailVo{
     public void setTzlx(String tzlx) {
         this.tzlx = tzlx == null ? null : tzlx.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConGjxyzdbdkPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", jyq=" + jyq + ", contractId=" + contractId
+				+ ", rzzh=" + rzzh + ", xyzh=" + xyzh + ", fph=" + fph + ", dkll=" + dkll + ", tzlx=" + tzlx + "]";
+	}
+    
+    
 }

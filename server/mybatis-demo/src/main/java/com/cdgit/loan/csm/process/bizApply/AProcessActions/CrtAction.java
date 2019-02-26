@@ -4,31 +4,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cdgit.loan.csm.mapper.CsmTbConCreditInfoPoMapper;
-import com.cdgit.loan.csm.po.CsmTbConCreditInfoPo;
-import com.cdgit.loan.csm.process.bizApply.AProcessAction;
-import com.cdgit.loan.csm.process.bizApply.IProcessAction;
+import com.cdgit.loan.csm.mapper.CsmTbConContractInfoMapper;
+import com.cdgit.loan.csm.po.TbConContractInfoPo;
 import com.cdgit.loan.csm.process.bizApply.ProcessParam;
 import com.cdgit.loan.csm.pub.DictContents;
 import com.cdgit.loan.csm.pub.gitUtils.GitUtils;
 
 @Service
 @Transactional
-public class CrtAction extends AProcessAction{
+public class CrtAction {
+
 	
 	@Autowired
-	CsmTbConCreditInfoPoMapper csmTbConCreditInfoPoMapper;
+	CsmTbConContractInfoMapper csmTbConContractInfoMapper;
 	
 	@Autowired
 	GitUtils gitUtils;
 
 	public ProcessParam action(String bizId) {
 		ProcessParam param = new ProcessParam(bizId);
-
-		CsmTbConCreditInfoPo entity = csmTbConCreditInfoPoMapper.selectByPrimaryKey(bizId);
-		//DataObject entity = EntityUtil.getEntityById("com.bos.dataset.crt.TbConContractInfo", "contractId", bizId);
-		param.setPartyId(entity.getPartyId());
-		String oldConId = entity.getOldContractId();
+		System.err.println("将bizID做为contractId传入。。。[contractId]"+bizId);
+		TbConContractInfoPo entity = csmTbConContractInfoMapper.queryOneCsmTbConContractInfoByConId(bizId);
+		String oldConId=null;
+		if(null!=entity){
+			System.err.println("执行合同调整的entity:"+entity);
+			//DataObject entity = EntityUtil.getEntityById("com.bos.dataset.crt.TbConContractInfo", "contractId", bizId);
+			param.setPartyId(entity.getPartyId());
+			oldConId = entity.getOldContractId();
+		}
+		
 		
 		
 		String legorg = gitUtils.getLegorg();

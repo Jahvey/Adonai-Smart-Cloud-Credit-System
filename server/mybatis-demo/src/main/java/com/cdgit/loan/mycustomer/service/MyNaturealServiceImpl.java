@@ -1,6 +1,5 @@
 package com.cdgit.loan.mycustomer.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cdgit.loan.mycustomer.mapper.MyCustomerMapper;
-import com.cdgit.loan.mycustomer.message.ResponseMsg;
-import com.cdgit.loan.user.bean.NaturealCriteria;
 import com.cdgit.loan.user.bean.NaturealInfo;
 import com.cdgit.loan.user.bean.TbCsmNaturalPerson;
 import com.cdgit.loan.user.bean.TbCsmParty;
@@ -163,5 +160,10 @@ public class MyNaturealServiceImpl {
 	public TbCsmNaturalPerson getTbCsmNaturalPersonById(String partyId){
 		return myCustomerMapper.getTbCsmNaturalPersonById(partyId);
 	}
-	
+//	public PageInfo<GradeInfo> queryGradeinfo(Map map){
+//		PageHelper.startPage((Integer)map.get("pageNum"),(Integer)map.get("pageSize"));
+//		List<GradeInfo> userList=myCustomerMapper.queryGradeinfo(map);
+//        PageInfo pageInfo=new PageInfo(userList,(Integer)map.get("pageSize"));
+//    	return pageInfo;
+//	}
 }

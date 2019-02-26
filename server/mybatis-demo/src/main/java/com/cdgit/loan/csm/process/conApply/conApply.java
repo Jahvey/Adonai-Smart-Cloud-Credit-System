@@ -15,6 +15,7 @@ import com.cdgit.loan.csm.po.TbBizAmountDetailApprovePo;
 import com.cdgit.loan.csm.po.TbConContractInfoPo;
 import com.cdgit.loan.csm.process.accInfo.ContractApply;
 import com.cdgit.loan.csm.process.apply.ApplyDaoUtil;
+import com.cdgit.loan.csm.process.bizApply.BizProcess;
 import com.cdgit.loan.csm.process.conInfo.DelBizGrtRel;
 
 @Service
@@ -39,6 +40,9 @@ public class ConApply {
 	@Autowired
 	DelBizGrtRel delBizGrtRel;
 	
+	@Autowired
+	BizProcess bizProcess;
+	
 	
 	
 	//业务性质XD_SXYW0002
@@ -54,18 +58,19 @@ public class ConApply {
 	public HashMap<String,Object> tzContractInfo(String contractId,String bizType){
 		HashMap<String,Object> hashMap = new HashMap<String,Object>();
 		HashMap<String,Object> map;
-		if(!"01".equals(bizType)||!"04".equals(bizType)){//调整综合授信协议
+		System.err.println("[tzContractInfo]contractId"+contractId+",bizType"+bizType);
+		if(!"业务合同".equals(bizType)){//调整综合授信协议
 			CsmTbConCreditInfoPo tzCreditInfo = contractApply.tzCreditInfo(contractId);//核心方法
 			hashMap.put("conInfo",tzCreditInfo);
 			
 			//合同发起流程
-			map=createBpsProcess(tzCreditInfo.getContractId(), "crt");
+			map=bizProcess.createBpsProcess(tzCreditInfo.getContractId(), "crt");
 		}else{//合同调整
 			TbConContractInfoPo tzConInfo = contractApply.tzConInfo(contractId);
 			hashMap.put("conInfo",tzConInfo);
 			
 			//合同发起流程
-			map=createBpsProcess(tzConInfo.getContractId(), "crt");
+			map=bizProcess.createBpsProcess(tzConInfo.getContractId(), "crt");
 		}
 		
 		
@@ -76,37 +81,18 @@ public class ConApply {
 		return hashMap;
 	}
 		
-	
-	
-	
-	//TODO 需要完善的地方 写完合同发起流程.......
-	//合同发起流程
-	public HashMap<String, Object> createBpsProcess(String bizId,String type) {
-		HashMap<String,Object>resMap=new HashMap<String,Object>();
-		String processInstId="xxxxxxx";
-		String msg="";
-		
-		System.err.println("发起合同流程：[bizID="+bizId+",type="+type+"]");
-		
-		
-		
-		
-		
-		resMap.put("processInstId", processInstId);
-		resMap.put("msg", msg);
-		return resMap;
-		
-	}
-	
+
 	// 根据合同id查询 业务性质
-	public String getConInfoBizType(String contractId){
+	public HashMap<String,Object> getConInfoBizType(String contractId){
 		
 		HashMap<String,Object> conInfoBizType = conApplyMapper.getConInfoBizType(contractId);
-		return (String) conInfoBizType.get("bizType");
+		System.err.println("[conInfoBizType]"+conInfoBizType);
+		return conInfoBizType;
 	}
 	
 	//失效合同
 	public String disConInfo(String contractId,String flag){//flag:1-不失效合同直接刷新额度
+		System.err.println("[disConInfo] contractId:"+contractId+" ,flag:"+flag);
 		String msg="";
 		
 		//查询合同
@@ -114,12 +100,13 @@ public class ConApply {
 		String amountDetailId=conInfo.getAmountDetailId();
 		String partyId=conInfo.getPartyId();
 		
+		System.err.println("查询合同相关信息！"+conInfo);
 		if(!"1".equals(flag)){
 
 		
 		//查询业务明细
 		TbBizAmountDetailApprovePo amountDetail = csmTbBizAmountDetailApproveMapper.queryOneTbBizAmountDetailApproveByAmountDetailId(amountDetailId);
-		
+		System.err.println("查询业务明细成功!"+amountDetailId);
 		try {
 			
 
@@ -127,16 +114,18 @@ public class ConApply {
 			conApplyMapper.updateConInfoStatus(contractId);
 			//更新从合同信息
 			conApplyMapper.updateConInfoRelStatus(contractId);
-			if(!applyDaoUtil.isZhsx(conInfo.getCreditMode())){
+			System.err.println("更新主/从合同信息成功");
+			if(!applyDaoUtil.isZhsx(conInfo.getCreditMode())){//03
 				//更新批复
 				conApplyMapper.updateCancelPF(amountDetailId);
 				//TODO 删除业务与押品的关系 2019-2-11
 				delBizGrtRel.delBizGrtRel(contractId);
 				
 			}
-
-		//更新授信额度
+			
+			//更新授信额度
 			conApplyMapper.updateCreditLimit(partyId);
+			System.err.println("更新授信额度成功!partyId"+partyId);
 		} catch (Exception e) {
 			msg="处理失败";
 			throw new RuntimeException(e);
@@ -146,6 +135,7 @@ public class ConApply {
 			//flag==1 只更新授信额度
 			try {			
 				conApplyMapper.updateCreditLimit(partyId);
+				System.err.println("更新授信额度成功!partyId"+partyId);
 			} catch (Exception e) {
 				msg="处理失败";
 				throw new RuntimeException(e);

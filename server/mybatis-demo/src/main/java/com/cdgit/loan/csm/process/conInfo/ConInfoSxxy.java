@@ -5,12 +5,12 @@ package com.cdgit.loan.csm.process.conInfo;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cdgit.loan.csm.bean.CsmConInfoHtVoQuery;
 import com.cdgit.loan.csm.mapper.ConApplyMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizAmountApproveMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizAmountDetailApproveMapper;
@@ -71,10 +71,11 @@ public class ConInfoSxxy {
 	@Autowired
 	CommonUtils commonUtils; 
 	
+
 	
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Map<String, Object> getConInfoByContarctId(String contractId){
+	public HashMap<String, Object> getConInfoByContarctId(String contractId){
 		HashMap<String,Object> resultMap = new HashMap<String,Object>();
 		
 		
@@ -218,8 +219,63 @@ public class ConInfoSxxy {
 			resultMap.put("proFlag1", proFlag1);
 			resultMap.put("bizInfo", bizInfo);
 			resultMap.put("bizDtlInfo", bizDtlInfo);
-		
+			
+			CsmConInfoHtVoQuery csmConInfoHtVoQuery= new CsmConInfoHtVoQuery();
+			csmConInfoHtVoQuery.setPartyName(party.getPartyName());
+			csmConInfoHtVoQuery.setPartyNum(party.getPartyNum());
+			csmConInfoHtVoQuery.setProductType(tbConContractInfo.getProductType());
+			csmConInfoHtVoQuery.setContractNum(tbConContractInfo.getContractNum());
+			csmConInfoHtVoQuery.setPaperConNum(tbConContractInfo.getPaperConNum());
+			csmConInfoHtVoQuery.setOldContractNum(tbConContractInfo.getOldContractId());
+			csmConInfoHtVoQuery.setCurrencyCd(tbConContractInfo.getCurrencyCd());
+			csmConInfoHtVoQuery.setContractAmt(tbConContractInfo.getContractAmt());
+			csmConInfoHtVoQuery.setBzjbl(tbConContractInfo.getBzjbl());
+			csmConInfoHtVoQuery.setBeginDate(tbConContractInfo.getBeginDate());
+			csmConInfoHtVoQuery.setContractTerm(tbConContractInfo.getContractTerm());
+			csmConInfoHtVoQuery.setCycleUnit(tbConContractInfo.getCycleUnit());
+			csmConInfoHtVoQuery.setEndDate(tbConContractInfo.getEndDate());
+			csmConInfoHtVoQuery.setRepaymentType(tbConContractInfo.getRepaymentType());
+			csmConInfoHtVoQuery.setFirstRepayTerm(tbConContractInfo.getFirstRepayTerm());
+			csmConInfoHtVoQuery.setSpecPaymentDate(tbConContractInfo.getSpecPaymentDate());
+			csmConInfoHtVoQuery.setInternalDays(tbConContractInfo.getInternalDays());
+			csmConInfoHtVoQuery.setCycleIndCon(tbConContractInfo.getCycleIndCon());
+			csmConInfoHtVoQuery.setContractDate(tbConContractInfo.getContractDate());
+			csmConInfoHtVoQuery.setContractAddress(tbConContractInfo.getContractAddress());
+			csmConInfoHtVoQuery.setLoanUse(tbConContractInfo.getLoanUse());
+			csmConInfoHtVoQuery.setExchangeRate(tbConContractInfo.getExchangeRate());
+			csmConInfoHtVoQuery.setRmbAmt(tbConContractInfo.getRmbAmt());
+			csmConInfoHtVoQuery.setGuarantyType(tbConContractInfo.getGuarantyType());
+			csmConInfoHtVoQuery.setMainGuarantyType(tbConContractInfo.getMainGuarantyType());
+			csmConInfoHtVoQuery.setAgriculLoans(tbConContractInfo.getAgriculLoans());
+			
+			//标志信息
+			csmConInfoHtVoQuery.setLoanTurn(tbConFlagInfo.getLoanTurn());
+			csmConInfoHtVoQuery.setRiskInfo(tbConFlagInfo.getRiskInfo());
+			csmConInfoHtVoQuery.setAct(tbConFlagInfo.getAct());
+			csmConInfoHtVoQuery.setServiceType(tbConFlagInfo.getServiceType());
+			csmConInfoHtVoQuery.setReduceAmount(tbConFlagInfo.getReduceAmount());
+			csmConInfoHtVoQuery.setAjustType(tbConFlagInfo.getAjustType());
+			csmConInfoHtVoQuery.setUpgradeType(tbConFlagInfo.getUpgradeType());
+			csmConInfoHtVoQuery.setNewProductType(tbConFlagInfo.getNewProductType());
+			csmConInfoHtVoQuery.setRhbzffl(tbConFlagInfo.getRhbzffl());
+			csmConInfoHtVoQuery.setYjbzffl(tbConFlagInfo.getYjbzffl());
+			csmConInfoHtVoQuery.setWhetherArgRelated(tbConFlagInfo.getWhetherArgRelated());
+			csmConInfoHtVoQuery.setArgType(tbConFlagInfo.getArgType());
+			csmConInfoHtVoQuery.setSupArgType(tbConFlagInfo.getSupArgType());
+			csmConInfoHtVoQuery.setGreenLoan(tbConFlagInfo.getGreenLoan());
+			csmConInfoHtVoQuery.setGreenLoanUse(tbConFlagInfo.getGreenLoanUse());
+			csmConInfoHtVoQuery.setGreenRiskType(tbConFlagInfo.getGreenRiskType());
+			csmConInfoHtVoQuery.setGreenRiskDetail01(tbConFlagInfo.getGreenRiskDetail());
+			csmConInfoHtVoQuery.setGreenRiskDetail02(tbConFlagInfo.getGreenRiskDetail());
+			csmConInfoHtVoQuery.setGreenRiskDetail04(tbConFlagInfo.getGreenRiskDetail());
+			
+			
+			resultMap.put("CsmConInfoHtVo", csmConInfoHtVoQuery);
+			
 		}
+		
+		
+		
 
 		return resultMap;
 		

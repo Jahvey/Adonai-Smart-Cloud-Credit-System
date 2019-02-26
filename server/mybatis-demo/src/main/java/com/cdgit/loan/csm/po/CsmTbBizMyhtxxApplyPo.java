@@ -123,4 +123,14 @@ public class CsmTbBizMyhtxxApplyPo {
     public void setBz(String bz) {
         this.bz = bz == null ? null : bz.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbBizMyhtxxApplyPo [htId=" + htId + ", createTime=" + createTime + ", updateTime=" + updateTime
+				+ ", amountDetailId=" + amountDetailId + ", htbh=" + htbh + ", htgf=" + htgf + ", htxf=" + htxf
+				+ ", htqdrq=" + htqdrq + ", htdqrq=" + htdqrq + ", htzje=" + htzje + ", currencyCd=" + currencyCd
+				+ ", bz=" + bz + "]";
+	}
+    
+    
 }

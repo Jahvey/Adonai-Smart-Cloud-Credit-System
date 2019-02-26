@@ -12,10 +12,9 @@ import com.cdgit.loan.contract.bean.CrtTbLoanRepayPlan;
 @Mapper
 public interface CrtTbLoanRepayPlanMapper {
 
-    int insertSelective(CrtTbLoanRepayPlan record);
+	//插入一条还款记录
+    void insertLoanRepayPlanSelective(CrtTbLoanRepayPlan record);
 
     CrtTbLoanRepayPlan selectByPrimaryKey(String repayPlanId);
-
-    int updateByPrimaryKeySelective(CrtTbLoanRepayPlan record);
 
 }

@@ -28,11 +28,16 @@
     DRFT_EXP_DT, ISSU_DT, BILL_NO, BILL_STATE, SUMMARY_ID, SUMMARY_NUM, DRWE_BNK_NM, 
     DRWE_BNK_NO, DRWE_BNK_ADR, APPLY_DETAIL_ID, HP_BILL_STATUS, UPDATE_TIME, SORT_ORDER
   </sql>
+  <!-- 根据主键查询一条汇票金额信息 -->
   <select id="selectCrtTbLoanHpAmtByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from CRMS.TB_LOAN_HP_AMT
     where MONEY_USE_ID = #{moneyUseId,jdbcType=VARCHAR}
+  </select>
+  <!-- 根据出账id查询出账汇票金额总和 -->
+  <select id="queryForLoanAmt" parameterType="java.lang.String" resultType="java.math.BigDecimal" >
+	select sum(r.loan_amt) AS loan_amt  from tb_loan_hp_amt r where r.loan_id=#{loanId}
   </select>
   <!-- 插入一条数据 -->
   <insert id="insertCrtTbLoanHpAmtSelective" parameterType="com.cdgit.loan.contract.bean.CrtTbLoanHpAmt">

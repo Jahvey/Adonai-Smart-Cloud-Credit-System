@@ -224,10 +224,23 @@
 		left join 
 		    Tb_Loan_Hp_Amt pjxxInfo on summary.summary_id = pjxxInfo.summary_id
 		where 
-		    zh.zhlx = '1'	<!-- 赋值逻辑流这里设置为1：第一还款账户，先写死 -->
+		    zh.zhlx = '1'	<!-- 赋值逻辑流这里设置为1：第一还款账户，先写死，以后再改 -->
 		    and summary.summary_id=#{summaryId}
     </select>
     
+    <!-- 根据出账id查询是否是借旧还新 -->
+    <select id="getIsJjhx" parameterType="java.lang.String" resultType="java.util.HashMap">
+	    SELECT
+		  c.biz_happen_type biz_happen_type,
+		  c.apply_id apply_id,
+		  t.agricul_loans
+		FROM
+		  tb_loan_info r
+		INNER JOIN tb_con_contract_info t ON r.contract_id = t.contract_id
+		INNER JOIN tb_biz_amount_detail_approve a ON t.amount_detail_id = a.amount_detail_id
+		INNER JOIN tb_biz_approve c ON a.approve_id = c.approve_id
+		WHERE r.loan_id =#{loanId}
+    </select>
 	<sql id="Base_Column_List">
 		SUMMARY_ID, LOAN_ID, PARTY_ID, SUMMARY_AMT, SUMMARY_CURRENCY_CD, BEGIN_DATE,
 		END_DATE,

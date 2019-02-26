@@ -111,7 +111,8 @@ public class GrtCollateralController {
 				map = grtCollateralServiceImpl.saveGrtCollateral(grtCollateral);
 			} catch (Exception e) {
 				map.put("flag", "error");
-				map.put("message", "服务器出错啦，请联系开发者!");
+				map.put("message", "服务器出错啦，请联系开发者!"+e.getMessage());
+				e.printStackTrace();
 			}
 		} else{
 			map.put("flag", "error");
@@ -170,8 +171,8 @@ public class GrtCollateralController {
 			map=grtCollateralServiceImpl.deleteGrtCollateralById(guarantyId);
 		} catch (Exception e) {
 			map.put("flag", "error");
-			map.put("message", "服务器出错啦，请联系开发者!");
-			System.out.println(e.getMessage());
+			map.put("message", e.getMessage());
+			e.printStackTrace();
 		}
 		return map;
 	}

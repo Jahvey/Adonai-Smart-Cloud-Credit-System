@@ -275,4 +275,20 @@ public class CsmTbConGdzcdkPo extends CsmConDetailVo{
     public void setZhPjclYq(String zhPjclYq) {
         this.zhPjclYq = zhPjclYq == null ? null : zhPjclYq.trim();
     }
+
+	@Override
+	public String toString() {
+		return "CsmTbConGdzcdkPo [applyDetailId=" + applyDetailId + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", amountDetailId=" + amountDetailId + ", contractId=" + contractId
+				+ ", prepaymentPenalty=" + prepaymentPenalty + ", makeupWay=" + makeupWay + ", payWay=" + payWay
+				+ ", payDepend1=" + payDepend1 + ", payDepend2=" + payDepend2 + ", payDepend3=" + payDepend3
+				+ ", leastPrepayAmount=" + leastPrepayAmount + ", prepayJs=" + prepayJs + ", otherCondition1="
+				+ otherCondition1 + ", otherCondition2=" + otherCondition2 + ", otherCondition3=" + otherCondition3
+				+ ", otherCondition4=" + otherCondition4 + ", thirdLoanAmount=" + thirdLoanAmount + ", totalDebt="
+				+ totalDebt + ", thirdBorrowAmount=" + thirdBorrowAmount + ", thirdGuarant=" + thirdGuarant
+				+ ", stockChange=" + stockChange + ", financialLimit=" + financialLimit + ", wybcbl=" + wybcbl
+				+ ", jmrhsx=" + jmrhsx + ", sfjmrhsx=" + sfjmrhsx + ", zhPjclYq=" + zhPjclYq + "]";
+	}
+    
+    
 }

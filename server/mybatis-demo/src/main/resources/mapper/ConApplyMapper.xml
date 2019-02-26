@@ -73,7 +73,7 @@ UPDATE TB_BIZ_APPROVE a
 SET a.BECOME_EFFECTIVE_MARK = '06' 
 WHERE
 	a.APPROVE_ID = ( SELECT ad.APPROVE_ID FROM TB_BIZ_AMOUNT_DETAIL_APPROVE ad WHERE ad.AMOUNT_DETAIL_ID = #{amountDetailId} ) 
-	AND a.CREDIT_MODE IN ( '03', '05' );
+	AND a.CREDIT_MODE IN ( '03', '05' )
 
 </update>
 
@@ -117,9 +117,9 @@ WHERE
 
 SELECT 
 DISTINCT
-	e.BIZ_TYPE bizType,
-	e.BIZ_TYPE_FLAG bizTypeFlag,
-	e.APPLY_MODE_TYPE applyModeType
+	e.BIZ_TYPE ,
+	e.BIZ_TYPE_FLAG ,
+	e.APPLY_MODE_TYPE 
 	
 FROM
 	tb_con_contract_info b,
@@ -136,8 +136,6 @@ WHERE
 	and b.CONTRACT_ID = #{contractId}
 	
 	
-
-
 </select>
 
 
@@ -304,11 +302,11 @@ SELECT * FROM (
   
 
   <select id="getApproveCons" parameterType="java.util.HashMap" resultMap="ApproveConsVo">
-
+<!-- 这里将源代码中的'' apply_id, 给放开了 -->
 	select '业务合同' biz_type,
 					t.CON_STATUS,
 				 	 t.product_type,
-				 	 '' apply_id,
+				 	 '' apply_id, 
 				 	 t.amount_detail_id,
 		             t.CONTRACT_ID,
 		             t.CONTRACT_NUM,
@@ -322,8 +320,16 @@ SELECT * FROM (
 		        from tb_con_contract_info t
 		        left join (select sum(nvl(jjye,0)) as con_yu_e,CONTRACT_ID from tb_loan_summary where summary_status_cd!='09'  group by CONTRACT_ID) tls on t.CONTRACT_ID=tls.CONTRACT_ID
 		       where t.CON_STATUS = '03'
-		        <!-- and t.user_num= #{userId} -->  		
-		         <include refid="query_ApproveConsVo" />
+		         	and t.user_num= '200555'
+		         	and t.org_num = '0700'
+
+				<if test="partyId !=null and partyId !='' ">
+					and t.PARTY_ID =#{partyId}
+				</if>
+		
+				<if test="contractNum !=null and contractNum !='' "><!-- 合同编号 -->
+					and t.CONTRACT_NUM like '%'||#{contractNum}||'%'
+				</if>
 
   </select>
   

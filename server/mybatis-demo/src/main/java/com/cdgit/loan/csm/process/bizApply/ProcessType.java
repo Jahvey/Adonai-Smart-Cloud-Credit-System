@@ -1,14 +1,17 @@
 package com.cdgit.loan.csm.process.bizApply;
 
-import com.cdgit.loan.csm.process.bizApply.AProcessActions.CrtAction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public enum ProcessType {
-	
-	crt(new CrtAction()); // 合同签约
-	
-	private IProcessAction action;
+@Service
+@Transactional
+public class ProcessType {
 
-	private ProcessType(IProcessAction action) {
+	@Autowired
+	IProcessAction action;
+
+	public ProcessType(IProcessAction action) {
 		this.action = action;
 	}
 
@@ -16,15 +19,15 @@ public enum ProcessType {
 		return action;
 	}
 
-	public static ProcessType get(String type) {
-		ProcessType[] temps = ProcessType.values();
-		for (ProcessType p : temps) {
-			if (p.toString().equals(type)) {
-				return p;
-			}
-		}
-		return null;
-	}
+//	public  ProcessType get(String type) {
+//		ProcessType[] temps = ProcessType.;
+//		for (ProcessType p : temps) {
+//			if (p.toString().equals(type)) {
+//				return p;
+//			}
+//		}
+//		return null;
+//	}
 	
 
 }

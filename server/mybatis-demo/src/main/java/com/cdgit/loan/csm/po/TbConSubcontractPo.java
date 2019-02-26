@@ -402,4 +402,21 @@ public class TbConSubcontractPo {//TB_CON_SUBCONTRACT
         this.dbRate = dbRate;
     }
 
+	@Override
+	public String toString() {
+		return "TbConSubcontractPo [subcontractId=" + subcontractId + ", subcontractNum=" + subcontractNum
+				+ ", subcontractManualNum=" + subcontractManualNum + ", subcontractType=" + subcontractType
+				+ ", subcontractStatus=" + subcontractStatus + ", ifTopSubcon=" + ifTopSubcon + ", signDate=" + signDate
+				+ ", beginDate=" + beginDate + ", endDate=" + endDate + ", subcontractAmt=" + subcontractAmt
+				+ ", userNum=" + userNum + ", orgNum=" + orgNum + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", partyId=" + partyId + ", bz=" + bz + ", zgbjxe=" + zgbjxe + ", jggzrbldj=" + jggzrbldj
+				+ ", zfwyjbl=" + zfwyjbl + ", changePercent=" + changePercent + ", jrncrbzj=" + jrncrbzj + ", bzjje="
+				+ bzjje + ", bzjbl=" + bzjbl + ", bzjlx=" + bzjlx + ", aylljx=" + aylljx + ", anlljx=" + anlljx
+				+ ", jrtzkh=" + jrtzkh + ", aviAmt=" + aviAmt + ", totalAmt=" + totalAmt + ", paperConNum="
+				+ paperConNum + ", bzjjxzq=" + bzjjxzq + ", conPartyId=" + conPartyId + ", ifDataMove=" + ifDataMove
+				+ ", qtjsxfs=" + qtjsxfs + ", proguarantyWay=" + proguarantyWay + ", proguarantyType=" + proguarantyType
+				+ ", proguarantyForm=" + proguarantyForm + ", subScope=" + subScope + ", dbRate=" + dbRate + "]";
+	}
+
+    
 }

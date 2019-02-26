@@ -5,8 +5,6 @@ import java.util.Date;
 
 import com.cdgit.loan.common.util.BigDecimalConvertToString;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
@@ -36,6 +34,14 @@ public class NaturalPersonCollateral {
 	@JsonFormat(pattern= "yyyy-MM-dd",timezone="GMT+8")
 	private Date timeMark;//建档日期
 	
+	private String isBind;//是否已经绑定业务
+	
+	public String getIsBind() {
+		return isBind;
+	}
+	public void setIsBind(String isBind) {
+		this.isBind = isBind;
+	}
 	public String getPartyNum() {
 		return partyNum;
 	}

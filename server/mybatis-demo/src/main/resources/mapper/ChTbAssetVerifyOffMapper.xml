@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.ledger.asset.mapper.ChTbAssetVerifyOffMapper">
-  <resultMap id="BaseResultMap" type="com.cdgit.ledger.asset.bean.ChSelectWriteOffResult">
+<mapper namespace="com.cdgit.loan.ledger.asset.mapper.ChTbAssetVerifyOffMapper">
+  <resultMap id="BaseResultMap" type="com.cdgit.loan.ledger.asset.bean.ChSelectWriteOffResult">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <id column="LOAN_ID" jdbcType="VARCHAR" property="loanId" />
     <result column="PLAN_NUM" jdbcType="VARCHAR" property="planNum" />

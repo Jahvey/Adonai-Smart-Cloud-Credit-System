@@ -4,9 +4,9 @@
 package com.cdgit.loan.csm.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.cdgit.loan.csm.bean.CsmBizListVo;
 
@@ -17,6 +17,6 @@ import com.cdgit.loan.csm.bean.CsmBizListVo;
 @Mapper
 public interface CsmBizListMapper {
 
-	List<CsmBizListVo> getBizList(Map map);
+	List<CsmBizListVo> getBizList(@Param(value = "partyId") String partyId);
 		
 }

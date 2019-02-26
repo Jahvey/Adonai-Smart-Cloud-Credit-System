@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdgit.loan.securitymanagerment.mapper.GrtDepositMapper">
+<mapper namespace="com.cdgit.loan.securitymanagement.mapper.GrtDepositMapper">
   <resultMap id="BaseResultMap" type="com.cdgit.loan.securitymanagement.bean.GrtDeposit">
     <id column="GUARANTY_ID" jdbcType="VARCHAR" property="guarantyId" />
     <result column="DEPOSIT_RECEIPT_NUM" jdbcType="VARCHAR" property="depositReceiptNum" />
