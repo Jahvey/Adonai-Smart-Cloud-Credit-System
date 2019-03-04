@@ -2,6 +2,7 @@ package com.cdgit.loan.csm.process.cons;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import com.cdgit.loan.common.util.uid.UUIDGenerator;
 import com.cdgit.loan.csm.bean.CsmConDetailVo;
 import com.cdgit.loan.csm.mapper.ConApplyMapper;
 import com.cdgit.loan.csm.mapper.CsmConDetailVoMapper;
+import com.cdgit.loan.csm.mapper.CsmCreditReckonMapper;
 import com.cdgit.loan.csm.mapper.CsmRuleEngineMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizAmountDetailApproveMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizAmountLoanrateApproveMapper;
@@ -52,6 +54,7 @@ import com.cdgit.loan.csm.mapper.CsmTbConBhPoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbConCktsyhPoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbConCkxyzyhPoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbConContractInfoMapper;
+import com.cdgit.loan.csm.mapper.CsmTbConFlagInfoPoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbConFrzhtzPoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbConGdzcdkPoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbConGjfftPoMapper;
@@ -106,6 +109,7 @@ import com.cdgit.loan.csm.po.CsmTbConBgdkPo;
 import com.cdgit.loan.csm.po.CsmTbConBhPo;
 import com.cdgit.loan.csm.po.CsmTbConCktsyhPo;
 import com.cdgit.loan.csm.po.CsmTbConCkxyzyhPo;
+import com.cdgit.loan.csm.po.CsmTbConFlagInfoPo;
 import com.cdgit.loan.csm.po.CsmTbConFrzhtzPo;
 import com.cdgit.loan.csm.po.CsmTbConGdzcdkPo;
 import com.cdgit.loan.csm.po.CsmTbConGjfftPo;
@@ -134,9 +138,17 @@ import com.cdgit.loan.csm.po.TbBizSummaryPo;
 import com.cdgit.loan.csm.po.TbConContractInfoPo;
 import com.cdgit.loan.csm.po.TbLoanSummaryPo;
 import com.cdgit.loan.csm.process.accInfo.ContractSub;
+import com.cdgit.loan.csm.process.apply.ApplyDaoUtil;
 import com.cdgit.loan.csm.process.products.ProductUtil;
+import com.cdgit.loan.csm.pub.DateUtil;
+import com.cdgit.loan.csm.pub.MoneyUtil;
+import com.cdgit.loan.csm.pub.credit.reckon.BizDtlCreditReckonVo;
+import com.cdgit.loan.csm.pub.credit.reckon.ConCreditReckonVo;
+import com.cdgit.loan.csm.pub.credit.reckon.CrdDtlCreditReckonVo;
 import com.cdgit.loan.csm.pub.gitUtils.CommonUtils;
 import com.cdgit.loan.csm.pub.gitUtils.GitUtils;
+
+import ch.qos.logback.core.db.dialect.DBUtil;
 
 
 @Service
@@ -339,6 +351,30 @@ public class ConInfoCreateDao {//ConDao0001
 	
 	@Autowired
 	CsmRuleEngineMapper csmRuleEngineMapper;
+	
+	@Autowired
+	CsmTbConFlagInfoPoMapper csmTbConFlagInfoPoMapper;
+	
+	@Autowired
+	MoneyUtil moneyUtil;
+	
+	@Autowired
+	ConCreditReckonVo conCreditReckonVo;
+	
+	@Autowired
+	DateUtil dateUtil;
+	
+	@Autowired
+	ApplyDaoUtil applyDaoUtil;
+	
+	@Autowired
+	CsmCreditReckonMapper csmCreditReckonMapper;
+	
+	@Autowired
+	BizDtlCreditReckonVo bizDtlCreditReckonVo;
+	
+	@Autowired
+	CrdDtlCreditReckonVo crdDtlCreditReckonVo;
 
 	@Transactional
 	public TbConContractInfoPo create(Map<String, Object> apply) {//TODO 待测这个是创建合同的核心方法。。。。。。。。。。
@@ -896,6 +932,125 @@ public class ConInfoCreateDao {//ConDao0001
 		dataMap.put("db_bizDtl", bizDtl);
 		return null;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public TbConContractInfoPo update(HashMap<String, Object> dataMap) {
+
+		HashMap<String,Object> conInfo = (HashMap<String, Object>) dataMap.get("conInfo");
+		HashMap<String,Object> conFlags = (HashMap<String, Object>)dataMap.get("tbConFlagInfo");
+		
+		TbConContractInfoPo con = csmTbConContractInfoMapper.selectByPrimaryKey((String)conInfo.get("contractId"));
+		CsmTbConFlagInfoPo conFlag = csmTbConFlagInfoPoMapper.selectByPrimaryKey((String)conFlags.get("flagId"));
+//		con.set("amt", con.get("contractAmt"));
+//		MoneyUtil.validRmb(con);
+		HashMap<String,Object> conMap = new HashMap<String,Object>();
+		conMap.put("amt", con.getContractAmt());
+		conMap.put("rmbAmt", con.getRmbAmt());
+		conMap.put("exchangeRate", con.getExchangeRate());
+		conMap.put("currencyCd", con.getCurrencyCd());
+		
+		HashMap<String,Object> validRmb = moneyUtil.validRmb(conMap);
+		con.setExchangeRate((BigDecimal)validRmb.get("exchangeRate"));
+		con.setRmbAmt((BigDecimal)validRmb.get("rmbAmt"));
+		
+		//数据库表中查询出来的字段
+		TbConContractInfoPo dbCon = csmTbConContractInfoMapper.selectByPrimaryKey(con.getContractId());
+
+		if(!"01".equals(dbCon.getConStatus())){
+			throw new RuntimeException("非[未提交]状态数据不允许操作");
+		}
+		
+		if(conCreditReckonVo.isOpenGobProduct(dbCon.getProductType())){
+			//conInfo.put("amountDetailId", con.getAmountDetailId());
+			Integer ruleRCON_0205 = csmRuleEngineMapper.ruleRCON_0205(con.getAmountDetailId());
+			
+			if(new BigDecimal(ruleRCON_0205).compareTo(con.getBzjbl())!=1){
+				throw new RuntimeException("[RCON_0205]合同保证金比例必须大于业务保证金比例!");
+			}
+			
+		}
+		
+		if(con.getJxhjId()!=null){
+			valid06(con,dbCon);
+		}else if(con.getOldContractId()!=null){
+			valid04(con,dbCon);
+		}else{
+			valid01(con,dbCon);
+		}
+		
+		con.setUpdateTime(gitUtils.getCurrDate());
+		//con.setBeginDate(beginDate);dateUtil.StringToDate(, "yyyy-MM-dd HH:mm:ss");
+		
+		csmTbConContractInfoMapper.updateByPrimaryKeySelective(con.getContractId());
+		csmTbConFlagInfoPoMapper.updateByPrimaryKeySelective(conFlag);
+		return con;
+		
+	}
+	
+	
+	
+	
+	public  void valid06(TbConContractInfoPo con,TbConContractInfoPo dbCon) {
+		List<BigDecimal> datas = conApplyMapper.getJxhjAmt(dbCon.getJxhjId());
+		
+		//Object[] datas = DatabaseExt.queryByNamedSql(DBUtil.DB_NAME_DEF, "com.bos.conApply.conApply.getJxhjAmt", dbCon.getString("jxhjId"));
+		if (datas == null || datas.size() == 0 || datas.get(0) == null) {
+			throw new RuntimeException("未找到循环通合同对应的原有借据余额数据");
+		}
+		if (con.getRmbAmt().compareTo( datas.get(0)) > 0) {
+			throw new RuntimeException("循环通合同申请金额不能大于原借据余额[" + datas.get(0) + "]");
+		}
+		
+		BigDecimal openGod = conCreditReckonVo.getOpenGob(con);
+
+		con.setConOccupy(openGod);
+	}
+
+	public  void valid04(TbConContractInfoPo con,TbConContractInfoPo dbCon) {
+		HashMap<String,Object> oldMap = conCreditReckonVo.getCreditMap(con.getOldContractId());
+		
+
+		BigDecimal oldAmt = (BigDecimal) oldMap.get("RMB_AMT");
+		BigDecimal oldOpenGod = conCreditReckonVo.getOpenGob((BigDecimal) oldMap.get("RMB_AMT"), (BigDecimal) oldMap.get("ASSURE_PER"), (String) oldMap.get("PRODUCT_TYPE"));
+		BigDecimal openGod = conCreditReckonVo.getOpenGob(con);
+		BigDecimal rmbAmt = con.getRmbAmt();
+		if (applyDaoUtil.isZhsx(dbCon.getCreditMode())) {
+			if (openGod.compareTo(BigDecimal.ZERO) > 0 && openGod.compareTo(oldOpenGod) > 0) {
+				crdDtlCreditReckonVo.validBoUse(dbCon.getCrdDtlId(), openGod.subtract(oldOpenGod));
+			}
+		}
+		if (rmbAmt.compareTo(oldAmt) > 0 && !ApplyDaoUtil.CREDIT_MODE_UNITE.equals(dbCon.getCreditMode())) {
+			bizDtlCreditReckonVo.validBoUse(dbCon.getAmountDetailId(), rmbAmt.subtract(oldAmt));
+		}
+		
+		con.setConOccupy(openGod);
+
+	}
+
+	public  void valid01(TbConContractInfoPo con,TbConContractInfoPo dbCon) {
+		if (!ApplyDaoUtil.CREDIT_MODE_UNITE.equals(dbCon.getCreditMode())) { //"02"  额度类型-一体化
+			bizDtlCreditReckonVo.validBoUse(dbCon.getAmountDetailId(), con.getRmbAmt());
+		}
+
+		BigDecimal assurePer = con.getBzjbl();
+		if (assurePer != null && assurePer.compareTo(BigDecimal.ZERO) > 0) {
+			if (!con.getGuarantyType().contains("05")) {
+				throw new RuntimeException("欲填写保证金比例，请先勾选[保证金]担保方式");
+			}
+		}
+		BigDecimal conOpenAmt = conCreditReckonVo.getOpenGob(con);
+		if (applyDaoUtil.isZhsx(dbCon.getCreditMode())) {
+			crdDtlCreditReckonVo.validBoUse(dbCon.getCrdDtlId(), conOpenAmt);
+		}
+		
+		con.setConOccupy(conOpenAmt);
+	
+	}
+	
+	
+	
+	
+	
 	
 	
 

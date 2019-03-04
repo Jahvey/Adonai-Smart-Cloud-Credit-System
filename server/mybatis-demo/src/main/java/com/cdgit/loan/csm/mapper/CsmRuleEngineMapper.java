@@ -80,5 +80,10 @@ public interface CsmRuleEngineMapper {
 	//RCON_0003" name="合同基本信息未保存" checktype="ineqn" checkedFieldName="$c" targetDataList="0" errCode="2015110-001" errMsg="合同基本信息未保存" 
 	Integer ruleRCON_0003(String contractId);
 	
+	//RCON_0205" name="合同保证金比例必须大于业务保证金比例" checktype="ge" checkedFieldName="@bzjbl" startValue="$BIZ_ASSURE_PER" errCode="2015110-001" errMsg="合同保证金比例必须大于业务保证金比例$[BIZ_ASSURE_PER]" 
+	Integer ruleRCON_0205(String amountDetailId);
+	
+	//RCON_0089" name="校验该笔合同是否出账成功" checktype="eqn" checkedFieldName="$c" targetDataList="0" errCode="2015110-001" errMsg="该合同已出账成功合同调整不允许调整金额"
+	Integer ruleRCON_0089(String contractId);
 	
 }

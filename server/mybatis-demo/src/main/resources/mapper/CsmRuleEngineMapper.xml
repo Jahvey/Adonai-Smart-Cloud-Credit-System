@@ -246,6 +246,19 @@ select count(*) as c from tb_con_contract_info r where r.contract_id =#{contract
 </select>
 
 
+<!-- 合同保证金比例必须大于业务保证金比例 -->
+<select id="ruleRCON_0205" parameterType="java.lang.String" resultType="java.lang.Integer">
 
+SELECT NVL(bd.ASSURE_PER,0) BIZ_ASSURE_PER FROM TB_BIZ_AMOUNT_DETAIL_APPROVE bd WHERE bd.AMOUNT_DETAIL_ID=#{amountDetailId}
+</select>
+
+<!-- 校验该笔合同是否出账成功 -->
+<select id="ruleRCON_0089" parameterType="java.lang.String" resultType="java.lang.Integer">
+
+select count(*) c 
+from tb_loan_info r  
+where r.loan_status = '03'
+and r.contract_id = #{contractId}
+</select>
 
 </mapper>

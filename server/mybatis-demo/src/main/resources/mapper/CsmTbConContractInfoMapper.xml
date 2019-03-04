@@ -65,7 +65,7 @@
   
   
   
-  <select id="queryOneCsmTbConContractInfoByConId" parameterType="java.lang.String" resultMap="csmTbConContractInfoPo">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="csmTbConContractInfoPo">
   select 
   *
   from 
@@ -475,6 +475,185 @@
     </trim>
   </insert>
 
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.cdgit.loan.csm.po.TbConContractInfoPo">
+    update CRMS.TB_CON_CONTRACT_INFO
+    <set>
+
+      <if test="amountDetailId != null">
+        #{amountDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNum != null">
+        #{contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="contractAddress != null">
+        #{contractAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="partyId != null">
+        #{partyId,jdbcType=VARCHAR},
+      </if>
+      <if test="oldContractId != null">
+        #{oldContractId,jdbcType=VARCHAR},
+      </if>
+      <if test="currencyCd != null">
+        #{currencyCd,jdbcType=VARCHAR},
+      </if>
+      <if test="contractAmt != null">
+        #{contractAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="contractTerm != null">
+        #{contractTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleUnit != null">
+        #{cycleUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null">
+        #{beginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contractDate != null">
+        #{contractDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanUse != null">
+        #{loanUse,jdbcType=VARCHAR},
+      </if>
+      <if test="guarantyType != null">
+        #{guarantyType,jdbcType=VARCHAR},
+      </if>
+      <if test="loanTurn != null">
+        #{loanTurn,jdbcType=VARCHAR},
+      </if>
+      <if test="userNum != null">
+        #{userNum,jdbcType=VARCHAR},
+      </if>
+      <if test="orgNum != null">
+        #{orgNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productType != null">
+        #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="conStatus != null">
+        #{conStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="trusToPayFlg != null">
+        #{trusToPayFlg,jdbcType=VARCHAR},
+      </if>
+      <if test="stopPayFlg != null">
+        #{stopPayFlg,jdbcType=VARCHAR},
+      </if>
+      <if test="specPaymentDate != null">
+        #{specPaymentDate,jdbcType=DECIMAL},
+      </if>
+      <if test="exchangeRate != null">
+        #{exchangeRate,jdbcType=DECIMAL},
+      </if>
+      <if test="rmbAmt != null">
+        #{rmbAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="conBalance != null">
+        #{conBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="cycleIndCon != null">
+        #{cycleIndCon,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentType != null">
+        #{repaymentType,jdbcType=VARCHAR},
+      </if>
+      <if test="tkDate != null">
+        #{tkDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="holidayFlg != null">
+        #{holidayFlg,jdbcType=VARCHAR},
+      </if>
+      <if test="mainGuarantyType != null">
+        #{mainGuarantyType,jdbcType=VARCHAR},
+      </if>
+      <if test="xyId != null">
+        #{xyId,jdbcType=VARCHAR},
+      </if>
+      <if test="paperConNum != null">
+        #{paperConNum,jdbcType=VARCHAR},
+      </if>
+      <if test="internalDays != null">
+        #{internalDays,jdbcType=DECIMAL},
+      </if>
+      <if test="clsResult != null">
+        #{clsResult,jdbcType=VARCHAR},
+      </if>
+      <if test="ifDataMove != null">
+        #{ifDataMove,jdbcType=VARCHAR},
+      </if>
+      <if test="firstRepayTerm != null">
+        #{firstRepayTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="conYuE != null">
+        #{conYuE,jdbcType=DECIMAL},
+      </if>
+      <if test="payWay != null">
+        #{payWay,jdbcType=VARCHAR},
+      </if>
+      <if test="payDepend1 != null">
+        #{payDepend1,jdbcType=VARCHAR},
+      </if>
+      <if test="payDepend2 != null">
+        #{payDepend2,jdbcType=VARCHAR},
+      </if>
+      <if test="payDepend3 != null">
+        #{payDepend3,jdbcType=VARCHAR},
+      </if>
+      <if test="prepaymentPenalty != null">
+        #{prepaymentPenalty,jdbcType=VARCHAR},
+      </if>
+      <if test="prepayMakeupRate != null">
+        #{prepayMakeupRate,jdbcType=DECIMAL},
+      </if>
+      <if test="leastPrepayAmount != null">
+        #{leastPrepayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="prepayJs != null">
+        #{prepayJs,jdbcType=DECIMAL},
+      </if>
+      <if test="bzjbl != null">
+        #{bzjbl,jdbcType=DECIMAL},
+      </if>
+      <if test="crdCent != null">
+        #{crdCent,jdbcType=VARCHAR},
+      </if>
+      <if test="applyModeType != null">
+        #{applyModeType,jdbcType=VARCHAR},
+      </if>
+      <if test="lowRiskBizType != null">
+        #{lowRiskBizType,jdbcType=VARCHAR},
+      </if>
+      <if test="agriculLoans != null">
+        #{agriculLoans,jdbcType=VARCHAR},
+      </if>
+      <if test="conOccupy != null">
+        #{conOccupy,jdbcType=DECIMAL},
+      </if>
+      <if test="crdDtlId != null">
+        #{crdDtlId,jdbcType=VARCHAR},
+      </if>
+      <if test="creditMode != null">
+        #{creditMode,jdbcType=VARCHAR},
+      </if>
+      <if test="creditStatus != null">
+        #{creditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="jxhjId != null">
+        #{jxhjId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CONTRACT_ID = #{contractId,jdbcType=VARCHAR}
+  </update>
 
   
 </mapper>

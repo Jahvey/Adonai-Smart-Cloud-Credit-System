@@ -135,7 +135,7 @@ public class SubProcessController {
 	
 	@GetMapping("/queryOneCsmTbConContractInfoByConId1")
 	public TbConContractInfoPo queryOneCsmTbConContractInfoByConId1(String contractId){
-		return csmTbConContractInfoMapper.queryOneCsmTbConContractInfoByConId(contractId);
+		return csmTbConContractInfoMapper.selectByPrimaryKey(contractId);
 		
 	}
 	

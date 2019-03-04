@@ -32,7 +32,7 @@ public class ConContractInfo {
 		HashMap<String,Object> map = new HashMap<String,Object>();
 
 		
-		TbConContractInfoPo tbConContractInfo = csmTbConContractInfoMapper.queryOneCsmTbConContractInfoByConId(contractId);
+		TbConContractInfoPo tbConContractInfo = csmTbConContractInfoMapper.selectByPrimaryKey(contractId);
 		String cycleIndCon=tbConContractInfo.getCycleIndCon();
 		String productType=tbConContractInfo.getProductType();
 		TbBizProductInfoPo tbBizProductInfo = bizProductDetail.getProductInfo(productType);

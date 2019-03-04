@@ -3,6 +3,7 @@
  */
 package com.cdgit.loan.csm.process.conInfo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cdgit.loan.csm.bean.CsmConInfoHtVoQuery;
 import com.cdgit.loan.csm.mapper.ConApplyMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizAmountApproveMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizAmountDetailApproveMapper;
@@ -19,13 +19,16 @@ import com.cdgit.loan.csm.mapper.CsmTbConContractInfoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbConCreditInfoPoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbConFlagInfoPoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbCsmPartyPoMapper;
+import com.cdgit.loan.csm.mapper.CsmTbSysExchangeRatePoMapper;
 import com.cdgit.loan.csm.po.CsmTbConCreditInfoPo;
 import com.cdgit.loan.csm.po.CsmTbConFlagInfoPo;
 import com.cdgit.loan.csm.po.CsmTbCsmPartyPo;
+import com.cdgit.loan.csm.po.CsmTbSysExchangeRatePo;
 import com.cdgit.loan.csm.po.TbBizAmountApprovePo;
 import com.cdgit.loan.csm.po.TbBizAmountDetailApprovePo;
 import com.cdgit.loan.csm.po.TbBizApprovePo;
 import com.cdgit.loan.csm.po.TbConContractInfoPo;
+import com.cdgit.loan.csm.pub.DateUtil;
 import com.cdgit.loan.csm.pub.gitUtils.CommonUtils;
 import com.cdgit.loan.csm.pub.gitUtils.GitUtils;
 
@@ -70,6 +73,12 @@ public class ConInfoSxxy {
 	
 	@Autowired
 	CommonUtils commonUtils; 
+	
+	@Autowired
+	CsmTbSysExchangeRatePoMapper csmTbSysExchangeRatePoMapper;
+	
+	@Autowired
+	DateUtil dateUtil;
 	
 
 	
@@ -134,7 +143,7 @@ public class ConInfoSxxy {
 		}else{
 			//是
 			//查询业务合同信息
-			TbConContractInfoPo tbConContractInfo = csmTbConContractInfoMapper.queryOneCsmTbConContractInfoByConId(contractId);
+			TbConContractInfoPo tbConContractInfo = csmTbConContractInfoMapper.selectByPrimaryKey(contractId);
 			
 			if(null==tbConContractInfo.getContractDate()){
 				Date handlingDate = gitUils.getBusiDate();
@@ -219,59 +228,7 @@ public class ConInfoSxxy {
 			resultMap.put("proFlag1", proFlag1);
 			resultMap.put("bizInfo", bizInfo);
 			resultMap.put("bizDtlInfo", bizDtlInfo);
-			
-			CsmConInfoHtVoQuery csmConInfoHtVoQuery= new CsmConInfoHtVoQuery();
-			csmConInfoHtVoQuery.setPartyName(party.getPartyName());
-			csmConInfoHtVoQuery.setPartyNum(party.getPartyNum());
-			csmConInfoHtVoQuery.setProductType(tbConContractInfo.getProductType());
-			csmConInfoHtVoQuery.setContractNum(tbConContractInfo.getContractNum());
-			csmConInfoHtVoQuery.setPaperConNum(tbConContractInfo.getPaperConNum());
-			csmConInfoHtVoQuery.setOldContractNum(tbConContractInfo.getOldContractId());
-			csmConInfoHtVoQuery.setCurrencyCd(tbConContractInfo.getCurrencyCd());
-			csmConInfoHtVoQuery.setContractAmt(tbConContractInfo.getContractAmt());
-			csmConInfoHtVoQuery.setBzjbl(tbConContractInfo.getBzjbl());
-			csmConInfoHtVoQuery.setBeginDate(tbConContractInfo.getBeginDate());
-			csmConInfoHtVoQuery.setContractTerm(tbConContractInfo.getContractTerm());
-			csmConInfoHtVoQuery.setCycleUnit(tbConContractInfo.getCycleUnit());
-			csmConInfoHtVoQuery.setEndDate(tbConContractInfo.getEndDate());
-			csmConInfoHtVoQuery.setRepaymentType(tbConContractInfo.getRepaymentType());
-			csmConInfoHtVoQuery.setFirstRepayTerm(tbConContractInfo.getFirstRepayTerm());
-			csmConInfoHtVoQuery.setSpecPaymentDate(tbConContractInfo.getSpecPaymentDate());
-			csmConInfoHtVoQuery.setInternalDays(tbConContractInfo.getInternalDays());
-			csmConInfoHtVoQuery.setCycleIndCon(tbConContractInfo.getCycleIndCon());
-			csmConInfoHtVoQuery.setContractDate(tbConContractInfo.getContractDate());
-			csmConInfoHtVoQuery.setContractAddress(tbConContractInfo.getContractAddress());
-			csmConInfoHtVoQuery.setLoanUse(tbConContractInfo.getLoanUse());
-			csmConInfoHtVoQuery.setExchangeRate(tbConContractInfo.getExchangeRate());
-			csmConInfoHtVoQuery.setRmbAmt(tbConContractInfo.getRmbAmt());
-			csmConInfoHtVoQuery.setGuarantyType(tbConContractInfo.getGuarantyType());
-			csmConInfoHtVoQuery.setMainGuarantyType(tbConContractInfo.getMainGuarantyType());
-			csmConInfoHtVoQuery.setAgriculLoans(tbConContractInfo.getAgriculLoans());
-			
-			//标志信息
-			csmConInfoHtVoQuery.setLoanTurn(tbConFlagInfo.getLoanTurn());
-			csmConInfoHtVoQuery.setRiskInfo(tbConFlagInfo.getRiskInfo());
-			csmConInfoHtVoQuery.setAct(tbConFlagInfo.getAct());
-			csmConInfoHtVoQuery.setServiceType(tbConFlagInfo.getServiceType());
-			csmConInfoHtVoQuery.setReduceAmount(tbConFlagInfo.getReduceAmount());
-			csmConInfoHtVoQuery.setAjustType(tbConFlagInfo.getAjustType());
-			csmConInfoHtVoQuery.setUpgradeType(tbConFlagInfo.getUpgradeType());
-			csmConInfoHtVoQuery.setNewProductType(tbConFlagInfo.getNewProductType());
-			csmConInfoHtVoQuery.setRhbzffl(tbConFlagInfo.getRhbzffl());
-			csmConInfoHtVoQuery.setYjbzffl(tbConFlagInfo.getYjbzffl());
-			csmConInfoHtVoQuery.setWhetherArgRelated(tbConFlagInfo.getWhetherArgRelated());
-			csmConInfoHtVoQuery.setArgType(tbConFlagInfo.getArgType());
-			csmConInfoHtVoQuery.setSupArgType(tbConFlagInfo.getSupArgType());
-			csmConInfoHtVoQuery.setGreenLoan(tbConFlagInfo.getGreenLoan());
-			csmConInfoHtVoQuery.setGreenLoanUse(tbConFlagInfo.getGreenLoanUse());
-			csmConInfoHtVoQuery.setGreenRiskType(tbConFlagInfo.getGreenRiskType());
-			csmConInfoHtVoQuery.setGreenRiskDetail01(tbConFlagInfo.getGreenRiskDetail());
-			csmConInfoHtVoQuery.setGreenRiskDetail02(tbConFlagInfo.getGreenRiskDetail());
-			csmConInfoHtVoQuery.setGreenRiskDetail04(tbConFlagInfo.getGreenRiskDetail());
-			
-			
-			resultMap.put("CsmConInfoHtVo", csmConInfoHtVoQuery);
-			
+		
 		}
 		
 		
@@ -279,6 +236,42 @@ public class ConInfoSxxy {
 
 		return resultMap;
 		
+	}
+	
+	/**
+	 * 
+	 * @param bz 币种
+	 * @return
+	 */
+	//牌价查询---获取当前币种的汇率信息 2019/02/26
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public HashMap<String, Object> getChangeRate(String bz){
+		HashMap<String,Object> hashMap = new HashMap<String,Object>();
+		
+		String validityInd="";//生效标志
+		BigDecimal disRateOfRmb=new BigDecimal("0");//折算人民币
+		String msg="";
+		//得到了汇率信息
+		CsmTbSysExchangeRatePo tbSysExchangeRate = csmTbSysExchangeRatePoMapper.selectByPrimaryKey(bz);
+		//拿到汇率折算日期
+		Date disCountDate = tbSysExchangeRate.getDiscountDate();
+		
+		Date workDate = gitUils.getBusiDate();
+		String workDateStr = dateUtil.format(workDate, "yyyyMMdd");
+		String disCountDateStr = dateUtil.format(disCountDate, "yyyyMMdd");
+		
+		if(!workDateStr.equals(disCountDateStr)){
+			msg="未获取到最新的汇率信息";
+		}
+		
+		disRateOfRmb=tbSysExchangeRate.getDiscountRateOfRmb();
+		validityInd=tbSysExchangeRate.getValidityInd();
+		
+		hashMap.put("validityInd", validityInd);
+		hashMap.put("disRateOfRmb", disRateOfRmb);
+		hashMap.put("msg", msg);
+		
+		return hashMap;
 	}
 	
 	

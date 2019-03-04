@@ -24,7 +24,7 @@ public class CrtAction {
 	public ProcessParam action(String bizId) {
 		ProcessParam param = new ProcessParam(bizId);
 		System.err.println("将bizID做为contractId传入。。。[contractId]"+bizId);
-		TbConContractInfoPo entity = csmTbConContractInfoMapper.queryOneCsmTbConContractInfoByConId(bizId);
+		TbConContractInfoPo entity = csmTbConContractInfoMapper.selectByPrimaryKey(bizId);
 		String oldConId=null;
 		if(null!=entity){
 			System.err.println("执行合同调整的entity:"+entity);

@@ -144,5 +144,152 @@ public class GitUtils {
 		}
 		return false;
 	}
+	
+	
+	/**
+	 * 按期限单位计算起始日期加到期限，得到到期日期
+	 * 
+	 * @param qxdw
+	 *            期限单位（Y 年,J 季,M 月,D 天）
+	 * @param qx
+	 *            期限
+	 * @param rq
+	 *            起始日期 yyyy-mm-dd
+	 * @return 到期日期 yyyy-mm-dd
+	 * @throws Exception
+	 */
+	//"日期函数加法，返回日期"
+	public  String addDate(String qxdw, int qx, String rq) throws Exception{
+		Calendar cl = Calendar.getInstance();
+		cl.set(Integer.parseInt(rq.substring(0, 4)), (Integer.parseInt(rq.substring(5, 7)) - 1), Integer.parseInt(rq.substring(8, 10)));
+		if ("Y".equals(qxdw)) {
+			cl.add(Calendar.YEAR, qx);
+		} else if ("J".equals(qxdw)) {
+			cl.add(Calendar.MONTH, qx * 3);
+		} else if ("M".equals(qxdw)) {
+			cl.add(Calendar.MONTH, qx);
+		} else if ("D".equals(qxdw)) {
+			cl.add(Calendar.DAY_OF_MONTH, qx);
+		} else {
+			return "";
+		}
+		return cl.get(Calendar.YEAR) + "-" + (cl.get(Calendar.MONTH) < 9 ? "0" : "") + (cl.get(Calendar.MONTH) + 1) + "-" + (cl.get(Calendar.DAY_OF_MONTH) < 10 ? "0" : "") + cl.get(Calendar.DAY_OF_MONTH);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * 按期限单位计算两日期间期限
+	 * 
+	 * @param qxdw
+	 *            期限单位（Y 年,M 月,D 天）
+	 * @param qsrq
+	 *            起始日期 yyyy-mm-dd
+	 * @param dqrq
+	 *            到期日期 yyyy-mm-dd
+	 * @return 期限
+	 * @throws Exception
+	 */
+	//"两日期函数计算期限，返回期限"
+	public  int retDateTerm(String qxdw, String qsrq, String dqrq) throws Exception {
+		int a = 0;
+		if ("Y".equals(qxdw)) {
+			a = accountDateYear(qsrq, dqrq);
+		} else if ("M".equals(qxdw)) {
+			a = accountDateMoth(qsrq, dqrq);
+		} else if ("D".equals(qxdw)) {
+			a = (int) getDistDates(qsrq, dqrq);
+		}
+		return a;
+	}
+
+	/**
+	 * 两日期间计算天数
+	 * 
+	 * @param start
+	 * @param end
+	 * @return
+	 * @throws ParseException
+	 */
+	public  long getDistDates(String start, String end) throws Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date startDate = sdf.parse(start);
+		java.util.Date endDate = sdf.parse(end);
+		return getDistDates(startDate, endDate);
+	}
+
+	/**
+	 * 两日期间计算天数
+	 * 
+	 * @param start
+	 * @param end
+	 * @return
+	 * @throws ParseException
+	 */
+	public  long getDistDates(java.util.Date startDate, java.util.Date endDate) {
+		long totalDate = 0;
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(startDate);
+		long timestart = calendar.getTimeInMillis();
+		calendar.setTime(endDate);
+		long timeend = calendar.getTimeInMillis();
+		totalDate = Math.abs((timeend - timestart)) / (1000 * 60 * 60 * 24);
+		return totalDate;
+	}
+
+	/**
+	 * 日期差值计算 月
+	 * 
+	 * @param qsrq
+	 *            起始日期 YYYY-MM-DD
+	 * @param bjrq
+	 *            到期日期 YYYY-MM-DD
+	 * @return
+	 * @throws Exception
+	 */
+	public  int accountDateMoth(String qsrq, String bjrq) throws Exception {
+
+		String[] s1 = qsrq.split("-");
+		String[] s2 = bjrq.split("-");
+		int year1 = Integer.parseInt(s1[0]);
+		int year2 = Integer.parseInt(s2[0]);
+		if (year2 - year1 < 0) {
+			throw new Exception("输入的终止日期年份小于起始日期的年份");
+		}
+		int a = 12 * (year2 - year1);
+		int month1 = Integer.parseInt(s1[1]);
+		int month2 = Integer.parseInt(s2[1]);
+		int b = month2 - month1;
+		int day1 = Integer.parseInt(s1[2]);
+		int day2 = Integer.parseInt(s2[2]);
+		int c = a + b;
+		if (day2 - day1 > 0) {
+			c = a + b + 1;
+		}
+		return c;
+
+	}
+
+	/**
+	 * 日期差值计算 年
+	 * 
+	 * @param qsrq
+	 *            起始日期 YYYY-MM-DD
+	 * @param bjrq
+	 *            到期日期 YYYY-MM-DD
+	 * @return
+	 * @throws Exception
+	 */
+	public  int accountDateYear(String qsrq, String bjrq) throws Exception {
+		double a = accountDateMoth(qsrq, bjrq);
+		double c = a / 12;
+		return (int) Math.ceil(c);
+	}
+	
+	
+	
+	
 
 }

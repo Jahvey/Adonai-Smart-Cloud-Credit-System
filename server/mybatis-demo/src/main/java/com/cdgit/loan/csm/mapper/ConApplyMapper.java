@@ -3,6 +3,7 @@
  */
 package com.cdgit.loan.csm.mapper;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,9 @@ public interface ConApplyMapper {
 	
 	//合同失效处理非综合授信批复失效
 	int updateCancelPF(String amountDetailId);
+	
+	
+	List<BigDecimal> getJxhjAmt(String contractId);
 	
 	
 }

@@ -96,7 +96,7 @@ public class ConApply {
 		String msg="";
 		
 		//查询合同
-		TbConContractInfoPo conInfo = csmTbConContractInfoMapper.queryOneCsmTbConContractInfoByConId(contractId);
+		TbConContractInfoPo conInfo = csmTbConContractInfoMapper.selectByPrimaryKey(contractId);
 		String amountDetailId=conInfo.getAmountDetailId();
 		String partyId=conInfo.getPartyId();
 		
@@ -152,7 +152,7 @@ public class ConApply {
 	
 	//TODO   小贷合同授权
 	public void saveConInfoToPro(String contractId,String processInstId){
-		TbConContractInfoPo conInfo = csmTbConContractInfoMapper.queryOneCsmTbConContractInfoByConId(contractId);
+		TbConContractInfoPo conInfo = csmTbConContractInfoMapper.selectByPrimaryKey(contractId);
 		
 		String oldConId=conInfo.getOldContractId();
 		String orgdegree="";//从缓存里面取出来的数据

@@ -67,6 +67,16 @@
 
   </resultMap>
   
+  
+<select id="getJxhjAmt" parameterType="java.lang.String" resultType="java.math.BigDecimal" >
+	SELECT SUM(NVL(JJYE,0)) 
+FROM 
+	TB_LOAN_SUMMARY 
+WHERE 
+	CONTRACT_ID=#{contractId}
+
+</select>  
+  
 <!--合同失效处理非综合授信批复失效-->
 <update id="updateCancelPF" parameterType="java.lang.String" >
 UPDATE TB_BIZ_APPROVE a 

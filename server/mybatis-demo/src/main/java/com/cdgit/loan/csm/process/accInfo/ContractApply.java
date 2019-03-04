@@ -358,7 +358,7 @@ public class ContractApply {
 	
 		TbConContractInfoPo tbConContractInfo=new TbConContractInfoPo();
 		// 业务合同基本信息
-		tbConContractInfo=csmTbConContractInfoMapper.queryOneCsmTbConContractInfoByConId(contractId);
+		tbConContractInfo=csmTbConContractInfoMapper.selectByPrimaryKey(contractId);
 		// 合同利率信息
 		CsmTbConLoanratePo tbConLoanrate=csmTbConLoanratePoMapper.queryTbConLoanratePoByConId(contractId);
 		// 用款计划
