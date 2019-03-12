@@ -377,16 +377,30 @@ public class ConInfoCreateDao {//ConDao0001
 	CrdDtlCreditReckonVo crdDtlCreditReckonVo;
 
 	@Transactional
-	public TbConContractInfoPo create(Map<String, Object> apply) {//TODO 待测这个是创建合同的核心方法。。。。。。。。。。
+	public HashMap<String, Object> create(Map<String, Object> apply) {//TODO 待测这个是创建合同的核心方法。。。。。。。。。。
+		HashMap<String,Object> hashMap = new HashMap<String,Object>();
+
 		String error = createValid(apply);
-		if (error != null) {
-			throw new RuntimeException(error);
+		
+		hashMap.put("msg", error);
+		if (error != null&&!error.equals("")) {
+			System.err.println(error);
+			return hashMap;
 		}
 		TbConContractInfoPo applyObj = createApply(apply);
-		createProcess(applyObj);
-		return applyObj;
+		String processInstId=createProcess(applyObj);
+		hashMap.put("conInfo",applyObj );
+		hashMap.put("processInstId", processInstId);
+		
+		
+		return hashMap;
 	}
 	
+	/**
+	 * 创建合同的时候调用相应的流程
+	 * @param contractInfo
+	 * @return
+	 */
 	public String createProcess(TbConContractInfoPo contractInfo) {
 //		String flowName = getFlowName();
 //		if (StringUtil.isNull(flowName)) {
@@ -482,9 +496,11 @@ public class ConInfoCreateDao {//ConDao0001
 		
 			csmTbBizHptxApprovePo.setContractId(contractInfo.getContractId());
 			csmTbBizHptxApprovePo.setApplyDetailId(UUIDGenerator.getUUID());
-			
 			csmTbBizHptxApprovePo.setUpdateTime(null);
 			csmTbBizHptxApprovePo.setCreateTime(gitUtils.getCurrDate());
+			
+			csmTbBizHptxApprovePoMapper.insertSelective(csmTbBizHptxApprovePo);
+			
 			BeanUtil.copyBeanProperties(productDetail, conDetail, true);
 
 			
@@ -891,6 +907,7 @@ public class ConInfoCreateDao {//ConDao0001
 	
 
 	public String createValid(Map<String, Object> dataMap) {
+		String errMsg="";
 		//String bizDtlId = (String) dataMap.get("AMOUNT_DETAIL_ID");//需要注意一下
 		String bizDtlId = (String) dataMap.get("amountDetailId");
 		TbBizAmountDetailApprovePo bizDtl = csmTbBizAmountDetailApproveMapper.queryOneTbBizAmountDetailApproveByAmountDetailId(bizDtlId);
@@ -902,35 +919,42 @@ public class ConInfoCreateDao {//ConDao0001
 		dataMap.put("applyId", biz.getApproveId());// 调整之后old_apply_id存放的approve_id
 		dataMap.put("approveId", biz.getApproveId());
 		dataMap.put("crdId", biz.getCrdId());
-//		RuleUtil.runRules(dataMap, "XFE_0003"// TODO 以后有时间得时候再做  2019-1-18........
-//				, "RCON_0202"// 存在在途合同
-//				, "RCON_0203"// 存在已生效合同
-//				, "RCON_0204"// 该业务已无可用额度
-//				, "RBIZ_0046" // 存在在途业务调整
-//				, "RCRD_0212"// 存在在途授信调整
-//		);
+
+		
 		if(0!=csmRuleEngineMapper.ruleXFE_0003(biz.getApproveId())){
-			throw new RuntimeException("[XFE_0003]该批复已被纳入[移交申请],在业务结束前无法处理");
+			errMsg="[XFE_0003]该批复已被纳入[移交申请],在业务结束前无法处理";
+
+
 		}
 		if(0!=csmRuleEngineMapper.ruleRCON_0202(bizDtlId)){
-			throw new RuntimeException("[RCON_0202]该业务已存在在途合同申请");
+			errMsg="[RCON_0202]该业务已存在在途合同申请";
+
+
 		}
 		if(0!=csmRuleEngineMapper.ruleRCON_0203(bizDtlId)){
-			throw new RuntimeException("[RCON_0203]该业务已生成合同");
+			errMsg="[RCON_0203]该业务已生成合同";
+
+
 		}
 		if(1!=csmRuleEngineMapper.ruleRCON_0204(bizDtlId)){
-			throw new RuntimeException("[RCON_0204]该业务已无可用额度");
+			errMsg="[RCON_0204]该业务已无可用额度";
+
+
 		}
 		if(0!=csmRuleEngineMapper.ruleRBIZ_0046(biz.getApproveId())){
-			throw new RuntimeException("[RBIZ_0046]该业务存在在途调整申请");
+			errMsg="[RBIZ_0046]该业务存在在途调整申请";
+
+
 		}
 		if(0!=csmRuleEngineMapper.ruleRCRD_0212(biz.getCrdId())){
-			throw new RuntimeException("[RCRD_0212]该授信数据存在在途授信调整");
+			errMsg="[RCRD_0212]该授信数据存在在途授信调整";
+
+
 		}
 		
 		dataMap.put("db_biz", biz);
 		dataMap.put("db_bizDtl", bizDtl);
-		return null;
+		return errMsg;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -983,6 +1007,7 @@ public class ConInfoCreateDao {//ConDao0001
 		
 		csmTbConContractInfoMapper.updateByPrimaryKeySelective(con.getContractId());
 		csmTbConFlagInfoPoMapper.updateByPrimaryKeySelective(conFlag);
+		System.err.println("[保存完成]！");
 		return con;
 		
 	}

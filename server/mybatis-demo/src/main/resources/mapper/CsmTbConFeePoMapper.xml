@@ -22,20 +22,20 @@
     UPDATE_TIME
   </sql>
   
-  
-  <select id="queryListByConId" parameterType="java.lang.String" resultMap="BaseResultMap" >
-	select * from 
-	Tb_Con_Fee b 
-	where 
-	b.contract_detail_id=#{contractDetailId,jdbcType=VARCHAR}
-  
+  <select id="queryListByConId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select
+  * 
+  from 
+  TB_CON_FEE
+  where 
+  contract_id=#{contractDetailId,jdbcType=VARCHAR}
   
   
   </select>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    *
+    <include refid="Base_Column_List" />
     from CRMS.TB_CON_FEE
     where FEE_ID = #{feeId,jdbcType=VARCHAR}
   </select>

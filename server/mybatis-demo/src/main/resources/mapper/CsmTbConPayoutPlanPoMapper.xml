@@ -15,20 +15,9 @@
     PAYOUT_PLAN_ID, PAYOUT_DATE, PAYOUT_AMT, CONTRACT_DETAIL_ID, PERIODS_NUMBER, CREATE_TIME, 
     UPDATE_TIME, LOANUSE
   </sql>
-  
-  <select id="queryListByConDetailId" parameterType="java.lang.String" resultMap="BaseResultMap">
-  SELECT
-	* 
-FROM
-	Tb_Con_Payout_Plan b 
-WHERE
-	b.contract_detail_id = #{contractDetailId,jdbcType=VARCHAR}
-
-  </select>
-  
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    *
+    <include refid="Base_Column_List" />
     from CRMS.TB_CON_PAYOUT_PLAN
     where PAYOUT_PLAN_ID = #{payoutPlanId,jdbcType=VARCHAR}
   </select>
@@ -137,4 +126,16 @@ WHERE
       LOANUSE = #{loanuse,jdbcType=VARCHAR}
     where PAYOUT_PLAN_ID = #{payoutPlanId,jdbcType=VARCHAR}
   </update>
+  
+  
+  <select id="queryListByConDetailId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select 
+  *
+  from 
+  Tb_Con_Payout_Plan
+  where 
+  contract_detail_id=#{contractDetailId,jdbcType=VARCHAR}
+
+  </select>
+  
 </mapper>

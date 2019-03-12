@@ -87,5 +87,16 @@ public class ConApplyServiceImpl {
     	return pageInfo;
 	}
 	
+	
+	public List<HashMap<String, Object>> getBizHappenType(String contractId){
+		List<HashMap<String,Object>> res = conApplyMapper.getBizHappenTypeByContractId(contractId);
+		
+		return res;
+		
+	}
+	
+	
+	
+	
 
 }

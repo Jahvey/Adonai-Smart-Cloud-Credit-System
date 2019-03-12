@@ -20,18 +20,19 @@
     HTZJE, CURRENCY_CD, BZ
   </sql>
   
-  
   <select id="queryListByAmtDetailId" parameterType="java.lang.String" resultMap="BaseResultMap">
-      select 
-    *
-    from CRMS.TB_BIZ_MYHTXX_APPLY b
-    where b.amount_detail_id = #{contractId,jdbcType=VARCHAR}
- 
+  select
+  *
+  from 
+  tb_biz_myhtxx_apply
+  where
+  amount_Detail_Id=#{amountDetailId,jdbcType=VARCHAR}
+
   </select>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    *
+    <include refid="Base_Column_List" />
     from CRMS.TB_BIZ_MYHTXX_APPLY
     where HT_ID = #{htId,jdbcType=VARCHAR}
   </select>

@@ -3,6 +3,93 @@
 <mapper namespace="com.cdgit.loan.csm.mapper.CsmRuleEngineMapper">
 
 
+
+<!-- 提款计划日期必须在合同起期和止期之间 -->
+<select id="ruleRCON_0056" parameterType="java.lang.String" resultType="java.lang.Integer">
+<![CDATA[
+select 
+count(1) c
+ from tb_con_payout_plan r,
+ tb_con_contract_info t
+where
+r.contract_detail_id = t.contract_id
+and (r.payout_date > t.end_date or r.payout_date < t.begin_date)
+and t.contract_id = #{contractId}
+]]>
+</select>
+
+<!-- 还款计划日期必须在合同起期和止期之间 -->
+<select id="ruleRCON_0055" parameterType="java.lang.String" resultType="java.lang.Integer">
+<![CDATA[
+
+select count(1) c
+  from tb_con_repay_plan r, tb_con_contract_info t
+ where r.contract_id = t.contract_id
+   and (r.repay_date > t.end_date or r.repay_date < t.begin_date)
+   and t.contract_id = #{contractId}
+   
+]]>
+</select>
+
+
+<!-- 提款计划总金额不等于合同金额 -->
+<select id="ruleRCON_0052" parameterType="java.lang.String" resultType="java.lang.Integer">
+<![CDATA[
+
+select nvl((select sum(r.payout_amt) e
+    from tb_con_payout_plan r
+   where r.contract_detail_id = #{contractId})-
+   (select t.contract_amt f
+    from tb_con_contract_info t
+   where t.contract_id = #{contractId}),0) c
+from dual
+]]>
+</select>
+
+
+<!-- 还款计划最后一期止期必须和合同止期一样 -->
+<select id="ruleRCON_0054" parameterType="java.lang.String" resultType="java.lang.Integer">
+<![CDATA[
+select count(1) c
+from dual
+ where (select t.end_date
+          from tb_con_contract_info t
+         where t.contract_id =#{contractId}) !=
+       (select max(r.repay_date)
+          from tb_con_repay_plan r
+         where r.contract_id =#{contractId})
+]]>
+</select>
+
+<!-- 还款计划总金额不等于合同金额 -->
+<select id="ruleRCON_0053" parameterType="java.lang.String" resultType="java.lang.Integer">
+<![CDATA[
+
+select nvl((select sum(r.repay_amt) e
+from tb_con_repay_plan r
+where r.contract_id = #{contractId} )-
+	(select t.contract_amt f
+		from tb_con_contract_info t
+	 where t.contract_id = #{contractId}),0) c
+from dual
+]]>
+
+</select>
+
+
+
+<!-- 还款计划不同期次还款日期不能一样 -->
+<select id="ruleRCON_0085" parameterType="java.lang.String" resultType="java.lang.Integer">
+<![CDATA[
+select count(*) c from (
+	select count(*)  from tb_con_repay_plan where contract_id=#{contractId}
+group by repay_date having count(*)>1)
+
+]]>
+</select>
+
+
+
 	<!-- 移交申请未完成，包含的业务不允许处理 -->
 	<select id="ruleXFE_0003" parameterType="java.lang.String" resultType="java.lang.Integer">
 	SELECT

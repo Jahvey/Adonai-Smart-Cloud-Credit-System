@@ -67,6 +67,47 @@
 
   </resultMap>
   
+  <resultMap id="CsmTbConRepayPlanPo" type="com.cdgit.loan.csm.po.CsmTbConRepayPlanPo">
+    <id column="REPAY_PLAN_ID" jdbcType="VARCHAR" property="repayPlanId" />
+    <result column="REPAY_DATE" jdbcType="TIMESTAMP" property="repayDate" />
+    <result column="REPAY_AMT" jdbcType="DECIMAL" property="repayAmt" />
+    <result column="PERIODS_NUMBER" jdbcType="DECIMAL" property="periodsNumber" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
+  </resultMap>
+  
+  
+<select id="getHkjhsByConId" parameterType="java.lang.String" resultMap="CsmTbConRepayPlanPo">
+		select repay_plan_id ,
+			   repay_date ,
+			   repay_amt ,
+			   periods_number ,
+			   create_time ,
+			   update_time ,
+			   contract_id 
+ 		  from tb_con_repay_plan 
+		  where contract_id =#{contractId}
+		  order by repay_Date
+
+</select>  
+  
+  
+ <!-- 根据contranctId查询该合同的业务发生方式 --> 
+<select id="getBizHappenTypeByContractId" parameterType="java.lang.String" resultType="java.util.HashMap">
+ select ta.biz_happen_type bizHappenType
+       from   tb_biz_approve                        ta,
+              tb_biz_amount_approve                 tp,
+              tb_biz_amount_detail_approve          td,
+              tb_con_contract_info                  tf   
+       where  ta.approve_id = tp.approve_id
+         and  tp.amount_id = td.amount_id 
+         and  td.amount_detail_id = tf.amount_detail_id
+         and  tf.contract_id = #{contractId} 
+
+
+</select>  
+  
   
 <select id="getJxhjAmt" parameterType="java.lang.String" resultType="java.math.BigDecimal" >
 	SELECT SUM(NVL(JJYE,0)) 

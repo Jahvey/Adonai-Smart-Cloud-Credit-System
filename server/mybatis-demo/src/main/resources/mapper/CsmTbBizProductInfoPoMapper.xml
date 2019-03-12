@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cdgit.loan.csm.mapper.CsmTbBizProductInfoPoMapper">
-  <resultMap id="csmTbBizProductInfoPo" type="com.cdgit.loan.csm.po.TbBizProductInfoPo">
+  <resultMap id="csmTbBizProductInfoPo" type="com.cdgit.loan.csm.po.CsmTbBizProductInfoPo">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="PRODUCT_CD" jdbcType="VARCHAR" property="productCd" />
     <result column="ENTITY_NAME" jdbcType="VARCHAR" property="entityName" />
@@ -32,7 +32,7 @@
     delete from CRMS.TB_BIZ_PRODUCT_INFO
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insertCsmTbBizProductInfo" parameterType="com.cdgit.loan.csm.po.TbBizProductInfoPo">
+  <insert id="insertCsmTbBizProductInfo" parameterType="com.cdgit.loan.csm.po.CsmTbBizProductInfoPo">
     insert into CRMS.TB_BIZ_PRODUCT_INFO (ID, PRODUCT_CD, ENTITY_NAME, 
       JSP_NAME, PRODUCT_NAME, TABLE_NAME, 
       RATE, BIZ_DON)
@@ -40,7 +40,7 @@
       #{jspName,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR}, 
       #{rate,jdbcType=VARCHAR}, #{bizDon,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertCsmTbBizProductInfoSelective" parameterType="com.cdgit.loan.csm.po.TbBizProductInfoPo">
+  <insert id="insertCsmTbBizProductInfoSelective" parameterType="com.cdgit.loan.csm.po.CsmTbBizProductInfoPo">
     insert into CRMS.TB_BIZ_PRODUCT_INFO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -95,7 +95,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateCsmTbBizProductInfoSelective" parameterType="com.cdgit.loan.csm.po.TbBizProductInfoPo">
+  <update id="updateCsmTbBizProductInfoSelective" parameterType="com.cdgit.loan.csm.po.CsmTbBizProductInfoPo">
     update CRMS.TB_BIZ_PRODUCT_INFO
     <set>
       <if test="productCd != null">
@@ -122,7 +122,7 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateCsmTbBizProductInfo" parameterType="com.cdgit.loan.csm.po.TbBizProductInfoPo">
+  <update id="updateCsmTbBizProductInfo" parameterType="com.cdgit.loan.csm.po.CsmTbBizProductInfoPo">
     update CRMS.TB_BIZ_PRODUCT_INFO
     set PRODUCT_CD = #{productCd,jdbcType=VARCHAR},
       ENTITY_NAME = #{entityName,jdbcType=VARCHAR},

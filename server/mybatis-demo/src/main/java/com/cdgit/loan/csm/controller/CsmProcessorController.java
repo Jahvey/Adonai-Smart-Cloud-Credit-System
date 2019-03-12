@@ -4,10 +4,13 @@
 package com.cdgit.loan.csm.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cdgit.loan.csm.bean.ApproveAndSxxyVo;
 import com.cdgit.loan.csm.bean.CsmConInfoHtVoQuery;
+import com.cdgit.loan.csm.mapper.CsmTbBizMyhtxxApplyPoMapper;
+import com.cdgit.loan.csm.mapper.CsmTbConFeePoMapper;
+import com.cdgit.loan.csm.mapper.CsmTbConMyhtxxPoMapper;
+import com.cdgit.loan.csm.mapper.CsmTbConPayoutPlanPoMapper;
+import com.cdgit.loan.csm.mapper.CsmTbConRepayPlanPoMapper;
 import com.cdgit.loan.csm.message.PageBean;
 import com.cdgit.loan.csm.po.CsmTbBizBankStructApplyPo;
 import com.cdgit.loan.csm.po.TbConContractInfoPo;
@@ -70,6 +78,50 @@ public class CsmProcessorController {
 
 	@Autowired
 	GitUtils gitUtils;
+	
+	@Autowired
+	CsmTbConRepayPlanPoMapper csmTbConRepayPlanPoMapper;
+	
+	@Autowired
+	CsmTbConPayoutPlanPoMapper csmTbConPayoutPlanPoMapper;
+	
+	@Autowired
+	CsmTbConFeePoMapper csmTbConFeePoMapper;
+	
+	@Autowired
+	CsmTbConMyhtxxPoMapper csmTbConMyhtxxPoMapper;
+	
+	@Autowired
+	CsmTbBizMyhtxxApplyPoMapper csmTbBizMyhtxxApplyPoMapper;
+	
+	
+
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GetMapping("/conContractInfo/deleteRepayPlan")
+	public void deleteRepayPlan(String repayPlanId,String deleteType) {
+		
+		conContractInfo.deleteRepayPlan(repayPlanId, deleteType);
+		
+	}
+	
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GetMapping("/conApply/getBizHappenType")
+	public List<HashMap<String, Object>> getBizHappenType(String contractId) {
+		return conApplyServiceImpl.getBizHappenType(contractId);
+	}
+	
+	// TODO 待测 根据合同ID初始化查询合同明细页面
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GetMapping("/conContractInfo/getConDetailInfoByContractId")
+	public HashMap<String, Object> getConDetailInfoByContractId(String contractId,String productType) {
+		System.err.println("[getConDetailInfoByContractId] contractId "+contractId+",productType "+productType);
+		return conContractInfo.getConDetailInfoByContractId(contractId, productType);
+	}
+	
 
 	// TODO 待测 获取当前币种的汇率信
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -99,14 +151,15 @@ public class CsmProcessorController {
 
 	}
 
+
+
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@GetMapping("/ApplyDaoEos/updateConInfo")
-	@ResponseBody
-	public TbConContractInfoPo updateConInfo(@RequestParam HashMap<String, Object> dataMap) {
+	@PostMapping("/ApplyDaoEos/updateConInfo")
+	public TbConContractInfoPo updateConInfo(@RequestBody HashMap<String, Object> dataMap) {
 		System.err.println("拿到数据了![map]=" + dataMap);
 		return conInfoCreateDao.update(dataMap);
 	}
-
 	// TODO 合同失效 待测
 
 	// 获取业务信息
@@ -207,20 +260,36 @@ public class CsmProcessorController {
 		return csmRuleEngineServiceImpl.updateValidateForCon1(name, param);
 	}
 
-	// TODO 合同插入 前台测试的时候注意要使用json格式
+
+	/**
+	 * 合同插入 前台测试的时候注意要使用json格式
+	 * @param apply
+	 * @return
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/ApplyDaoEos/create")
 	@ResponseBody
-	public TbConContractInfoPo createConByBizDtl(@RequestParam Map<String, Object> apply) {
-		// HashMap<String,Object> apply = new HashMap<String,Object>();
+	public HashMap<String, Object> createConByBizDtl(@RequestParam Map<String, Object> apply) {
 		System.err.println("create contract..." + apply);
 		return conInfoCreateDao.create(apply);
 
 	}
 
+	/**
+	 * 业务合同列表页面 的数据来源
+	 * @param pageNum
+	 * @param pageSize
+	 * @param bizNum
+	 * @param partyId
+	 * @param userId
+	 * @param amountDetailId
+	 * @return
+	 */
 	@GetMapping("/getApproveAndSxxy")
-	public PageBean getApproveAndSxxy(@RequestParam(value = "pageNum", required = true) int pageNum,
+	public PageBean getApproveAndSxxy(
+			@RequestParam(value = "pageNum", required = true) int pageNum,
 			@RequestParam(value = "pageSize", required = true) int pageSize,
+			
 			@RequestParam(value = "bizNum", required = false) String bizNum,
 			@RequestParam(value = "partyId", required = false) String partyId,
 			@RequestParam(value = "userId", required = false) String userId,
@@ -230,6 +299,7 @@ public class CsmProcessorController {
 		hashMap.put("partyId", partyId);
 		hashMap.put("userId", userId);
 		hashMap.put("amountDetailId", amountDetailId);
+		
 		hashMap.put("pageNum", pageNum);
 		hashMap.put("pageSize", pageSize);
 

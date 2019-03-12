@@ -86,4 +86,29 @@ public interface CsmRuleEngineMapper {
 	//RCON_0089" name="校验该笔合同是否出账成功" checktype="eqn" checkedFieldName="$c" targetDataList="0" errCode="2015110-001" errMsg="该合同已出账成功合同调整不允许调整金额"
 	Integer ruleRCON_0089(String contractId);
 	
+	
+	//ruleCheck
+	//RCON_0085" name="还款计划不同期次还款日期不能一样"  errMsg="还款计划不同期次还款日期不能一样" 
+	Integer ruleRCON_0085(String contractId);
+	
+	//RCON_0053" name="还款计划金额与合同总金额不等"  errMsg="还款计划总金额不等于合同金额" 
+	Integer ruleRCON_0053(String contractId);
+	
+	//RCON_0054" name="还款计划最后一期止期必须和合同止期一样" errMsg="还款计划最后一期止期必须和合同止期一样" 
+	Integer ruleRCON_0054(String contractId);
+	
+	//RCON_0052" name="提款计划金额与合同总金额不等"  errMsg="提款计划总金额不等于合同金额"
+	Integer ruleRCON_0052(String contractId);
+	
+	//RCON_0055" name="还款计划日期必须在合同起期和止期之间" errMsg="还款计划日期必须在合同起期和止期之间"
+	Integer ruleRCON_0055(String contractId);
+	
+	//RCON_0056" name="提款计划日期必须在合同起期和止期之间"  errMsg="提款计划日期必须在合同起期和止期之间"
+	Integer ruleRCON_0056(String contractId);
+	
+	
+	
+	
+	
+	
 }

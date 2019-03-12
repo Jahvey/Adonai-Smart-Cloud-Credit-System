@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cdgit.loan.csm.po.TbBizProductInfoPo;
+import com.cdgit.loan.csm.po.CsmTbBizProductInfoPo;
 
 @Service
 @Transactional
@@ -17,7 +17,7 @@ public class ProductUtil {
 	
 	@SuppressWarnings("unchecked")
 	public  String getEntityName(String productCd) {
-		List<TbBizProductInfoPo> datas = csmProductMapper.queryProductInfo(productCd);
+		List<CsmTbBizProductInfoPo> datas = csmProductMapper.queryProductInfo(productCd);
 		//Object[] datas = DatabaseExt.queryByNamedSql(DBUtil.DB_NAME_DEF, "com.bos.pub.product.getProductInfo", productCd);
 		if (datas == null || datas.size()== 0) {
 			return null;
@@ -29,7 +29,7 @@ public class ProductUtil {
 	
 	@SuppressWarnings("unchecked")
 	public  String getTableName(String productCd) {
-		List<TbBizProductInfoPo> datas = csmProductMapper.queryProductInfo(productCd);
+		List<CsmTbBizProductInfoPo> datas = csmProductMapper.queryProductInfo(productCd);
 		//Object[] datas = DatabaseExt.queryByNamedSql(DBUtil.DB_NAME_DEF, "com.bos.pub.product.getProductInfo", productCd);
 		if (datas == null || datas.size()== 0) {
 			return null;

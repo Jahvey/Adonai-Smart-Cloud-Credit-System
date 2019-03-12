@@ -3,6 +3,7 @@
  */
 package com.cdgit.loan.csm.process.accInfo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cdgit.loan.common.util.uid.UUIDGenerator;
+import com.cdgit.loan.csm.mapper.ConApplyMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizBgdkApprovePoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizBhApprovePoMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizCktsyhApprovePoMapper;
@@ -83,6 +85,7 @@ import com.cdgit.loan.csm.mapper.CsmTbConZhPoMapper;
 import com.cdgit.loan.csm.mapper.CsmTzContractInfoVoMapper;
 import com.cdgit.loan.csm.po.CsmTbBizMyhtxxApplyPo;
 import com.cdgit.loan.csm.po.CsmTbBizPjxxApplyPo;
+import com.cdgit.loan.csm.po.CsmTbBizProductInfoPo;
 import com.cdgit.loan.csm.po.CsmTbBizSubcontractRelPo;
 import com.cdgit.loan.csm.po.CsmTbConBgdkPo;
 import com.cdgit.loan.csm.po.CsmTbConBhPo;
@@ -115,7 +118,6 @@ import com.cdgit.loan.csm.po.CsmTbConWtdkPo;
 import com.cdgit.loan.csm.po.CsmTbConXdzmPo;
 import com.cdgit.loan.csm.po.CsmTbConXmdkcnhPo;
 import com.cdgit.loan.csm.po.CsmTbConXwPo;
-import com.cdgit.loan.csm.po.TbBizProductInfoPo;
 import com.cdgit.loan.csm.po.TbConAttachedInfoPo;
 import com.cdgit.loan.csm.po.TbConContractInfoPo;
 import com.cdgit.loan.csm.po.TbConSubGrtRelPo;
@@ -345,6 +347,12 @@ public class ContractApply {
 	
 	@Autowired
 	GitUtils gitUtils;
+	
+	@Autowired
+	ConApplyMapper conApplyMapper;
+	
+	
+	
 	/**
 	 * @param contractId
 	 * @param args
@@ -385,7 +393,7 @@ public class ContractApply {
 		CsmTbConNoticeAddrsPo noticeAddrs = csmTbConNoticeAddrsPoMapper.queryByConId(contractId);
 		
 		// 明细信息
-		TbBizProductInfoPo productInfo = csmTbBizProductInfoPoMapper.queryByProductType(tbConContractInfo.getProductType());
+		CsmTbBizProductInfoPo productInfo = csmTbBizProductInfoPoMapper.queryByProductType(tbConContractInfo.getProductType());
 		String entityName = productInfo.getEntityName();
 		String tarTableName=productInfo.getTableName();
 		// com.bos.dataset.biz.TbBizLdzjApply
@@ -1111,6 +1119,33 @@ public class ContractApply {
 		System.err.println("[综合授信完成！]"+tbConCreditInfo);
 		return tbConCreditInfo;
 		
+		
+	}
+	
+	
+	
+	//期数重新排序
+	public String aftDeleteRepayPlan(String contractId){
+		
+		String result="1";
+		try {
+			List<CsmTbConRepayPlanPo> repayPlans = conApplyMapper.getHkjhsByConId(contractId);
+			CsmTbConRepayPlanPo repayPlan = new CsmTbConRepayPlanPo();
+			
+			for (int i = 0; i < repayPlans.size(); i++) {
+				repayPlan=repayPlans.get(i);
+				repayPlan.setPeriodsNumber(new BigDecimal(i+1));
+				csmTbConRepayPlanPoMapper.updateByPrimaryKeySelective(repayPlan);
+			}
+	
+		} catch (Exception e) {
+			e.printStackTrace();
+			result="2";
+		}
+		
+		
+		
+		return result;
 		
 	}
 	

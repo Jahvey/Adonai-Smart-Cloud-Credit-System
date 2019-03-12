@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.cdgit.loan.csm.bean.ApproveAndSxxyVo;
 import com.cdgit.loan.csm.bean.ApproveConsVo;
+import com.cdgit.loan.csm.po.CsmTbConRepayPlanPo;
 
 /**
  * @author cwalk
@@ -59,5 +60,11 @@ public interface ConApplyMapper {
 	
 	List<BigDecimal> getJxhjAmt(String contractId);
 	
+	
+	//根据contranctId查询该合同的业务发生方式
+	List<HashMap<String, Object>> getBizHappenTypeByContractId(String contractId);
+	
+	
+	List<CsmTbConRepayPlanPo> getHkjhsByConId(String contractId);
 	
 }

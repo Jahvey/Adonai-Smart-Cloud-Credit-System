@@ -199,7 +199,7 @@ public class SubProcessController {
 	
 	
 	@GetMapping("/createConInfo")
-	public TbConContractInfoPo create(){
+	public HashMap<String, Object> create(){
 		
 		HashMap<String,Object> hashMap = new HashMap<String,Object>();
 		//同一条记录

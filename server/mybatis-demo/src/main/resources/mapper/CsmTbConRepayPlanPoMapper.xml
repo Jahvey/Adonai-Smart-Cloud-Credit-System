@@ -14,20 +14,19 @@
     REPAY_PLAN_ID, REPAY_DATE, REPAY_AMT, PERIODS_NUMBER, CREATE_TIME, UPDATE_TIME, CONTRACT_ID
   </sql>
   
-  
-  <select id="queryListByConId" parameterType="java.lang.String" resultMap="BaseResultMap">
-  select * 
+  <select id="queryListByConId" parameterType="java.lang.String" resultMap="BaseResultMap" >
+  select
+  *
   from 
-  Tb_Con_Repay_Plan b 
+  TB_CON_REPAY_PLAN
   where 
-  b.contract_id=#{contractId,jdbcType=VARCHAR}
-  
+  contract_id=#{contractId,jdbcType=VARCHAR}
   
   </select>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    *
+    <include refid="Base_Column_List" />
     from CRMS.TB_CON_REPAY_PLAN
     where REPAY_PLAN_ID = #{repayPlanId,jdbcType=VARCHAR}
   </select>

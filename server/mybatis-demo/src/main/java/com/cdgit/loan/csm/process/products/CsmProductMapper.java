@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.cdgit.loan.csm.po.TbBizProductInfoPo;
+import com.cdgit.loan.csm.po.CsmTbBizProductInfoPo;
 
 @Mapper
 public interface CsmProductMapper {
 	
-	List<TbBizProductInfoPo> queryProductInfo(String productCd);
+	List<CsmTbBizProductInfoPo> queryProductInfo(String productCd);
 
 	
 }
