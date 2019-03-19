@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.cdgit.loan.common.constants.Constant;
 import com.cdgit.loan.common.util.BeanUtils;
-import com.cdgit.loan.guaranteevaluation.bean.GrtMortgageBasic;
-import com.cdgit.loan.guaranteevaluation.mapper.GrtMortgageBasicMapper;
+import com.cdgit.loan.guaranteevaluation.mapper.BizGrtRelMapper;
 import com.cdgit.loan.securitymanagement.bean.GrtBill;
 import com.cdgit.loan.securitymanagement.bean.GrtBondPledge;
 import com.cdgit.loan.securitymanagement.bean.GrtBuildingProject;
@@ -130,8 +129,9 @@ public class GrtCollateralServiceImpl {
 	@Autowired
 	private GrtTrafficOthersMapper grtTrafficOthersMapper;
 	@Autowired
-	private GrtMortgageBasicMapper grtMortgageBasicMapper;
+	private BizGrtRelMapper bizGrtRelMapper;
 	public Map<String, Object> saveGrtCollateral(GrtCollateral grtCollateral) throws JsonProcessingException{
+		grtCollateral.setCollateralStatusCd("03");//设置状态01未提交 02审批中 03已生效 04已出库 05已到期 06已删除 07已冻结 08临时出库 09已入库
 		Map<String, Object> map = new HashMap<>();
 		if(
 				grtCollateral.getCollateralTypeCd().equals(Constant.GC_ZSCQ) ||//知识产权
@@ -1112,9 +1112,9 @@ public class GrtCollateralServiceImpl {
 			sb.deleteCharAt(sb.lastIndexOf(","));
 			throw new RuntimeException(sb.toString());
 		} else{
-			//2.是否已经关联合同，关联不能删除 TODO,该grtMortgageBasicMapper可能要改
-			GrtMortgageBasic grtMortgageBasic = grtMortgageBasicMapper.selectByPrimaryKey(guarantyId);
-			if(grtMortgageBasic!=null){
+			//2.是否已经关联合同，关联不能删除 TODO
+			Map<String,Object> list = bizGrtRelMapper.selectBySuretyId(guarantyId);
+			if(list!=null && list.size()>0){
 				throw new RuntimeException("该抵质押品已经绑定业务，不能删除！");
 			}
 			//直接删除

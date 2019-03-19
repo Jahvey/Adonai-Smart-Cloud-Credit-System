@@ -692,7 +692,9 @@ public class GrtCollateralController {
 				grtRealEstateMortgage.setLandUseType(landUseType);
 				grtRealEstateMortgage.setGuarantyId(guarantyId);
 				grtRealEstateMortgage.setBuildAllArea(new BigDecimal(buildAllArea));
-				grtRealEstateMortgage.setAssetLife(new BigDecimal(assetLife));
+				if(assetLife!=null){
+					grtRealEstateMortgage.setAssetLife(new BigDecimal(assetLife));
+				}
 				grtRealEstateMortgage.setIsLandMortgage(isLandMortgage);
 				//房产其他信息
 				GrtRealEstateDetail grtRealEstateDetail = new GrtRealEstateDetail();
@@ -722,8 +724,8 @@ public class GrtCollateralController {
 				map = grtCollateralServiceImpl.updateRealEstateAndGrtCollateral(grtCollateral,grtRealEstateMortgage,grtRealEstateDetail);
 			} catch (Exception e) {
 				map.put("flag", "error");
-				map.put("message", "服务器出错啦，请联系开发者!");
-				System.out.println(e.getMessage());
+				map.put("message", "操作失败!"+e.getMessage());
+				e.printStackTrace();
 			}
 		} else{
 			map.put("flag", "error");

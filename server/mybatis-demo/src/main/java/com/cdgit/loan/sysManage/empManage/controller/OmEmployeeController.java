@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cdgit.loan.sysManage.empManage.bean.OmEmployee;
 import com.cdgit.loan.sysManage.empManage.service.OmEmployeeServiceImpl;
 
-import net.minidev.json.JSONArray;
 
 @CrossOrigin
 @RestController

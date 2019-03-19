@@ -2679,4 +2679,15 @@
       LOAN_TURN = #{loanTurn,jdbcType=VARCHAR}
     where PARTY_ID = #{partyId,jdbcType=VARCHAR}
   </update>
+  
+  
+  <!--第三方客户-->
+    <select id="queryThirdPartythreeDB" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) as num from TB_CSM_MANAGEMENT_TEAM a ,TB_CSM_CORPORATION b 
+		       where b.party_id=#{partyId,jdbcType=VARCHAR}
+		         and a.user_placing_cd='01'
+		         and b.is_third_cust='1'
+		         and b.third_cust_type_cd='1'
+		         and a.party_id = b.party_id
+    </select>
 </mapper>

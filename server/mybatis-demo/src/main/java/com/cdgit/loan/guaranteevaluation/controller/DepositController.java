@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.ibatis.type.BigIntegerTypeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cdgit.loan.common.util.uid.UUIDGenerator;
 import com.cdgit.loan.guaranteevaluation.bean.BizGrtRel;
 import com.cdgit.loan.guaranteevaluation.bean.GrtMargin;
-import com.cdgit.loan.guaranteevaluation.bean.GrtMortgageBasic;
 import com.cdgit.loan.guaranteevaluation.service.DepositServiceImpl;
+import com.cdgit.loan.securitymanagement.bean.GrtCollateral;
 
 /**
  * 担保评价-保证金
@@ -98,21 +97,23 @@ public class DepositController {
 			) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
 		try{
+			Date date = depositServiceImpl.getOperateDate("yyyy-MM-dd");
 			String suretyKeyId = UUIDGenerator.getUUID();
 			String suretyId = UUIDGenerator.getUUID();
 			String relationId = UUIDGenerator.getUUID();
-			GrtMortgageBasic grtMortgageBasic = new GrtMortgageBasic();
-			grtMortgageBasic.setCollType(collType);
-			grtMortgageBasic.setCreateTime(date);
-			grtMortgageBasic.setCurrencyCd(currencyCd);
-			grtMortgageBasic.setOrgNum(orgNum);
-			grtMortgageBasic.setPartyId(partyId);
-			grtMortgageBasic.setUpdateTime(date);
-			grtMortgageBasic.setUserNum(userNum);
-			grtMortgageBasic.setSuretyNo(suretyKeyId);
-			grtMortgageBasic.setSuretyId(suretyId);
+			GrtCollateral grtCollateral = new GrtCollateral();
+			grtCollateral.setGuarantyId(suretyId);
+			grtCollateral.setMpType(collType);
+			grtCollateral.setTimeMark(date);
+			grtCollateral.setSysUpdateTime(date);
+			grtCollateral.setDataCreatorOrgCd(orgNum);
+			grtCollateral.setDataCreatUserNum(userNum);
+			grtCollateral.setLastUpdateOrgCd(orgNum);
+			grtCollateral.setLastUpdateUserNum(userNum);
+			grtCollateral.setCollateralNum(suretyKeyId);
+			grtCollateral.setCollateralName("*保证金*");
+			grtCollateral.setCustomerNum(partyId);
 			GrtMargin grtMargin = new GrtMargin();
 			grtMargin.setAccBalance(accBalance);
 			grtMargin.setAcctName(acctName);
@@ -140,7 +141,7 @@ public class DepositController {
 			bizGrtRel.setSuretyType(collType);
 			bizGrtRel.setSuretyId(suretyId);
 			bizGrtRel.setRelationId(relationId);
-			map = depositServiceImpl.saveDeposit(grtMortgageBasic,grtMargin,bizGrtRel);
+			map = depositServiceImpl.saveDeposit(grtCollateral,grtMargin,bizGrtRel);
 		}catch(Exception e){
 			map.put("flag", "error");
 			map.put("message", "操作失败啦！"+e.getMessage());
@@ -194,15 +195,17 @@ public class DepositController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
 		try{
-			GrtMortgageBasic grtMortgageBasic = new GrtMortgageBasic();
-			grtMortgageBasic.setCollType(collType);
-			grtMortgageBasic.setCurrencyCd(currencyCd);
-			grtMortgageBasic.setOrgNum(orgNum);
-			grtMortgageBasic.setPartyId(partyId);
-			grtMortgageBasic.setUpdateTime(date);
-			grtMortgageBasic.setUserNum(userNum);
-			grtMortgageBasic.setSuretyNo(suretyKeyId);
-			grtMortgageBasic.setSuretyId(suretyId);
+			GrtCollateral grtCollateral = new GrtCollateral();
+			grtCollateral.setGuarantyId(suretyId);
+			grtCollateral.setMpType(collType);
+			grtCollateral.setSysUpdateTime(date);
+			grtCollateral.setLastUpdateOrgCd(orgNum);
+			grtCollateral.setLastUpdateUserNum(userNum);
+			grtCollateral.setCustomerNum(partyId);
+			grtCollateral.setCurrencyCd(currencyCd);
+			grtCollateral.setMpType(collType);
+			grtCollateral.setCollateralNum(suretyKeyId);
+			
 			GrtMargin grtMargin = new GrtMargin();
 			grtMargin.setAccBalance(accBalance);
 			grtMargin.setAcctName(acctName);
@@ -228,7 +231,7 @@ public class DepositController {
 			bizGrtRel.setSuretyType(collType);
 			bizGrtRel.setSuretyId(suretyId);
 			bizGrtRel.setRelationId(relationId);
-			map = depositServiceImpl.updateDeposit(grtMortgageBasic,grtMargin,bizGrtRel);
+			map = depositServiceImpl.updateDeposit(grtCollateral,grtMargin,bizGrtRel);
 		}catch(Exception e){
 			map.put("flag", "error");
 			map.put("message", "操作失败啦！"+e.getMessage());

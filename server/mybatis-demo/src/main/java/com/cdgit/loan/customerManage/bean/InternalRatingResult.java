@@ -1,6 +1,5 @@
 package com.cdgit.loan.customerManage.bean;
 
-import java.util.Date;
 
 public class InternalRatingResult {
     private String irrResultId;
@@ -9,13 +8,13 @@ public class InternalRatingResult {
 
     private String creditRatingCd;
 
-    private Date effectiveStartDt;
+    private String effectiveStartDt;
 
     private String ratingState;
 
-    private Date effectiveEndDt;
+    private String effectiveEndDt;
 
-    private Date ratingDt;
+    private String ratingDt;
 
     private String projectId;
 
@@ -76,11 +75,11 @@ public class InternalRatingResult {
         this.creditRatingCd = creditRatingCd == null ? null : creditRatingCd.trim();
     }
 
-    public Date getEffectiveStartDt() {
+    public String getEffectiveStartDt() {
         return effectiveStartDt;
     }
 
-    public void setEffectiveStartDt(Date effectiveStartDt) {
+    public void setEffectiveStartDt(String effectiveStartDt) {
         this.effectiveStartDt = effectiveStartDt;
     }
 
@@ -92,19 +91,19 @@ public class InternalRatingResult {
         this.ratingState = ratingState == null ? null : ratingState.trim();
     }
 
-    public Date getEffectiveEndDt() {
+    public String getEffectiveEndDt() {
         return effectiveEndDt;
     }
 
-    public void setEffectiveEndDt(Date effectiveEndDt) {
+    public void setEffectiveEndDt(String effectiveEndDt) {
         this.effectiveEndDt = effectiveEndDt;
     }
 
-    public Date getRatingDt() {
+    public String getRatingDt() {
         return ratingDt;
     }
 
-    public void setRatingDt(Date ratingDt) {
+    public void setRatingDt(String ratingDt) {
         this.ratingDt = ratingDt;
     }
 

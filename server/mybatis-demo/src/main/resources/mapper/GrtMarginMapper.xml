@@ -50,17 +50,17 @@
   <select id="getCashDepositList" resultMap="cashDepositBean">
  		select  rel.RELATION_ID, margin.SURETY_KEY_ID,margin.surety_id,margin.MARGIN_ACCOUNT,margin.MARGIN_SORT,margin.CURRENCY_CD,margin.OPEN_BANK,
  	   margin.ACCT_NAME,margin.MAGIN_SCALE,margin.ACC_BALANCE,margin.END_DATE ,margin.IS_JIXI,margin.MARGIN_RATE,margin.append_amt	
-	   from tb_grt_margin margin,TB_GRT_MORTGAGE_BASIC basic,TB_BIZ_GRT_REL rel
-	   where margin.surety_id=basic.surety_id
-	   and basic.surety_id=rel.surety_id
-	   and rel.apply_id=#{applyId}
+	   from tb_grt_margin margin,TB_GRT_COLLATERAL t3,TB_BIZ_GRT_REL rel
+		 where margin.surety_id=t3.GUARANTY_ID
+		 and t3.GUARANTY_ID=rel.surety_id
+		 and rel.apply_id=#{applyId}
  </select>
  <select id="selectDepositBySuretyKeyId" resultMap="cashDepositBean">
  	select  rel.RELATION_ID, margin.SURETY_KEY_ID,margin.surety_id,margin.MARGIN_ACCOUNT,margin.MARGIN_SORT,margin.CURRENCY_CD,margin.OPEN_BANK,
 	 margin.ACCT_NAME,margin.MAGIN_SCALE,margin.ACC_BALANCE,margin.END_DATE ,margin.IS_JIXI,margin.MARGIN_RATE,margin.append_amt,margin.BEGIN_DATE,margin.APPEND_FLAG    		
-	 from tb_grt_margin margin,TB_GRT_MORTGAGE_BASIC basic,TB_BIZ_GRT_REL rel
-	 where margin.surety_id=basic.surety_id
-	 and basic.surety_id=rel.surety_id
+	 from tb_grt_margin margin,TB_GRT_COLLATERAL t3,TB_BIZ_GRT_REL rel
+		 where margin.surety_id=t3.GUARANTY_ID
+		 and t3.GUARANTY_ID=rel.surety_id
 	 AND margin.SURETY_KEY_ID=#{suretyKeyId}
  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">

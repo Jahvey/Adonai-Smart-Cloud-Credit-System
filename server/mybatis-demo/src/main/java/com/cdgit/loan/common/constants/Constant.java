@@ -33,10 +33,17 @@ public class Constant {
 	
 	public final static String GUARANTEE_COMPANY="1";
 	
-	public final static String COLL_TYPE_MORTGAGE="01";//抵押
-	public final static String COLL_TYPE_PLEDGE="02";//质押
-	public final static String COLL_TYPE_MORTGAGE_AND_PLEDGE="00";//即可抵押也可质押
+	//public final static String COLL_TYPE_MORTGAGE="01";//抵押
+	//public final static String COLL_TYPE_PLEDGE="02";//质押
+	//public final static String COLL_TYPE_MORTGAGE_AND_PLEDGE="00";//即可抵押也可质押
 	public final static String MORTGAGE_RATE_MAX ="90";//抵质押率最大值
+	
+	public final static String OPE_SUCCESS="200";//操作成功
+	public final static String OPE_FAIL="201";//操作失败
+	public final static String SUBCONTRACT_TYPE_DY="01";//抵押
+	public final static String SUBCONTRACT_TYPE_ZY="02";//质押
+	public final static String SUBCONTRACT_TYPE_BZJ="03";//保证金
+	public final static String SUBCONTRACT_TYPE_BZ="04";//保证人
 	
 	
 }

@@ -27,4 +27,7 @@ public class CrtTbLoanZhServiceImpl {
     	return pageInfo;
 	}
 
+	public CrtTbLoanZh queryCrtTbLoanZhById(String id){
+		return loanZhMapper.selectLoanZhByPrimaryKey(id);
+	}
 }

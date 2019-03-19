@@ -11,10 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cdgit.loan.guaranteevaluation.bean.BizGrtRel;
 import com.cdgit.loan.guaranteevaluation.bean.CreditsafeBean;
 import com.cdgit.loan.guaranteevaluation.bean.GrtCreditsafe;
-import com.cdgit.loan.guaranteevaluation.bean.GrtGuaranteeBasic;
 import com.cdgit.loan.guaranteevaluation.mapper.BizGrtRelMapper;
 import com.cdgit.loan.guaranteevaluation.mapper.GrtCreditsafeMapper;
 import com.cdgit.loan.guaranteevaluation.mapper.GrtGuaranteeBasicMapper;
+import com.cdgit.loan.securitymanagement.bean.GrtCollateral;
+import com.cdgit.loan.securitymanagement.mapper.GrtCollateralMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -24,9 +25,9 @@ public class CreditInsuranceServiceImpl {
 	@Autowired
 	private GrtCreditsafeMapper grtCreditsafeMapper;
 	@Autowired
-	private GrtGuaranteeBasicMapper grtGuaranteeBasicMapper;
-	@Autowired
 	private BizGrtRelMapper bizGrtRelMapper;
+	@Autowired
+	private GrtCollateralMapper grtCollateralMapper;
 	public Map<String, Object> getCashDepositList(Integer pageNum, Integer pageSize, String applyId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageHelper.startPage(pageNum,pageSize);
@@ -37,12 +38,12 @@ public class CreditInsuranceServiceImpl {
 		map.put("message", "操作成功!");
 		return map;
 	}
-	public Map<String, Object> addGuaranteeApplyTbGrtCreditsafe(GrtGuaranteeBasic grtGuaranteeBasic,
+	public Map<String, Object> addGuaranteeApplyTbGrtCreditsafe(GrtCollateral grtCollateral,
 			GrtCreditsafe grtCreditsafe, BizGrtRel bizGrtRel) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		int i = grtGuaranteeBasicMapper.insertSelective(grtGuaranteeBasic);
+		int i = grtCollateralMapper.insertSelective(grtCollateral);
 		if(i<=0){
-			throw new RuntimeException("保存信用保险失败==>GrtGuaranteeBasic");
+			throw new RuntimeException("保存信用保险失败==>grtCollateral");
 		}
 		i = grtCreditsafeMapper.insertSelective(grtCreditsafe);
 		if(i<=0){
@@ -58,26 +59,26 @@ public class CreditInsuranceServiceImpl {
 	}
 	public Map<String, Object> getTbGrtCreditsafeBySuretyId(String suretyId) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		GrtGuaranteeBasic grtGuaranteeBasic = grtGuaranteeBasicMapper.selectByPrimaryKey(suretyId);
-		if(grtGuaranteeBasic==null){
-			throw new RuntimeException("查询信用保险失败==>GrtGuaranteeBasic");
+		GrtCollateral grtCollateral = grtCollateralMapper.selectByPrimaryKey(suretyId);
+		if(grtCollateral==null){
+			throw new RuntimeException("查询信用保险失败==>GrtCollateral");
 		}
 		GrtCreditsafe grtCreditsafe = grtCreditsafeMapper.selectByPrimaryKey(suretyId);
 		if(grtCreditsafe==null){
 			throw new RuntimeException("查询信用保险失败==>GrtCreditsafe");
 		}
-		map.put("grtGuaranteeBasic",grtGuaranteeBasic);
+		map.put("grtCollateral",grtCollateral);
 		map.put("grtCreditsafe", grtCreditsafe);
 		map.put("flag", "true");
 		map.put("message", "操作成功!");
 		return map;
 	}
-	public Map<String, Object> updateGuaranteeApplyTbGrtCreditsafe(GrtGuaranteeBasic grtGuaranteeBasic,
+	public Map<String, Object> updateGuaranteeApplyTbGrtCreditsafe(GrtCollateral grtCollateral,
 			GrtCreditsafe grtCreditsafe, BizGrtRel bizGrtRel) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		int i = grtGuaranteeBasicMapper.updateByPrimaryKey(grtGuaranteeBasic);
+		int i = grtCollateralMapper.updateByPrimaryKey(grtCollateral);
 		if(i<=0){
-			throw new RuntimeException("更新信用保险失败==>GrtGuaranteeBasic");
+			throw new RuntimeException("更新信用保险失败==>grtCollateral");
 		}
 		i = grtCreditsafeMapper.updateByPrimaryKeySelective(grtCreditsafe);
 		if(i<=0){
@@ -101,9 +102,9 @@ public class CreditInsuranceServiceImpl {
 		if(i<=0){
 			throw new RuntimeException("删除信用保险失败==>grtCreditsafe:"+suretyId);
 		}
-		i = grtGuaranteeBasicMapper.deleteByPrimaryKey(suretyId);
+		i = grtCollateralMapper.deleteByPrimaryKey(suretyId);
 		if(i<=0){
-			throw new RuntimeException("删除信用保险失败==>GrtGuaranteeBasic:"+suretyId);
+			throw new RuntimeException("删除信用保险失败==>grtCollateral:"+suretyId);
 		}
 		map.put("flag", "true");
 		map.put("message", "操作成功!");

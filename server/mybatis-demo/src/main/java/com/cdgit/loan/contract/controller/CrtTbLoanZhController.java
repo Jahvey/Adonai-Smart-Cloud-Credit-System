@@ -1,8 +1,6 @@
 package com.cdgit.loan.contract.controller;
 
-import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cdgit.loan.contract.bean.ConApvList;
 import com.cdgit.loan.contract.bean.CrtTbLoanZh;
 import com.cdgit.loan.contract.message.PageBean;
 import com.cdgit.loan.contract.service.CrtTbLoanZhServiceImpl;
@@ -40,5 +37,19 @@ public class CrtTbLoanZhController {
 		pageBean.setData(queryloanZhList.getList());
 		return pageBean;
 	}
+	
+	@GetMapping("/getOneLoanZhById")
+	public CrtTbLoanZh getOneLoanZhById(String Id){
+		return loanZhService.queryCrtTbLoanZhById(Id);
+	}
+	
+//	@GetMapping("/getOneLoanZhById")
+//	public HashMap<String,CrtTbLoanZh> getOneLoanZhById(String Id){
+//		HashMap<String,CrtTbLoanZh> map = new HashMap<>();
+//		
+//		CrtTbLoanZh loanZh = loanZhService.queryCrtTbLoanZhById(Id);
+//		map.put("loanZh", loanZh);
+//		return map;
+//	}
 	
 }

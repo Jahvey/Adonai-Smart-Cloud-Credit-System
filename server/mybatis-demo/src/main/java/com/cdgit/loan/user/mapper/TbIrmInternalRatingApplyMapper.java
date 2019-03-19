@@ -1,7 +1,9 @@
 package com.cdgit.loan.user.mapper;
 
-import com.cdgit.loan.user.bean.TbIrmInternalRatingApply;
+import org.apache.ibatis.annotations.Mapper;
 
+import com.cdgit.loan.user.bean.TbIrmInternalRatingApply;
+@Mapper
 public interface TbIrmInternalRatingApplyMapper {
     int deleteByPrimaryKey(String IRA_APPLY_ID);
 

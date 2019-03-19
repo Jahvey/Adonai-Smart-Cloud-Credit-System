@@ -2,6 +2,8 @@ package com.cdgit.loan.guaranteevaluation.controller;
 /**
  * 担保评价-信用保险
  * @author wuyong
+ * TODO 信用保险是TB_GRT_GUARANTEE_BASIC---担保基本信息
+ *      当前错误的绑定到了 押品信息表，要改
  *
  */
 
@@ -22,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cdgit.loan.common.util.uid.UUIDGenerator;
 import com.cdgit.loan.guaranteevaluation.bean.BizGrtRel;
 import com.cdgit.loan.guaranteevaluation.bean.GrtCreditsafe;
-import com.cdgit.loan.guaranteevaluation.bean.GrtGuaranteeBasic;
 import com.cdgit.loan.guaranteevaluation.service.CreditInsuranceServiceImpl;
+import com.cdgit.loan.securitymanagement.bean.GrtCollateral;
 
 @CrossOrigin
 @RestController
@@ -97,18 +99,20 @@ public class CreditInsuranceController {
 		try{
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
-			GrtGuaranteeBasic grtGuaranteeBasic = new GrtGuaranteeBasic();
-			grtGuaranteeBasic.setCreateTime(date);
-			grtGuaranteeBasic.setCurrencyCd(currencyCd);
-			grtGuaranteeBasic.setGuaranteeType(guaranteeType);
-			grtGuaranteeBasic.setOrgNum(orgNum);
-			grtGuaranteeBasic.setUserNum(userNum);
-			grtGuaranteeBasic.setSuretyAmt(guaranteeMoney);
-			grtGuaranteeBasic.setUpdateTime(date);
-			grtGuaranteeBasic.setSuretyId(UUIDGenerator.getUUID());
-			grtGuaranteeBasic.setPartyId(partyId);
+			GrtCollateral grtCollateral = new GrtCollateral();
+			grtCollateral.setTimeMark(date);
+			grtCollateral.setCurrencyCd(currencyCd);
+			grtCollateral.setMpType(guaranteeType);
+			grtCollateral.setSysUpdateTime(date);
+			grtCollateral.setDataCreatorOrgCd(orgNum);
+			grtCollateral.setDataCreatUserNum(userNum);
+			grtCollateral.setLastUpdateOrgCd(orgNum);
+			grtCollateral.setLastUpdateUserNum(userNum);
+			grtCollateral.setGuarantyId(UUIDGenerator.getUUID());
+			grtCollateral.setCustomerNum(partyId);
+			grtCollateral.setCollateralName("*信用保险*");
 			GrtCreditsafe grtCreditsafe = new GrtCreditsafe();
-			grtCreditsafe.setSuretyId(grtGuaranteeBasic.getSuretyId());
+			grtCreditsafe.setSuretyId(grtCollateral.getGuarantyId());
 			grtCreditsafe.setCurrencyCd(currencyCd);
 			grtCreditsafe.setBeneficiary(beneficiary);
 			grtCreditsafe.setCreditLimit(creditLimit);
@@ -125,10 +129,10 @@ public class CreditInsuranceController {
 			bizGrtRel.setCreateTime(date);
 			bizGrtRel.setRelationId(UUIDGenerator.getUUID());
 			bizGrtRel.setSuretyAmt(guaranteeMoney);
-			bizGrtRel.setSuretyId(grtGuaranteeBasic.getSuretyId());
+			bizGrtRel.setSuretyId(grtCollateral.getGuarantyId());
 			bizGrtRel.setSuretyType(guaranteeType);
 			bizGrtRel.setUpdateTime(date);
-			map = creditInsuranceServiceImpl.addGuaranteeApplyTbGrtCreditsafe(grtGuaranteeBasic,grtCreditsafe,bizGrtRel);
+			map = creditInsuranceServiceImpl.addGuaranteeApplyTbGrtCreditsafe(grtCollateral,grtCreditsafe,bizGrtRel);
 		}catch(Exception e){
 			map.put("flag", "error");
 			map.put("message", "操作失败啦！"+e.getMessage());
@@ -185,16 +189,15 @@ public class CreditInsuranceController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
 		try{
-			GrtGuaranteeBasic grtGuaranteeBasic = new GrtGuaranteeBasic();
-			grtGuaranteeBasic.setCreateTime(date);
-			grtGuaranteeBasic.setCurrencyCd(currencyCd);
-			grtGuaranteeBasic.setGuaranteeType(guaranteeType);
-			grtGuaranteeBasic.setOrgNum(orgNum);
-			grtGuaranteeBasic.setUserNum(userNum);
-			grtGuaranteeBasic.setSuretyAmt(guaranteeMoney);
-			grtGuaranteeBasic.setUpdateTime(date);
-			grtGuaranteeBasic.setSuretyId(suretyId);
-			grtGuaranteeBasic.setPartyId(partyId);
+			GrtCollateral grtCollateral = new GrtCollateral();
+			grtCollateral.setCurrencyCd(currencyCd);
+			grtCollateral.setMpType(guaranteeType);
+			grtCollateral.setSysUpdateTime(date);
+			grtCollateral.setLastUpdateOrgCd(orgNum);
+			grtCollateral.setLastUpdateUserNum(userNum);
+			grtCollateral.setGuarantyId(suretyId);
+			grtCollateral.setCustomerNum(partyId);
+			
 			GrtCreditsafe grtCreditsafe = new GrtCreditsafe();
 			grtCreditsafe.setSuretyId(suretyId);
 			grtCreditsafe.setCurrencyCd(currencyCd);
@@ -214,7 +217,7 @@ public class CreditInsuranceController {
 			bizGrtRel.setSuretyAmt(guaranteeMoney);
 			bizGrtRel.setSuretyType(guaranteeType);
 			bizGrtRel.setUpdateTime(date);
-			map = creditInsuranceServiceImpl.updateGuaranteeApplyTbGrtCreditsafe(grtGuaranteeBasic,grtCreditsafe,bizGrtRel);
+			map = creditInsuranceServiceImpl.updateGuaranteeApplyTbGrtCreditsafe(grtCollateral,grtCreditsafe,bizGrtRel);
 		}catch(Exception e){
 			map.put("flag", "error");
 			map.put("message", "操作失败啦！"+e.getMessage());

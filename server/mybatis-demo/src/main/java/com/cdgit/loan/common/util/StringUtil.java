@@ -850,4 +850,80 @@ public class StringUtil extends StringUtils {
 		}
 		return false;
 	}
+	
+	public String addAll(String num, String name) {
+		String code = num + "_" + name;
+		return code;
+	}
+
+	public String add2(String num, String name) {
+		String code = num + name;
+		return code;
+	}
+
+	public String addThreeString(String num, String name, String id) {
+		String code = num + name + id;
+		return code;
+	}
+
+	public String camelName(String name) {
+		StringBuilder result = new StringBuilder();
+		if (null == name || name.isEmpty()) {
+			return "";
+		} else if (!name.contains("_")) {
+			return name.substring(0).toLowerCase();
+		}
+		String camels[] = name.split("[_]");
+		for (String camel : camels) {
+			if (camel.isEmpty()) {
+				continue;
+			}
+			if (result.length() == 0) {
+				result.append(camel.toLowerCase());
+			} else {
+				result.append(camel.substring(0, 1).toUpperCase());
+				result.append(camel.substring(1).toLowerCase());
+			}
+		}
+		return result.toString();
+	}
+	
+	/**
+	 * 删除text中多余空格
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public final static String trimAll(String text) {
+		if (isNull(text)) {
+			return text;
+		}
+		Pattern p = Pattern.compile("\\s{2,}");
+		Matcher m = p.matcher(text);
+		return m.replaceAll(" ");
+	}
+
+	public final static String joinStrRidNull(String[] strs, String space) {
+		if (strs == null || strs.length == 0) {
+			return "";
+		}
+		if (space == null) {
+			space = "";
+		}
+		StringBuilder sb = new StringBuilder(strs.length * 30);
+		boolean isStart = true;
+		for (int i = 1; i < strs.length; i++) {
+			if (isNull(strs[i])) {
+				continue;
+			}
+			if (isStart) {
+				isStart = false;
+			} else {
+				sb.append(space);
+			}
+			sb.append(strs[i]);
+		}
+		return sb.toString();
+	}
+	
 }

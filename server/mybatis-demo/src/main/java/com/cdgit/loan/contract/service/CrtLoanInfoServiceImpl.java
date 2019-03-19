@@ -3,6 +3,7 @@ package com.cdgit.loan.contract.service;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import com.cdgit.loan.contract.bean.CrtTbLoanPayoutPlan;
 import com.cdgit.loan.contract.bean.CrtTbLoanRepayPlan;
 import com.cdgit.loan.contract.bean.CrtTbLoanZh;
 import com.cdgit.loan.contract.bean.TbConContractInfo;
+import com.cdgit.loan.contract.gitUtil.LoanSubject;
 import com.cdgit.loan.contract.mapper.BizAmountDetailApproveMapper;
 import com.cdgit.loan.contract.mapper.CrtCdzykhMapper;
 import com.cdgit.loan.contract.mapper.CrtOrgRelMapper;
@@ -51,6 +53,8 @@ import com.cdgit.loan.contract.mapper.CrtTbLoanRepayPlanMapper;
 import com.cdgit.loan.contract.mapper.CrtTbLoanSummaryMapper;
 import com.cdgit.loan.contract.mapper.CrtTbLoanZhMapper;
 import com.cdgit.loan.contract.mapper.TbConContractInfoMapper;
+import com.cdgit.loan.contract.query.HpxxsQuery;
+import com.cdgit.loan.contract.query.PayInfoForm;
 
 @Service
 @org.springframework.transaction.annotation.Transactional
@@ -103,6 +107,8 @@ public class CrtLoanInfoServiceImpl {
 	@Autowired	BizAmountDetailApproveMapper bizAmountDetailApproveMapper;		//业务申请明细信息表
 	
 	@Autowired	CrtCdzykhMapper cdzykhMapper;		//存单相关
+	
+	@Autowired	LoanSubject loanSubject;	//业务别相关的计算
 	
 	
 	//根据放款id（主键）查询一条放款信息
@@ -565,6 +571,8 @@ public class CrtLoanInfoServiceImpl {
 		List<CrtTbLoanLoanrate> loanLoanrateList = loanLoanrateMapper.queryLoanLoanrateListByLoanId(loanId);
 		if(loanLoanrateList.size()>0){
 			hashMap.put("loanrate", loanLoanrateList.get(0));
+		}else{
+			hashMap.put("loanrate", null);
 		}
 		
 		//查询批复明细	tbBizAmountDetailApprove/amountDetailId
@@ -580,14 +588,24 @@ public class CrtLoanInfoServiceImpl {
 			String agriculLoans = isJxhj.get("AGRICUL_LOANS");
 			hashMap.put("bizHappenType", bizHappenType + ":" + agriculLoans);//前端写的怪怪的
 //			hashMap.put("bizHappenType", bizHappenType + agriculLoans);
+		}else{
+			hashMap.put("bizHappenType", null);
 		}
 		
 		//查询是否是会计复核岗
 		List<Integer> objs = cdzykhMapper.queryPostNum(userNum);
 		hashMap.put("objs", objs);
 		
-		//查询流程：这个暂时没有做，先做自己的功能
+		//查询流程：这个暂时没有做，先做自己的功能---------------------------------------------
 		
+		//汇票出账金额表，一起写在这里了
+		List<HpxxsQuery> queryHpxxsList = crtTbLoanHpAmtMapper.queryHpxxs(loanId);
+		if(queryHpxxsList.size()>0){
+			HpxxsQuery hps = queryHpxxsList.get(0);
+			hashMap.put("hps", hps);
+		}else{
+			hashMap.put("hps", null);
+		}
 		return hashMap;
 	}
 	
@@ -603,7 +621,6 @@ public class CrtLoanInfoServiceImpl {
 		hashMap.put("loanInfo", loanInfo);
 		//申请相关信息
 		List<HashMap<String, String>> objs = csmPartyMapper.getApplyIdByLoanId(loanId);
-		System.err.println(objs.get(0));
 		if(objs.size()>0){
 			hashMap.put("obj", objs.get(0));
 		}
@@ -622,7 +639,52 @@ public class CrtLoanInfoServiceImpl {
 		return hashMap;
 	}
 	
-	
+	/**
+	 * 保存修改的出账信息
+	 * @param payInfo
+	 */
+	public void savePayInfo(PayInfoForm payInfo){
+		CrtTbLoanInfo loanInfo = loanInfoMapper.selectLoanInfoByloanId(payInfo.getLoanId());
+		String busiDate = crtGitUtilService.getBusiDate(); 	//获取营业时间
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		Date date = null;
+		try {
+			date = sdf.parse(busiDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		String loanTerm = loanSubject.getDay(payInfo.getBeginDate(), payInfo.getEndDate());//获取间隔天数
+		String productType = loanInfo.getProductType();
+		loanInfo.setUpdateTime(date);
+		loanInfo.setLoanTerm(Long.parseLong(loanTerm));
+		loanInfo.setCycleUnit("05");
+		//form表单传递过来的信息
+		loanInfo.setLoanNum(payInfo.getLoanNum());
+		loanInfo.setCurrencyCd(payInfo.getCurrencyCd());
+		loanInfo.setLoanAmt(new BigDecimal(payInfo.getLoanAmt()));
+		loanInfo.setBeginDate(new Date(Long.parseLong(payInfo.getBeginDate())));
+		loanInfo.setEndDate(new Date(Long.parseLong(payInfo.getEndDate())));
+		loanInfo.setTerm(payInfo.getTerm());
+		loanInfo.setUnit(payInfo.getUnit());
+		loanInfo.setRepayType(payInfo.getRepayType());
+		loanInfo.setLoanOrg(payInfo.getLoanOrg());
+		loanInfo.setPayOutFlag(payInfo.getPayOutFlag());
+		loanInfo.setUserNum(payInfo.getUserNum());
+		loanInfo.setOrgNum(payInfo.getOrgNum());
+		
+		loanInfoMapper.updateLoanInfoBySelect(loanInfo);//更新放款基本信息
+		//如果是银承相关，则更新汇票到期日期
+		if("01008001".equals(productType) || "01008010".equals(productType) || "01008002".equals(productType)){
+			crtTbLoanHpAmtMapper.updateHpEndDate(loanInfo.getLoanId());
+		}
+		String loanSubject1 = loanSubject.getLoanSubject(loanInfo.getLoanId());//贷款科目
+		
+
+		loanInfo.setLoanSubject1(loanSubject1);
+		
+		loanInfoMapper.updateLoanInfoBySelect(loanInfo);//更新贷款科目
+		
+	}
 	
 	
 	

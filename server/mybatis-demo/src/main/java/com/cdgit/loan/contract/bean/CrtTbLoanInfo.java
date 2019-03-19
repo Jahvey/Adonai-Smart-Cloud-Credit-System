@@ -81,7 +81,7 @@ public class CrtTbLoanInfo {
 
     private String drweBnkNo;				//付款行行号
 
-    private String drweBnkAdr;
+    private String drweBnkAdr;				//付款行地址
 
     private Date txzq;						//贴息止期
 

@@ -40,8 +40,48 @@ public class TbIrmInternalRatingApply {
     private String GENERAL_ADJUST_RATING_CD;
 
     private String RATING_TYPE;
+    
+    private String RATING_TYPE_CD;
+    
+    private String LAST_CREDIT_RATING_CD;
+    
+    private Date LAST_EFFECTIVE_END_DT;
+    
+    private Date LAST_EFFECTIVE_START_DT;
+    
+    public String getLAST_CREDIT_RATING_CD() {
+		return LAST_CREDIT_RATING_CD;
+	}
 
-    private String PARTY_ID;
+	public void setLAST_CREDIT_RATING_CD(String lAST_CREDIT_RATING_CD) {
+		LAST_CREDIT_RATING_CD = lAST_CREDIT_RATING_CD;
+	}
+
+	public Date getLAST_EFFECTIVE_END_DT() {
+		return LAST_EFFECTIVE_END_DT;
+	}
+
+	public void setLAST_EFFECTIVE_END_DT(Date lAST_EFFECTIVE_END_DT) {
+		LAST_EFFECTIVE_END_DT = lAST_EFFECTIVE_END_DT;
+	}
+
+	public Date getLAST_EFFECTIVE_START_DT() {
+		return LAST_EFFECTIVE_START_DT;
+	}
+
+	public void setLAST_EFFECTIVE_START_DT(Date lAST_EFFECTIVE_START_DT) {
+		LAST_EFFECTIVE_START_DT = lAST_EFFECTIVE_START_DT;
+	}
+
+	public String getRATING_TYPE_CD() {
+		return RATING_TYPE_CD;
+	}
+
+	public void setRATING_TYPE_CD(String rATING_TYPE_CD) {
+		RATING_TYPE_CD = rATING_TYPE_CD;
+	}
+
+	private String PARTY_ID;
 
     public String getIRA_APPLY_ID() {
         return IRA_APPLY_ID;

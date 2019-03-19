@@ -19,18 +19,9 @@ public class CrtBizApplyController {
 	
 	@Autowired
 	CrtBizApplyServiceImpl bizApplyService;
-	
-//	@GetMapping("/getBasicrate")
-//	public Serializable getBasicrate(){
-//		String beginDate="1536422400000";
-//		String endDate="1544284800000";
-//		Serializable countRate = bizApplyService.countRate(beginDate, endDate);
-//		return countRate;
-//	}
-	
+		
 	/**
 	 * 获得基准利率
-	 * 前台传过来的不是date格式，还是String类型	Date beginDate,Date endDate
 	 * @param beginDate
 	 * @param endDate
 	 * @param productType
@@ -40,6 +31,33 @@ public class CrtBizApplyController {
 	public Serializable getBasicrate(String beginDate,String endDate,String productType){
 		Serializable countRate = bizApplyService.countRate(beginDate, endDate, productType);
 		return countRate;
+	}
+	
+
+	/**
+	 * 计算到期日期
+	 * @param qxdw
+	 * @param qx
+	 * @param rq
+	 * @return
+	 */
+	@GetMapping("/monthAddDate")
+	public String monthAddDate(String qxdw, int qx, String rq){
+		String countRate = bizApplyService.addDate(qxdw, qx, rq);
+		return countRate;
+	}
+	
+	/**
+	 * 按期限单位计算两日期间期限
+	 * @param qxdw	期限单位（Y 年,M 月,D 天）
+	 * @param qsrq 	起始日期 yyyy-mm-dd(使用时间戳)
+	 * @param dqrq  到期日期 yyyy-mm-dd(使用时间戳)
+	 * @return
+	 */
+	@GetMapping("/getTermByEndDate")
+	public Integer getTermByEndDate(String qxdw, String qsrq, String dqrq){
+		Integer retDateTerm = bizApplyService.retDateTerm(qxdw, qsrq, dqrq);
+		return retDateTerm;
 	}
 	
 }

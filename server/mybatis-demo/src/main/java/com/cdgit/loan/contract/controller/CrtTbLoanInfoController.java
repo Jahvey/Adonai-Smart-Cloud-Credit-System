@@ -4,13 +4,16 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cdgit.loan.contract.bean.CrtTbLoanInfo;
 import com.cdgit.loan.contract.bean.TbConContractInfo;
+import com.cdgit.loan.contract.gitUtil.LoanSubject;
 import com.cdgit.loan.contract.mapper.TbConContractInfoMapper;
+import com.cdgit.loan.contract.query.PayInfoForm;
 import com.cdgit.loan.contract.service.CrtLoanInfoServiceImpl;
 import com.cdgit.loan.contract.service.CrtRuleEngineServiceImpl;
 
@@ -123,12 +126,25 @@ public class CrtTbLoanInfoController {
 		return hashMap;
 	}
 	
-	
-	
-	
-	
-	
-	
+
+	/**
+	 * 保存修改的出账信息,使用post提交
+	 * @param payInfo
+	 * @return
+	 */
+	@PostMapping("/savePayInfo")
+	public String savePayInfo(@RequestBody PayInfoForm payInfo){
+		String msg="";
+		try {
+			loanInfoService.savePayInfo(payInfo);
+			msg="保存成功！";
+		} catch (Exception e) {
+			e.printStackTrace();
+//			msg="保存失败，"+e.getMessage();
+			msg="保存失败，你所面对的正是：哈哈哈哈哈哈哈嗝！！！！";
+		}
+		return msg;
+	}
 	
 	
 

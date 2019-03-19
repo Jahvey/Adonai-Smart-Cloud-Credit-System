@@ -42,6 +42,7 @@ public interface UserMapper {
 	 void updateUser(Map map);
 	 
 	 int getNextVal(Map map);
+	 
 	 int getNextVal1(String tableName);
 	 
 	 void insertScore(Score score);
