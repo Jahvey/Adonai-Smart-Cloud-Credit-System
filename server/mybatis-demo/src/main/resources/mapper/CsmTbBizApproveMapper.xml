@@ -78,7 +78,9 @@
   
   
   </select>
-  
+  <select id="getPartyBizIds" parameterType="java.lang.String" resultType="java.lang.String">
+  SELECT APPROVE_ID FROM TB_BIZ_APPROVE WHERE PARTY_ID=#{partyId,jdbcType=VARCHAR}
+  </select>
   
   
   

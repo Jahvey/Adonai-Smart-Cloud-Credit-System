@@ -10,6 +10,8 @@ import com.cdgit.loan.csm.po.TbBizApprovePo;
 @Mapper
 public interface CsmTbBizApproveMapper {
 	
+	String getPartyBizIds(String partyId);
+	
 	TbBizApprovePo queryByApplyId(String applyId);
 	
 	String[] getBizIds(String crdId);

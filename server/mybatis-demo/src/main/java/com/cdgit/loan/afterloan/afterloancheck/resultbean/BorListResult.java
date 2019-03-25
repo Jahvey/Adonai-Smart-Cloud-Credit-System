@@ -39,6 +39,34 @@ public class BorListResult {
 	private String warningLevelCd;
 	private String remindType;
 	private String lastDate;
+	private String loanUse;
+	private String firstCheckId;
+	private String checkPerson;
+	private String checkCount;
+	public String getFirstCheckId() {
+		return firstCheckId;
+	}
+	public void setFirstCheckId(String firstCheckId) {
+		this.firstCheckId = firstCheckId;
+	}
+	public String getCheckPerson() {
+		return checkPerson;
+	}
+	public void setCheckPerson(String checkPerson) {
+		this.checkPerson = checkPerson;
+	}
+	public String getCheckCount() {
+		return checkCount;
+	}
+	public void setCheckCount(String checkCount) {
+		this.checkCount = checkCount;
+	}
+	public String getLoanUse() {
+		return loanUse;
+	}
+	public void setLoanUse(String loanUse) {
+		this.loanUse = loanUse;
+	}
 	public String getRemindStatus() {
 		return remindStatus;
 	}

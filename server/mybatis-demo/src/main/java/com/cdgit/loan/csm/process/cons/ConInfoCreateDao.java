@@ -455,7 +455,7 @@ public class ConInfoCreateDao {//ConDao0001
 		TbConContractInfoPo contractInfo = new TbConContractInfoPo();
 		contractInfo.setProductType(bizDtl.getProductType());
 		contractInfo.setContractId(UUIDGenerator.getUUID());//必须要填写在这里
-		System.err.println("[创建的合同编号的id]:"+contractInfo.getContractId());
+		//System.err.println("[创建的合同编号的id]:"+contractInfo.getContractId());
 		
 		CsmConDetailVo conDetail=new CsmConDetailVo();
 

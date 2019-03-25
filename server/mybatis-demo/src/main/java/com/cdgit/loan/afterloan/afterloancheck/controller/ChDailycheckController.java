@@ -11,27 +11,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cdgit.loan.afterloan.afterloancheck.resultbean.BorListResult;
+import com.cdgit.loan.afterloan.afterloancheck.service.ChDailycheckServiceImpl;
 import com.cdgit.loan.afterloan.afterloancheck.service.ChTbAftFirstCheckServiceImpl;
 import com.cdgit.loan.mycustomer.message.PageBean;
 import com.github.pagehelper.PageInfo;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/afterloancheck")
+@RequestMapping("/Dailycheck")
 public class ChDailycheckController {
 	@Autowired
-	ChTbAftFirstCheckServiceImpl chTbAftFirstCheckServiceImpl;
+	ChDailycheckServiceImpl chDailycheckServiceImpl;
 	
-	//贷后首次检查借据列表查询
-	@GetMapping("/queryBorList")
-	public PageBean queryBorList(
+	//可日常检查客户列表查询
+	@GetMapping("/queryDailycheckCust")
+	public PageBean queryDailycheckCust(
 			@RequestParam(value="pageNum",required=true) int pageNum,
 			@RequestParam(value="pageSize",required=true) int pageSize,
 			@RequestParam(value="orgNum",required=false) String orgNum,
 			@RequestParam(value="userNum",required=false) String userNum,
 			@RequestParam(value="partyName",required=false) String partyName,
-			@RequestParam(value="contractNum",required=false) String contractNum,
-			@RequestParam(value="summaryNum",required=false) String summaryNum,
 			@RequestParam(value="certType",required=false) String certType,
 			@RequestParam(value="certNum",required=false) String certNum
 			){
@@ -40,16 +39,34 @@ public class ChDailycheckController {
 		map.put("pageSize", pageSize);
 		map.put("partyName", partyName);	
 		map.put("orgNum", orgNum);
-		map.put("contractNum", contractNum);
-		map.put("summaryNum", summaryNum);
 		map.put("certType", certType);
 		map.put("certNum", certNum);
 		map.put("userNum", userNum);
-		PageInfo<BorListResult> borListResultList=chTbAftFirstCheckServiceImpl.selectBorList(map);
+		PageInfo<BorListResult> borListResultList=chDailycheckServiceImpl.selectDailycheckCust(map);
 		PageBean pageBean=new PageBean();
 		pageBean.setTotal(borListResultList.getTotal());
 		pageBean.setData(borListResultList.getList());
 		return pageBean;
 	}
+	
+	//可日常检查客户列表查询
+	@GetMapping("/querySummaryList")
+	public PageBean querySummaryList(
+			@RequestParam(value="pageNum",required=true) int pageNum,
+			@RequestParam(value="pageSize",required=true) int pageSize,
+			@RequestParam(value="partyId",required=false) String partyId
+			){
+		Map map=new HashMap<String,Object>();
+		map.put("pageNum", pageNum);
+		map.put("pageSize", pageSize);
+		map.put("partyId", partyId);	
+		PageInfo<Map<String, Object>> borListResultList=chDailycheckServiceImpl.selectSummaryList(map);
+		PageBean pageBean=new PageBean();
+		pageBean.setTotal(borListResultList.getTotal());
+		pageBean.setData(borListResultList.getList());
+		return pageBean;
+	}
+	
+	
 	
 }

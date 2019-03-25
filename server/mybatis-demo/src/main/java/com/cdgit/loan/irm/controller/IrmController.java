@@ -121,6 +121,17 @@ public class IrmController {
 		return map;
 	}	
 	
+	@PostMapping("/queryCusInfo")
+	@ResponseBody
+	public Map<String, Object> queryCusInfo(@RequestBody Map<String, Object> params){
+		String partyId = null;
+		if(params.get("partyId") != null){
+			partyId = params.get("partyId").toString();
+		}
+		Map<String, Object> map = irmServiceImpl.queryCusInfo(partyId);
+		return map;
+	}	
+	
 	@PostMapping("/queryCustInfoJj")
 	@ResponseBody
 	public Map<String, Object> queryCustInfoJj(@RequestBody Map<String, Object> params){
@@ -257,6 +268,26 @@ public class IrmController {
 			oldApplyId = params.get("oldApplyId").toString();
 		}
 		Map<String,String> map = irmServiceImpl.queryInitialRatingCd(applyId,oldApplyId);
+		return map;
+	}
+	
+	@PostMapping("/queryOverRecordFirst")
+	@ResponseBody
+	public Map<String, String> queryOverRecordFirst(@RequestBody Map<String, String> params){
+		String applyId = null;
+		String posicode = null;
+		String flowType = null;
+		
+		if(params.get("applyId") != null){
+			applyId = params.get("applyId").toString();
+		}
+		if(params.get("posicode") != null){
+			posicode = params.get("posicode").toString();
+		}
+		if(params.get("flowType") != null){
+			flowType = params.get("flowType").toString();
+		}
+		Map<String,String> map = irmServiceImpl.queryOverRecordFirst(applyId,posicode,flowType);
 		return map;
 	}
 	

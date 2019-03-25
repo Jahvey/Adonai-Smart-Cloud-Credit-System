@@ -21,6 +21,7 @@ import com.cdgit.loan.irm.bean.TbIrmIndexScore;
 import com.cdgit.loan.irm.bean.TbIrmModelIndex;
 import com.cdgit.loan.irm.bean.TbIrmModelScale;
 import com.cdgit.loan.irm.bean.TbIrmNonFinancialInfo;
+import com.cdgit.loan.irm.bean.TbIrmOverthrowRecord;
 import com.cdgit.loan.irm.bean.TbIrmRatingEngineCalc;
 import com.cdgit.loan.irm.bean.TbIrmRatingFinIndex;
 import com.cdgit.loan.irm.bean.TbIrmRatingIndexData;
@@ -103,4 +104,14 @@ public interface IrmMapper {
     int deleteTbIrmAdjustOptions(String applyId);
     int insertTbIrmAdjustOptions(TbIrmAdjustOptions tbIrmAdjustOptions);
     Map getRatingCd1(String applyId);
+    
+    IrmOverRecordInfo queryOverRecord(Map map);
+    IrmOverRecordInfo queryOverRecordFirst(Map map);
+    
+    List<TbIrmOverthrowRecord> queryTbIrmOverthrowRecord(Map map);
+    
+    int updateTbIrmOverthrowRecord(TbIrmOverthrowRecord tbIrmOverthrowRecord);
+    int insertTbIrmOverthrowRecord(TbIrmOverthrowRecord tbIrmOverthrowRecord);
+    
+    String getinitialRatingCd(Map map);
 }

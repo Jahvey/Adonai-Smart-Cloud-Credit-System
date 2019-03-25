@@ -27,6 +27,7 @@ public class LoginServiceImpl {
 		try {
 			acOperator = loginMapper.getOperatorByAccount(account);
 		} catch (Exception e) {
+			e.printStackTrace();
 			// TODO: handle exception
 		} finally {
 			return acOperator;

@@ -849,4 +849,5 @@
       CUST_TYPE = #{custType,jdbcType=VARCHAR}
     where PARTY_ID = #{partyId,jdbcType=VARCHAR}
   </update>
+  
 </mapper>

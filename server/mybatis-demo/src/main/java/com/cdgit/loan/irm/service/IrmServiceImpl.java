@@ -3,9 +3,7 @@ package com.cdgit.loan.irm.service;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.sql.Date;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,14 +15,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cdgit.loan.common.util.DateUtil;
+import com.cdgit.loan.common.util.GetPositionFlag;
 import com.cdgit.loan.common.util.StringUtil;
 import com.cdgit.loan.common.util.uid.UUIDGenerator;
 import com.cdgit.loan.user.mapper.TbCsmPartyMapper;
+import com.cdgit.loan.customerManage.bean.ManagementTeam;
 import com.cdgit.loan.customerManage.bean.NaturalPerson;
+import com.cdgit.loan.customerManage.mapper.ManagementTeamMapper;
 import com.cdgit.loan.customerManage.mapper.NaturalPersonMapper;
 import com.cdgit.loan.irm.bean.AdJustInfoBean;
 import com.cdgit.loan.irm.bean.AddFinanceinfoCriteria;
 import com.cdgit.loan.irm.bean.AddNonFinancialInfoCriteria;
+import com.cdgit.loan.irm.bean.AddOrUpdateTFRecordCriteria;
 import com.cdgit.loan.irm.bean.AdjustOption;
 import com.cdgit.loan.irm.bean.IndexEntity;
 import com.cdgit.loan.irm.bean.IrmCriteria;
@@ -44,6 +46,7 @@ import com.cdgit.loan.irm.bean.TbIrmInternalRatingResult;
 import com.cdgit.loan.irm.bean.TbIrmModelIndex;
 import com.cdgit.loan.irm.bean.TbIrmModelScale;
 import com.cdgit.loan.irm.bean.TbIrmNonFinancialInfo;
+import com.cdgit.loan.irm.bean.TbIrmOverthrowRecord;
 import com.cdgit.loan.irm.bean.TbIrmRatingEngineCalc;
 import com.cdgit.loan.irm.bean.TbIrmRatingFinIndex;
 import com.cdgit.loan.irm.bean.TbIrmRatingIndexData;
@@ -56,7 +59,6 @@ import com.cdgit.loan.irm.mapper.TbAccCustomerFinanceMapper;
 import com.cdgit.loan.irm.mapper.TbIrmInternalRatingResultMapper;
 import com.cdgit.loan.mycustomer.corporation.bean.TbAccFinanceStatementData;
 import com.cdgit.loan.user.bean.TbCsmCorporation;
-import com.cdgit.loan.user.bean.TbCsmNaturalPerson;
 import com.cdgit.loan.user.bean.TbCsmParty;
 import com.cdgit.loan.user.bean.TbIrmInternalRatingApply;
 import com.cdgit.loan.user.mapper.TbCsmCorporationMapper;
@@ -66,10 +68,14 @@ import com.github.pagehelper.PageInfo;
 import com.googlecode.aviator.AviatorEvaluator;
 import com.googlecode.aviator.Expression;
 
+import oracle.sql.DATE;
+
 @Service
 @Transactional
 public class IrmServiceImpl {
 	
+	@Autowired
+	ManagementTeamMapper managementTeamMapper;
 	@Autowired
 	IrmMapper irmMapper;
 	@Autowired
@@ -169,39 +175,36 @@ public class IrmServiceImpl {
 						pjlx = "3";
 						ratingModelCd = this.getIrmModel(partyId, choose, pjlx);
 					}else{
-						//判断是否对私客户
-						NaturalPerson naturalPerson = naturalPersonMapper.queryNaturalByPartyId(partyId);
-						if(null != naturalPerson){//是对私客户
-							ratingModelCd = this.getIrmModel(partyId, choose, pjlx);
-						}else{//不是对私客户
-							//赋值
-							pjlx = "3";
-							//查询是否有财报
-							List<TbAccCustomerFinance> customerFinances_002 = tbAccCustomerFinanceMapper.queryTbAccCustomerFinanceMapperByParams(tbAccCustomerFinance);
-							if(customerFinances_002.size() > 0){
-								String result = this.validCusGm(corporation, pjlx);
-								if("OK".equals(result)){
-									//验证通过，获取评级模型
-									ratingModelCd = this.getIrmModel(partyId, choose, pjlx);
-								}else{
-									code = "201";
-									msg = this.changeMsg(result);
-								}
+						//赋值
+						pjlx = "3";
+						//查询是否有财报
+						List<TbAccCustomerFinance> customerFinances_002 = tbAccCustomerFinanceMapper.queryTbAccCustomerFinanceMapperByParams(tbAccCustomerFinance);
+						if(customerFinances_002.size() > 0){
+							String result = this.validCusGm(corporation, pjlx);
+							if("OK".equals(result)){
+								//验证通过，获取评级模型
+								ratingModelCd = this.getIrmModel(partyId, choose, pjlx);
 							}else{
-								//是否事业单位
-								if("2".equals(corporation.getCorpCustomerTypeCd())){
-									//评级模型T1
-									ratingModelCd = "T1";
-								}else{
-									code = "201";
-									msg = "无年报信息";
-								}
+								code = "201";
+								msg = this.changeMsg(result);
+							}
+						}else{
+							//是否事业单位
+							if("2".equals(corporation.getCorpCustomerTypeCd())){
+								//评级模型T1
+								ratingModelCd = "T1";
+							}else{
+								code = "201";
+								msg = "无年报信息";
 							}
 						}
 					}
 				}else{
-					code = "201";
-					msg = "客户不存在";
+					//判断是否对私客户
+					NaturalPerson naturalPerson = naturalPersonMapper.queryNaturalByPartyId(partyId);
+					if(null != naturalPerson){//是对私客户
+						ratingModelCd = this.getIrmModel(partyId, choose, pjlx);
+					}
 				}
 			}
 			
@@ -279,6 +282,36 @@ public class IrmServiceImpl {
 		}
 	}
 	/**
+	 * 查询客户信息
+	 * */
+	public Map<String, Object> queryCusInfo(String partyId){
+		Map<String, Object> map = new HashMap<>();
+    	try {
+    		if(StringUtils.isBlank(partyId)){//查询客户信息客户编号不能为空
+    			map.put("code", "201");
+    			map.put("msg", "查询客户信息失败，查询条件partyId不能为空！");
+    		}else{
+    			//获取客户信息
+    			TbCsmParty tbCsmParty = tbCsmPartyMapper.selectByPrimaryKey(partyId);
+    			//查询个人信息
+    			NaturalPerson naturalPerson = naturalPersonMapper.queryNaturalByPartyId(partyId);
+    			//查询公司信息
+    			TbCsmCorporation tbCsmCorporation = tbCsmCorporationMapper.selectByPrimaryKey(partyId);
+    			map.put("code", "200");
+    			map.put("msg", "查询客户信息成功！");
+    			map.put("party", tbCsmParty);
+    			map.put("corporation", tbCsmCorporation);
+    			map.put("natural", naturalPerson);
+    		}
+		} catch (Exception e) {
+			map.put("code", "201");
+			map.put("msg", "查询客户信息失败！异常！" + e.getMessage());
+            e.printStackTrace();
+		} finally {
+			return map;
+		}
+	}
+	/**
 	 * 通过评级申请id和参与人id获取评级基本信息。
 	 * 获取上次评级结果和评级有效期
 	 * jj本地化改造
@@ -302,8 +335,9 @@ public class IrmServiceImpl {
     			//查询公司信息
     			TbCsmCorporation tbCsmCorporation = tbCsmCorporationMapper.selectByPrimaryKey(partyId);
     			//查询经办人信息
-    			String orgNum = "";
-    			String userNum = "";
+    			List<ManagementTeam> managementTeamList = managementTeamMapper.managementTeamList(partyId);
+    			String orgNum = managementTeamList.get(0).getOrgNum();
+    			String userNum = managementTeamList.get(0).getUserNum();
     			//查询上次评级结果
     			Map<String,String> params = new HashMap<String,String>();
     			params.put("partyId", partyId);
@@ -1040,28 +1074,32 @@ public class IrmServiceImpl {
 		tbIrmRatingEngineCalc.setGeneralAdjustRatingCd(tbIrmScaleDef2.getCreditRatingDisplay());
 		tbIrmRatingEngineCalc.setRecId(UUIDGenerator.getUUID());
 		irmMapper.insertTbIrmRatingEngineCalc(tbIrmRatingEngineCalc);
-		for(int k = 0;k<financeIndexs.size();k++){
-			TbIrmIndexCalc tbIrmIndexCalc = new TbIrmIndexCalc();
-			tbIrmIndexCalc.setIdxCalcId(UUIDGenerator.getUUID());
-			tbIrmIndexCalc.setIndexId(financeIndexs.get(k).getIndexId());
-			tbIrmIndexCalc.setRecId(tbIrmRatingEngineCalc.getRecId());
-			tbIrmIndexCalc.setIndexClass(financeIndexs.get(k).getIndexType());
-			tbIrmIndexCalc.setIndexType(financeIndexs.get(k).getPropertyTypeCd());
-			tbIrmIndexCalc.setIndexScore(financeIndexs.get(k).getiValue());
-			tbIrmIndexCalc.setIndexWeight(financeIndexs.get(k).getIndexWeight());//普元忠financeIndexs未设置此值如何取到
-			tbIrmIndexCalc.setIndexValue(financeIndexs.get(k).getIndexValueDataType());
-			irmMapper.insertTbIrmIndexCalc(tbIrmIndexCalc);
+		if(financeIndexs != null){
+			for(int k = 0;k<financeIndexs.size();k++){
+				TbIrmIndexCalc tbIrmIndexCalc = new TbIrmIndexCalc();
+				tbIrmIndexCalc.setIdxCalcId(UUIDGenerator.getUUID());
+				tbIrmIndexCalc.setIndexId(financeIndexs.get(k).getIndexId());
+				tbIrmIndexCalc.setRecId(tbIrmRatingEngineCalc.getRecId());
+				tbIrmIndexCalc.setIndexClass(financeIndexs.get(k).getIndexType());
+				tbIrmIndexCalc.setIndexType(financeIndexs.get(k).getPropertyTypeCd());
+				tbIrmIndexCalc.setIndexScore(financeIndexs.get(k).getiValue());
+				tbIrmIndexCalc.setIndexWeight(financeIndexs.get(k).getIndexWeight());//普元忠financeIndexs未设置此值如何取到
+				tbIrmIndexCalc.setIndexValue(financeIndexs.get(k).getIndexValueDataType());
+				irmMapper.insertTbIrmIndexCalc(tbIrmIndexCalc);
+			}
 		}
-		for(int l =0;l<nonFinanceIndexs.size();l++){
-			TbIrmIndexCalc tbIrmIndexCalc = new TbIrmIndexCalc();
-			tbIrmIndexCalc.setIdxCalcId(UUIDGenerator.getUUID());
-			tbIrmIndexCalc.setIndexId(nonFinanceIndexs.get(l).getIndexId());
-			tbIrmIndexCalc.setRecId(tbIrmRatingEngineCalc.getRecId());
-			tbIrmIndexCalc.setIndexClass(nonFinanceIndexs.get(l).getIndexType());
-			tbIrmIndexCalc.setIndexType(nonFinanceIndexs.get(l).getPropertyTypeCd());
-			tbIrmIndexCalc.setIndexScore(nonFinanceIndexs.get(l).getIndexScore());
-			tbIrmIndexCalc.setIndexWeight(nonFinanceIndexs.get(l).getIndexWeight());
-			irmMapper.insertTbIrmIndexCalc(tbIrmIndexCalc);
+		if(nonFinanceIndexs != null){
+			for(int l =0;l<nonFinanceIndexs.size();l++){
+				TbIrmIndexCalc tbIrmIndexCalc = new TbIrmIndexCalc();
+				tbIrmIndexCalc.setIdxCalcId(UUIDGenerator.getUUID());
+				tbIrmIndexCalc.setIndexId(nonFinanceIndexs.get(l).getIndexId());
+				tbIrmIndexCalc.setRecId(tbIrmRatingEngineCalc.getRecId());
+				tbIrmIndexCalc.setIndexClass(nonFinanceIndexs.get(l).getIndexType());
+				tbIrmIndexCalc.setIndexType(nonFinanceIndexs.get(l).getPropertyTypeCd());
+				tbIrmIndexCalc.setIndexScore(nonFinanceIndexs.get(l).getIndexScore());
+				tbIrmIndexCalc.setIndexWeight(nonFinanceIndexs.get(l).getIndexWeight());
+				irmMapper.insertTbIrmIndexCalc(tbIrmIndexCalc);
+			}
 		}
 		return tbIrmRatingEngineCalc.getRecId();
 	}
@@ -1145,11 +1183,11 @@ public class IrmServiceImpl {
 			
 			List<Selector> scals = irmMapper.getModeScaleToCombobx(modelTypeCd);
 			map.put("code", "200");
-			map.put("msg", "更新和插入非财务信息成功！");
+			map.put("msg", "获取评级结果集成功！");
 			map.put("scals", scals);
 		} catch (Exception e) {
 			map.put("code", "201");
-			map.put("msg", "更新和插入非财务信息异常！");
+			map.put("msg", "获取评级结果集异常！");
 			e.printStackTrace();
 			// TODO: handle exception
 		} finally {
@@ -1200,6 +1238,141 @@ public class IrmServiceImpl {
 		} finally {
 			return map;
 		}
+	}
+	
+	/**
+	 * 通过评级ID获取前手的评级结果
+	 * 1.评级发起岗，前手评级结果为通用调整结果
+	 * 2.如果当前岗位推翻记录存在，则取岗位推翻记录的推翻前评级
+	 * 3.如果当前岗位不存在，则取前一岗位推翻后评级结果
+	 * */
+	public Map<String,String> queryOverRecordFirst(String applyId,String posicode,String flowType){
+		Map<String,String> map = new HashMap<String,String>();
+		
+		try {
+			String overReason = null;
+			String orderNo = null;
+			Map<String,String> temp = new HashMap<String,String>();
+			//获取流程中的岗位代码
+			String posCd = GetPositionFlag.ReplacePosNum2(posicode);
+			//获取评级申请信息
+			TbIrmInternalRatingApply tempApp = tbIrmInternalRatingApplyMapper.selectByPrimaryKey(applyId);
+			if(tempApp != null){
+				if("P1046".equals(posicode) || "P1046".equals(posCd)){//评级发起岗，前手评级结果为通用调整结果
+					overReason = tempApp.getGENERAL_ADJUST_RATING_CD();
+				}else{
+					//查找当前岗位是否存在
+					Map<String,String> tempOver_params = new HashMap<String,String>();
+					tempOver_params.put("iraApplyId", applyId);
+					tempOver_params.put("postCd", posicode);
+					IrmOverRecordInfo tempOver = irmMapper.queryOverRecord(tempOver_params);
+					if("03".equals(flowType)){
+						IrmOverRecordInfo tempS = irmMapper.queryOverRecordFirst(tempOver_params);
+						if(null != tempS){
+							overReason = tempS.getOverthrowReason();
+						}else{
+							overReason = tempApp.getGENERAL_ADJUST_RATING_CD();
+						}
+					}else{
+//						com.bos.irm.queryInfo.queryCurrUserPosFlg
+//						获取当前用户岗位标识
+//						如果是客户经理 1 ， 授信审核岗  2 ，其他 0
+						String posFlg = "1";//测试默认客户经理
+						if(!"2".equals(posFlg)){
+							IrmOverRecordInfo tempS = irmMapper.queryOverRecordFirst(tempOver_params);
+							if(null != tempS){
+								overReason = tempS.getOverthrowReason();
+							}else{
+								overReason = tempApp.getGENERAL_ADJUST_RATING_CD();
+							}
+						}else{
+							List<TbIrmInternalRatingResult> tempResultS = tbIrmInternalRatingResultMapper.selectIrmInternalRatingResultByIrrApplyId(tempApp.getORIGINAL_IRA_APPLY_ID());
+							if(tempResultS != null && tempResultS.size() > 0){
+								overReason = tempResultS.get(0).getCreditRatingCd();
+							}
+						}
+					}
+					
+				}
+			}
+			Map re = this.queryAvagPD(overReason);
+			if(re != null){
+				orderNo = re.get("orderNo").toString();
+			}
+			map.put("overReason", overReason);
+			map.put("orderNo", orderNo);
+			map.put("code", "200");
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("code", "201");
+			map.put("msg", "通过评级ID获取前手的评级结果失败！"+e.getMessage());
+			e.printStackTrace();
+		} finally {
+			return map;
+		}
+		
+	}
+	
+	public Map<String,String> addOrUpdateTFRecord(AddOrUpdateTFRecordCriteria criteria){
+		Map<String,String> result = new HashMap<String,String>();
+		try {
+			Map<String,String> temp2 = new HashMap<String,String>();
+			temp2.put("applyId", criteria.getApplyId());
+			String initialRatingCd =  irmMapper.getinitialRatingCd(temp2);
+			if(initialRatingCd == null){
+				result.put("code", "201");
+				result.put("msg", "保存推翻信息异常！评级尚未完成评审，不能进行推翻操作！");
+			}else{
+				Map<String,String> temp_params = new HashMap<String,String>();
+				temp_params.put("userNum", criteria.getUserName());
+				temp_params.put("iraApplyId", criteria.getApplyId());
+				temp_params.put("afterGrade", criteria.getRateResult());
+				
+				List<TbIrmOverthrowRecord> temp = irmMapper.queryTbIrmOverthrowRecord(temp_params);
+				if(temp != null && temp.size() > 0){
+					temp.get(0).setOverthrowReason(criteria.getOverThrowReason());
+					irmMapper.updateTbIrmOverthrowRecord(temp.get(0));
+					result.put("code", "200");
+					result.put("msg", "保存推翻信息成功！");
+				}else{
+					if("1".equals(criteria.getTfYN())){//不推翻
+						//判断历史记录是不是大于三次
+						Map<String,String> sum_params = new HashMap<String,String>();
+						sum_params.put("iraApplyId", criteria.getApplyId());
+						List<TbIrmOverthrowRecord> temp_sum = irmMapper.queryTbIrmOverthrowRecord(sum_params);
+						if(temp_sum != null && temp.size() > 2){
+							result.put("code", "201");
+							result.put("msg", "保存推翻信息错误！评级信息推翻次数不能大于三次！");
+						}else{
+							TbIrmOverthrowRecord tbIrmOverthrowRecord = new TbIrmOverthrowRecord();
+							tbIrmOverthrowRecord.setOrId(UUIDGenerator.getUUID());
+							tbIrmOverthrowRecord.setUserNum("userName");
+							tbIrmOverthrowRecord.setOrgNum("orgNum");
+							tbIrmOverthrowRecord.setOverthrowDt(DateUtil.getCurrentDay());
+							tbIrmOverthrowRecord.setBeforeGrade(initialRatingCd);
+							tbIrmOverthrowRecord.setAfterGrade(criteria.getRateResult());
+							tbIrmOverthrowRecord.setIsOverthrow(criteria.getOverFlg());
+							tbIrmOverthrowRecord.setOverthrowReason(criteria.getOverThrowReason());
+							tbIrmOverthrowRecord.setIraApplyId(criteria.getApplyId());
+							tbIrmOverthrowRecord.setPostCd("1");
+						}
+					}else{//推翻
+						result.put("code", "201");
+						result.put("msg", "保存推翻信息错误！《是否推翻选择项值为否，不需要提交保存推翻信息！");
+					}
+					
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			
+			e.printStackTrace();
+			
+		} finally {
+			return result;
+		}
+		
 	}
 	/**
 	 * 获取评级模型
@@ -2241,9 +2414,6 @@ public class IrmServiceImpl {
 	 *模型得分对应信用等级显示
 	 * */
 	public String getModelCreditRating(String modelId,BigDecimal score, String partyId){
-		//String creditCall = calAllCredit(partyId);//担保公司定量指标计算
-		TbCsmCorporation corporation = tbCsmCorporationMapper.selectByPrimaryKey(partyId);
-		String thirdCustTypeCd = corporation.getThirdCustTypeCd();//第三方客户类型
 		BigDecimal score1= new BigDecimal("0");
 		score1=score.setScale(0,BigDecimal.ROUND_HALF_UP);
 		List<TbIrmModelScale> arr = irmMapper.getModelScale(modelId);
@@ -2282,5 +2452,33 @@ public class IrmServiceImpl {
 			}
 		}
 		return creditRatingCd1;
-}
+	}
+	
+	public Map<String,String> queryAvagPD(String value){
+		Map<String,String> result = new HashMap<String,String>();
+		String avagPd = null;
+		String orderNo = null;
+		Map<String,String> temp_parmas = new HashMap<String,String>();
+		temp_parmas.put("creditRatingCd", value);
+		TbIrmScaleDef temp = irmMapper.queryTbIrmScaleDef(temp_parmas);
+		if(temp == null){
+			Map<String,String> tempScal_parmas = new HashMap<String,String>();
+			tempScal_parmas.put("smallLtdDisplay", value);
+			temp = irmMapper.queryTbIrmScaleDef(tempScal_parmas);
+			if(temp != null){
+				avagPd = this.getAvgPdAChange(temp.getAvagPd());
+				orderNo = temp.getOrderNo();
+			}
+		}else{
+			avagPd = this.getAvgPdAChange(temp.getAvagPd());
+			orderNo = temp.getOrderNo();
+		}
+		if(avagPd != null && orderNo != null){
+			result.put("avagPd", avagPd);
+			result.put("orderNo", orderNo);
+			return result;
+		}else{
+			return null;
+		}
+	}
 }

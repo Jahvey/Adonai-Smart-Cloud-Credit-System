@@ -4,6 +4,7 @@
 package com.cdgit.loan.csm.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author cwalk
@@ -12,8 +13,23 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CsmRuleEngineMapper {
 
+	//XFE_0002 name="参与移交的客户不允许做流程业务" errMsg="该客户已被纳入[客户移交或者机构拆并],在业务结束前无法申请新的业务"
+	Integer ruleXFE_0002(String partyId);
+	
 	//XFE_0003 name="移交申请未完成，包含的业务不允许处理" errMsg="该批复已被纳入[移交申请],在业务结束前无法处理"
 	Integer ruleXFE_0003(String approveId);
+	
+	//RBIZ_0001" name="客户存在在途授信业务" errMsg="已发起综合授信业务"
+	Integer ruleRBIZ_0001(String partyId);
+	
+	//RBIZ_0002" name="客户存在已生效授信业务" errMsg="已存在生效的综合授信业务"
+	Integer ruleRBIZ_0002(String partyId);
+		
+	//RBIZ_0206" name="该产品已存在在途用信业务申请" errMsg="该产品已存在在途用信业务申请"
+	Integer ruleRBIZ_0206(@Param(value="partyId") String partyId,@Param(value="productType") String productType);
+		
+	//RBIZ_0019" name="是否单笔低风险" errMsg="统一授信成员只能发起低风险或银团贷款"
+	Integer ruleRBIZ_0019(String partyId);
 	
 	//RCON_0202 name="存在在途合同" errMsg="该业务已存在在途合同申请"
 	Integer ruleRCON_0202(String amountDetailId);

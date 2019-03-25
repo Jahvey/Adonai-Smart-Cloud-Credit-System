@@ -20,7 +20,7 @@ import com.cdgit.loan.user.mapper.UserMapper;
 public class BizNumGenerator {
 
 	@Autowired
-	UserMapper userMapper;
+	static UserMapper userMapper;
 	
 	/**
 	 * 生成客户编号
@@ -135,7 +135,7 @@ public class BizNumGenerator {
 		return getNextSequence("SEQ_LCS_STAN");
 	}
 	
-	private String getNextSequence(String seqName){
+	private static String getNextSequence(String seqName){
 		String num = null;
 		try {
 			num = String.valueOf(userMapper.getNextVal1(seqName+".nextval"));
@@ -223,7 +223,7 @@ public class BizNumGenerator {
 	 * 获取业务编号
 	 * BY 3231
 	 * */
-	public String getBizNum(String seqName){
+	public static String getBizNum(String seqName){
 //		String date = new SimpleDateFormat("yyMMdd").format(GitUtil
 //				.getBusiTimestamp());
 		String date = new SimpleDateFormat("yyMMdd").format(new Date());

@@ -24,5 +24,13 @@ public class ChDailycheckServiceImpl {
 		PageInfo pageInfo = new PageInfo<>(borListResultList, (Integer)map.get("pageSize"));
 		return pageInfo;
 	}
+	//
+	public PageInfo<Map<String, Object>> selectSummaryList(Map map){
+		PageHelper.startPage((Integer)map.get("pageNum"),(Integer)map.get("pageSize"));
+		List<Map<String, Object>> borListResultList = chDailycheckMapper.querySummaryList(map);
+		PageInfo pageInfo = new PageInfo<>(borListResultList, (Integer)map.get("pageSize"));
+		return pageInfo;
+	}
+	
 	
 }

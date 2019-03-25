@@ -23,13 +23,12 @@ public class CommonUtils {
 		HashMap<String, String> hm = new HashMap<String, String>();
 		hm.put("cfgGroup", cfgGroup);
 		hm.put("cfgKey", cfgKey);
-		//TODO Object[] confs = DatabaseExt.queryByNamedSql(GitUtil.DEFAULT_DS_NAME, "com.bos.pub.common.queryPubConfig", hm);
+	
 		List<CsmPubConfigPo> confs=csmCsmPubConfigMapper.queryCsmPubConfig(hm);
 		if (confs.size()== 1) {
-			//hm = (HashMap<String, String>) confs[0];
-			//cfgValue = hm.get("CFG_VALUE");
+
 			cfgValue=confs.get(0).getCfgValue();
-			System.err.println(">>【" + cfgGroup + "】配置参数表【" + cfgKey + "】值为【" + cfgValue + "】！");
+			//System.err.println(">>【" + cfgGroup + "】配置参数表【" + cfgKey + "】值为【" + cfgValue + "】！");
 		}
 		if (confs.size() == 0 || cfgValue == null) {
 			throw new RuntimeException("获取配置表值失败！【" + cfgGroup + "】【" + cfgKey + "】");

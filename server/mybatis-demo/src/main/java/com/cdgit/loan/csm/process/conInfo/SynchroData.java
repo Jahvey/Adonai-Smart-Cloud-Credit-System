@@ -20,18 +20,18 @@ public class SynchroData {
 	@Autowired
 	CsmTbBizApplyPoMapper csmTbBizApplyPoMapper;
 	
-	public String synchroRiskInfo(String applyId, String contractId) throws Exception {
-		System.err.println("[synchroRiskInfo]同步标志数据:applyId"+applyId+",contractId"+contractId);
+	public String synchroRiskInfo(String applyId, String contractId) {
+		System.err.println("[synchroRiskInfo]同步标志数据:applyId "+applyId+",contractId "+contractId);
 		
 		try {
 		CsmTbBizApplyPo tbBizApply = csmTbBizApplyPoMapper.selectByPrimaryKey(applyId);
 		
-		if(tbBizApply.getZdfxqyType()!=null){
+		if(tbBizApply.getZdfxqyType()!=null){  //TODO 环境、安全等重大风险企业类别  XD_DKSQLX0001   zdfxqy_type
 			String riskInfo = tbBizApply.getZdfxqyType();
 			
 			CsmTbConFlagInfoPo tbConFlagInfoPo = csmTbConFlagInfoPoMapper.queryOneByConId(contractId);
 			
-			if(null!=tbConFlagInfoPo.getFlagId()){
+			if(null!=tbConFlagInfoPo){
 				if(null!=tbConFlagInfoPo.getRiskInfo()){
 					return null;
 				}else{
@@ -43,6 +43,7 @@ public class SynchroData {
 				}
 
 			}else {
+				tbConFlagInfoPo=new CsmTbConFlagInfoPo();
 				tbConFlagInfoPo.setRiskInfo(riskInfo);
 				tbConFlagInfoPo.setFlagId(UUIDGenerator.getUUID());
 				tbConFlagInfoPo.setContractId(contractId);

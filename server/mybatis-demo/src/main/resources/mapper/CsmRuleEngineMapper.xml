@@ -348,4 +348,32 @@ where r.loan_status = '03'
 and r.contract_id = #{contractId}
 </select>
 
+<!-- 参与移交的客户不允许做流程业务 -->
+<select id="ruleXFE_0002" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(1) as c FROM TB_CSMXFE_DETAIL xd WHERE xd.DETAIL_ID=#{partyId}  AND xd.DETAIL_TYPE='P0' AND xd.ACTIVE = '0'
+</select>
+
+<!-- 客户存在在途授信业务-->
+<select id="ruleRBIZ_0001" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(*) as C FROM TB_CRD_APPLY WHERE PARTY_ID = #{partyId} AND STATUS_CD IN ('01','02')
+</select>
+
+<!-- 客户存在已生效授信业务 -->
+<select id="ruleRBIZ_0002" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(*) as C FROM TB_CRD_APPROVE WHERE PARTY_ID = #{partyId} AND STATUS_CD = '03'
+</select>
+
+<!-- 该产品已存在在途用信业务申请 -->
+<select id="ruleRBIZ_0206" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(*) as C FROM TB_BIZ_APPLY WHERE PARTY_ID = #{partyId} AND PRODUCT_TYPE = #{productType}  AND STATUS_TYPE IN ('01','02')
+</select>
+
+<!-- 是否单笔低风险 -->
+<select id="ruleRBIZ_0019" parameterType="java.lang.String" resultType="java.lang.Integer">
+select count(*) as c from tb_csm_group_company t,tb_csm_group_member ta 
+						where t.PARTY_ID=ta.GROUP_PARTY_ID
+						and t.STATUS ='03'
+						and ta.CORPORATION_PARTY_ID=#{partyId} 
+</select>
+
 </mapper>

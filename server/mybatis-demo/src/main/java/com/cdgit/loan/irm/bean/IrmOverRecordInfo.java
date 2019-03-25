@@ -1,8 +1,35 @@
 package com.cdgit.loan.irm.bean;
 
+import java.util.Date;
+
 public class IrmOverRecordInfo {
+	private String orId;
 	private String iraApplyId;
 	private String userNum;
+	private String orgNum;
+	private String beforeGrade;
+	private String afterGrade;
+	private String postCd;
+	public String getOrId() {
+		return orId;
+	}
+	public void setOrId(String orId) {
+		this.orId = orId;
+	}
+	public String getBeforeGrade() {
+		return beforeGrade;
+	}
+	public void setBeforeGrade(String beforeGrade) {
+		this.beforeGrade = beforeGrade;
+	}
+	public String getAfterGrade() {
+		return afterGrade;
+	}
+	public void setAfterGrade(String afterGrade) {
+		this.afterGrade = afterGrade;
+	}
+	private String overthrowReason;
+	private Date overthrowDt;
 	private String smallLtdDisplay;
 	public String getIraApplyId() {
 		return iraApplyId;
@@ -17,11 +44,8 @@ public class IrmOverRecordInfo {
 		this.smallLtdDisplay = smallLtdDisplay;
 	}
 	private String creditRatingDisplay;
-	private String overthrowReason;
 	private String avagPD;
-	private String orgNum;
 	private String isOverthrow;
-	private String overthrowDT;
 	public String getUserNum() {
 		return userNum;
 	}
@@ -58,11 +82,18 @@ public class IrmOverRecordInfo {
 	public void setIsOverthrow(String isOverthrow) {
 		this.isOverthrow = isOverthrow;
 	}
-	public String getOverthrowDT() {
-		return overthrowDT;
+	public String getPostCd() {
+		return postCd;
 	}
-	public void setOverthrowDT(String overthrowDT) {
-		this.overthrowDT = overthrowDT;
+	public void setPostCd(String postCd) {
+		this.postCd = postCd;
 	}
+	public Date getOverthrowDt() {
+		return overthrowDt;
+	}
+	public void setOverthrowDt(Date overthrowDt) {
+		this.overthrowDt = overthrowDt;
+	}
+	
 	
 }

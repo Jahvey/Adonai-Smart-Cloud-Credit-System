@@ -1340,8 +1340,6 @@
       LOAN_TURN = #{loanTurn,jdbcType=VARCHAR}
     where PARTY_ID = #{partyId,jdbcType=VARCHAR}
   </update>
-  
-  
   <!--第三方客户-->
     <select id="queryThirdPartythreeDB" parameterType="java.lang.String" resultType="java.lang.Integer">
 		select count(*) as num from TB_CSM_MANAGEMENT_TEAM a ,TB_CSM_CORPORATION b 

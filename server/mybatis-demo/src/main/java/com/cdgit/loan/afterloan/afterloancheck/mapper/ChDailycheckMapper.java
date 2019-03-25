@@ -10,6 +10,8 @@ import com.cdgit.loan.afterloan.afterloancheck.resultbean.BorListResult;
 public interface ChDailycheckMapper {
     //可日常检查客户列表查询
 	List<BorListResult> selectDailycheckCust(Map map);
+	//贷款基本情况列表查询
+	List<Map<String, Object>> querySummaryList(Map map);
 
    
 }

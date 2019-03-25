@@ -199,7 +199,7 @@ public class GitUtil {
 	/**
 	 * @return
 	 */
-	public Date getBusiDate() {
+	public static Date getBusiDate() {
 		return new java.sql.Date(getBusiTimestamp().getTime());
 	}
 	

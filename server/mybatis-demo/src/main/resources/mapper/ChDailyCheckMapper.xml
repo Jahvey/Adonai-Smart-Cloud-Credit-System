@@ -31,7 +31,7 @@
     <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
     <result column="BALANCE" jdbcType="VARCHAR" property="balance" />
   </resultMap>
-
+	<!-- 查询可做日常检查的客户信息列表 -->
   <select id="selectDailycheckCust" parameterType="java.util.HashMap" resultMap="BaseResultMap">
     SELECT * FROM (
 	    	SELECT P.PARTY_ID,
@@ -129,7 +129,23 @@
  		 <isNotNull property="certType">  and a.cert_type = '$certType$' </isNotNull>
  		 <isNotNull property="certNum">  and a.cert_num = '$certNum$' </isNotNull> -->
   </select>
- 
+ <select id="querySummaryList" parameterType="java.util.HashMap" resultType="java.util.Map">
+	    	select ci.contract_num,
+			       ci.product_type,
+			       ci.guaranty_type,
+			       ci.contract_amt,
+			       ci.con_balance,
+			       ci.con_yu_e,
+			       ci.contract_term,
+			       ci.CYCLE_UNIT,
+			       to_char(ci.begin_date, 'yyyy-mm-dd') as begin_date,
+			       to_char(ci.end_date, 'yyyy-mm-dd') as end_date,
+			       p.party_name
+			  from tb_con_contract_info ci, tb_csm_party p
+			 where ci.party_id = p.party_id
+			   and ci.con_status = '03'
+ 		       and ci.party_id = 'ff808081655a216d01655b1037910619' <!-- 先写死 -->
+	</select>
  
  
 </mapper>
