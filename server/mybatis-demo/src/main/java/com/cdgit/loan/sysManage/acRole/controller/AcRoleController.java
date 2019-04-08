@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,31 @@ public class AcRoleController {
 	public AcRole selectByPrimaryKey(@RequestBody Map<String, Object> params) {
 		String menuid = params.get("roleid").toString();
 		return acRoleService.selectByPrimaryKey(menuid);
+	}
+	
+	@PostMapping("/addRole")
+	@ResponseBody
+	public Map<String, String> addRole(@RequestBody AcRole role){
+		return acRoleService.addRole(role);
+	}
+	@PostMapping("/updateRole")
+	@ResponseBody
+	public Map<String, String> updateRole(@RequestBody AcRole role){
+		return acRoleService.updateRole(role);
+	}
+
+	@PostMapping("/deleteRole")
+	@ResponseBody
+	public Map<String, String> deleteRole(@RequestBody Map<String,String> params){
+		Map<String, String> map = new HashMap<String, String>();
+		String roleId = params.get("roleId");
+		if(StringUtils.isBlank(roleId)){
+			map.put("code", "201");
+			map.put("msg", "删除角色失败，角色编号不能为空！");
+		}else{
+			map = acRoleService.deleteRole(roleId);
+		}
+		return map;
 	}
 	
 	@PostMapping("/queryPaginationRole")

@@ -1,6 +1,8 @@
 package com.cdgit.loan.guaranteevaluation.service;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cdgit.loan.common.constants.Constant;
 import com.cdgit.loan.common.util.BeanUtils;
 import com.cdgit.loan.common.util.uid.UUIDGenerator;
+import com.cdgit.loan.contract.mapper.CrtGitUtilMapper;
 import com.cdgit.loan.customerManage.mapper.NaturalPersonMapper;
 import com.cdgit.loan.guaranteevaluation.bean.BizApply;
+import com.cdgit.loan.guaranteevaluation.bean.BizGrtMaxloanconApply;
 import com.cdgit.loan.guaranteevaluation.bean.BizGrtRel;
 import com.cdgit.loan.guaranteevaluation.bean.ConGuarantOrgInfo;
 import com.cdgit.loan.guaranteevaluation.bean.ConGuaranteQuota;
@@ -23,6 +27,7 @@ import com.cdgit.loan.guaranteevaluation.bean.CrdThirdPartyLimit;
 import com.cdgit.loan.guaranteevaluation.bean.GrtGuaranteeBasic;
 import com.cdgit.loan.guaranteevaluation.bean.GuarantorBean;
 import com.cdgit.loan.guaranteevaluation.mapper.BizApplyMapper;
+import com.cdgit.loan.guaranteevaluation.mapper.BizGrtMaxloanconApplyMapper;
 import com.cdgit.loan.guaranteevaluation.mapper.BizGrtRelMapper;
 import com.cdgit.loan.guaranteevaluation.mapper.ConGuarantOrgInfoMapper;
 import com.cdgit.loan.guaranteevaluation.mapper.ConGuaranteQuotaMapper;
@@ -38,9 +43,13 @@ public class GuarantorServiceImpl {
 	@Autowired
 	private NaturalPersonMapper naturalPersonMapper;
 	@Autowired
+	private BizGrtMaxloanconApplyMapper bizGrtMaxloanconApplyMapper;
+	@Autowired
 	private ConGuarantOrgInfoMapper conGuarantOrgInfoMapper;
 	@Autowired
 	private CrdThirdPartyLimitMapper crdThirdPartyLimitMapper;
+	@Autowired
+	private CrtGitUtilMapper crtGitUtilMapper;
 	@Autowired
 	private BizApplyMapper bizApplyMapper;
 	@Autowired
@@ -468,6 +477,75 @@ public class GuarantorServiceImpl {
 			throw new RuntimeException("删除保证人信息失败！");
 		}
 		map.put("flag", "true");
+		map.put("message", "操作成功!");
+		return map;
+	}
+
+	public Map<String, Object> getMaxloanconList(Integer pageNum,Integer pageSize,String collType, String applyId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		PageHelper.startPage(pageNum,pageSize);
+		List<Map<String, Object>> list =  conGuarantOrgInfoMapper.getMaxloanconList(applyId,collType);
+		PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(list, pageSize);
+		map.put("data", pageInfo);
+		map.put("flag", "true");
+		map.put("message", "操作成功!");
+		return map;
+	}
+
+	public Map<String, Object> getBizGrtType(String applyId, String phase, String guarantyType) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(phase.equals("")){
+			throw new RuntimeException("phase不能为空！");
+		}
+		String ifFlag="0";
+		Map<String, Object> res = null;
+		if(phase.equals("crd")){
+			res = conGuarantOrgInfoMapper.getGrtTypeCrd(applyId,guarantyType);
+		} else if(phase.equals("biz")){
+			res = conGuarantOrgInfoMapper.getGrtTypeBiz(applyId,guarantyType);
+		}
+		if(res!=null){
+			ifFlag="1";
+		} else{
+			ifFlag="0";
+		}
+		map.put("ifFlag", ifFlag);
+		map.put("code", Constant.OPE_SUCCESS);
+		map.put("message", "操作成功!");
+		return map;
+	}
+
+	public Map<String, Object> addMaxloancon(String applyId, String subcontractId, String reType) throws ParseException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = format.parse(crtGitUtilMapper.queryOperatingDate());
+		List<BizGrtMaxloanconApply> list = bizGrtMaxloanconApplyMapper.selectByConditions(applyId,subcontractId,reType);
+		if(list!=null && list.size()>0){
+			throw new RuntimeException("最高额合同不能重复引入!");
+		}
+		BizGrtMaxloanconApply maxloanconApply = new BizGrtMaxloanconApply();
+		maxloanconApply.setApplyId(applyId);
+		maxloanconApply.setCreateTime(date);
+		maxloanconApply.setMaxloanconId(UUIDGenerator.getUUID());
+		maxloanconApply.setReType(reType);
+		maxloanconApply.setSubcontractId(subcontractId);
+		maxloanconApply.setUpdateTime(date);
+		int i = bizGrtMaxloanconApplyMapper.insertSelective(maxloanconApply);
+		if(i<=0){
+			throw new RuntimeException("引入最高额担保额合同失败!");
+		}
+		map.put("code", Constant.OPE_SUCCESS);
+		map.put("message", "操作成功!");
+		return map;
+	}
+
+	public Map<String, Object> deleteMaxloancon(String maxloanconId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int i = bizGrtMaxloanconApplyMapper.deleteByPrimaryKey(maxloanconId);
+		if(i<=0){
+			throw new RuntimeException("删除最高额担保额合同失败!");
+		}
+		map.put("code", Constant.OPE_SUCCESS);
 		map.put("message", "操作成功!");
 		return map;
 	}

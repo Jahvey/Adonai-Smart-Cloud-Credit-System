@@ -137,7 +137,7 @@ public class DepositController {
 			bizGrtRel.setSuretyId(suretyId);
 			bizGrtRel.setUpdateTime(date);
 			//TODO 是否将保证金金额设置为担保金额
-			//bizGrtRel.setMortgageValue(accBalance);
+			bizGrtRel.setMortgageValue(accBalance);
 			bizGrtRel.setSuretyType(collType);
 			bizGrtRel.setSuretyId(suretyId);
 			bizGrtRel.setRelationId(relationId);

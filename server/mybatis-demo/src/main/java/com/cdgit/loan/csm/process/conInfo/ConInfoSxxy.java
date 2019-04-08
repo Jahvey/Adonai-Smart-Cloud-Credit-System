@@ -6,11 +6,15 @@ package com.cdgit.loan.csm.process.conInfo;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cdgit.loan.csm.bean.ApproveConsVo;
+import com.cdgit.loan.csm.bean.CsmTbConContractInfo;
 import com.cdgit.loan.csm.mapper.ConApplyMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizAmountApproveMapper;
 import com.cdgit.loan.csm.mapper.CsmTbBizAmountDetailApproveMapper;
@@ -31,6 +35,8 @@ import com.cdgit.loan.csm.po.TbConContractInfoPo;
 import com.cdgit.loan.csm.pub.DateUtil;
 import com.cdgit.loan.csm.pub.gitUtils.CommonUtils;
 import com.cdgit.loan.csm.pub.gitUtils.GitUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 /**
  * @author cwalk
@@ -275,6 +281,23 @@ public class ConInfoSxxy {
 	}
 	
 	
+	public PageInfo<TbBizAmountDetailApprovePo> queryConDetailsXy(Map map){
+		String contractId=(String) map.get("contractId");
+		HashMap<String,Object> resMap = getConInfoByContarctId(contractId);
+		System.out.println("[queryConDetailsXy]contractId="+contractId+",res="+resMap);
+		TbBizAmountApprovePo tbBizAmountApprovePo=(TbBizAmountApprovePo) resMap.get("tbBizAmountApprove");
+		String amountId = tbBizAmountApprovePo.getAmountId();
+		List<TbBizAmountDetailApprovePo> BizAmountDetailApprovePoQuery = csmTbBizAmountDetailApproveMapper.queryListByAmountId(amountId);
+		
+		//引入配置的分页插件，当前页和每页条数
+		PageHelper.startPage((Integer)map.get("pageNum"),(Integer)map.get("pageSize"));
+
+		PageInfo pageInfo=new PageInfo(BizAmountDetailApprovePoQuery,(Integer)map.get("pageSize"));
+		
+		
+		return pageInfo;
+		
+	}
 	
 
 }

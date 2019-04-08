@@ -27,6 +27,60 @@ public class AcRoleServiceImpl {
 		return acRoleMapper.selectByPrimaryKey(roleid);
 	}
 	
+	public Map<String,String> addRole(AcRole role){
+		Map<String,String> map = new HashMap<String,String>();
+		try {
+			acRoleMapper.insert(role);
+			map.put("code", "200");
+			map.put("msg", "新增角色成功！");
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("code", "201");
+			map.put("msg", "新增角色失败！" + e.getMessage());
+            e.printStackTrace();
+		} finally {
+			return map;
+		}
+	}
+	
+	public Map<String,String> updateRole(AcRole role){
+		Map<String,String> map = new HashMap<String,String>();
+		try {
+			acRoleMapper.updateByPrimaryKeySelective(role);
+			map.put("code", "200");
+			map.put("msg", "修改角色成功！");
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("code", "201");
+			map.put("msg", "修改角色失败！" + e.getMessage());
+            e.printStackTrace();
+		} finally {
+			return map;
+		}
+	}
+	
+	public Map<String,String> deleteRole(String roleId){
+		Map<String,String> map = new HashMap<String,String>();
+		try {
+			List<AcMenu> roleList = acRoleMapper.findRoleMenus(roleId);
+			if(roleList != null && roleList.size() > 0){
+				map.put("code", "201");
+				map.put("msg", "删除角色失败！该角色下有关联菜单，不能进行删除操作");
+			}else{
+				acRoleMapper.deleteByPrimaryKey(roleId);
+				map.put("code", "200");
+				map.put("msg", "删除角色成功！");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("code", "201");
+			map.put("msg", "删除角色失败！" + e.getMessage());
+            e.printStackTrace();
+		} finally {
+			return map;
+		}
+	}
+	
     public Map<String, Object> queryAllRole(Integer pageNum, Integer pageSize, String rolename){
     	Map<String, Object> map = new HashMap<>();
     	try {

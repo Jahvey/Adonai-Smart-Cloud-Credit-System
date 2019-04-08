@@ -13,6 +13,7 @@
 	    <result column="USER_NUM" jdbcType="VARCHAR" property="userNum" />
 	    <result column="ORG_NUM" jdbcType="VARCHAR" property="orgNum" />
   	</resultMap>
+  	
   	<select id="queryPaginationIrm" parameterType="com.cdgit.loan.irm.bean.IrmCriteria" resultMap="BaseResultMap">
 		select 
 		a.ira_apply_id,

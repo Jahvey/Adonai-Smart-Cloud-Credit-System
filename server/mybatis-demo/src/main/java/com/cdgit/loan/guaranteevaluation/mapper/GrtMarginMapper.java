@@ -1,6 +1,7 @@
 package com.cdgit.loan.guaranteevaluation.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -32,4 +33,10 @@ public interface GrtMarginMapper {
 	 * @return
 	 */
 	CashDepositBean selectDepositBySuretyKeyId(@Param("suretyKeyId")String suretyKeyId);
+	/**
+	 * 通过suretyId查询保证金
+	 * @param suretyId
+	 * @return
+	 */
+	Map<String,Object> selectBySuretyId(@Param("suretyId")String suretyId);
 }

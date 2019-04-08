@@ -1,12 +1,18 @@
 package com.cdgit.loan.common.util;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
+@org.springframework.stereotype.Component
 public class RedisUtils {
 
-	@Autowired
-	private RedisTemplate<String, String> redisTemplate;
+	@Resource
+	private RedisTemplate<String, Object> redisTemplate;
+	
+//	@Autowired
+//	private RedisTemplate<String, String> redisTemplate;
 
 	/**
 	 * 读取缓存
@@ -14,8 +20,9 @@ public class RedisUtils {
 	 * @param key
 	 * @return
 	 */
-	public String get(final String key) {
-		return redisTemplate.opsForValue().get(key);
+	public Object get(final String key) {
+//		return redisTemplate.opsForValue().get(key);
+		return key == null ? null : redisTemplate.opsForValue().get(key);
 	}
 
 	/**

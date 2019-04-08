@@ -7,11 +7,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cdgit.loan.common.constants.Constant;
 import com.cdgit.loan.guaranteevaluation.service.GuarantorServiceImpl;
 /**
  * 担保评价-保证人
@@ -253,6 +256,94 @@ public class GuarantorController {
 		}
 		return map;
 	}
-
-	
+	/**
+	 * 获取已关联的担保合同
+	 * @param collType
+	 * @param applyId
+	 * @return
+	 */
+	@GetMapping("/getMaxloanconList")
+	@ResponseBody
+	public Map<String, Object> getMaxloanconList(
+			@RequestParam(value="pageNum",required=true) Integer pageNum,//
+			@RequestParam(value="pageSize",required=true) Integer pageSize,//
+			@RequestParam(value="collType",required=true) String collType,//00即可抵押也可质押 01抵押 02质押 03保证金 04保证人 05信用保险
+			@RequestParam(value="applyId",required=true) String applyId//业务id
+			) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try{
+			map = guarantorServiceImpl.getMaxloanconList(pageNum,pageSize,collType,applyId);
+		}catch(Exception e){
+			map.put("code", Constant.OPE_FAIL);
+			map.put("message", "操作失败啦！"+e.getMessage());
+			e.printStackTrace();
+		}
+		return map;
+	}
+	/**
+	 * 
+	 * @param guarantyType
+	 * @param phase
+	 * @param applyId
+	 * @return
+	 */
+	@GetMapping("/getBizGrtType")
+	@ResponseBody
+	public Map<String, Object> getBizGrtType(
+			@RequestParam(value="guarantyType",required=true) String guarantyType,//00即可抵押也可质押 01抵押 02质押 03保证金 04保证人 05信用保险
+			@RequestParam(value="phase",required=true) String phase,//biz crd
+			@RequestParam(value="applyId",required=true) String applyId//业务id
+			) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try{
+			map = guarantorServiceImpl.getBizGrtType(applyId,phase,guarantyType);
+		}catch(Exception e){
+			map.put("code", Constant.OPE_FAIL);
+			map.put("message", "操作失败啦！"+e.getMessage());
+			e.printStackTrace();
+		}
+		return map;
+	}
+	/**
+	 * 业务阶段保存引入最高额关联合同
+	 * @param params
+	 * @return
+	 */
+	@PostMapping("/addMaxloancon")
+	public Map<String, Object> addMaxloancon(
+			@RequestBody Map<String, Object> params
+			) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			String applyId = params.get("applyId").toString();
+			String subcontractId = params.get("subcontractId").toString();
+			String reType = params.get("reType").toString();
+			map = guarantorServiceImpl.addMaxloancon(applyId,subcontractId,reType);
+		} catch (Exception e) {
+			map.put("code", Constant.OPE_FAIL);
+			map.put("message", "操作失败啦！"+e.getMessage());
+			e.printStackTrace();
+		}
+		return map;
+	}
+	/**
+	 * 删引入除最高额担保合同关联
+	 * @param maxloanconId
+	 * @return
+	 */
+	@GetMapping("/deleteMaxloancon")
+	@ResponseBody
+	public Map<String, Object> deleteMaxloancon(
+			@RequestParam(value="maxloanconId",required=true) String maxloanconId
+			) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try{
+			map = guarantorServiceImpl.deleteMaxloancon(maxloanconId);
+		}catch(Exception e){
+			map.put("code", Constant.OPE_FAIL);
+			map.put("message", "操作失败啦！"+e.getMessage());
+			e.printStackTrace();
+		}
+		return map;
+	}
 }

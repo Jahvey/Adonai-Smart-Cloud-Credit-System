@@ -1349,4 +1349,15 @@
 		         and b.third_cust_type_cd='1'
 		         and a.party_id = b.party_id
     </select>
+    <!-- party -->
+    <select id="getPartyBasis" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT p.PARTY_ID,p.PARTY_NAME,p.PARTY_NUM,p.PARTY_TYPE_CD
+		,DECODE(p.PARTY_TYPE_CD,'02',pn.CERT_TYPE,'202') CERT_TYPE
+		,DECODE(p.PARTY_TYPE_CD,'02',pn.CERT_NUM,pc.ORG_REGISTER_CD) CERT_NUM
+		,pc.CORP_CUSTOMER_TYPE_CD,P.ECIF_PARTY_NUM
+		FROM TB_CSM_PARTY p
+		LEFT JOIN TB_CSM_NATURAL_PERSON pn ON p.PARTY_ID=pn.PARTY_ID
+		LEFT JOIN TB_CSM_CORPORATION pc ON p.PARTY_ID=pc.PARTY_ID
+		WHERE p.PARTY_ID=#{value}
+    </select>
 </mapper>

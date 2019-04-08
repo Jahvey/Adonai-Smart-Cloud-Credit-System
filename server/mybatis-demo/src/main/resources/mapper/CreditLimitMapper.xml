@@ -708,4 +708,497 @@
 		from tb_crd_third_party_limit a,tb_con_zh b where a.limit_id=b.contract_id and a.status_cd='03' and a.party_id=#{partyId}
 	</insert>
 
+  <!-- 查询综合授信列表 -->
+	<select id="getCrdList" parameterType="java.util.Map" resultType="java.util.HashMap">
+	SELECT A.CRD_ID,A.CRD_NUM,A.USER_NUM,A.ORG_NUM,A.CREDIT_MODE,A.HAPPEN_TYPE,
+	TO_CHAR( A.VALID_DATE, 'YYYY-MM-DD' ) VALID_DATE,TO_CHAR( A.END_DATE, 'YYYY-MM-DD' ) END_DATE,
+	B.PARTY_NUM,B.PARTY_NAME,
+	a.RMB_AMT,A.BO_USE,A.NO_USE
+	FROM TB_CRD_APPROVE a
+	INNER JOIN TB_CSM_PARTY b ON a.PARTY_ID = b.PARTY_ID
+	WHERE 1=1 
+	<if test="partyId != null and partyId != '' ">
+ 	AND b.PARTY_ID =#{partyId}
+	</if>
+	<if test="userNum != null and userNum != '' ">
+  	AND a.USER_NUM =#{userNum}
+	</if>
+	<if test="orgNum != null and orgNum != '' ">
+   	AND a.ORG_NUM =#{orgNum}
+	</if>
+	AND a.STATUS_CD = '03'
+	
+	<if test="searchMode == freeze">
+	AND a.BO_USE &gt; 0
+	</if>
+	
+	<if test="searchMode == unfreeze">
+	AND a.NO_USE &gt; 0
+	</if>
+	
+    </select>
+	<!-- party -->
+	<select id="getBizIds" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT APPROVE_ID FROM TB_BIZ_APPROVE WHERE PARTY_ID=#{value}
+    </select>
+
+	<!-- party -->
+	<select id="getGrtCreditLevel" parameterType="java.util.HashMap" resultType="java.lang.String">
+	select 
+	       c.credit_rating_cd CreditLevel
+	  from tb_irm_internal_rating_apply  a,
+	       tb_irm_internal_rating_result c,
+	       tb_csm_party                  b
+	 where a.party_id = b.party_id
+   	and a.ira_apply_id = c.ira_apply_id
+      	and a.party_id = #{partyId}
+   	and c.rating_state='03'
+   	and a.RATING_TYPE='3'
+   	<if test="userNum != null and userNum != '' ">
+   	 and c.USER_NUM=#{userNum} 
+   	</if>
+   	 <if test=" orgNum != null and orgNum != '' ">
+   	  and c.ORG_NUM=#{orgNum} 
+   	 </if>
+    </select>
+	<!-- party -->
+	<select id="getPartyCreditLevel" parameterType="java.util.HashMap" resultType="java.lang.String">
+		SELECT CREDIT_RATING_CD FROM TB_IRM_INTERNAL_RATING_RESULT r
+		INNER JOIN TB_IRM_INTERNAL_RATING_APPLY a ON a.IRA_APPLY_ID=r.IRA_APPLY_ID
+		WHERE r.PARTY_ID =#{partyId} AND r.RATING_STATE='03' AND a.RATING_TYPE=#{ratingType}
+		ORDER BY r.RATING_DT DESC
+    </select>
+	<!-- CrdSql -->
+	<select id="getCrdDtlInfos" parameterType="java.util.HashMap"  resultType="java.util.HashMap">
+		SELECT ad.CRD_DTL_ID,ad.PRODUCT_TYPE,ad.DTL_AMT,ad.RMB_AMT
+		,ROUND(ad.BO_USE,2) BO_USE,ad.NO_USE,ad.CREDIT_MODE,a.USER_NUM,a.ORG_NUM
+		,ad.CREDIT_STATUS,a.TERM_UNIT,a.TERM_NUM,NVL(ad.CYCLE_IND,'0')CYCLE_IND
+		FROM TB_CRD_DETAIL_APPROVE ad
+		INNER JOIN TB_CRD_APPROVE a ON a.CRD_ID=ad.CRD_ID
+		WHERE a.CRD_ID=#{crdId}
+		ORDER BY ad.CREDIT_STATUS,NVL(ad.CYCLE_IND,'0') DESC,ad.PRODUCT_TYPE
+    </select>
+	<!-- conApply -->
+	<select id="getConInfoByCrdDtlId" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT ci.CONTRACT_NUM,ci.CLS_RESULT,ci.CON_STATUS,ci.BZJBL
+		,ci.CONTRACT_AMT,CONTRACT_TERM,ci.CURRENCY_CD,ci.CYCLE_IND_CON,CYCLE_UNIT
+		,to_char(ci.CONTRACT_DATE,'yyyy-mm-dd') CONTRACT_DATE,ci.CON_OCCUPY
+		,to_char(ci.END_DATE,'yyyy-mm-dd') END_DATE,ci.CREDIT_STATUS,ci.USER_NUM,ci.ORG_NUM
+		FROM TB_CON_CONTRACT_INFO ci
+		WHERE ci.CRD_DTL_ID=#{crdDtlId} AND ci.CON_STATUS !='06'
+		ORDER BY DECODE(ci.CON_STATUS,'03','00',ci.CON_STATUS),ci.CONTRACT_DATE DESC
+    </select>
+	<!-- CrdFreezeSql -->
+	<insert id="insertUnfrzDtl"  parameterType="java.util.HashMap">
+		INSERT INTO TB_CRD_FREEZE_DTL(FRZ_ID,CRD_DTL_ID,FRZ_AMT)
+		SELECT ${frzId},CRD_DTL_ID,ad.NO_USE FROM TB_CRD_DETAIL_APPROVE ad WHERE ad.CRD_ID=
+		(SELECT a.CRD_ID FROM TB_CRD_FREEZE a WHERE a.FRZ_ID=#{frzId} ) 
+		AND NVL(ad.CREDIT_STATUS,'01') != '04' AND NO_USE &gt; 0 AND
+		NOT EXISTS (SELECT d.CRD_DTL_ID FROM TB_CRD_FREEZE_DTL d WHERE d.FRZ_ID=#frzId# AND d.CRD_DTL_ID=ad.CRD_DTL_ID)
+    </insert>
+    <!-- CrdFreezeSql -->
+	<insert id="insertFrzDtl"  parameterType="java.util.HashMap">
+		INSERT INTO TB_CRD_FREEZE_DTL(FRZ_ID,CRD_DTL_ID,FRZ_AMT)
+		SELECT #{frzId},CRD_DTL_ID,ad.BO_USE FROM TB_CRD_DETAIL_APPROVE ad WHERE ad.CRD_ID=
+		(SELECT a.CRD_ID FROM TB_CRD_FREEZE a WHERE a.FRZ_ID=#{frzId} ) 
+		AND NVL(ad.CREDIT_STATUS,'01') != '04' AND BO_USE &gt; 0 AND
+		NOT EXISTS (SELECT d.CRD_DTL_ID FROM TB_CRD_FREEZE_DTL d WHERE d.FRZ_ID=#{frzId} AND d.CRD_DTL_ID=ad.CRD_DTL_ID)
+    </insert>
+    <!-- CrdFreezeSql -->
+    <delete id="removeFrzDtl"  parameterType="java.lang.String">
+	DELETE FROM TB_CRD_FREEZE_DTL WHERE FRZ_ID=#{frzId} AND STATUS_CD IS NULL
+    </delete>
+    
+    <delete id="deleteFrzByPrimaryKey" parameterType="java.lang.String">
+    delete from TB_CRD_FREEZE
+    where FRZ_ID = #{frzId,jdbcType=VARCHAR}
+  </delete>
+    
+    <!--  -->
+	<delete id="deleteFrzDtlByPrimaryKey" parameterType="java.util.HashMap">
+    	delete from TB_CRD_FREEZE_DTL
+    	where FRZ_ID = #{frzId,jdbcType=VARCHAR}
+      and CRD_DTL_ID = #{crdDtlId,jdbcType=VARCHAR}
+  	</delete>
+    
+    <resultMap id="BaseCrdApproveResultMap" type="com.cdgit.loan.creditLimit.bean.TbCrdApprove">
+    <id column="CRD_ID" jdbcType="VARCHAR" property="crdId" />
+    <result column="CRD_NUM" jdbcType="VARCHAR" property="crdNum" />
+    <result column="CREDIT_MODE" jdbcType="VARCHAR" property="creditMode" />
+    <result column="PARTY_ID" jdbcType="VARCHAR" property="partyId" />
+    <result column="STATUS_CD" jdbcType="VARCHAR" property="statusCd" />
+    <result column="ORG_NUM" jdbcType="VARCHAR" property="orgNum" />
+    <result column="USER_NUM" jdbcType="VARCHAR" property="userNum" />
+    <result column="APPLY_DATE" jdbcType="TIMESTAMP" property="applyDate" />
+    <result column="VALID_DATE" jdbcType="TIMESTAMP" property="validDate" />
+    <result column="END_DATE" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="GUARANTY_TYPE" jdbcType="VARCHAR" property="guarantyType" />
+    <result column="TERM_NUM" jdbcType="DECIMAL" property="termNum" />
+    <result column="TERM_UNIT" jdbcType="VARCHAR" property="termUnit" />
+    <result column="HAPPEN_NATURE" jdbcType="VARCHAR" property="happenNature" />
+    <result column="RMB_AMT" jdbcType="DECIMAL" property="rmbAmt" />
+    <result column="APPLY_ID" jdbcType="VARCHAR" property="applyId" />
+    <result column="BIZ_ID" jdbcType="VARCHAR" property="bizId" />
+    <result column="BO_USE" jdbcType="DECIMAL" property="boUse" />
+    <result column="NO_USE" jdbcType="DECIMAL" property="noUse" />
+    <result column="CSM_CRD_LEVEL" jdbcType="VARCHAR" property="csmCrdLevel" />
+    <result column="HAPPEN_TYPE" jdbcType="VARCHAR" property="happenType" />
+  </resultMap>
+  <sql id="Base_Crd_Approve_Column_List">
+    CRD_ID, CRD_NUM, CREDIT_MODE, PARTY_ID, STATUS_CD, ORG_NUM, USER_NUM, APPLY_DATE, 
+    VALID_DATE, END_DATE, UPDATE_TIME, GUARANTY_TYPE, TERM_NUM, TERM_UNIT, HAPPEN_NATURE, 
+    RMB_AMT, APPLY_ID, BIZ_ID, BO_USE, NO_USE, CSM_CRD_LEVEL, HAPPEN_TYPE
+  </sql>
+    
+    <select id="selectCrdApproveByPrimaryKey" parameterType="java.lang.String" resultMap="BaseCrdApproveResultMap">
+    select 
+    <include refid="Base_Crd_Approve_Column_List" />
+    from TB_CRD_APPROVE
+    where CRD_ID = #{crdId,jdbcType=VARCHAR}
+  </select>
+    
+    <insert id="insertCrdAppDtl" parameterType="com.cdgit.loan.creditLimit.bean.TbCrdDetailApply">
+    insert into CRMS.TB_CRD_DETAIL_APPLY (CRD_DTL_ID, CRD_ID, CREDIT_MODE, 
+      PRODUCT_TYPE, CURRENCY_CD, EXCHANGE_RATE, 
+      EXCHANGE_RATE_DATE, DTL_AMT, RMB_AMT, 
+      BO_USE, TERM_NUM, TERM_UNIT, 
+      UPDATE_TIME, CYCLE_IND, OLD_CRD_DTL_ID, 
+      BEGIN_DATE, END_DATE, ASSURE_PER
+      )
+    values (#{crdDtlId,jdbcType=VARCHAR}, #{crdId,jdbcType=VARCHAR}, #{creditMode,jdbcType=VARCHAR}, 
+      #{productType,jdbcType=VARCHAR}, #{currencyCd,jdbcType=VARCHAR}, #{exchangeRate,jdbcType=DECIMAL}, 
+      #{exchangeRateDate,jdbcType=TIMESTAMP}, #{dtlAmt,jdbcType=DECIMAL}, #{rmbAmt,jdbcType=DECIMAL}, 
+      #{boUse,jdbcType=DECIMAL}, #{termNum,jdbcType=VARCHAR}, #{termUnit,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{cycleInd,jdbcType=VARCHAR}, #{oldCrdDtlId,jdbcType=VARCHAR}, 
+      #{beginDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{assurePer,jdbcType=DECIMAL}
+      )
+  </insert>
+    
+    <resultMap id="BaseCrdFrzResultMap" type="com.cdgit.loan.creditLimit.bean.TbCrdFreeze">
+    <id column="FRZ_ID" jdbcType="VARCHAR" property="frzId" />
+    <result column="FRZ_NUM" jdbcType="VARCHAR" property="frzNum" />
+    <result column="CRD_ID" jdbcType="VARCHAR" property="crdId" />
+    <result column="FRZ_TYPE" jdbcType="VARCHAR" property="frzType" />
+    <result column="STATUS_CD" jdbcType="VARCHAR" property="statusCd" />
+    <result column="PARTY_ID" jdbcType="VARCHAR" property="partyId" />
+    <result column="FRZ_REASON" jdbcType="VARCHAR" property="frzReason" />
+    <result column="ORG_NUM" jdbcType="VARCHAR" property="orgNum" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="USER_NUM" jdbcType="VARCHAR" property="userNum" />
+    <result column="VALID_DATE" jdbcType="TIMESTAMP" property="validDate" />
+  </resultMap>
+  <sql id="Base_Crd_Frz_Column_List">
+    FRZ_ID, FRZ_NUM, CRD_ID, FRZ_TYPE, STATUS_CD, PARTY_ID, FRZ_REASON, ORG_NUM, CREATE_TIME, 
+    USER_NUM, VALID_DATE
+  </sql>
+  <select id="selectCrdFrzByPrimaryKey" parameterType="java.lang.String" resultMap="BaseCrdFrzResultMap">
+    select 
+    <include refid="Base_Crd_Frz_Column_List" />
+    from TB_CRD_FREEZE
+    where FRZ_ID = #{frzId,jdbcType=VARCHAR}
+  </select>
+    
+    <update id="updateCrdFrz" parameterType="com.cdgit.loan.creditLimit.bean.TbCrdFreeze">
+    update TB_CRD_FREEZE
+    <set>
+      <if test="frzNum != null">
+        FRZ_NUM = #{frzNum,jdbcType=VARCHAR},
+      </if>
+      <if test="crdId != null">
+        CRD_ID = #{crdId,jdbcType=VARCHAR},
+      </if>
+      <if test="frzType != null">
+        FRZ_TYPE = #{frzType,jdbcType=VARCHAR},
+      </if>
+      <if test="statusCd != null">
+        STATUS_CD = #{statusCd,jdbcType=VARCHAR},
+      </if>
+      <if test="partyId != null">
+        PARTY_ID = #{partyId,jdbcType=VARCHAR},
+      </if>
+      <if test="frzReason != null">
+        FRZ_REASON = #{frzReason,jdbcType=VARCHAR},
+      </if>
+      <if test="orgNum != null">
+        ORG_NUM = #{orgNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userNum != null">
+        USER_NUM = #{userNum,jdbcType=VARCHAR},
+      </if>
+      <if test="validDate != null">
+        VALID_DATE = #{validDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where FRZ_ID = #{frzId,jdbcType=VARCHAR}
+  </update>
+    
+    <update id="updateCrdFrzDtl" parameterType="com.cdgit.loan.creditLimit.bean.TbCrdFreezeDtl">
+    update TB_CRD_FREEZE_DTL
+    <set>
+      <if test="frzAmt != null">
+        FRZ_AMT = #{frzAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="statusCd != null">
+        STATUS_CD = #{statusCd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where FRZ_ID = #{frzId,jdbcType=VARCHAR}
+      and CRD_DTL_ID = #{crdDtlId,jdbcType=VARCHAR}
+  </update>
+    <!-- AppCrdSql -->
+    <select id="getCrdDtlList" parameterType="java.util.HashMap"  resultType="java.util.HashMap">
+		SELECT CRD_DTL_ID,PRODUCT_TYPE,CURRENCY_CD,DTL_AMT,CYCLE_IND,CREDIT_MODE,ASSURE_PER,BO_USE
+		FROM TB_CRD_DETAIL_APPLY
+		WHERE CRD_ID = #{crdId}
+    </select>
+    <!-- AppCrdSql -->
+    <select id="getIsSXcrd" parameterType="java.util.HashMap" resultType="java.lang.String">
+		select decode(count(1),0,'0','1') as isApply from Tb_Crd_Detail_Apply a 
+		  where a.crd_id=#{crdId} and a.credit_mode='02'
+    </select>
+    <!-- AppCrdSql -->
+    <select id="getIsSXProcess" parameterType="java.util.HashMap" resultType="java.lang.String">
+		select decode(count(1),0,'0','1') as examRecord from tb_wfm_processinstance 
+			where product_id=#{crdId}
+			  and process_status = 'finish'
+    </select>
+    <!-- AppCrdSql  是否考虑放到业务模块-->
+    <select id="getBizIdAndHaveDtl" parameterType="java.util.HashMap"  resultType="java.util.HashMap">
+		SELECT APPLY_ID
+		,NVL((SELECT MAX(1) FROM TB_BIZ_AMOUNT_DETAIL_APPLY ad WHERE ad.APPLY_ID=a.APPLY_ID),0)HAVE_BIZ_DTL 
+		FROM TB_BIZ_APPLY a WHERE CRD_ID=#{crdId}
+    </select>
+    <!-- measure -->
+    <!-- <iterate property="codes" open="(" close=")" conjunction=",">#codes[]#</iterate> -->
+    <!-- <foreach collection="array" item="id" open="(" separator="," close=")"> -->
+    <select id="getCreditLineLimit" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT * FROM  TB_BIZ_CREDIT_LINE_LIMIT
+		<if test=" codes != null and codes !='' ">
+		WHERE CODE IN 
+		<foreach collection="array" item="code" open="(" close=")" separator=",">
+            #{code}
+		</foreach>
+		
+		</if>
+	</select>
+    
+    <resultMap id="BaseMeasureResultMap" type="com.cdgit.loan.creditLimit.bean.TbBizCreditLineMeasure">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="MEA_DATE" jdbcType="TIMESTAMP" property="meaDate" />
+    <result column="USER_NUM" jdbcType="VARCHAR" property="userNum" />
+    <result column="ORG_NUM" jdbcType="VARCHAR" property="orgNum" />
+    <result column="B1" jdbcType="DECIMAL" property="b1" />
+    <result column="B2" jdbcType="DECIMAL" property="b2" />
+    <result column="B3" jdbcType="DECIMAL" property="b3" />
+    <result column="B4" jdbcType="DECIMAL" property="b4" />
+    <result column="B5" jdbcType="DECIMAL" property="b5" />
+    <result column="B6" jdbcType="DECIMAL" property="b6" />
+    <result column="B7" jdbcType="DECIMAL" property="b7" />
+    <result column="B8" jdbcType="DECIMAL" property="b8" />
+    <result column="B9" jdbcType="DECIMAL" property="b9" />
+    <result column="B10" jdbcType="DECIMAL" property="b10" />
+    <result column="B11" jdbcType="DECIMAL" property="b11" />
+    <result column="B12" jdbcType="DECIMAL" property="b12" />
+    <result column="B13" jdbcType="DECIMAL" property="b13" />
+    <result column="B14" jdbcType="VARCHAR" property="b14" />
+    <result column="B15" jdbcType="DECIMAL" property="b15" />
+    <result column="B16" jdbcType="DECIMAL" property="b16" />
+    <result column="B17" jdbcType="DECIMAL" property="b17" />
+    <result column="B18" jdbcType="DECIMAL" property="b18" />
+    <result column="B19" jdbcType="DECIMAL" property="b19" />
+    <result column="B20" jdbcType="DECIMAL" property="b20" />
+    <result column="B21" jdbcType="DECIMAL" property="b21" />
+    <result column="B22" jdbcType="DECIMAL" property="b22" />
+    <result column="B23" jdbcType="DECIMAL" property="b23" />
+    <result column="B24" jdbcType="DECIMAL" property="b24" />
+    <result column="B25" jdbcType="DECIMAL" property="b25" />
+    <result column="B11X" jdbcType="DECIMAL" property="b11x" />
+    <result column="B26" jdbcType="DECIMAL" property="b26" />
+    <result column="CRD_ID" jdbcType="VARCHAR" property="crdId" />
+  </resultMap>
+  <sql id="Base_Measure_Column_List">
+    ID, MEA_DATE, USER_NUM, ORG_NUM, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12, 
+    B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25, B11X, B26, CRD_ID
+  </sql>
+  <select id="selectMeasureByPrimaryKey" parameterType="java.lang.String" resultMap="BaseMeasureResultMap">
+    select 
+    <include refid="Base_Measure_Column_List" />
+    from TB_BIZ_CREDIT_LINE_MEASURE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+    
+    <insert id="insertAbate" parameterType="com.cdgit.loan.creditLimit.bean.TbBizAbate">
+    insert into TB_BIZ_ABATE (ABATE_ID, BIZ_ID, PARTY_ID, 
+      STATUS_CD, ABATE_TYPE, COMPEL, 
+      REMARK, USER_NUM, ORG_NUM, 
+      CREATE_DATE, UPDATE_DATE, CREDIT_MODE, 
+      VALID_DATE)
+    values (#{abateId,jdbcType=VARCHAR}, #{bizId,jdbcType=VARCHAR}, #{partyId,jdbcType=VARCHAR}, 
+      #{statusCd,jdbcType=VARCHAR}, #{abateType,jdbcType=VARCHAR}, #{compel,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{userNum,jdbcType=VARCHAR}, #{orgNum,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{creditMode,jdbcType=VARCHAR}, 
+      #{validDate,jdbcType=TIMESTAMP})
+  </insert>
+    <!-- CrdSql -->
+    <insert id="insertAbateDtl"  parameterType="java.util.HashMap">
+		INSERT INTO TB_BIZ_ABATE_DTL 
+		SELECT ${abateId},CRD_DTL_ID FROM TB_CRD_DETAIL_APPROVE ad WHERE ad.CRD_ID=
+		(SELECT a.BIZ_ID FROM TB_BIZ_ABATE a WHERE a.ABATE_ID=#{abateId} ) 
+		AND NVL(ad.CREDIT_STATUS,'01')!='04' AND 
+		NOT EXISTS (SELECT d.BIZ_DTL_ID FROM TB_BIZ_ABATE_DTL d WHERE d.ABATE_ID=#{abateId} AND d.BIZ_DTL_ID=ad.CRD_DTL_ID)
+   </insert>
+    
+    <resultMap id="BaseAbateResultMap" type="com.cdgit.loan.creditLimit.bean.TbBizAbate">
+    <id column="ABATE_ID" jdbcType="VARCHAR" property="abateId" />
+    <result column="BIZ_ID" jdbcType="VARCHAR" property="bizId" />
+    <result column="PARTY_ID" jdbcType="VARCHAR" property="partyId" />
+    <result column="STATUS_CD" jdbcType="VARCHAR" property="statusCd" />
+    <result column="ABATE_TYPE" jdbcType="VARCHAR" property="abateType" />
+    <result column="COMPEL" jdbcType="VARCHAR" property="compel" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="USER_NUM" jdbcType="VARCHAR" property="userNum" />
+    <result column="ORG_NUM" jdbcType="VARCHAR" property="orgNum" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="CREDIT_MODE" jdbcType="VARCHAR" property="creditMode" />
+    <result column="VALID_DATE" jdbcType="TIMESTAMP" property="validDate" />
+  </resultMap>
+  <sql id="Base_Abate_Column_List">
+    ABATE_ID, BIZ_ID, PARTY_ID, STATUS_CD, ABATE_TYPE, COMPEL, REMARK, USER_NUM, ORG_NUM, 
+    CREATE_DATE, UPDATE_DATE, CREDIT_MODE, VALID_DATE
+  </sql>
+  <select id="selectAbate" parameterType="java.lang.String" resultMap="BaseAbateResultMap">
+    select 
+    <include refid="Base_Abate_Column_List" />
+    from TB_BIZ_ABATE
+    where ABATE_ID = #{abateId,jdbcType=VARCHAR}
+  </select>
+    
+   <update id="updateAbate" parameterType="com.cdgit.loan.creditLimit.bean.TbBizAbate">
+    update TB_BIZ_ABATE
+    set BIZ_ID = #{bizId,jdbcType=VARCHAR},
+      PARTY_ID = #{partyId,jdbcType=VARCHAR},
+      STATUS_CD = #{statusCd,jdbcType=VARCHAR},
+      ABATE_TYPE = #{abateType,jdbcType=VARCHAR},
+      COMPEL = #{compel,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      USER_NUM = #{userNum,jdbcType=VARCHAR},
+      ORG_NUM = #{orgNum,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      CREDIT_MODE = #{creditMode,jdbcType=VARCHAR},
+      VALID_DATE = #{validDate,jdbcType=TIMESTAMP}
+    where ABATE_ID = #{abateId,jdbcType=VARCHAR}
+  </update> 
+    
+    <delete id="deleteAbate" parameterType="java.lang.String">
+    delete from TB_BIZ_ABATE
+    where ABATE_ID = #{abateId,jdbcType=VARCHAR}
+  </delete>
+    
+   <delete id="deleteAbateDtl"  parameterType="java.lang.String">
+    	DELETE FROM TB_BIZ_ABATE_DTL WHERE ABATE_ID=#{abateId}
+    </delete> 
+    
+    <delete id="deleteAbateDtlByMap"  parameterType="java.util.HashMap">
+    	DELETE FROM TB_BIZ_ABATE_DTL WHERE ABATE_ID=#{abateId} and BIZ_DTL_ID=#{bizDtlId}
+    </delete>
+    
+    <delete id="deleteCrdDtl" parameterType="java.lang.String">
+    delete from TB_CRD_DETAIL_APPLY
+    where CRD_DTL_ID = #{crdDtlId,jdbcType=VARCHAR}
+  	</delete>
+  	
+    <!-- CreditReckonSql -->
+    <select id="getCrdDtlCredit" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT CREDIT_STATUS,RMB_AMT,BO_USE,NO_USE,CYCLE_IND,CRD_ID,CREDIT_MODE FROM TB_CRD_DETAIL_APPROVE WHERE CRD_DTL_ID=#{value} 
+    </select>
+    
+    <!-- CreditReckonSql -->
+    <select id="getBizDtlIdsByCrdDtlId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT AMOUNT_DETAIL_ID FROM TB_BIZ_AMOUNT_DETAIL_APPROVE WHERE CRD_DTL_ID=#{crdDtlId}
+    </select>
+    
+    <!-- CreditReckonSql -->
+    <select id="getFreezeAmt" parameterType="java.lang.String" resultType="java.math.BigDecimal">
+		SELECT NVL(SUM(DECODE(STATUS_CD,'71',FRZ_AMT*-1,FRZ_AMT)),0) FRZ_AMT FROM TB_CRD_FREEZE_DTL WHERE CRD_DTL_ID=#{value} AND STATUS_CD IS NOT NULL
+    </select>
+    
+    <!-- CreditReckonSql -->
+    <select id="getConOccupyToCrd" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT CONTRACT_ID,OLD_CONTRACT_ID,JXHJ_ID
+		,DECODE(${CYCLE_IND},'1',CON_OCCUPY,(RMB_AMT*(100-NVL(BZJBL,0))/100)) CON_OCCUPY 
+		FROM TB_CON_CONTRACT_INFO 
+		WHERE CRD_DTL_ID=#{crdDtlId}
+    </select>
+    
+    <!-- CreditReckonSql -->
+    <update id="updateCrdDtlApprove" parameterType="com.cdgit.loan.creditLimit.bean.TbCrdDetailApprove">
+    update TB_CRD_DETAIL_APPROVE
+    set CRD_ID = #{crdId,jdbcType=VARCHAR},
+      CREDIT_MODE = #{creditMode,jdbcType=VARCHAR},
+      PRODUCT_TYPE = #{productType,jdbcType=VARCHAR},
+      CURRENCY_CD = #{currencyCd,jdbcType=VARCHAR},
+      EXCHANGE_RATE = #{exchangeRate,jdbcType=DECIMAL},
+      EXCHANGE_RATE_DATE = #{exchangeRateDate,jdbcType=TIMESTAMP},
+      DTL_AMT = #{dtlAmt,jdbcType=DECIMAL},
+      RMB_AMT = #{rmbAmt,jdbcType=DECIMAL},
+      BO_USE = #{boUse,jdbcType=DECIMAL},
+      NO_USE = #{noUse,jdbcType=DECIMAL},
+      APPLY_DATE = #{applyDate,jdbcType=TIMESTAMP},
+      TERM_NUM = #{termNum,jdbcType=VARCHAR},
+      TERM_UNIT = #{termUnit,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      CYCLE_IND = #{cycleInd,jdbcType=VARCHAR},
+      CREDIT_STATUS = #{creditStatus,jdbcType=VARCHAR},
+      END_DATE = #{endDate,jdbcType=TIMESTAMP},
+      BEGIN_DATE = #{beginDate,jdbcType=TIMESTAMP},
+      ASSURE_PER = #{assurePer,jdbcType=DECIMAL}
+    where CRD_DTL_ID = #{crdDtlId,jdbcType=VARCHAR}
+  </update>
+    <!-- CreditReckonSql -->
+    <update id="updateCrdCredit" parameterType="java.lang.String">
+		UPDATE TB_CRD_APPROVE a SET (BO_USE,NO_USE)=
+		(SELECT SUM(BO_USE) BO_USE, SUM(NO_USE) NO_USE FROM TB_CRD_DETAIL_APPROVE ad WHERE ad.CRD_ID=a.CRD_ID)
+		WHERE a.CRD_ID=#{value}
+    </update>
+    <!-- CreditReckonSql -->
+    <select id="getCrdCredit" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT STATUS_CD,BO_USE,NO_USE,RMB_AMT OCCUPY FROM TB_CRD_APPROVE WHERE CRD_ID=#{value}
+    </select>
+    <!-- CreditReckonSql -->
+    <select id="getCrdDtlIds" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT CRD_DTL_ID FROM TB_CRD_DETAIL_APPROVE WHERE CRD_ID=#{value}
+    </select>
+    <!-- CreditReckonSql -->
+	<select id="getBizIdsByCrdId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT APPROVE_ID FROM TB_BIZ_APPROVE WHERE CRD_ID=#{value} 
+    </select>
+    
+    <update id="updateCrdDtlApply" parameterType="com.cdgit.loan.creditLimit.bean.TbCrdDetailApply">
+    update TB_CRD_DETAIL_APPLY
+    set CRD_ID = #{crdId,jdbcType=VARCHAR},
+      CREDIT_MODE = #{creditMode,jdbcType=VARCHAR},
+      PRODUCT_TYPE = #{productType,jdbcType=VARCHAR},
+      CURRENCY_CD = #{currencyCd,jdbcType=VARCHAR},
+      EXCHANGE_RATE = #{exchangeRate,jdbcType=DECIMAL},
+      EXCHANGE_RATE_DATE = #{exchangeRateDate,jdbcType=TIMESTAMP},
+      DTL_AMT = #{dtlAmt,jdbcType=DECIMAL},
+      RMB_AMT = #{rmbAmt,jdbcType=DECIMAL},
+      BO_USE = #{boUse,jdbcType=DECIMAL},
+      TERM_NUM = #{termNum,jdbcType=VARCHAR},
+      TERM_UNIT = #{termUnit,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      CYCLE_IND = #{cycleInd,jdbcType=VARCHAR},
+      OLD_CRD_DTL_ID = #{oldCrdDtlId,jdbcType=VARCHAR},
+      BEGIN_DATE = #{beginDate,jdbcType=TIMESTAMP},
+      END_DATE = #{endDate,jdbcType=TIMESTAMP},
+      ASSURE_PER = #{assurePer,jdbcType=DECIMAL}
+    where CRD_DTL_ID = #{crdDtlId,jdbcType=VARCHAR}
+  </update>
+    
 </mapper>

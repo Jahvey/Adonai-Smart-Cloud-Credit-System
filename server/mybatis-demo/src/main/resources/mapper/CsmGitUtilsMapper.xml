@@ -13,5 +13,13 @@
 		SELECT ${seqname} AS SEQNO FROM DUAL
 	</select>
 
+	<!-- 根据机构查询法人标识 -->
+	<select id="getLegorgByOrgCd" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT LEG_ORG FROM OM_ORGANIZATION WHERE ORGCODE=#{value}
+	</select>
+	<!-- 根据PARTYID查询法人标识 -->
+	<select id="getLegorgByPartyId" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT LEG_ORG FROM TB_CSM_PARTY WHERE PARTY_ID=#{value}
+	</select>
 
 </mapper>

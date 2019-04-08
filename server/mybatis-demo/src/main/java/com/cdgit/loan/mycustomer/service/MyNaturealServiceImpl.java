@@ -20,6 +20,7 @@ public class MyNaturealServiceImpl {
 
 	@Autowired
 	MyCustomerMapper myCustomerMapper;
+	
 	/**
 	 * 第一个参数从第几页开始  第二个参数每页显示数量
 	

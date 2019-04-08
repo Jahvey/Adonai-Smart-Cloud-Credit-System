@@ -3,6 +3,7 @@ package com.cdgit.loan.user.mapper;
 import com.cdgit.loan.user.bean.TbCsmCorporation;
 import com.cdgit.loan.user.bean.TbCsmCorporationExample;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -32,4 +33,7 @@ public interface TbCsmCorporationMapper {
     int updateByPrimaryKey(TbCsmCorporation record);
     
     Integer queryThirdPartythreeDB(String partyId);
+    
+    Map getPartyBasis(String partyId);
+    
 }

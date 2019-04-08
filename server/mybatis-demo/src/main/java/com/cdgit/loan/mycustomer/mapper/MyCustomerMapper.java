@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.cdgit.loan.user.bean.NaturealInfo;
 import com.cdgit.loan.user.bean.TbCsmNaturalPerson;
@@ -21,7 +22,7 @@ import com.cdgit.loan.user.bean.TbCsmParty;
 * @date 2018年10月26日
  */
 @Mapper
-public interface MyCustomerMapper {
+public interface MyCustomerMapper{
 	
 	//获取参与人信息
 	TbCsmParty getTbCsmParty(NaturealInfo naturalInfo);

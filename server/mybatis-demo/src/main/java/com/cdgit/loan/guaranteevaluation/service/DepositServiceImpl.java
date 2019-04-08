@@ -113,7 +113,7 @@ public class DepositServiceImpl {
 		return map;
 	}
 	public Date getOperateDate(String str) throws ParseException{
-		SimpleDateFormat format = new SimpleDateFormat("str");
+		SimpleDateFormat format = new SimpleDateFormat(str);
 		Date date = format.parse(crtGitUtilMapper.queryOperatingDate());
 		return date;
 	}

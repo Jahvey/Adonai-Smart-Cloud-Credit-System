@@ -39,6 +39,12 @@
 
   </resultMap>
   
+  <select id="queryListByAmountId"  parameterType="java.lang.String" resultMap="csmTbBizAmountDetailApprovePo">
+  
+  select * from Tb_Biz_Amount_Detail_Approve a where a.amount_id=#{amountId}
+  </select>
+  
+  
   <select id="queryOneTbBizAmountDetailApproveByAmountDetailId"  parameterType="java.lang.String" resultMap="csmTbBizAmountDetailApprovePo">
   select 
   *

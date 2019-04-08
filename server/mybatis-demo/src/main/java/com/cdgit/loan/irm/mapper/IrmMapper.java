@@ -114,4 +114,6 @@ public interface IrmMapper {
     int insertTbIrmOverthrowRecord(TbIrmOverthrowRecord tbIrmOverthrowRecord);
     
     String getinitialRatingCd(Map map);
+    
+//    String getPartyCreditLevel(Map map);//2019-03-29
 }

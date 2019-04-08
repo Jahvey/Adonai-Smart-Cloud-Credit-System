@@ -11,11 +11,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cdgit.loan.common.util.uid.UUIDGenerator;
+import com.cdgit.loan.creditLimit.bean.TbBizCreditLineMeasure;
 import com.cdgit.loan.creditLimit.bean.TbConGuarantOrgInfo;
+import com.cdgit.loan.creditLimit.bean.TbCrdApply;
 import com.cdgit.loan.creditLimit.bean.TbCrdThirdPartyLimit;
+import com.cdgit.loan.creditLimit.mapper.CrdDaoUtilMapper;
 import com.cdgit.loan.creditLimit.mapper.CreditLimitMapper;
 import com.cdgit.loan.guaranteevaluation.mapper.ConZhMapper;
-import com.cdgit.loan.user.bean.NaturealInfo;
+import com.cdgit.loan.irm.mapper.IrmMapper;
+import com.cdgit.loan.user.bean.TbCsmCorporation;
+import com.cdgit.loan.user.bean.TbCsmParty;
+import com.cdgit.loan.user.mapper.TbCsmCorporationMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -26,7 +32,16 @@ public class CreditLimitImpl {
 	CreditLimitMapper creditLimitMapper;
 	
 	@Autowired
+	CrdDaoUtilMapper crdDaoUtilMapper;
+	
+	@Autowired
+	TbCsmCorporationMapper corporationMapper;
+	
+	@Autowired
 	ConZhMapper conZhMapper;//查询保证账户暂时用其他模块的
+	
+	@Autowired
+	IrmMapper irmMapper;
 	
 	/**
 	 * 查询专业担保协议
@@ -144,7 +159,6 @@ public class CreditLimitImpl {
 		guarantOrgInfo.setCreditAbroad(thirdLimit.getCreditAbroad());
 		guarantOrgInfo.setCreditOneRepay(thirdLimit.getCreditOneRepay());
 		
-		
 		guarantOrgInfo.setCreditTwoRepay(thirdLimit.getCreditTwoRepay());
 		guarantOrgInfo.setCreditTwoOtherRepay(thirdLimit.getCreditTwoOtherRepay());
 		guarantOrgInfo.setCreditLoan(thirdLimit.getCreditLoan());
@@ -202,6 +216,108 @@ public class CreditLimitImpl {
 	public TbCrdThirdPartyLimit getThirdPartyCrdByLimitId(Map map){
 		
 		return creditLimitMapper.getThirdPartyCrdByLimitId(map);
+	}
+	
+	/**
+	 * 
+	
+	 * <p>Title: getCrdInfo</p>  
+	
+	 * <p>Description: </p>  
+	
+	 * @return
+	 */
+	public Map getCrdInfo(Map map){
+		
+		String isApply=creditLimitMapper.getIsSXcrd(map);
+		
+		map.put("isApply", isApply);
+		
+		String examRecord=creditLimitMapper.getIsSXProcess(map);
+		
+		map.put("examRecord", examRecord);//
+		
+		TbCrdApply  crd=crdDaoUtilMapper.selectCrdAppByPrimaryKey((String)map.get("crdId"));
+		map.put("crd", crd);
+		
+		//查询该授信是否有业务申请
+		Object[] dtl=creditLimitMapper.getBizIdAndHaveDtl(map);
+		if(null != dtl && dtl.length > 0){
+			map.put("bizId", ((Map)dtl[0]).get("APPLY_ID"));
+			map.put("havaBizDtl", ((Map)dtl[0]).get("HAVE_BIZ_DTL"));
+		}
+		
+		if(null != crd && !"00".equals(crd.getCreditMode())){
+			map.put("havaBizDtl", "1");
+		}
+		
+		if(StringUtils.isNotEmpty((String)map.get("qcsm")) && "1".equals((String)map.get("qcsm"))){//searchLevel 默认给3
+			//这里会返回TbCsmParty
+			TbCsmParty party=new TbCsmParty();
+			//以下代码提出来 不用写到分支里面
+			Map cusInfo=corporationMapper.getPartyBasis((String)map.get("partyId"));
+			party.setPartyId((String)cusInfo.get("PARTY_ID"));
+			party.setPartyNum((String)cusInfo.get("PARTY_NUM"));
+			party.setPartyName((String)cusInfo.get("PARTY_NAME"));
+			party.setPartyTypeCd((String)cusInfo.get("PARTY_TYPE_CD"));
+			party.setPartyTypeCd((String)cusInfo.get("CERT_TYPE"));
+			party.setPartyTypeCd((String)cusInfo.get("CERT_NUM"));
+			party.setPartyTypeCd((String)cusInfo.get("CORP_CUSTOMER_TYPE_CD"));
+			party.setEcifPartyNum((String)cusInfo.get("ECIF_PARTY_NUM"));
+			
+			map.put("ratingType", "3");
+			
+//			String creditLevel=irmMapper.getPartyCreditLevel(map);//该客户没有查询到有效评级结果
+//			map.put("creditLevel", creditLevel);
+			
+		}
+		
+		TbCsmCorporation corporation=corporationMapper.selectByPrimaryKey(crd.getPartyId());
+		map.put("corporation", corporation);
+		return map;
+	}
+	
+	/**
+	 * 
+		里面包含crdId参数      meaLineId  授信基本信息页面没有   meaLineId
+	 * <p>Title: getCreditLineMea</p>  
+	measure limitMap
+	 * <p>Description: </p>
+	 */
+	public Map getCreditLineMea(Map map){
+		Map resultMap=this.getCreditLineLimit(true);//有个恒等判断 默认为true  searchLimitMap
+		if(StringUtils.isNotEmpty((String)map.get("meaLineId"))){
+			TbBizCreditLineMeasure measure=creditLimitMapper.selectMeasureByPrimaryKey((String)map.get("meaLineId"));
+			resultMap.put("measure", measure);
+		}
+		
+		return resultMap;
+	}
+	
+	/**
+	 * 供getCreditLineMea方法调用
+	
+	 * <p>Title: getCreditLineLimit</p>  
+	
+	 * <p>Description: </p>  
+	
+	 * @param haveLevel
+	 * @return
+	 */
+	public Map<String, Object> getCreditLineLimit(boolean haveLevel) {
+		Map<String, Object> limitMap = new HashMap<String, Object>();
+		if (!haveLevel) {
+			limitMap.put("codes", new String[] { "rebate", "rebate_2" });
+		}
+		Object[] objs = creditLimitMapper.getCreditLineLimit(limitMap);
+		if (objs == null || objs.length == 0) {
+			throw new RuntimeException("[TB_BIZ_CREDIT_LINE_LIMIT]表没有维护数据");
+		}
+		limitMap.clear();
+		for (Object obj : objs) {
+			limitMap.put((String) ((Map<String, Object>) obj).get("CODE"), ((Map<String, Object>) obj).get("VALUE"));
+		}
+		return limitMap;
 	}
 	
 }

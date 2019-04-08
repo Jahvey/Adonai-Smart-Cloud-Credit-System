@@ -75,6 +75,126 @@
     
     <result column="CON_SUBCON_ID" jdbcType="VARCHAR" property="conSubconId" />
   </resultMap>
+    <select id="selectSubConRelBySubcontractId" resultType="java.util.Map">
+  	select * from TB_CON_SUBCONTRACT_REL where IF_EFFECTIVE='1' and SUBCONTRACT_ID=#{subcontractId} 
+  </select>
+  <select id="selectConSubRelByThree" resultType="java.util.Map">
+  	select * from TB_CON_SUBCONTRACT_REL where IF_EFFECTIVE=#{ifEffective} and CONTRACT_ID=#{contractId} and OPERATION_TYPE=#{operationType}
+  </select>
+  <!--综合授信检查是否已经引入了同样的最高额担保合同  -->
+  <select id="RCON_0087" resultType="java.util.Map">
+  			select count(*) c from tb_con_subcontract_rel a,tb_con_subcontract b ,tb_con_credit_info c 
+			where a.subcontract_id=b.subcontract_id 
+			and a.contract_id=c.contract_id
+			and b.subcontract_num=#{subcontractNum}
+			and a.if_effective='1'
+			and c.contract_id=#{contractId}
+  </select>
+  <!--单笔合同检查是否已经引入了同样的最高额担保合同  -->
+    <select id="RCON_0088" resultType="java.util.Map">
+			select count(*) c from tb_con_subcontract_rel a,tb_con_subcontract b ,tb_con_contract_info c 
+			where a.subcontract_id=b.subcontract_id 
+			and a.contract_id=c.contract_id
+			and b.subcontract_num=#{subcontractNum}
+			and a.if_effective='1'
+			and c.contract_id=#{contractId}
+  </select>
+  <!-- 获取最高额可用余额-->
+  <select id="getZGEYE" resultType="java.util.Map"> 
+  	  	select sum(nvl(t1.surety_amt,0)) as yyje  from tb_con_subcontract_rel t1,tb_con_contract_info t2 where
+	t1.contract_id=t2.contract_id and
+ 	t1.subcontract_id=#{subcontractId} and t2.con_status='03' and t2.contract_num not in (
+ select contract_num from tb_con_contract_info where contract_id=#{contractId}
+ ) 
+  
+  </select>
+<!--   	<select id="selectBySubIdAndRelId" resultType="java.util.Map">
+  		select 
+  		a.zgbjxe,
+  		from TB_CON_SUBCONTRACT a,TB_CON_SUBCONTRACT_REL b
+  		where a.subcontract_id=b.subcontract_id 
+  		and a.subcontract_id=#{subcontractId} 
+  		and b.CON_SUBCON_ID=#{conSubconId}
+  	
+  	</select> -->
+  	<!--获取可关联的最高额担保合同   综合授信协议或者单笔合同  -->
+  	<select id="getMaxLoanCon2" resultType="java.util.Map">
+  		    select *
+		   from (select t.subcontract_id,
+		                t.subcontract_num,
+		                t.paper_con_num,
+		                t.bz,
+		                t.zgbjxe,
+		                t.avi_amt,
+		                to_char(t.end_date, 'yyyy-MM-dd') as end_date
+		           from tb_con_subcontract t,
+		                (select tb.subcontract_id, tb.apply_id
+		                   from tb_biz_grt_maxloancon_apply tb
+		                 union
+		                 select tb.subcontract_id, t.apply_id
+		                   from tb_biz_grt_rel     t,
+		                        tb_con_sub_grt_rel ta,
+		                        tb_con_subcontract tb
+		                  where t.surety_id = ta.surety_id
+		                    and ta.subcontract_id = tb.subcontract_id
+		                    and tb.subcontract_id not in
+		                        (select tc.subcontract_id
+		                           from tb_con_subcontract tc, tb_con_sub_grt_rel td
+		                          where tc.subcontract_id = td.subcontract_id
+		                            and tc.if_top_subcon = '1'
+		                            and tc.subcontract_status = '03'
+		                            and td.surety_id not in
+		                                (select surety_id from tb_biz_grt_rel))) tb
+		          where t.if_top_subcon = '1'
+		            and t.subcontract_status = '03'
+		            and t.subcontract_id = tb.subcontract_id
+		            and t.subcontract_type = #{subcontractType}
+		            and t.con_party_id = #{conPartyId}
+		            and tb.apply_id = #{applyId}) ty
+		   left join (select listagg(tb.party_name, ',') within group(order by party_name) as party_name,
+		                     t.subcontract_id
+		                from tb_con_sub_grt_rel     t,
+		                     tb_grt_guarantee_basic ta,
+		                     tb_csm_party           tb
+		               where t.surety_id = ta.surety_id
+		                 and ta.party_id = tb.party_id
+		               group by t.subcontract_id
+		              union 
+		              select td.party_name, tc.subcontract_id
+		                from tb_con_subcontract tc, tb_csm_party td
+		               where tc.party_id = td.party_id and tc.SUBCONTRACT_STATUS='03') tz
+		     on ty.subcontract_id = tz.subcontract_id
+  	</select>
+    <!-- 获取可关联的最高额担保合同   业务申请 -->
+    <select id="getMaxLoanCon1" resultType="java.util.Map">
+    		  select * from (   	
+                    select t.subcontract_id,
+      				 t.subcontract_num,
+      				 t.subcontract_type,
+		             	to_char(t.begin_date, 'YYYY-MM-DD') as begin_date,
+               			to_char(t.end_date, 'YYYY-MM-DD') as end_date,				       
+               			t.party_id,
+				       t.zgbjxe,
+				       t.avi_amt,
+				       t.total_amt 
+       from TB_CON_SUBCONTRACT t
+                        where  t.IF_TOP_SUBCON ='1'
+                        and t.SUBCONTRACT_STATUS='03'
+                        and t.SUBCONTRACT_TYPE = #{subcontractType}
+                        and t.CON_PARTY_ID = #{conPartyId}
+			)ty left join (
+			             select listagg(v.PARTY_NAME,',') within group(order by PARTY_NAME) as PARTY_NAME,t.SUBCONTRACT_ID <!-- ,''as CERT_TYPE ,''as CERT_NUM-->
+                        from TB_CON_SUB_GRT_REL t,TB_GRT_GUARANTEE_BASIC ta,V_CSM_PARTY v
+			            where t.SURETY_ID=ta.SURETY_ID
+			            and ta.PARTY_ID=v.PARTY_ID
+			            group by t.SUBCONTRACT_ID
+			            union <!--all-->
+			            select v.PARTY_NAME,tc.SUBCONTRACT_ID <!--,v.CERT_TYPE,v.CERT_NUM-->
+                        from TB_CON_SUBCONTRACT tc,V_CSM_PARTY v
+			            where tc.PARTY_ID=v.PARTY_ID and tc.SUBCONTRACT_STATUS='03'
+			) tz
+			on ty.SUBCONTRACT_ID=tz.SUBCONTRACT_ID
+    </select>
     <select id="selSubGrtBzj" resultType="java.util.Map">
   	select  m.SURETY_ID,m.MARGIN_SORT,m.MARGIN_ACCOUNT,m.OPEN_BANK,m.ACCT_NAME,m.CURRENCY_CD,m.ACC_BALANCE,to_char(m.END_DATE,'yyyy-mm-dd') as END_DATE,m.IS_JIXI,m.MARGIN_RATE
 	    from TB_GRT_COLLATERAL t,TB_BIZ_GRT_REL ta,tb_csm_party tb,TB_GRT_MARGIN m
@@ -241,14 +361,15 @@
   
   <!--查询一个主合同只能绑定一种抵质押品类型  -->
   	<select id="selectContractOnlyOneMpType" resultType="java.util.Map">
-  		SELECT * FROM  TB_CON_SUBCONTRACT_REL T1 
+  		SELECT count(*) c FROM  TB_CON_SUBCONTRACT_REL T1 
 		,TB_CON_SUBCONTRACT T2 ,TB_CON_CONTRACT_INFO T3 ,TB_CON_SUB_GRT_REL T4
 		WHERE T3.CONTRACT_ID=T1.CONTRACT_ID AND T1.SUBCONTRACT_ID=T2.SUBCONTRACT_ID
 		AND T4.SUBCONTRACT_ID=T2.SUBCONTRACT_ID
+		and t3.con_status != '06'
 		AND T3.CONTRACT_ID=#{contractId} AND T4.SURETY_ID=#{suretyId}
   	</select>
   	<select id="selectSubGrtRelBySuretyIdAndSubId" resultType="java.util.Map">
-  		select * from TB_CON_SUB_GRT_REL where	SURETY_ID=#{suretyId} and SUBCONTRACT_ID=#{subcontractId}
+  		select count(*) c from TB_CON_SUB_GRT_REL where	SURETY_ID=#{suretyId} and SUBCONTRACT_ID=#{subcontractId}
   	</select>
   	<select id="selectConSubGrtRelBySubcontractId" resultType="java.util.Map">
   		select * from TB_CON_SUB_GRT_REL where SUBCONTRACT_ID=#{subcontractId}

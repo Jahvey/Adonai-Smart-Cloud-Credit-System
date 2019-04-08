@@ -191,7 +191,7 @@ public class SubContractSignController {
 			@RequestParam(value="proguarantyWay",required=false) String proguarantyWay,//保证担保方式
 			@RequestParam(value="proguarantyType",required=false) String proguarantyType,//保证担保类型
 			@RequestParam(value="proguarantyForm",required=false) String proguarantyForm,//保证担保形式
-			@RequestParam(value="jrncrbzj",required=true) BigDecimal jrncrbzj,//几日内存入保证金
+			@RequestParam(value="jrncrbzj",required=false) BigDecimal jrncrbzj,//几日内存入保证金
 			@RequestParam(value="bzjbl",required=false) BigDecimal bzjbl,//保证金比例(%)
 			@RequestParam(value="bzjje",required=false) BigDecimal bzjje,//保证金金额
 			@RequestParam(value="bzjlx",required=false) String bzjlx,//保证金类型
@@ -310,11 +310,12 @@ public class SubContractSignController {
 			conAttachedInfo.setTotalCount(totalCount);
 			conAttachedInfo.setAddClause(addClause);
 			TbConSubcontractRelPo tbConSubcontractRelPo = new TbConSubcontractRelPo();
-			if(ifTopSubcon!=null && ifTopSubcon.equals("1")){
-				throw new RuntimeException("最高额担保未完成！");
-				//tbConSubcontractRelPo.setConSubconId(conSubconId);
-				//tbConSubcontractRelPo.setSuretyAmt(suretyAmt);
-				//tbConSubcontractRelPo.setSubcontractAmt(subcontractAmt);
+			tbConSubcontractRelPo.setConSubconId(conSubconId);
+			if(ifTopSubcon!=null && ifTopSubcon.equals("1")){//若为最高额，则初始化本次担保金额为0
+				//tbConSubcontractRelPo.setSuretyAmt(new BigDecimal("0"));
+				tbConSubcontractRelPo.setSubcontractAmt(new BigDecimal("0"));
+			} else{//若非最高额，直接记录担保合同
+				tbConSubcontractRelPo.setSubcontractAmt(subcontractAmt);
 			}
 			map = subContractSignServiceImpl.updateGrtConInfo(conSubcontract,conNoticeAddrs,conAttachedInfo,tbConSubcontractRelPo);
 		}catch(Exception e){
@@ -502,8 +503,10 @@ public class SubContractSignController {
 			String suretyId = params.get("suretyId").toString();//担保id
 			String subcontractId = params.get("subcontractId").toString();//担保合同id
 			String contractId = params.get("contractId").toString();//合同id
-			BigDecimal suretyAmt = params.get("suretyAmt")==null ? null : (BigDecimal)params.get("suretyAmt");//担保金额
-			
+			BigDecimal suretyAmt = null;//担保金额
+			if(params.get("suretyAmt")!=null && !params.get("suretyAmt").toString().equals("")){
+				suretyAmt = new BigDecimal(params.get("suretyAmt").toString());
+			}
 			map = subContractSignServiceImpl.insertSubGrtRel2(suretyId,subcontractId,contractId,suretyAmt);
 		}catch(Exception e){
 			map.put("code", Constant.OPE_FAIL);
@@ -799,6 +802,7 @@ public class SubContractSignController {
 	}
 	/**
 	 * 合同签约时添加保证金
+	 * 需要调用核心接口
 	 * @param params
 	 * @return
 	 */
@@ -868,11 +872,135 @@ public class SubContractSignController {
 			bizGrtRel.setSuretyId(suretyId);
 			bizGrtRel.setUpdateTime(date);
 			//TODO 是否将保证金金额设置为担保金额
-			//bizGrtRel.setMortgageValue(accBalance);
+			bizGrtRel.setMortgageValue(accBalance);
 			bizGrtRel.setSuretyType(collType);
 			bizGrtRel.setSuretyId(suretyId);
 			bizGrtRel.setRelationId(relationId);
 			map = subContractSignServiceImpl.addConCashDeposit(grtCollateral,grtMargin,bizGrtRel,contractId,subcontractId);
+		}catch(Exception e){
+			map.put("code", Constant.OPE_FAIL);
+			map.put("message", "操作失败啦！"+e.getMessage());
+			e.printStackTrace();
+		}
+		return map;
+	}
+	/**
+	 * 查询可引入的最高额抵押合同
+	 * @param pageNum
+	 * @param pageSize
+	 * @param contractId
+	 * @param subcontractType
+	 * @param applyId
+	 * @param partyId
+	 * @param contractType
+	 * @return
+	 */
+	@GetMapping("/getMaxLoanCon")
+	@ResponseBody
+	public Map<String, Object> getMaxLoanCon(
+			@RequestParam(value="pageNum",required=true) Integer pageNum,//
+			@RequestParam(value="pageSize",required=true) Integer pageSize,//
+			@RequestParam(value="contractId",required=false) String contractId,//合同id
+			@RequestParam(value="subcontractType",required=true) String subcontractType,//抵押01、质押02、04保证人
+			@RequestParam(value="applyId",required=false) String applyId,//业务申请Id
+			@RequestParam(value="conPartyId",required=true) String conPartyId,//客户id
+			@RequestParam(value="contractType",required=false) String contractType//01关联综合授信协议  02关联业务合同
+			) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try{
+			map = subContractSignServiceImpl.getMaxLoanCon(pageNum,pageSize,contractId,subcontractType,applyId,conPartyId,contractType);
+		}catch(Exception e){
+			map.put("code", Constant.OPE_FAIL);
+			map.put("message", "操作失败啦！"+e.getMessage());
+			e.printStackTrace();
+		}
+		return map;
+	}
+	/**
+	 * 查询担保合同信息用于输入担保合同本次担保金额时，判断可用金额
+	 * @param subcontractId
+	 * @param conSubconId
+	 * @param contractId
+	 * @return
+	 */
+	@GetMapping("/getSubCon")
+	@ResponseBody
+	public Map<String, Object> getSubCon(
+			@RequestParam(value="subcontractId",required=false) String subcontractId,//担保合同Id
+			@RequestParam(value="conSubconId",required=false) String conSubconId,//担保合同与贷款合同关联id
+			@RequestParam(value="contractId",required=false) String contractId//主合同Id
+			) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try{
+			map = subContractSignServiceImpl.getSubCon(subcontractId,conSubconId,contractId);
+		}catch(Exception e){
+			map.put("code", Constant.OPE_FAIL);
+			map.put("message", "操作失败啦！"+e.getMessage());
+			e.printStackTrace();
+		}
+		return map;
+	}
+	/**
+	 * 1.综合授信 检查是否已经引入了同样的最高额担保合同
+	 * 2.单笔合同 检查是否已经引入了同样的最高额担保合同
+	 * @param subcontractNum
+	 * @param contractId
+	 * @return
+	 */
+	@GetMapping("/checkHaveRef")
+	@ResponseBody
+	public Map<String, Object> checkHaveRef(
+			@RequestParam(value="subcontractNum",required=true) String subcontractNum,//合同编号
+			@RequestParam(value="contractId",required=true) String contractId//主合同Id
+			) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try{
+			map = subContractSignServiceImpl.checkHaveRef(contractId,subcontractNum);
+		}catch(Exception e){
+			map.put("code", Constant.OPE_FAIL);
+			map.put("message", "操作失败啦！"+e.getMessage());
+			e.printStackTrace();
+		}
+		return map;
+	}
+	/**
+	 * 保存引入最高额担保
+	 * @param params
+	 * @return
+	 */
+	@PostMapping("/addMaxloancon")
+	public Map<String, Object> addMaxloancon(
+			@RequestBody Map<String, Object> params
+			) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try{
+			String subcontractId = params.get("subcontractId").toString();//担保合同id
+			String contractId = params.get("contractId").toString();//合同id
+			String subcontractNum = params.get("subcontractNum").toString();//
+			String subcontractType = params.get("subcontractType").toString();//
+			BigDecimal suretyAmt = new BigDecimal(params.get("suretyAmt").toString());//
+			map = subContractSignServiceImpl.addMaxloancon(subcontractId,contractId,subcontractNum,subcontractType,suretyAmt);
+		}catch(Exception e){
+			map.put("code", Constant.OPE_FAIL);
+			map.put("message", "操作失败啦！"+e.getMessage());
+			e.printStackTrace();
+		}
+		return map;
+	}
+	/**
+	 * 保存最高额担保合同保存本次担保金额
+	 * @param params
+	 * @return
+	 */
+	@PostMapping("/updateConsubRel")
+	public Map<String, Object> updateConsubRel(
+			@RequestBody Map<String, Object> params
+			) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try{
+			String conSubconId = params.get("conSubconId").toString();
+			BigDecimal suretyAmt = new BigDecimal(params.get("suretyAmt").toString());
+			map = subContractSignServiceImpl.updateConsubRel(conSubconId,suretyAmt);
 		}catch(Exception e){
 			map.put("code", Constant.OPE_FAIL);
 			map.put("message", "操作失败啦！"+e.getMessage());

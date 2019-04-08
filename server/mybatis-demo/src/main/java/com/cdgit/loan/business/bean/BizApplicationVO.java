@@ -4,6 +4,11 @@ public class BizApplicationVO {
 
 	private String partyId;
 	private String partyNum;
+	
+	private String oldAppBizId;
+	
+	private TbBizApply tbBizApply;
+	
 	public String getPartyId() {
 		return partyId;
 	}

@@ -51,140 +51,15 @@
         <!-- <table tableName="tb_csm_corporation" domainObjectName="TbCsmCorporation">
         	需要插入时返回主键值，请将此属性打开，column值为主键的列明
             <generatedKey column="party_id" sqlStatement="oracle" type="post" identity="true"/>
-        </table>
- 		
- 		<table tableName="tb_csm_bond_info" domainObjectName="TbCsmBondInfo"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-        </table>  
- 		
- 		<table tableName="tb_csm_investment_info" domainObjectName="TbCsmInvestmentInfo"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-        </table>
- 		
- 		<table tableName="tb_csm_bank_scale" domainObjectName="TbCsmBankScale"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="true" />
-        </table>
- 		
- 		<table tableName="tb_csm_party" domainObjectName="TbCsmParty"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-        </table>
-        
-        <table tableName="TB_CSM_MANAGEMENT_TEAM" domainObjectName="TbCsmManagementTeam"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="true" />
-        </table>
- 		
- 		<table tableName="tb_csm_natural_person" domainObjectName="TbCsmNaturalPerson"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-        </table>
-        
-        <table tableName="v_crd_party_limit" domainObjectName="VCrdPartyLimit"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="true" />
-        </table>
-        
- 		<table tableName="TB_IRM_INTERNAL_RATING_APPLY" domainObjectName="TbIrmInternalRatingApply"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="false" />
-        </table> 
-        
-       <table tableName="TB_BIZ_APPROVE" domainObjectName="TbBizApprove"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="false" />
-        </table>
- 		
- 		<table tableName="TB_BIZ_AMOUNT_APPLY" domainObjectName="TbBizAmountApply"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="false" />
-        </table>
- 		
- 		<table tableName="TB_BIZ_AMOUNT_APPROVE" domainObjectName="TbBizAmountApprove"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="false" />
-        </table>
- 		
- 		<table tableName="TB_BIZ_AMOUNT_DETAIL_APPLY" domainObjectName="TbBizAmountDetailApply"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="false" />
-        </table>
-
-		<table tableName="TB_BIZ_AMOUNT_DETAIL_APPROVE" domainObjectName="TbBizAmountDetailApprove"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="false" />
-        </table>
-			
-		<table tableName="TB_BIZ_AMOUNT_LOANRATE_APPLY" domainObjectName="TbBizAmountLoanrateApply"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="false" />
-        </table>
-
-			
-		<table tableName="TB_BIZ_AMOUNT_LOANRATE_APPROVE" domainObjectName="TbBizAmountLoanrateApprove"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="false" />
-        </table>
-			
-		<table tableName="TB_BIZ_APPLY" domainObjectName="TbBizApply"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="false" />
-        </table>
-
-		<table tableName="TB_BIZ_ATTACHED" domainObjectName="TbBizAttached"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="false" />
-        </table>
-
-		<table tableName="TB_BIZ_BANK_MEMBER_APPLY" domainObjectName="TbBizBankMemberApply"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="false" />
-        </table>
-		
-		<table tableName="TB_BIZ_BANK_STRUCT_APPLY" domainObjectName="TbBizBankStructApply"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-            <property
-                name="useActualColumnNames"
-                value="false" />
-        </table> 
-	    <table tableName="TB_CSM_ENTRUST_ACCOUNT" domainObjectName="EntrustAccount"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-        </table> 
-        <table tableName="TB_CSM_WARNING_DEAL" domainObjectName="WarningDeal"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
-        </table> --> 
-		<!-- <table tableName="TB_AFT_FIRST_CHECK" domainObjectName="ChTbAftFirstCheck"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
         </table> -->
-        <table tableName="TB_CLA_DEBT_DETAILINFO" domainObjectName="ChTbClaDebtDetailinfo"
-            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  selectByExampleQueryId="false">
+ 		
+      	<table tableName="TB_BIZ_GRT_MAXLOANCON_APPLY" domainObjectName="BizGrtMaxloanconApply"
+            enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false"  >
+            <property
+                name="useActualColumnNames"
+                value="false" />
+<!--             <columnOverride column="GUARANT_TERM" javaType="java.math.BigDecimal"/>
+            <columnOverride column="LONGEST_LOAN_TERM" javaType="java.math.BigDecimal"/> -->
         </table>
     </context>
 </generatorConfiguration>

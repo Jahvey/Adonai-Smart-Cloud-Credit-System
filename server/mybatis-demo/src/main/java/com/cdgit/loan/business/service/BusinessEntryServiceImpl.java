@@ -401,9 +401,16 @@ public class BusinessEntryServiceImpl {
 		
 		//对于variables而言,
 		Map variables=new HashMap<String,Object>();
-		variables.put("loanAmt", "");
+		variables.put("loanAmt", "");//
 		variables.put("term","12");//
-		map.put("variables", variables);
+		map.put("nextTaskDefKey", "");//
+		map.put("nodeType", "");//
+		map.put("variables", variables);//流程变量
+		map.put("assignee", "");//数组形式的json字符串
+		map.put("agentPsersonNo", "");//代办人
+		map.put("createUserNo", "");//代办创建人
+		map.put("comment", "");//
+		map.put("taskId", "");//
 //		String taskCommitResult=workFlowFeignClient.taskCommit(FlowUtil.generatorProcessMessage(map));
 		return "";
 	}

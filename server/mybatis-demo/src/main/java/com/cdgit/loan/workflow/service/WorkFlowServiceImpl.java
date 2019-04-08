@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import org.codehaus.plexus.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-//import com.cdgit.feignconsumer.client.WorkFlowFeignClient;
+import com.cdgit.feignconsumer.client.WorkFlowFeignClient;
 import com.cdgit.loan.common.util.FlowConstants;
 import com.cdgit.loan.common.util.FlowUtil;
 import com.cdgit.loan.common.util.IBIZProcess;
@@ -47,36 +48,16 @@ public class WorkFlowServiceImpl {
 //	@Autowired
 //	WorkFlowFeignClient workFlowFeignClient;
 	
-//	@Autowired
-//	WorkFlowFeignClient workFlowFeignClient;
-	
 	@RequestMapping(value="/queryWorkingList",method=RequestMethod.POST)
-	public Map queryWorkingList(Map map){
+	public PageInfo queryWorkingList(Map map){
 		Map workingMap=new HashMap();
 		workingMap.put("userNo", (String)map.get("userid"));
 		workingMap.put("curPage", (Integer)map.get("pageNum"));
 		workingMap.put("pageSize", (Integer)map.get("pageSize"));
-		if(StringUtils.isNotEmpty((String)map.get("custName"))
-				|| StringUtils.isNotEmpty((String)map.get("startDate"))
-				|| StringUtils.isNotEmpty((String)map.get("endDate"))
-				|| StringUtils.isNotEmpty((String)map.get("flowTypeCd"))){//如果有输入查询条件 则信贷系统先查询响应满足条件列表 再向流程管理中心发送交易查询流程信息，然后再由信贷查询每条数据   先测试是否可靠
-			PageHelper.startPage((Integer)map.get("pageNum"),(Integer)map.get("pageSize"));
-			List userList=workFlowMapper.queryWorkingList();
-	        PageInfo pageInfo=new PageInfo(userList,(Integer)map.get("pageSize"));
-		}else{//如果没有输入查询条件 信贷系统直接先调用流程管理中心服务
-//			String workingList=workFlowFeignClient.pendingList(FlowUtil.generatorProcessMessage(workingMap));
-//			Map workingListMap=MapUtils.strToMap(workingList);
-//			List resultList=new ArrayList();
-//			if(null != workingListMap.get("total") && (Integer)workingListMap.get("total") > 0){
-//				for(int i = 0;i<(Integer)workingListMap.get("total");++i){
-//					
-//				}
-//			}
-			
-//			return workingListMap;
-		}
-
-		return null;
+		PageHelper.startPage((Integer)map.get("pageNum"),(Integer)map.get("pageSize"));
+		List userList=workFlowMapper.queryWorkingList(map);
+	    PageInfo pageInfo=new PageInfo(userList,(Integer)map.get("pageSize"));
+		return pageInfo;
 	}
 	
 	/**
@@ -117,7 +98,7 @@ public class WorkFlowServiceImpl {
 	 */
 	public List queryRemindInfoGroup(Map map){
 		//第一步 分页查询提示列表汇总
-		List remindInfoList=workFlowMapper.queryRemindInfoGroup();
+		List remindInfoList=workFlowMapper.queryRemindInfoGroup(map);
 		String checkResult=checkRoleInfo();
 		if("1".equals(checkResult)){//非客户经理
 			workFlowMapper.countRemindInfoAdmin();
@@ -174,7 +155,7 @@ public class WorkFlowServiceImpl {
 		String procInstId = (String)pendingTaskMap.get("procInstId");
 		
 		TbWfmProcessinstance processInstance=new TbWfmProcessinstance();
-		processInstance.setProcessId("");//流程实例ID
+		processInstance.setProcessId(procInstId);//流程实例ID  调用流程服务返回的procInstId
 		processInstance.setActivityName("");//
 		processInstance.setAppointOrgCd("");//创建时默认分配机构为创建机构
 		processInstance.setAppointOrgName("");//创建时默认分配机构为创建机构
@@ -254,8 +235,6 @@ public class WorkFlowServiceImpl {
 //			workIteminstance.setReceiveTime(receiveTime);
 			workFlowMapper.insertWorkiteminstance(workIteminstance);
 		}
-		
-		
 	}
 	
 	/**
@@ -546,6 +525,45 @@ public class WorkFlowServiceImpl {
 		return "";
 	}
 
+	/**
+	 * 选择退回时(任意节点回退)调用服务查询已审查审批岗位列表
+	 */
+	public String getPriTaskNode(Map map) {
+		Map map1=new HashMap();
+		map1.put("curTaskDefKey", "");//当前任务节点key
+		map1.put("procInstId", "");//流程实例ID
+		map1.put("procDefId", "");//任务定义模板ID
+//		String taskNodeList=workFlowFeignClient.priTaskNode(FlowUtil.generatorProcessMessage(map));
+//		Map workedListMap=MapUtils.strToMap(taskNodeList);
+		
+//		if(null != workedListMap.get("traceList") && ((List)workedListMap.get("traceList")).size() > 0){
+//			
+//		}
+//		return workedListMap;
+		return "";
+	}
+	
+	/**
+	 * 任意节点回退
+	procDefId            任务定义模板ID
+	sourceTaskDefKey     当前任务节点key
+	targetTaskDefKey     目标节点key
+	sourceTaskId         当前任务ID
+	 * <p>Title: taskRegresses</p>  
+	
+	 * <p>Description: </p>  
+	
+	 * @return
+	 */
+	public String taskRegresses(Map map){
+		Map map1=new HashMap();
+		map1.put("sourceTaskId","");// 当前任务ID
+		map1.put("sourceTaskDefKey","");//当前任务节点key
+		map1.put("targetTaskDefKey","");//目标节点key
+		map1.put("procDefId","");//任务定义模板ID
+		return "";
+	}
+	
 	/**
 	 * 流程撤销
 	

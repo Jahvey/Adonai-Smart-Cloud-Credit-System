@@ -52,6 +52,65 @@
   	<result column="USABLE_GUARANTEE_LIMIT" jdbcType="DECIMAL" property="usableGuaranteeLimit" />
   	<result column="USEDGUARANTEELIMIT" jdbcType="DECIMAL" property="usedGuaranteeLimit" />
   </resultMap>
+  
+      <select id="getGrtTypeBiz" resultType="java.util.HashMap">
+		SELECT A.PARTY_ID FROM TB_BIZ_APPLY A WHERE A.APPLY_ID=#{applyId} AND A.GUARANTY_TYPE LIKE '%'||#{guarantyType}||'%'
+     </select>
+      <select id="getGrtTypeCrd" resultType="java.util.HashMap">
+			SELECT A.PARTY_ID FROM TB_CRD_APPLY A WHERE A.CRD_ID=#{applyId} AND A.GUARANTY_TYPE LIKE '%'||#{guarantyType}||'%'
+    </select>
+  
+      <!--获取已关联的担保合同 -->
+    <!-- modi by shangmf:20171018:修复最高额担保合同重复显示的问题，去掉cert_type,cert_num的查询，以避免重复，以及后边的union all用union -->
+    <select id="getMaxloanconList" resultType="java.util.Map">
+		select *
+  from (select ta.subcontract_id,
+               ta.subcontract_num,
+               ta.zgbjxe,
+               ta.avi_amt,
+               to_char(ta.begin_date, 'YYYY-MM-DD') as begin_date,
+               to_char(ta.end_date, 'YYYY-MM-DD') as end_date,
+               t.MAXLOANCON_ID,
+               tc.CONTRACT_ID,
+               tc.CON_SUBCON_ID
+          from tb_biz_grt_maxloancon_apply t, tb_con_subcontract ta,TB_CON_SUBCONTRACT_REL tc
+         where t.subcontract_id = ta.subcontract_id
+         and tc.SUBCONTRACT_ID=ta.SUBCONTRACT_ID
+         and ta.subcontract_status='03' 
+        and t.apply_id = #{applyId}
+        and t.re_type = #{guarantyType}
+        ) ty
+  left join (select listagg(tb.party_name, ',') within group(order by party_name) as party_name,
+                    t.subcontract_id               
+               from tb_con_sub_grt_rel     t,
+                    tb_grt_guarantee_basic ta,
+                    tb_csm_party           tb
+              where t.surety_id = ta.surety_id
+                and ta.party_id = tb.party_id
+              group by t.subcontract_id
+             union
+             select td.party_name, tc.subcontract_id
+               from tb_con_subcontract tc, v_csm_party td 
+              where tc.party_id = td.party_id and tc.subcontract_status='03') tz
+    on ty.subcontract_id = tz.subcontract_id
+    <!-- 备份留存
+    left join (select listagg(tb.party_name, ',') within group(order by party_name) as party_name,
+                    t.subcontract_id,
+                    ''as cert_type,
+                    ''as cert_num                 
+               from tb_con_sub_grt_rel     t,
+                    tb_grt_guarantee_basic ta,
+                    tb_csm_party           tb
+              where t.surety_id = ta.surety_id
+                and ta.party_id = tb.party_id
+              group by t.subcontract_id
+             union all
+             select td.party_name, tc.subcontract_id,td.cert_type,td.cert_num
+               from tb_con_subcontract tc, v_csm_party td 
+              where tc.party_id = td.party_id and tc.subcontract_status='03') tz
+    on ty.subcontract_id = tz.subcontract_id
+    -->
+    </select>
   <!--查询业务申请下关联 保证人--> 
     <select id="getGuaranteerList" resultMap="guarantorBean">
     	SELECT 

@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cdgit.loan.common.bean.ApplyDaoParam;
 import com.cdgit.loan.common.bean.PageBean;
+import com.cdgit.loan.common.service.ApplyDaoEos;
 import com.cdgit.loan.creditLimit.bean.TbCrdThirdPartyLimit;
+import com.cdgit.loan.creditLimit.mapper.CreditLimitMapper;
 import com.cdgit.loan.creditLimit.service.CreditLimitImpl;
+import com.cdgit.loan.workflow.service.WorkFlowServiceImpl;
 import com.github.pagehelper.PageInfo;
 import com.netflix.governator.annotations.binding.Request;
 
@@ -24,6 +28,9 @@ public class CreditLimitController {
 
 	@Autowired
 	CreditLimitImpl creditLimitImpl;
+	
+	@Autowired
+	WorkFlowServiceImpl workFlowServiceImpl;
 	
 	@RequestMapping(value="/queryThirdHis_protocol",method=RequestMethod.POST)
 	public PageBean queryThirdHis_protocol(@RequestBody Map map){
@@ -68,7 +75,7 @@ public class CreditLimitController {
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping(value="getAccInfoList",method=RequestMethod.GET)
+	@RequestMapping(value="/getAccInfoList",method=RequestMethod.GET)
 	public PageBean getAccInfoList(@RequestParam Map map){
 		PageInfo pageInfo=creditLimitImpl.getAccInfoList(map);
 		PageBean pageBean=new PageBean();
@@ -77,7 +84,7 @@ public class CreditLimitController {
 		return pageBean;
 	}
 	
-	@RequestMapping(value="getThirdPartyCrdByLimitId",method=RequestMethod.GET)
+	@RequestMapping(value="/getThirdPartyCrdByLimitId",method=RequestMethod.GET)
 	public TbCrdThirdPartyLimit getThirdPartyCrdByLimitId(@RequestParam Map map){
 		return creditLimitImpl.getThirdPartyCrdByLimitId(map);
 	}
@@ -104,5 +111,55 @@ public class CreditLimitController {
 //        message.setData(userInfo);
 //        return message;
 //    }
+	
+	/**
+	 * 
+		创建额度申请
+	 * <p>Title: createCreditLimit</p>  
+	
+	 * <p>Description: </p>  
+	
+	 * @return
+	 * @throws Throwable 
+	 */
+	@RequestMapping(value="/createCreditLimit",method=RequestMethod.POST)
+	public String createCreditLimit(@RequestBody Map map) throws Throwable{
+		Map paramMap=(Map)map.get("param");
+		ApplyDaoParam param=new ApplyDaoParam((String)paramMap.get("phase"),(String)paramMap.get("code"));
+		ApplyDaoEos.create(param, (Map)map.get("data"));
+		return "";
+	}
+	
+	/**
+	 * 
+		返回值要么放到Map 里面 要么定义一个对象放到里面
+	 * <p>Title: getCrdInfo</p>  
+	
+	 * <p>Description: </p>  
+		两个参数 qcsm 创建授信申请的时候没有传递  crdId  applyId
+		第一次创建成功进去的时候没有传递qcsm=1 ，如果是点击左侧树节点会传递 qcsm=1
+	 * @return
+	 */
+	@RequestMapping(value="/getCrdInfo",method=RequestMethod.POST)
+	public Map getCrdInfo(@RequestParam Map map){
+	
+		map=creditLimitImpl.getCrdInfo(map);
+		
+		return map;
+	}
+	
+	/**
+	 * 
+	
+	 * <p>Title: getCreditLineMea</p>  
+	
+	 * <p>Description: </p>  
+	
+	 * @param map
+	 */
+	@RequestMapping(value="/getCreditLineMea",method=RequestMethod.POST)
+	public Map getCreditLineMea(@RequestParam Map map){
+		return creditLimitImpl.getCreditLineMea(map);
+	}
 	
 }

@@ -16,11 +16,11 @@ import com.cdgit.loan.workflow.bean.WorkFlowVO;
 @Mapper
 public interface WorkFlowMapper {
 
-	List<WorkFlowVO> queryWorkingList();//查询待办工作列表
+	List queryWorkingList(Map map);//查询待办工作列表
 //	
-	List<WorkFlowVO> queryWorkedList();//查询跟踪列表
+	List queryWorkedList(Map map);//查询跟踪列表
 	
-	List queryRemindInfoGroup();//查询提示列表
+	List queryRemindInfoGroup(Map map);//查询提示列表
 	
 	int countRemindInfoAdmin();//非客户经理 查询所属机构查询提示列表统计
 	

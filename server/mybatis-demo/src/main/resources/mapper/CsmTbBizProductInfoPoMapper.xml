@@ -13,6 +13,41 @@
   </resultMap>
 
 
+<!-- 查询产品申请期限 -->
+<select id="getBizTerm" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+<choose>
+<when test="contractId == null">
+	  	 select decode(c.CREDIT_TERM,'',a.TERM_NUM,c.CREDIT_TERM) TERM_NUM
+		from TB_BIZ_APPLY a,
+		  TB_BIZ_AMOUNT_APPLY b ,
+		  TB_BIZ_AMOUNT_DETAIL_APPLY c
+		where b.APPLY_ID=a.APPLY_ID
+		  and b.AMOUNT_ID=c.AMOUNT_ID
+		  and c.AMOUNT_DETAIL_ID=#{amountDetailId}
+		union
+		select a.TERM_NUM
+		from TB_BIZ_APPROVE a,
+		  TB_BIZ_AMOUNT_APPROVE b ,
+		  TB_BIZ_AMOUNT_DETAIL_APPROVE c
+		where b.APPROVE_ID=a.APPROVE_ID
+		  and b.AMOUNT_ID=c.AMOUNT_ID
+		  and c.AMOUNT_DETAIL_ID=#{amountDetailId}
+
+</when>
+<otherwise>
+		  	select CONTRACT_TERM as term_num
+			from TB_CON_CONTRACT_INFO a
+			where a.CONTRACT_ID=#{contractId}
+</otherwise>
+
+
+</choose>
+
+
+
+  </select>
+
+
   <select id="queryByProductType" parameterType="java.lang.String" resultMap="csmTbBizProductInfoPo">
     select 
     *

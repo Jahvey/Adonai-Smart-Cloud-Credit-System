@@ -37,6 +37,7 @@ import com.cdgit.loan.guaranteevaluation.bean.GrtGuaranteeBasic;
 import com.cdgit.loan.guaranteevaluation.bean.GrtMargin;
 import com.cdgit.loan.guaranteevaluation.mapper.BizGrtRelMapper;
 import com.cdgit.loan.guaranteevaluation.mapper.GrtGuaranteeBasicMapper;
+import com.cdgit.loan.guaranteevaluation.mapper.GrtMarginMapper;
 import com.cdgit.loan.securitymanagement.bean.GrtCollateral;
 import com.cdgit.loan.securitymanagement.mapper.GrtCollateralMapper;
 import com.github.pagehelper.PageHelper;
@@ -68,7 +69,8 @@ public class SubContractSignServiceImpl {
 	private CsmTbConContractInfoMapper csmTbConContractInfoMapper;
 	@Autowired
 	private GrtGuaranteeBasicMapper grtGuaranteeBasicMapper;
-	
+	@Autowired
+	private GrtMarginMapper grtMarginMapper;
 
 	public Map<String, Object> getConDyList(Integer pageNum, Integer pageSize, String subcontractType, String applyId,
 			String contractId) {
@@ -93,9 +95,13 @@ public class SubContractSignServiceImpl {
 	}
 	public Map<String, Object> getGrtConInfo(String subcontractId,String contractId) {
 		Map<String, Object> map = new HashMap<String, Object>();
+/*		if(contractId==null || contractId.equals("")){
+			Map<String, Object> re = subContractSignMapper.selectSubConRelBySubcontractId(subcontractId);
+			contractId = re.get("CONTRACT_ID").toString();
+		}*/
 		ContractBean contractBean = subContractSignMapper.selectGrtConInfoBySubcontractId(subcontractId,contractId);
 		if(contractBean==null){
-			throw new RuntimeException("为查询到该担保合同信息！");
+			throw new RuntimeException("未查询到该担保合同信息！");
 		}
 		map.put("contractBean", contractBean);
 		map.put("code", Constant.OPE_SUCCESS);
@@ -106,7 +112,7 @@ public class SubContractSignServiceImpl {
 			ConAttachedInfo conAttachedInfo,TbConSubcontractRelPo tbConSubcontractRelPo) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		TbConSubcontractPo result = csmTbConSubcontractMapper.queryCsmTbConSubcontractPo(conSubcontract.getSubcontractId());
-		if(conSubcontract.getIfTopSubcon()!=null && !result.getIfTopSubcon().equals(conSubcontract.getIfTopSubcon())){
+		if(conSubcontract.getIfTopSubcon()!=null &&result.getIfTopSubcon()!=null && !result.getIfTopSubcon().equals(conSubcontract.getIfTopSubcon())){
 			//当更新担保（保证）合同在最高额与非最高额之间转换时，需要先删除押品（保证）与担保合同的观念信息
 			List<Map<String,Object>> list = subContractSignMapper.selectConSubGrtRelBySubcontractId(conSubcontract.getSubcontractId());
 			if(list!=null && list.size()>0){
@@ -125,12 +131,12 @@ public class SubContractSignServiceImpl {
 		if(i<=0){
 			throw new RuntimeException("更新失败===>conSubcontract");
 		}
-		if(conSubcontract.getIfTopSubcon()!=null && conSubcontract.getIfTopSubcon().equals("1")){
-			i = csmTbConSubcontractRelMapper.updateCsmTbConSubcontractRelSelective(tbConSubcontractRelPo);
-			if(i<=0){
-				throw new RuntimeException("更新失败===>tbConSubcontractRelPo");
-			}
+		i = csmTbConSubcontractRelMapper.updateCsmTbConSubcontractRelSelective(tbConSubcontractRelPo);
+		if(i<=0){
+			throw new RuntimeException("更新失败===>tbConSubcontractRelPo");
 		}
+		map.put("tbConSubcontractRelPo", tbConSubcontractRelPo);
+		map.put("conSubcontract", conSubcontract);
 		map.put("code", Constant.OPE_SUCCESS);
 		map.put("message", "操作成功!");
 		return map;
@@ -301,16 +307,24 @@ public class SubContractSignServiceImpl {
 			}
 			String oldContractId = tbConContractInfo.getOldContractId();//原合同id
 			String xyId = tbConContractInfo.getXyId();//协议id
-			/**
-			 * (null==oldContractId || "".equals(oldContractId))&& (null!=xyId && !"".equals(xyId))
-			 * TODO 对综合授信业务不熟悉，暂时不删除引入合同的操作
-			 */
 			if((oldContractId==null || oldContractId.equals("")) && (xyId!=null && !xyId.equals(""))){
-				////综合授信合同签约做更新操作
-			} else{ 
 				//综合授信合同签约做删除操作
+				int i = subContractSignMapper.deleteConSuncontractRelById(conSubconId);
+				if(i<=0){
+					throw new RuntimeException("删除担保合同失败！");
+				}
+				System.out.println("综合授信合同签约做删除操作");
+			} else{ 
+				//综合授信合同调整做更新操作 使ifEffective=0
+				TbConSubcontractRelPo record = new TbConSubcontractRelPo();
+				record.setConSubconId(conSubconId);
+				record.setIfEffective("0");
+				int i = csmTbConSubcontractRelMapper.updateCsmTbConSubcontractRelSelective(record);
+				if(i<=0){
+					throw new RuntimeException("删除担保合同失败！");
+				}
+				System.out.println("综合授信合同调整做更新操作");
 			}
-			throw new RuntimeException("删除担保合同失败！==>请学习综合授信合同签约业务在完成此功能！");
 		}
 		map.put("code", Constant.OPE_SUCCESS);
 		map.put("message", "操作成功!");
@@ -326,12 +340,12 @@ public class SubContractSignServiceImpl {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = format.parse(crtGitUtilMapper.queryOperatingDate());
 		Map<String,Object> contractToMp = subContractSignMapper.selectContractOnlyOneMpType(contractId,suretyId);
-		if(contractToMp!=null){
-			throw new RuntimeException("关联押品和担保合同失败！一个主合同下只能关联一种类型的押品，请不要重复关联");
+		if(contractToMp!=null && ((BigDecimal)contractToMp.get("C")).compareTo(new BigDecimal("0"))>0){
+			throw new RuntimeException("关联保证人和担保合同失败！一个主合同下只能关联一种类型的保证人，请不要重复关联");
 		}
 		Map<String,Object> subGrtRel = subContractSignMapper.selectSubGrtRelBySuretyIdAndSubId(suretyId,subcontractId);
-		if(subGrtRel!=null){
-			throw new RuntimeException("关联押品和担保合同失败！该押品已经与该担保合同关联，请不要重复关联");
+		if(subGrtRel!=null&& ((BigDecimal)subGrtRel.get("C")).compareTo(new BigDecimal("0"))>0){
+			throw new RuntimeException("关联保证人和担保合同失败！该保证人已经与该担保合同关联，请不要重复关联");
 		}
 		TbConSubGrtRelPo tbConSubGrtRelPo = new TbConSubGrtRelPo();
 		tbConSubGrtRelPo.setCreateTime(date);
@@ -373,12 +387,16 @@ public class SubContractSignServiceImpl {
 		Map<String, Object> map = new HashMap<String, Object>();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = format.parse(crtGitUtilMapper.queryOperatingDate());
+		/**TODO 说明：这种方式在contractId:"ff808081657e4ec501657e5201f20002"，
+		 * conPartyId:"5AF8118FEAC6FABDE05010AC57DD79A2",
+		 *  applyId:"ff8080816579223701657927f3a7000a", 不可取
+		 */
 		Map<String,Object> contractToMp = subContractSignMapper.selectContractOnlyOneMpType(contractId,suretyId);
-		if(contractToMp!=null){
+		if(contractToMp!=null && ((BigDecimal)contractToMp.get("C")).compareTo(new BigDecimal("0"))>0){
 			throw new RuntimeException("关联保证人和担保合同失败！一个主合同下只能关联一种类型的保证人，请不要重复关联");
 		}
 		Map<String,Object> subGrtRel = subContractSignMapper.selectSubGrtRelBySuretyIdAndSubId(suretyId,subcontractId);
-		if(subGrtRel!=null){
+		if(subGrtRel!=null&& ((BigDecimal)subGrtRel.get("C")).compareTo(new BigDecimal("0"))>0){
 			throw new RuntimeException("关联保证人和担保合同失败！该保证人已经与该担保合同关联，请不要重复关联");
 		}
 
@@ -410,6 +428,7 @@ public class SubContractSignServiceImpl {
 			if(usableGuaranteeLimit.compareTo(new BigDecimal("0"))<0){
 				throw new RuntimeException("关联保证人和担保合同失败!更新后的可用保证金额不能为负！");
 			}
+			guaranteeBasic.setUsableGuaranteeLimit(usableGuaranteeLimit);
 		} else{//不是最高额担保担保合同
 			tbConSubGrtRelPo.setSuretyAmt(result.getSuretyAmt());
 			guaranteeBasic.setUsableGuaranteeLimit(new BigDecimal("0"));
@@ -431,21 +450,20 @@ public class SubContractSignServiceImpl {
 	public Map<String, Object> insertSubGrtRel3(String suretyId, String subcontractId,
 			String contractId) throws ParseException {
 		//1.校验押品重复绑定:包括同个和非同个担保合同都不能不能重复
-		//2.保存保证人与担保合同关系表
+		//2.保存保证金与担保合同关系表
 		Map<String, Object> map = new HashMap<String, Object>();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = format.parse(crtGitUtilMapper.queryOperatingDate());
 		Map<String,Object> contractToMp = subContractSignMapper.selectContractOnlyOneMpType(contractId,suretyId);
-		if(contractToMp!=null){
-			throw new RuntimeException("关联保证金和担保合同失败！一个主合同下只能关联一种类型的保证金，请不要重复关联");
+		if(contractToMp!=null && ((BigDecimal)contractToMp.get("C")).compareTo(new BigDecimal("0"))>0){
+			throw new RuntimeException("关联保证人和担保合同失败！一个主合同下只能关联一种类型的保证人，请不要重复关联");
 		}
 		Map<String,Object> subGrtRel = subContractSignMapper.selectSubGrtRelBySuretyIdAndSubId(suretyId,subcontractId);
-		if(subGrtRel!=null){
-			throw new RuntimeException("关联保证金和担保合同失败！该保证金已经与该担保合同关联，请不要重复关联");
+		if(subGrtRel!=null&& ((BigDecimal)subGrtRel.get("C")).compareTo(new BigDecimal("0"))>0){
+			throw new RuntimeException("关联保证人和担保合同失败！该保证人已经与该担保合同关联，请不要重复关联");
 		}
-
-		GrtCollateral grtCollateral = grtCollateralMapper.selectByPrimaryKey(suretyId);
-		if(grtCollateral==null){
+		Map<String,Object> grtMarginMap = grtMarginMapper.selectBySuretyId(suretyId);
+		if(grtMarginMap==null){
 			throw new RuntimeException("关联保证金和担保合同失败！未查到该保证金信息！");
 		}
 		TbConSubcontractPo tbConSubcontractPo = csmTbConSubcontractMapper.queryCsmTbConSubcontractPo(subcontractId);
@@ -454,12 +472,12 @@ public class SubContractSignServiceImpl {
 		}
 		TbConSubGrtRelPo tbConSubGrtRelPo = new TbConSubGrtRelPo();
 		tbConSubGrtRelPo.setCreateTime(date);
-		tbConSubGrtRelPo.setPartyId(grtCollateral.getCustomerNum());
+		tbConSubGrtRelPo.setPartyId(grtMarginMap.get("CUSTOMER_NUM").toString());
 		tbConSubGrtRelPo.setRelationId(UUIDGenerator.getUUID());
 		tbConSubGrtRelPo.setSubcontractId(subcontractId);
 		tbConSubGrtRelPo.setSuretyId(suretyId);
 		tbConSubGrtRelPo.setUpdateTime(date);
-//		tbConSubGrtRelPo.setSuretyAmt(result.getSuretyAmt());
+		tbConSubGrtRelPo.setSuretyAmt((BigDecimal)grtMarginMap.get("SURETY_AMT"));
 		//插入担保关系表
 		int i = csmTbConSubGrtRelMapper.insertCsmTbConSubGrtRel(tbConSubGrtRelPo);
 		if(i<=0){
@@ -505,7 +523,8 @@ public class SubContractSignServiceImpl {
 		//修改金额
 		BigDecimal usableGuaranteeLimit = result.getUsableGuaranteeLimit().add(rel.getSuretyAmt());
 		if(usableGuaranteeLimit.compareTo(result.getSuretyAmt())>0){
-			throw new RuntimeException("删除失败！更新后的可用保证金额不能大于担保金额");
+			//throw new RuntimeException("删除失败！更新后的可用保证金额不能大于担保金额");
+			usableGuaranteeLimit = result.getSuretyAmt();
 		}
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = format.parse(crtGitUtilMapper.queryOperatingDate());
@@ -554,7 +573,7 @@ public class SubContractSignServiceImpl {
 	}
 	
 	public Date getOperateDate(String str) throws ParseException{
-		SimpleDateFormat format = new SimpleDateFormat("str");
+		SimpleDateFormat format = new SimpleDateFormat(str);
 		Date date = format.parse(crtGitUtilMapper.queryOperatingDate());
 		return date;
 	}
@@ -641,6 +660,154 @@ public class SubContractSignServiceImpl {
 	public Map<String, Object> addConCashDeposit(GrtCollateral grtCollateral, GrtMargin grtMargin, BizGrtRel bizGrtRel,
 			String contractId, String subcontractId) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		//1.查询合同信息的productType（待完成）
+		//2.保证金调用核心，核对保证金信息(待完成)
+		//3.保存押品基本信息表
+		//4.保存保证金信息
+		//5.押品与业务关联信息
+		//6.担保合同与押品关联
+		int i = grtCollateralMapper.insertSelective(grtCollateral);
+		if(i<=0){
+			throw new RuntimeException("保存失败!==>grtCollateral");
+		}
+		i = grtMarginMapper.insertSelective(grtMargin);
+		if(i<=0){
+			throw new RuntimeException("保存失败!==>grtMargin");
+		}
+		i = bizGrtRelMapper.insertSelective(bizGrtRel);
+		if(i<=0){
+			throw new RuntimeException("保存失败!==>bizGrtRel");
+		}
+		TbConSubGrtRelPo tbConSubGrtRelPo = new TbConSubGrtRelPo();
+		tbConSubGrtRelPo.setCreateTime(grtMargin.getCreateTime());
+		tbConSubGrtRelPo.setPartyId(grtCollateral.getCustomerNum());
+		tbConSubGrtRelPo.setRelationId(UUIDGenerator.getUUID());
+		tbConSubGrtRelPo.setSubcontractId(subcontractId);
+		tbConSubGrtRelPo.setSuretyId(grtMargin.getSuretyId());
+		tbConSubGrtRelPo.setUpdateTime(grtMargin.getUpdateTime());
+		tbConSubGrtRelPo.setSuretyAmt(grtMargin.getAccBalance());
+		//插入担保关系表
+		i = csmTbConSubGrtRelMapper.insertCsmTbConSubGrtRel(tbConSubGrtRelPo);
+		if(i<=0){
+			throw new RuntimeException("关联保证人和担保合同失败！===>插入tbConSubGrtRelPo出错");
+		}
+		map.put("code", Constant.OPE_SUCCESS);
+		map.put("message", "操作成功!");
+		return map;
+	}
+	public Map<String, Object> getMaxLoanCon(Integer pageNum, Integer pageSize, String contractId,
+			String subcontractType, String applyId, String conPartyId, String contractType) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Map<String, Object>> list = null;
+		PageInfo<Map<String, Object>> pageInfo = null;
+		if(contractId==null || contractId.equals("")){ //为业务申请阶段关联最高额合同
+			list = subContractSignMapper.getMaxLoanCon1(conPartyId,subcontractType);
+		} else{ //合同阶段关联最高额合同
+			TbConContractInfo contractInfo = tbConContractInfoMapper.queryOneConContractInfoByContractId(contractId);
+			if(contractInfo==null){
+				throw new RuntimeException("未查到该合同信息");
+			}
+			if(contractInfo.getXyId()!=null && !contractInfo.getXyId().equals("")){//综合授信协议项下合同
+				throw new RuntimeException("xyId不为空！功能需求不明确！待完成");
+			} else{//综合授信协议或者单笔合同
+				list = subContractSignMapper.getMaxLoanCon2(subcontractType,applyId,conPartyId);
+			}
+		}
+		pageInfo = new PageInfo<>(list, pageSize);
+		map.put("data", pageInfo);
+		map.put("code", Constant.OPE_SUCCESS);
+		map.put("message", "操作成功!");
+		return map;
+	}
+	public Map<String, Object> getSubCon(String subcontractId, String conSubconId, String contractId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		TbConSubcontractRelPo subconRel = csmTbConSubcontractRelMapper.queryCsmTbConSubcontractRelByConSubconId(conSubconId);
+		TbConSubcontractPo subcontractPo = csmTbConSubcontractMapper.queryCsmTbConSubcontractPo(subcontractId);
+		if(subcontractId!=null && !subcontractId.equals("") && contractId!=null && !contractId.equals("")){
+			Map<String,Object> re = subContractSignMapper.getZGEYE(subcontractId,contractId);
+			map.put("re", re);
+		}
+		map.put("subconRel", subconRel);
+		map.put("subcontractPo", subcontractPo);
+		map.put("code", Constant.OPE_SUCCESS);
+		map.put("message", "操作成功!");
+		return map;
+	}
+	public Map<String, Object> checkHaveRef(String contractId, String subcontractNum) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String,BigDecimal> re1 = subContractSignMapper.RCON_0087(contractId,subcontractNum);
+		if(re1!=null && re1.get("C").compareTo(new BigDecimal("0"))>0){
+			throw new RuntimeException("编号为"+subcontractNum+"的担保合同已经被引入，同一最高额合同不能重复引入！");
+		}
+		Map<String,BigDecimal> re2 = subContractSignMapper.RCON_0088(contractId,subcontractNum);
+		if(re2!=null && re2.get("C").compareTo(new BigDecimal("0"))>0){
+			throw new RuntimeException("编号为"+subcontractNum+"的担保合同已经被引入，同一最高额合同不能重复引入！");
+		}
+		map.put("code", Constant.OPE_SUCCESS);
+		map.put("message", "操作成功!");
+		return map;
+	}
+	public Map<String, Object> addMaxloancon(String subcontractId, String contractId, String subcontractNum,
+			String subcontractType, BigDecimal suretyAmt) throws ParseException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = format.parse(crtGitUtilMapper.queryOperatingDate());
+		String ifEffective="0";
+		String operationType="01";
+		List<Map<String,Object>> list= subContractSignMapper.selectConSubRelByThree(contractId,ifEffective,operationType);
+		if(list!=null && list.size()>0){//更新数据
+			for(Map<String, Object> m:list){
+				TbConSubcontractPo subcontractPo = csmTbConSubcontractMapper.queryCsmTbConSubcontractPo(m.get("SUBCONTRACT_ID").toString());
+				if(subcontractPo==null){
+					throw new RuntimeException("未查询到该担保合同信息！");
+				}
+				if(subcontractPo.getSubcontractNum()!=null && subcontractPo.getSubcontractNum().equals(subcontractNum)){
+					//更新
+					TbConSubcontractRelPo rel = new TbConSubcontractRelPo();
+					rel.setUpdateTime(date);
+					rel.setIfEffective("1");
+					rel.setSuretyAmt(suretyAmt);
+					rel.setConSubconId(m.get("CON_SUBCON_ID").toString());
+					int i = csmTbConSubcontractRelMapper.updateCsmTbConSubcontractRelSelective(rel);
+					if(i<=0){
+						throw new RuntimeException("引入最高额担保合同失败！");
+					}
+					System.out.println("更新引入合同");
+				}
+			}
+		} else{//插入数据
+			TbConSubcontractRelPo rel = new TbConSubcontractRelPo();
+			rel.setContractId(contractId);
+			rel.setSuretyAmt(suretyAmt);
+			rel.setCreateTime(date);
+			rel.setOperationType("01");
+			rel.setIfEffective("1");
+			rel.setSubcontractId(subcontractId);
+			rel.setSuretyAmt(suretyAmt);
+			rel.setUpdateTime(date);
+			rel.setConSubconId(UUIDGenerator.getUUID());
+			int i = csmTbConSubcontractRelMapper.insertCsmTbConSubcontractRel(rel);
+			if(i<=0){
+				throw new RuntimeException("引入最高额担保合同失败！");
+			}
+			System.out.println("插入引入合同");
+		}
+		map.put("code", Constant.OPE_SUCCESS);
+		map.put("message", "操作成功!");
+		return map;
+	}
+	public Map<String, Object> updateConsubRel(String conSubconId, BigDecimal suretyAmt) throws ParseException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = format.parse(crtGitUtilMapper.queryOperatingDate());
+		TbConSubcontractRelPo rel = new TbConSubcontractRelPo();
+		rel.setUpdateTime(date);
+		rel.setSuretyAmt(suretyAmt);
+		rel.setConSubconId(conSubconId);
+		int i = csmTbConSubcontractRelMapper.updateCsmTbConSubcontractRelSelective(rel);
+		if(i<=0){
+			throw new RuntimeException("保存本次担保金额失败！");
+		}
 		map.put("code", Constant.OPE_SUCCESS);
 		map.put("message", "操作成功!");
 		return map;

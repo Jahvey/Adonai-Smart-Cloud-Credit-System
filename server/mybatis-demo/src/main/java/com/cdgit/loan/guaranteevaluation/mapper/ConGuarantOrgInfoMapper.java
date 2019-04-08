@@ -57,4 +57,25 @@ public interface ConGuarantOrgInfoMapper {
 	 * @return
 	 */
 	List<GuarantorBean> getGuaranteerList(@Param("applyId")String applyId);
+	/**
+	 * 获取已关联的担保合同
+	 * @param applyId
+	 * @param collType
+	 * @return
+	 */
+	List<Map<String, Object>> getMaxloanconList(@Param("applyId")String applyId,@Param("guarantyType") String guarantyType);
+	/**
+	 * 
+	 * @param applyId
+	 * @param guarantyType
+	 * @return
+	 */
+	Map<String, Object> getGrtTypeCrd(@Param("applyId")String applyId, @Param("guarantyType")String guarantyType);
+	/**
+	 * 
+	 * @param applyId
+	 * @param guarantyType
+	 * @return
+	 */
+	Map<String, Object> getGrtTypeBiz(@Param("applyId")String applyId, @Param("guarantyType")String guarantyType);
 }

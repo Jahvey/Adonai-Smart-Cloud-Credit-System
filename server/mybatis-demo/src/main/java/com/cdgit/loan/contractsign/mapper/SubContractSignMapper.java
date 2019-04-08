@@ -1,5 +1,6 @@
 package com.cdgit.loan.contractsign.mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -176,4 +177,58 @@ public interface SubContractSignMapper {
 	 */
 	List<Map<String, Object>> selSubGrtBzj(@Param("subcontractId")String subcontractId,
 			@Param("subcontractType") String subcontractType, @Param("applyId")String applyId);
+	/**
+	 * 获取可关联的最高额担保合同   业务申请
+	 * @param conPartyId
+	 * @param subcontractType
+	 * @return
+	 */
+	List<Map<String, Object>> getMaxLoanCon1(@Param("conPartyId")String conPartyId,@Param("subcontractType") String subcontractType);
+	/**
+	 * 获取可关联的最高额担保合同   综合授信协议或者单笔合同
+	 * @param subcontractType
+	 * @param applyId
+	 * @param conPartyId
+	 * @return
+	 */
+	List<Map<String, Object>> getMaxLoanCon2(@Param("subcontractType")String subcontractType,
+			@Param("applyId") String applyId, @Param("conPartyId")String conPartyId);
+	/**
+	 * 查询担保合同和担保合同、贷款合同关联信息
+	 * @param subcontractId
+	 * @param conSubconId
+	 * @return
+	 */
+	//Map<String, Object> selectBySubIdAndRelId(@Param("subcontractId")String subcontractId, @Param("conSubconId")String conSubconId);
+	/**
+	 * 获取最高额可用余额
+	 * @param subcontractId
+	 * @param contractId
+	 * @return
+	 */
+	Map<String, Object> getZGEYE(@Param("subcontractId")String subcontractId, @Param("contractId")String contractId);
+	/**
+	 * 综合授信检查是否已经引入了同样的最高额担保合同
+	 * @param contractId
+	 * @param subcontractNum
+	 * @return
+	 */
+	Map<String, BigDecimal> RCON_0087( @Param("contractId")String contractId,  @Param("subcontractNum")String subcontractNum);
+	/**
+	 * 单笔合同检查是否已经引入了同样的最高额担保合同
+	 * @param contractId
+	 * @param subcontractNum
+	 * @return
+	 */
+	Map<String, BigDecimal> RCON_0088( @Param("contractId")String contractId,  @Param("subcontractNum")String subcontractNum);
+	
+	List<Map<String, Object>> selectConSubRelByThree(@Param("contractId")String contractId, 
+			@Param("ifEffective")String ifEffective, 
+			@Param("operationType")String operationType);
+	/**
+	 * 
+	 * @param subcontractId
+	 * @return
+	 */
+	Map<String, Object> selectSubConRelBySubcontractId(@Param("subcontractId")String subcontractId);
 }

@@ -28,7 +28,7 @@
   from 
   TB_CON_FEE
   where 
-  contract_id=#{contractDetailId,jdbcType=VARCHAR}
+  contract_detail_Id=#{contractDetailId,jdbcType=VARCHAR}
   
   
   </select>

@@ -69,6 +69,13 @@
     from TB_GRT_MARGIN
     where SURETY_KEY_ID = #{suretyKeyId,jdbcType=VARCHAR}
   </select>
+  <select id="selectBySuretyId" parameterType="java.lang.String" resultType="java.util.Map">
+    select 
+    t1.*,t2.customer_num
+    from TB_GRT_MARGIN t1,TB_GRT_COLLATERAL t2
+    where t1.SURETY_ID=t2.GUARANTY_ID
+    and t1.SURETY_ID = #{suretyId,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from TB_GRT_MARGIN
     where SURETY_KEY_ID = #{suretyKeyId,jdbcType=VARCHAR}

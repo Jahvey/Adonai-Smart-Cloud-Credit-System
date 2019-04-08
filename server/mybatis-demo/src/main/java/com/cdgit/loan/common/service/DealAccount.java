@@ -1,5 +1,8 @@
 package com.cdgit.loan.common.service;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class DealAccount {
 
 //	@Bizlet("全部同步")
